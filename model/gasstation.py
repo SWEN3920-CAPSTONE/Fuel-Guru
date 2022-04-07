@@ -8,7 +8,7 @@ class GasStation(db.Model):
     address = db.Column(db.String(255), nullable=False)
     lat =  db.Column(db.Numeric, nullable=False)
     lng = db.Column(db.Numeric, nullable=False)
-    image = db.Column(db.String(255))
+    image = db.Column(db.String(500))
     
     manager_id = db.Column(db.Integer,db.ForeignKey('users.id'), nullable=True)
     
