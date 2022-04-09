@@ -13,9 +13,9 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 migrate = Migrate(app, db)
+csrf = CSRFProtect(app)
 
-
-# these imports will likely be replaced by routes
+# These imports will likely be replaced by routes
 
 from model.gasstation import *
 from model.posts import *

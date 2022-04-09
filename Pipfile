@@ -7,7 +7,6 @@ name = "pypi"
 flask = "*"
 flask-sqlalchemy = "*"
 flask-wtf = "*"
-flask-script = "*"
 flask-migrate = "*"
 flask-marshmallow = "*"
 psycopg2 = "*"
@@ -17,6 +16,7 @@ python-dateutil = "*"
 email-validator = "*"
 marshmallow-sqlalchemy = "*"
 gunicorn = "*"
+flask-cors = "*"
 
 [dev-packages]
 
