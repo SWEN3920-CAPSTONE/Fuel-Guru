@@ -59,12 +59,24 @@ class User(db.Model):
     )
     """The UTC date and time at which the user was created"""
     
-    def __init__(self, username, email, firstname, lastname, password, user_type_id,created_at=datetime.utcnow()):
+    deleted_at = db.Column(
+        db.DateTime,
+        default = datetime.utcnow,
+        nullable=False
+    )
+    """The UTC date and time at which the user was deleted"""
+    
+    posts = db.relationship('Post', backref='user')
+    """SQLAlchemy relationship to get all posts created by a user"""
+    
+    
+    def __init__(self, username, email, firstname, lastname, password, user_type_id,deleted_at = None):
         self.username = username
         self.email = email
-        self.created_at = created_at
+        self.created_at = datetime.utcnow()
         self.firstname = firstname
         self.lastname = lastname
+        self.deleted_at = deleted_at
         self.user_type_id = user_type_id
         self.password = generate_password_hash(
             password, method='pbkdf2:sha256') # store password hashes, never the plain text password for security reasons

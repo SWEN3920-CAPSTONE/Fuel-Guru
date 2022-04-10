@@ -12,8 +12,7 @@ class GasStation(db.Model):
     
     manager_id = db.Column(db.Integer,db.ForeignKey('users.id'), nullable=True)
     
-    def __init__(self, id, name, address, lat, lng, image,manager_id):
-        self.id = id
+    def __init__(self, name, address, lat, lng, image,manager_id):
         self.name = name
         self.address = address
         self.lat = lat

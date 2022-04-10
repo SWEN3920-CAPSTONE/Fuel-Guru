@@ -1,4 +1,5 @@
 from datetime import datetime
+from sqlalchemy import ForeignKeyConstraint
 from sqlalchemy.schema import MetaData
 from config import db
 
@@ -84,16 +85,26 @@ class Post(db.Model):
     this Post is.
     """
     
+    creator_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id'),
+        nullable=False
+    )
+    """
+    A ForeignKey to the User Model representing the user that created this post
+    """
+    
     upvoters = db.relationship('User', secondary= upvoted_posts, backref='upvoted_posts')
     """SQLAlchemy relationship to get all the Users who upvoted this Post"""
     
     downvoters = db.relationship('User', secondary = downvoted_posts, backref='downvoted_posts')
     """SQLAlchemy relationship to get all the Users who downvoted this Post"""
     
-    def __init__(self,deleted_at, created_at, last_edited, gas_station_id, post_type_id) -> None:
+    def __init__(self, gas_station_id, post_type_id,creator_id,deleted_at = None) -> None:
+        self.creator_id = creator_id
         self.deleted_at = deleted_at
-        self.created_at = created_at
-        self.last_edited = last_edited
+        self.created_at = datetime.utcnow()
+        self.last_edited = self.created_at
         self.gas_station_id = gas_station_id
         self.post_type_id = post_type_id
     
@@ -263,7 +274,8 @@ class GasPriceSuggestion(db.Model):
     
     post_id = db.Column(
         db.Integer,
-        db.ForeignKey('posts.id')
+        db.ForeignKey('posts.id'),
+        primary_key = True
     )
     """A ForeignKey to the Post Model linking this GasPriceSuggestion to information related to it"""
     
@@ -303,7 +315,8 @@ class AmenityTag(db.Model):
     
     post_id = db.Column(
         db.Integer,
-        db.ForeignKey('posts.id')
+        db.ForeignKey('posts.id'),
+        primary_key = True
     )
     
     def __init__(self, last_edited, amenity_type_id, post_id) -> None:
@@ -354,7 +367,8 @@ class Promotion(db.Model):
     
     post_id = db.Column(
         db.Integer,
-        db.ForeignKey('posts.id')
+        db.ForeignKey('posts.id'),
+        primary_key = True
     )
     
     def __init__(self, last_edited, start_date, end_date, image,desc,post_id) -> None:
@@ -366,6 +380,47 @@ class Promotion(db.Model):
         self.post_id = post_id
         
     
+class Review(db.Model):
+    """
+    A representation of a special case in the system where a 
+    comment and a review together make a review. 
+    
+    However, to simplify the serialization process on the api end, 
+    all comments and ratings will be treated as reviews that contain 
+    a single comment or a single rating or both a rating and a comment. 
+    For those cases, the post type in the Post table will still 
+    indicate Comment, Rating or Review respectively.
+    """
+    
+    __tablename__ = 'reviews'
+    
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+    
+    post_id = db.Column(
+        db.Integer,
+        db.ForeignKey('posts.id'),
+        primary_key = True
+    )
+    
+    last_edited = db.Column(
+        db.DateTime,
+        nullable=False
+    )
+    
+    comment = db.relationship('Comment', backref='review', uselist=False)
+    """Could be None if rating is not None"""
+    
+    rating = db.relationship('Rating', backref='review', uselist=False)
+    """Could be None if comment is not None"""
+    
+    def __init__(self, post_id, last_edited):
+        self.post_id = post_id
+        self.last_edited = last_edited
+        
+        
 class Rating(db.Model):
     """
     Represents the information related to Ratings 
@@ -381,25 +436,29 @@ class Rating(db.Model):
         primary_key=True
     )
     
-    last_edited = db.Column(
-        db.DateTime,
-        nullable=False
-    )
-    
     rating_val = db.Column(
         db.Integer,
         nullable=False
     )
     
-    post_id = db.Column(
+    review_id = db.Column(
         db.Integer,
-        db.ForeignKey('posts.id')
+        primary_key = True
     )
     
-    def __init__(self, last_edited, rating_val, post_id) -> None:
+    post_id = db.Column(
+        db.Integer,
+        primary_key = True
+    )
+    
+    __table_args__ = (ForeignKeyConstraint([review_id,post_id],[Review.id, Review.post_id]),)
+    
+    def __init__(self, last_edited, rating_val, post_id, review_id) -> None:
         self.last_edited = last_edited
         self.rating_val =rating_val
         self.post_id = post_id
+        self.review_id = review_id
+    
     
 class Comment(db.Model):
     """
@@ -416,24 +475,26 @@ class Comment(db.Model):
         primary_key=True
     )
     
-    last_edited = db.Column(
-        db.DateTime,
-        nullable=False
-    )
-    
     body = db.Column(
         db.String(500),
         nullable=True
     )
     
-    post_id = db.Column(
+    review_id = db.Column(
         db.Integer,
-        db.ForeignKey('posts.id')
+        primary_key = True
     )
     
-    def __init__(self, last_edited, body, post_id) -> None:
+    post_id = db.Column(
+        db.Integer,
+        primary_key = True
+    )
+    
+    __table_args__ = (ForeignKeyConstraint([review_id,post_id],[Review.id, Review.post_id]),) # composite ForeignKey
+    
+    def __init__(self, last_edited, body, review_id, post_id) -> None:
         self.last_edited = last_edited
         self.body = body
         self.post_id = post_id
-    
+        self.review_id = review_id
     
