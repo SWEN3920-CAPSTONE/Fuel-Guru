@@ -94,10 +94,10 @@ class Post(db.Model):
     A ForeignKey to the User Model representing the user that created this post
     """
     
-    upvoters = db.relationship('User', secondary= upvoted_posts, backref='upvoted_posts')
+    upvoters = db.relationship('User', secondary= upvoted_posts, backref='upvoted_posts', cascade='all, delete')
     """SQLAlchemy relationship to get all the Users who upvoted this Post"""
     
-    downvoters = db.relationship('User', secondary = downvoted_posts, backref='downvoted_posts')
+    downvoters = db.relationship('User', secondary = downvoted_posts, backref='downvoted_posts', cascade='all, delete')
     """SQLAlchemy relationship to get all the Users who downvoted this Post"""
     
     def __init__(self, gas_station_id, post_type_id,creator_id,deleted_at = None) -> None:
