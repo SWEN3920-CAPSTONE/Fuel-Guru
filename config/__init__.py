@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_wtf import CSRFProtect
 from flask_migrate import Migrate
+from flask_cors import CORS
 
 from .config import Config
 
@@ -14,6 +15,7 @@ db = SQLAlchemy(app)
 ma = Marshmallow(app)
 migrate = Migrate(app, db)
 csrf = CSRFProtect(app)
+cors = CORS(app)
 
 # These imports will likely be replaced by routes
 

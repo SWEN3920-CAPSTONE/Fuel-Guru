@@ -1,6 +1,8 @@
+from functools import reduce
 from config import db
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
+from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
 
 class User(db.Model): 
     """
@@ -23,7 +25,8 @@ class User(db.Model):
         nullable=False
     )
 
-    password = db.Column(
+    _password = db.Column(
+        'password',
         db.String(255),
         nullable=False
     )
@@ -61,12 +64,11 @@ class User(db.Model):
     
     deleted_at = db.Column(
         db.DateTime,
-        default = datetime.utcnow,
-        nullable=False
+        nullable=True
     )
     """The UTC date and time at which the user was deleted"""
     
-    posts = db.relationship('Post', backref='user')
+    posts = db.relationship('Post', backref='creator')
     """SQLAlchemy relationship to get all posts created by a user"""
     
     
@@ -78,9 +80,29 @@ class User(db.Model):
         self.lastname = lastname
         self.deleted_at = deleted_at
         self.user_type_id = user_type_id
-        self.password = generate_password_hash(
-            password, method='pbkdf2:sha256') # store password hashes, never the plain text password for security reasons
+        self.password = password # this will be hashed by password.setter
 
+    @hybrid_property
+    def password(self):
+        return self._password
+    
+    @password.setter
+    def password(self, password):
+        """
+        Sets the password for a user to a hashed password
+        
+        Args:
+            password (str):
+                The plain text password to be hashed
+                
+        Returns:
+            None
+        """
+        
+        self._password = generate_password_hash(
+            password, method='pbkdf2:sha256') # store password hashes, never the plain text password for security reasons
+    
+    @hybrid_method
     def check_password(self, password):
         """
         Checks the password argument against this User's password
@@ -93,7 +115,20 @@ class User(db.Model):
             bool: True if the password matches the hash, otherwise False
         """
         
-        return check_password_hash(self.password, password)
+        return check_password_hash(self._password, password)
+    
+    
+    @hybrid_property
+    def reputation(self):
+        return reduce(lambda a, b: a + b.upvotes, self.posts, 0) - reduce(lambda a, b: a + b.downvotes, self.posts, 0)
+    
+    @hybrid_property
+    def level(self):
+        if self.reputation ==0:
+            pass # we never actually fleshed out what the ranges would be for the levels    
+    
+    def __repr__(self) -> str:
+        return f'<{self.id}, {self.username}> {self.firstname} {self.lastname}'
 
 
 class UserType(db.Model):
@@ -121,9 +156,18 @@ class UserType(db.Model):
         nullable=False
     )
     
-    users = db.relationship('User')
+    is_admin = db.Column(
+        db.Boolean,
+        nullable=False
+    )
+    
+    users = db.relationship('User', backref='user_type')
     """SQLAlchemy relationship to get all users of a specifc type"""
     
-    def __init__(self, user_type_name) -> None:
+    def __init__(self, user_type_name, is_admin) -> None:
         self.user_type_name = user_type_name
+        self.is_admin = is_admin
+        
+    def __repr__(self):
+        return f'{self.user_type_name}'
 

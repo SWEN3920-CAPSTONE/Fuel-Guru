@@ -28,14 +28,7 @@ class Config(object):
     
     PORT = os.environ.get('PORT')
     HOST = os.environ.get('HOST')
-
-
-class DevelopmentConfig(Config):
-    """Development Config that extends the Base Config Object"""
-    DEVELOPMENT = True
-    DEBUG = True
-
-
-class ProductionConfig(Config):
-    """Production Config that extends the Base Config Object"""
-    DEBUG = False
+    
+    IS_DEV = os.environ.get('IS_DEV')
+    DEBUG_ON = os.environ.get('DEBUG_ON')
+    

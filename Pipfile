@@ -17,8 +17,11 @@ email-validator = "*"
 marshmallow-sqlalchemy = "*"
 gunicorn = "*"
 flask-cors = "*"
+autopep8 = "*"
 
 [dev-packages]
+flask-admin = "*"
+autopep8 = "*"
 
 [requires]
 python_version = "3.9"

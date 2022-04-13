@@ -1,7 +1,7 @@
 from datetime import datetime
 from sqlalchemy import ForeignKeyConstraint
-from sqlalchemy.schema import MetaData
 from config import db
+from sqlalchemy.ext.hybrid import hybrid_property
 
 
 # Many-to-many join tables
@@ -100,6 +100,8 @@ class Post(db.Model):
     downvoters = db.relationship('User', secondary = downvoted_posts, backref='downvoted_posts', cascade='all, delete')
     """SQLAlchemy relationship to get all the Users who downvoted this Post"""
     
+    post_type = db.relationship('PostType', backref='posts')
+
     def __init__(self, gas_station_id, post_type_id,creator_id,deleted_at = None) -> None:
         self.creator_id = creator_id
         self.deleted_at = deleted_at
@@ -107,6 +109,17 @@ class Post(db.Model):
         self.last_edited = self.created_at
         self.gas_station_id = gas_station_id
         self.post_type_id = post_type_id
+        
+    def __repr__(self) -> str:
+        return f'Post {self.id} - {self.post_type}'
+    
+    @hybrid_property
+    def upvote_count(self):
+        return len(self.upvoters)
+    
+    @hybrid_property
+    def downvote_count(self):
+        return len(self.downvoters)
     
     
 class PostType(db.Model):
@@ -148,6 +161,9 @@ class PostType(db.Model):
         self.post_type_name = post_type_name
         self.is_votable = is_votable
         
+    def __repr__(self) -> str:
+        return f'{self.post_type_name}'
+        
 
 # Additional Post content
 
@@ -174,6 +190,9 @@ class AmenityType(db.Model):
     def __init__(self,amenity_name) -> None:
         self.amenity_name = amenity_name
         
+    def __repr__(self) -> str:
+        return f'{self.amenity_name}'
+        
         
 class GasType(db.Model):
     """
@@ -198,6 +217,9 @@ class GasType(db.Model):
     
     def __init__(self, gas_type_name) -> None:
         self.gas_type_name = gas_type_name
+        
+    def __repr__(self) -> str:
+        return f'{self.gas_type_name}'
     
     
 class Gas(db.Model):
@@ -239,6 +261,8 @@ class Gas(db.Model):
     GasPriceSuggestion Post that this Gas was in
     """
     
+    gas_type = db.relationship('GasType')
+    
     def __init__(self, price, gas_type_id, gas_post_id) -> None:
         self.gas_post_id = gas_post_id
         self.gas_type_id = gas_type_id
@@ -259,7 +283,9 @@ class GasPriceSuggestion(db.Model):
     
     id = db.Column(
         db.Integer,
-        primary_key=True
+        primary_key=True,
+        autoincrement=True, # required when the primary key is composite
+        unique=True
     )
     
     last_edited = db.Column(
@@ -283,6 +309,8 @@ class GasPriceSuggestion(db.Model):
     """SQLAlchemy relationship to get all the gases posted with this 
     gas price suggestion"""
     
+    post = db.relationship('Post', primaryjoin='and_(GasPriceSuggestion.post_id == Post.id, Post.last_edited == GasPriceSuggestion.last_edited)')
+    
     def __init__(self, last_edited, post_id) -> None:
         self.last_edited = last_edited
         self.post_id = post_id
@@ -299,7 +327,9 @@ class AmenityTag(db.Model):
     
     id = db.Column(
         db.Integer,
-        primary_key=True
+        primary_key=True,
+        autoincrement=True, # required when the primary key is composite
+        unique=True
     )
     
     last_edited = db.Column(
@@ -319,6 +349,10 @@ class AmenityTag(db.Model):
         primary_key = True
     )
     
+    amenity_type = db.relationship('AmenityType')
+    
+    post = db.relationship('Post', primaryjoin='and_(AmenityTag.post_id == Post.id, Post.last_edited == AmenityTag.last_edited)')
+    
     def __init__(self, last_edited, amenity_type_id, post_id) -> None:
         self.last_edited = last_edited
         self.amenity_type_id = amenity_type_id
@@ -337,7 +371,9 @@ class Promotion(db.Model):
     
     id = db.Column(
         db.Integer,
-        primary_key=True
+        primary_key=True,
+        autoincrement=True, # required when the primary key is composite
+        unique=True
     )
     
     last_edited = db.Column(
@@ -371,6 +407,8 @@ class Promotion(db.Model):
         primary_key = True
     )
     
+    post = db.relationship('Post', primaryjoin='and_(Promotion.post_id == Post.id, Post.last_edited == Promotion.last_edited)')
+    
     def __init__(self, last_edited, start_date, end_date, image,desc,post_id) -> None:
         self.last_edited = last_edited
         self.start_date = start_date
@@ -396,7 +434,9 @@ class Review(db.Model):
     
     id = db.Column(
         db.Integer,
-        primary_key=True
+        primary_key=True,
+        autoincrement=True, # required when the primary key is composite
+        unique=True
     )
     
     post_id = db.Column(
@@ -410,11 +450,13 @@ class Review(db.Model):
         nullable=False
     )
     
-    comment = db.relationship('Comment', backref='review', uselist=False)
+    comment = db.relationship('Comment', backref='review', uselist=False, primaryjoin='and_(Comment.review_id == Review.id, Review.post_id == Comment.post_id, Comment.last_edited == Review.last_edited)')
     """Could be None if rating is not None"""
     
-    rating = db.relationship('Rating', backref='review', uselist=False)
+    rating = db.relationship('Rating', backref='review', uselist=False, primaryjoin='and_(Rating.review_id == Review.id, Review.post_id == Rating.post_id, Rating.last_edited == Review.last_edited)')
     """Could be None if comment is not None"""
+    
+    post = db.relationship('Post', primaryjoin='and_(Review.post_id == Post.id, Post.last_edited == Review.last_edited)')
     
     def __init__(self, post_id, last_edited):
         self.post_id = post_id
@@ -433,11 +475,18 @@ class Rating(db.Model):
     
     id = db.Column(
         db.Integer,
-        primary_key=True
+        primary_key=True,
+        autoincrement=True, # required when the primary key is composite
+        unique=True
     )
     
     rating_val = db.Column(
         db.Integer,
+        nullable=False
+    )
+    
+    last_edited = db.Column(
+        db.DateTime,
         nullable=False
     )
     
@@ -472,12 +521,19 @@ class Comment(db.Model):
     
     id = db.Column(
         db.Integer,
-        primary_key=True
+        primary_key=True,
+        autoincrement=True, # required when the primary key is composite
+        unique=True
     )
     
     body = db.Column(
         db.String(500),
         nullable=True
+    )
+    
+    last_edited = db.Column(
+        db.DateTime,
+        nullable=False
     )
     
     review_id = db.Column(
