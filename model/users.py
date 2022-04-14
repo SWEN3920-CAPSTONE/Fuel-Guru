@@ -72,7 +72,8 @@ class User(db.Model):
     """SQLAlchemy relationship to get all posts created by a user"""
     
     
-    def __init__(self, username, email, firstname, lastname, password, user_type_id,deleted_at = None):
+    def __init__(self, username, email, firstname, lastname, password, user_type_id,deleted_at = None, id=None):
+        self.id = id
         self.username = username
         self.email = email
         self.created_at = datetime.utcnow()
@@ -125,7 +126,11 @@ class User(db.Model):
     @hybrid_property
     def level(self):
         if self.reputation ==0:
-            pass # we never actually fleshed out what the ranges would be for the levels    
+            pass # we never actually fleshed out what the ranges would be for the levels   
+    
+    @hybrid_property
+    def post_count(self):
+        return len(self.posts)
     
     def __repr__(self) -> str:
         return f'<{self.id}, {self.username}> {self.firstname} {self.lastname}'

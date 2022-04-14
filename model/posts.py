@@ -442,7 +442,8 @@ class Review(db.Model):
     post_id = db.Column(
         db.Integer,
         db.ForeignKey('posts.id'),
-        primary_key = True
+        primary_key = True,
+        unique=True
     )
     
     last_edited = db.Column(
