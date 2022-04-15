@@ -17,10 +17,10 @@ migrate = Migrate(app, db)
 csrf = CSRFProtect(app)
 cors = CORS(app)
 
-# These imports will likely be replaced by routes
-
-from model.gasstation import *
-from model.posts import *
-from model.users import *
+from controller.routes.auth_routes import *
+from controller.routes.routes import *
+from controller.routes.post_routes import *
+from controller.routes.user_routes import *
+from controller.routes.gasstation_routes import *
 
 db.create_all()
