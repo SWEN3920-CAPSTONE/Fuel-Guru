@@ -1,4 +1,6 @@
 from config import db
+from sqlalchemy.ext.hybrid import hybrid_property
+
 
 class GasStation(db.Model):
     __tablename__ = 'gas_stations'
@@ -8,12 +10,15 @@ class GasStation(db.Model):
     address = db.Column(db.String(255), nullable=False)
     lat =  db.Column(db.Numeric, nullable=False)
     lng = db.Column(db.Numeric, nullable=False)
-    image = db.Column(db.String(500))
+    image = db.Column(db.LargeBinary)
     
     manager_id = db.Column(db.Integer,db.ForeignKey('users.id'), nullable=True)
     
-    def __init__(self, id, name, address, lat, lng, image,manager_id):
-        self.id = id
+    posts = db.relationship('Post', backref='gas_station', cascade='all, delete')
+    
+    manager = db.relationship('User', backref='managed_gasstations')
+    
+    def __init__(self, name, address, lat, lng, image,manager_id):
         self.name = name
         self.address = address
         self.lat = lat
@@ -21,3 +26,15 @@ class GasStation(db.Model):
         self.image = image
         self.manager_id = manager_id
     
+    def __repr__(self) -> str:
+        return f'{self.name} with manager {self.manager}'
+    
+    # derived attributes
+    
+    @hybrid_property
+    def avg_rating(self):
+        return None # TODO
+    
+    @hybrid_property
+    def verified(self):
+        return True if self.manager else False

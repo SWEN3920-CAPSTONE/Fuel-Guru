@@ -5,7 +5,14 @@ load_dotenv()
 
 
 class Config(object):
+    """
+    Environment variables configuration class.
+    """
+    DEBUG = False
+    
     SECRET_KEY = os.environ.get("SECRET_KEY") or 'se%^&!70DCRETk*y'
+    
+    # SQLAlchemy variables
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         'DATABASE_URL') or 'postgresql://yourusername:yourpassword@localhost/databasename'
 
@@ -13,21 +20,15 @@ class Config(object):
         SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace(
             "postgres://", "postgresql://", 1)
 
-    DEBUG = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    JWT_ACCESS_LIFESPAN = {'hours': 24}
+    
+    # JWT variables
+    JWT_ACCESS_LIFESPAN = {'hours': 24} 
     JWT_REFRESH_LIFESPAN = {'days': 30}
     
     PORT = os.environ.get('PORT')
     HOST = os.environ.get('HOST')
-
-
-class DevelopmentConfig(Config):
-    """Development Config that extends the Base Config Object"""
-    DEVELOPMENT = True
-    DEBUG = True
-
-
-class ProductionConfig(Config):
-    """Production Config that extends the Base Config Object"""
-    DEBUG = False
+    
+    IS_DEV = os.environ.get('IS_DEV')
+    DEBUG_ON = os.environ.get('DEBUG_ON')
+    
