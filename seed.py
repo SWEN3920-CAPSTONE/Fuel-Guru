@@ -7,9 +7,10 @@ import sys
 import random
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
+# generate fake info
 fake = Faker()
 
-
+# static types in the system
 USER_TYPES = [
     UserType('Normal User', False),
     UserType('Gas Station Manager', False),
@@ -49,19 +50,17 @@ else:
     SEED_COUNT = 15
     
 
-total = 0
-longest = 0
+total = 0 # total records added to db
 
+longest = 0 # longest string, formatting purposes
+
+# lists needed for foreign keys
 users:list[User] = []
 posts:list[Post] = []
-gasstations = []
-reviews = []
-comments = []
-ratings = []
-promos = []
-amenity_tags = []
-gas_price_suggs = []
-gases = []
+gasstations:list[GasStation] = []
+
+# add the types if they dont exist in the db or fetch the type to get 
+# the ID if it does exist
 
 for i in range(len(USER_TYPES)):
     try:
@@ -113,38 +112,46 @@ for i in range(len(AMENITY_TYPES)):
     else:
         total += 1       
         
-longest = max(longest, len('\N{check mark}  {total} type records added'))
+longest = max(longest, len(f'   {total} type records added'))
 print(f'\N{check mark}  {total} type records added')
+
+# adding types complete
+
+
+# add users
 
 quota = 0
 while quota < SEED_COUNT:
     try:
-        rx = random.randint(0,1)
+        rx = random.randint(0,1) # get a random user type between normal or manager
         utype = USER_TYPES[rx]
         u = User(fake.unique.user_name(), fake.unique.email(),fake.first_name(), fake.last_name(),fake.password(),utype)
         users.append(u)
         db.session.add(u)
         db.session.commit()
     except SQLAlchemyError as e:
-        pprint(e)
         db.session.rollback()
     else:
         total += 1  
         quota += 1
         print(f'\r   {quota} users added', end='', flush=True)
     
-longest = max(longest, len('\N{check mark}  {quota} users added'))
+longest = max(longest, len(f'   {quota} users added'))
 print('\r\N{check mark}')
 
+# end add users
+
+# add gas stations
 
 quota = 0
 while quota < SEED_COUNT:
     try:
-        if random.randint(0,1):
-            rx = random.randint(0, len(users)-1)
+        # decide randomly if this gas station should have a manager
+        if random.randint(0,1): 
+            rx = random.randint(0, len(users)-1) # get a random user to be the manager
             u = users[rx]
             if u.user_type.user_type_name != 'Gas Station Manager':
-                u = None
+                u = None # set the user to None if the user's type is not manager
         else:
             u = None
         g = GasStation(fake.company(),fake.address(),fake.latitude(),fake.longitude(),fake.image(),u)
@@ -160,21 +167,32 @@ while quota < SEED_COUNT:
         
         
 print('\r\N{check mark}')
-longest = max(longest, len('\N{check mark}  {quota} gas stations added'))
+longest = max(longest, len(f'   {quota} gas stations added'))
 
+# end add gas stations
+
+
+# add posts 
 
 quota = 0
 while i < SEED_COUNT:
+    # get the gas station to add posts to
+    g = gasstations[i]
     quota2 = 0
-    postnum = random.randint(0,SEED_COUNT)
+    # choose a random amount of posts to add to each gas station
+    postnum = random.randint(0,SEED_COUNT) 
     while quota2 < postnum:
         try:
-            g = gasstations[random.randint(0,len(gasstations)-1)]
+            # get a random user to make the post
             u = users[random.randint(0,len(users)-1)]
+            
+            # randomly choose a post type the user is allowed make
+            # based on the user type
             if u.user_type.user_type_name == 'Normal User':
                 pt = random.choice([*POST_TYPES[0:3], *POST_TYPES[4:]])
             if u.user_type.user_type_name == 'Gas Station Manager':
                 pt = random.choice([*POST_TYPES[4:]])
+                
             p = Post(g,pt,u)
             posts.append(p)
             db.session.add(p)
@@ -186,16 +204,23 @@ while i < SEED_COUNT:
             quota += 1
             quota2 += 1
             print(f'\r   {quota} posts added', end='', flush=True)
-    i+=1
+    else:
+        i +=1
 
 print('\r\N{check mark}')
-longest = max(longest, len('\N{check mark}  {quota} posts added'))
+longest = max(longest, len(f'   {quota} posts added'))
 
+# end add posts
+
+
+# add post details 
 
 quota = 0
 while quota < len(posts):
     try:
-        ptn =posts[quota].post_type.post_type_name
+        ptn =posts[quota].post_type.post_type_name # post type name
+        
+        # create post details based on post type
         if ptn == 'Comment':
             rev = Review(posts[quota])
             c = Comment(fake.paragraph(nb_sentences=3),rev)
@@ -224,6 +249,7 @@ while quota < len(posts):
             db.session.commit()
         elif ptn == 'Gas Price Suggestion':
             gps = GasPriceSuggestion(posts[quota])
+            # choose random gas types
             num = random.randint(0, len(GAS_TYPES)-1)
             types = random.choices(population=GAS_TYPES, k=num)
             gps_gases = [Gas(fake.pyfloat(positive=True), t, gps) for t in types]
@@ -242,7 +268,9 @@ while quota < len(posts):
         print(f'\r   {quota} post details added', end='', flush=True)
 
 print('\r\N{check mark}')
-longest = max(longest, len('\N{check mark}  {quota} post details added'))
+longest = max(longest, len(f'   {quota} post details added'))
+
+# end add post details
 
 print('='*longest)
 print(f'\N{check mark}  {total} records added')
