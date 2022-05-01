@@ -102,13 +102,13 @@ class Post(db.Model):
     
     post_type = db.relationship('PostType', backref='posts')
 
-    def __init__(self, gas_station_id, post_type_id,creator_id,deleted_at = None) -> None:
-        self.creator_id = creator_id
+    def __init__(self, gas_station, post_type,creator,deleted_at = None) -> None:
+        self.creator= creator
         self.deleted_at = deleted_at
         self.created_at = datetime.utcnow()
         self.last_edited = self.created_at
-        self.gas_station_id = gas_station_id
-        self.post_type_id = post_type_id
+        self.gas_station = gas_station
+        self.post_type = post_type
         
     def __repr__(self) -> str:
         return f'Post {self.id} - {self.post_type}'
@@ -263,9 +263,9 @@ class Gas(db.Model):
     
     gas_type = db.relationship('GasType')
     
-    def __init__(self, price, gas_type_id, gas_post_id) -> None:
-        self.gas_post_id = gas_post_id
-        self.gas_type_id = gas_type_id
+    def __init__(self, price, gas_type, gas_post) -> None:
+        self.gas_post = gas_post
+        self.gas_type = gas_type
         self.price = price
 
     
@@ -311,9 +311,11 @@ class GasPriceSuggestion(db.Model):
     
     post = db.relationship('Post', primaryjoin='and_(GasPriceSuggestion.post_id == Post.id, Post.last_edited == GasPriceSuggestion.last_edited)')
     
-    def __init__(self, last_edited, post_id) -> None:
-        self.last_edited = last_edited
-        self.post_id = post_id
+    def __init__(self, post, edit=False) -> None:
+        if edit:
+            post.last_edited = datetime.utcnow()
+        self.last_edited = post.last_edited
+        self.post = post
     
     
 class AmenityTag(db.Model):
@@ -353,10 +355,12 @@ class AmenityTag(db.Model):
     
     post = db.relationship('Post', primaryjoin='and_(AmenityTag.post_id == Post.id, Post.last_edited == AmenityTag.last_edited)')
     
-    def __init__(self, last_edited, amenity_type_id, post_id) -> None:
-        self.last_edited = last_edited
-        self.amenity_type_id = amenity_type_id
-        self.post_id = post_id
+    def __init__(self, amenity_type, post, edit=False) -> None:
+        if edit:
+            post.last_edited = datetime.utcnow()
+        self.last_edited = post.last_edited
+        self.amenity_type= amenity_type
+        self.post = post
         
 
 class Promotion(db.Model):
@@ -409,13 +413,15 @@ class Promotion(db.Model):
     
     post = db.relationship('Post', primaryjoin='and_(Promotion.post_id == Post.id, Post.last_edited == Promotion.last_edited)')
     
-    def __init__(self, last_edited, start_date, end_date, image,desc,post_id) -> None:
-        self.last_edited = last_edited
+    def __init__(self, start_date, end_date, image,desc,post, edit=False) -> None:
+        if edit:
+            post.last_edited = datetime.utcnow()
+        self.last_edited = post.last_edited
         self.start_date = start_date
         self.end_date = end_date
         self.image = image
         self.desc = desc
-        self.post_id = post_id
+        self.post = post
         
     
 class Review(db.Model):
@@ -459,9 +465,9 @@ class Review(db.Model):
     
     post = db.relationship('Post', primaryjoin='and_(Review.post_id == Post.id, Post.last_edited == Review.last_edited)')
     
-    def __init__(self, post_id, last_edited):
-        self.post_id = post_id
-        self.last_edited = last_edited
+    def __init__(self, post):
+        self.post = post        
+        self.last_edited = post.last_edited
         
         
 class Rating(db.Model):
@@ -503,11 +509,14 @@ class Rating(db.Model):
     
     __table_args__ = (ForeignKeyConstraint([review_id,post_id],[Review.id, Review.post_id]),)
     
-    def __init__(self, last_edited, rating_val, post_id, review_id) -> None:
-        self.last_edited = last_edited
+    def __init__(self, rating_val, review, edit=False) -> None:
+        if edit:
+            tnow = datetime.utcnow()
+            review.last_edited = tnow
+            review.post.last_edited = tnow
+        self.last_edited = review.last_edited
         self.rating_val =rating_val
-        self.post_id = post_id
-        self.review_id = review_id
+        self.review = review
     
     
 class Comment(db.Model):
@@ -549,9 +558,12 @@ class Comment(db.Model):
     
     __table_args__ = (ForeignKeyConstraint([review_id,post_id],[Review.id, Review.post_id]),) # composite ForeignKey
     
-    def __init__(self, last_edited, body, review_id, post_id) -> None:
-        self.last_edited = last_edited
+    def __init__(self, body, review, edit=False) -> None:
+        if edit:
+            tnow = datetime.utcnow()
+            review.last_edited = tnow
+            review.post.last_edited = tnow
+        self.last_edited = review.last_edited
         self.body = body
-        self.post_id = post_id
-        self.review_id = review_id
+        self.review = review
     

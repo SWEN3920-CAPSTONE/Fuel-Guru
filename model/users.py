@@ -72,7 +72,7 @@ class User(db.Model):
     """SQLAlchemy relationship to get all posts created by a user"""
     
     
-    def __init__(self, username, email, firstname, lastname, password, user_type_id,deleted_at = None, id=None):
+    def __init__(self, username, email, firstname, lastname, password, user_type,deleted_at = None, id=None):
         self.id = id
         self.username = username
         self.email = email
@@ -80,7 +80,7 @@ class User(db.Model):
         self.firstname = firstname
         self.lastname = lastname
         self.deleted_at = deleted_at
-        self.user_type_id = user_type_id
+        self.user_type = user_type
         self.password = password # this will be hashed by password.setter
 
     @hybrid_property
