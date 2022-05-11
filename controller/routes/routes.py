@@ -7,12 +7,13 @@ from model.posts import (AmenityTag, AmenityType, Comment, Gas,
                          GasPriceSuggestion, GasType, Post, PostType,
                          Promotion, Rating, Review)
 from model.users import User, UserType
+from werkzeug.exceptions import HTTPException
 
 @app.after_request
 def setheaders(resp):
     if resp ==None:
         resp = make_response()
-    resp.set_cookie('CSRF-TOKEN', generate_csrf(),httponly=True) # to protect form submissions
+    resp.set_cookie('CSRF-TOKEN', generate_csrf()) # to protect form submissions
     return resp
 
 
@@ -60,3 +61,8 @@ def gas_types():
         - 500 if there was a server error
     """
     pass
+
+
+@app.errorhandler(HTTPException)
+def http_error(err:HTTPException):
+    return jsonify({'error':err.description}), err.code

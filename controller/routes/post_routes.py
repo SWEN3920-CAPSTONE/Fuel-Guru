@@ -72,6 +72,7 @@ def upvote():
         - 401 If the user making the request is not logged in
         - 403 If the user's type is not allowed to upvote
         - 404 If the post does not exist
+        - 405 if the post type is not votable
         - 500 if the request fails on the server's part    
     """
     pass
@@ -91,6 +92,7 @@ def downvote():
         - 401 If the user making the request is not logged in
         - 403 If the user's type is not allowed to downvote
         - 404 If the post does not exist
+        - 405 if the post type is not votable
         - 500 if the request fails
     """
     pass

@@ -13,16 +13,22 @@ def edit_user():
     
     No body for DELETE
     
-    Body for PUT (one of the following):
+    Body for PUT (at least one of the following):
         - [firstname]
         - [lastname]
-        - [email]
-        - [password]
+        - [both:
+            - current_email
+            - new_email] 
+        - [both:
+            - current_password
+            - new_password]
     
     Returns with message:
         - 200 if the request was successful
         - 400 if the body was empty for PUT or otherwise malformed
         - 401 if the user making the request isnt logged in
+        - 403 if the current_password or current_email are incorrect
+        - 409 if the new_email is already in use
         - 500 for server error
     """
     pass
