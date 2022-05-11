@@ -1,52 +1,61 @@
+from datetime import datetime, timedelta
 from functools import wraps
+from uuid import uuid4
 
 import jwt
 from config import app
 from flask import abort, g, jsonify, make_response, request
 from jwt import DecodeError, ExpiredSignatureError, InvalidSignatureError
-from model.users import User
+from model import User
+from flask_jwt_extended import verify_jwt_in_request, get_jwt
+from flask_jwt_extended.exceptions import NoAuthorizationError
 
 
-def find_token():
-    auth = request.headers.get('Authorization', None)
+def generate_token(user: User, refresh=False):
 
-    if not auth:
-        return jsonify(
-            {'message': 'Authorization header is expected'}), 401
+    ctime = datetime.utcnow()
 
-    parts = auth.split()
+    if refresh:
+        expiry_time = app.config.get('JWT_REFRESH_LIFESPAN')
 
-    if parts[0].lower() != 'bearer':
-        return jsonify(
-            {'message': 'Authorization header must start with Bearer'}
-        ), 401
+        token = jwt.encode({
+            'sub': user.id,
+            'jti': uuid4().hex,
+            'type': 'refresh',
+            'iat': ctime,
+            'exp': ctime + timedelta(**expiry_time),
+        }, app.config.get('SECRET_KEY'), algorithm="HS256")
+    else:
+        expiry_time = app.config.get('JWT_ACCESS_LIFESPAN')
 
-    elif len(parts) == 1:
-        return jsonify({'message': 'Token not found'}), 401
+        token = jwt.encode({
+            'sub': user.id,
+            'type': 'access',
+            'iat': ctime,
+            'exp': ctime + timedelta(**expiry_time),
+        }, app.config.get('SECRET_KEY'), algorithm="HS256")
 
-    elif len(parts) > 2:
-        return jsonify(
-            {'message': 'Authorization header must be Bearer + \s + token'}
-        ), 401
-
-    token = parts[1]
     return token
-        
-        
-def verify_token(token, is_admin=False):
-    try:
-        data = jwt.decode(token, app.config.get(
-            'SECRET_KEY'), algorithms="HS256")
 
-        # may be changed when auth is complete
-        current_user = User.query.get(data.get('id'))
+
+def verify_token(is_admin=False):
+    try:
+        verify_jwt_in_request()
+
+        data = get_jwt()
+
+        current_user = User.query.get(data.get('sub'))
 
         if not current_user:
-            abort(make_response({"message": "Token is invalid, no user matched to token"}, 401))
-        
+            abort(make_response({"message": "Token is invalid"}, 401))
+
         if is_admin:
             if current_user.user_type.is_admin != True:
-                abort(make_response({'message', 'The user is not authorized to make this request'},403))
+                abort(make_response(
+                    {'message', 'The user is not authorized to make this request'}, 403))
+
+    except NoAuthorizationError as e:
+        abort(make_response({'message': str(e)}, 401))
 
     except InvalidSignatureError:
         abort(make_response({"message": 'Token is invalid'}, 401))
@@ -59,12 +68,12 @@ def verify_token(token, is_admin=False):
             {'message': 'Token signature is invalid'}, 401))
 
     g.current_user = current_user
-    
-    
+
+
 def token_required(f):
     """
     Wraps a functions and makes it token required
-    
+
     Args:
         f (function):   The function to wrap
     Returns:
@@ -73,7 +82,7 @@ def token_required(f):
 
     @wraps(f)
     def decorated(*args, **kwargs):
-        verify_token(find_token())
+        verify_token()
         return f(*args, **kwargs)
 
     return decorated
@@ -82,7 +91,7 @@ def token_required(f):
 def admin_required(f):
     """
     Wraps a functions and makes it admin required
-    
+
     Args:
         f (function):   The function to wrap
     Returns:
@@ -91,7 +100,7 @@ def admin_required(f):
 
     @wraps(f)
     def decorated(*args, **kwargs):
-        verify_token(find_token(),True)
+        verify_token(True)
         return f(*args, **kwargs)
 
     return decorated
