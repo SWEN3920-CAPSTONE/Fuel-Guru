@@ -55,7 +55,7 @@ class GasPriceSuggestionSchema(ma.SQLAlchemyAutoSchema):
         transient = True
         
     post = fields.Nested('PostSchema')
-    gases = fields.Nested('GasSchema')
+    gases = fields.Nested('GasSchema', many=True)
 
     @post_dump
     def flatten_post(self, data, **kwargs):

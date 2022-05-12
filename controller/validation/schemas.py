@@ -1,3 +1,4 @@
+from flask import escape
 from marshmallow import Schema, post_load, validate, validates, ValidationError, fields, validates_schema
 
 
@@ -90,7 +91,7 @@ class HandleUserTypesSchema(Schema):
     is_admin = fields.Boolean(required=True,
                               truthy={'true', 'TRUE', 'True'},
                               falsy={'FALSE', 'false', 'False'})
-    
+
     can_vote = fields.Boolean(required=True,
                               truthy={'true', 'TRUE', 'True'},
                               falsy={'FALSE', 'false', 'False'})
@@ -142,7 +143,6 @@ class EditUserSchema(Schema):
 
         return True
 
-
     @post_load
     def remove_invalid_keys(self, data: dict, **kwargs):
         data.pop('current_password', None)
@@ -153,7 +153,7 @@ class EditUserSchema(Schema):
 
         if email:
             data['email'] = email
-            
+
         if password:
             data['password'] = password
 
@@ -161,5 +161,134 @@ class EditUserSchema(Schema):
 
 
 class PostVoteSchema(Schema):
-    
-    post_id = fields.Integer(strict=True)
+
+    post_id = fields.Integer(required=True, strict=True)
+
+
+class HandlePostTypesSchema(Schema):
+    id = fields.Int(required=True, strict=True)
+
+    post_type_name = fields.Str(required=True, validate=[
+                                validate.Regexp('[A-Za-z]+( [A-Za-z]+)*'),
+                                validate.Length(min=1, max=255)])
+
+    is_votable = fields.Boolean(required=True,
+                                truthy={'true', 'TRUE', 'True'},
+                                falsy={'FALSE', 'false', 'False'})
+
+
+class HandlePostSchema(Schema):
+    # internal schemas
+    class PostComment(Schema):
+        body = fields.Str(required=True, validate=[
+                          validate.Length(min=1, max=500)])
+
+        @validates('body')
+        def escape_body(self, val):
+            return str(escape(val))
+
+    class PostRating(Schema):
+        rating_val = fields.Integer(required=True, strict=True, validate=[
+                                    validate.Range(min=1, max=5)])
+
+    class PostPromotion(Schema):
+        desc = fields.Str(required=True, validate=[
+                          validate.Length(min=1, max=255)])
+
+        start_date = fields.DateTime(required=True)
+
+        end_date = fields.DateTime(required=True)
+
+        image = fields.Str()
+
+        @validates('desc')
+        def escape_desc(self, val):
+            return str(escape(val))
+
+    class PostReview(Schema):
+        rating_val = fields.Integer(required=True, strict=True, validate=[
+                                    validate.Range(min=1, max=5)])
+
+        body = fields.Str(required=True, validate=[
+                          validate.Length(min=1, max=500)])
+
+        @validates('body')
+        def escape_body(self, val):
+            return str(escape(val))
+
+    class PostAmenity(Schema):
+        amenity_id = fields.Int(required=True, strict=True)
+
+    class PostGasPriceSuggestion(Schema):
+        class PostGas(Schema):
+            gas_type_id = fields.Int(required=True, strict=True)
+
+            price = fields.Float(required=True, allow_nan=False, validate=[
+                                 validate.Range(min=1)])
+
+        gases = fields.Nested(PostGas, many=True, required=True)
+        
+        @validates('gases')
+        def at_least_one_gas(self,val):
+            if len(val) >= 1:
+                return val
+            else:
+                raise ValidationError('At least one gas must be provided')
+
+    ###################
+
+    post_id = fields.Int(required=True, strict=True)  # PUT, DELETE
+
+    gas_station_id = fields.Int(required=True, strict=True)  # POST
+
+    post_type_id = fields.Int(required=True, strict=True)  # POST
+
+    comment = fields.Nested(PostComment)
+
+    rating = fields.Nested(PostRating)
+
+    promotion = fields.Nested(PostPromotion)
+
+    review = fields.Nested(PostReview)
+
+    amenity_tag = fields.Nested(PostAmenity)
+
+    gas_price_suggestion = fields.Nested(PostGasPriceSuggestion)
+
+    @validates_schema
+    def validate_post_data(self, data: dict, **kwargs):
+        # check if some data has been provided
+        some_posts = data.get('promotion') or data.get(
+            'rating') or data.get('review')
+        some_posts = some_posts or data.get(
+            'amenity_tag') or data.get('gas_price_suggestion')
+        some_posts = some_posts or data.get('comment')
+
+        data_provided = data.get('post_id') or data.get(
+            'gas_station_id')
+        data_provided = data_provided or data.get(
+            'post_type_id') or some_posts
+
+        if data_provided:
+            if some_posts and (self.context.get('method') == 'POST' or self.context.get('method') == 'PUT'):
+                # xor the posts
+                single_post = bool(data.get('promotion')) ^ bool(
+                    data.get('comment')) ^ bool(data.get('gas_price_suggestion'))
+                single_post = single_post ^ bool(data.get('review')) ^ bool(
+                    data.get('rating')) ^ bool(data.get('amenity_tag'))
+
+                if not single_post:
+                    raise ValidationError(
+                        'Only one type of post\'s data should be provided')
+                    
+                return True
+            
+            if not some_posts and (self.context.get('method') == 'POST' or self.context.get('method') == 'PUT'):
+                raise ValidationError('Post details should be sent in a POST or PUT method')
+
+            if some_posts and self.context.get('method') == 'DELETE':
+                raise ValidationError('No post details should be included in a delete request')
+            
+            return True
+        else:
+            raise ValidationError('No data provided')
