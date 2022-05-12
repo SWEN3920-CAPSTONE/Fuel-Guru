@@ -7,7 +7,6 @@ usage:  python seed.py [<int>]
         to add for each table. Default value is 15
 """
 
-from pprint import pprint
 import random
 import sys
 from datetime import timedelta, timezone

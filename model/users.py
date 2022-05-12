@@ -72,11 +72,11 @@ class User(db.Model):
     """SQLAlchemy relationship to get all posts created by a user"""
     
     
-    def __init__(self, username, email, firstname, lastname, password, user_type,deleted_at = None, id=None):
+    def __init__(self, username, email, firstname, lastname, password, user_type,deleted_at = None, id=None, created_at=None):
         self.id = id
         self.username = username
         self.email = email
-        self.created_at = datetime.utcnow()
+        self.created_at = created_at or datetime.utcnow()
         self.firstname = firstname
         self.lastname = lastname
         self.deleted_at = deleted_at
@@ -169,9 +169,10 @@ class UserType(db.Model):
     users = db.relationship('User', backref='user_type')
     """SQLAlchemy relationship to get all users of a specifc type"""
     
-    def __init__(self, user_type_name, is_admin) -> None:
+    def __init__(self, user_type_name, is_admin, id=None) -> None:
         self.user_type_name = user_type_name
         self.is_admin = is_admin
+        self.id = id
         
     def __repr__(self):
         return f'{self.user_type_name}'

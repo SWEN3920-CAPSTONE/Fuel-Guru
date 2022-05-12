@@ -1,15 +1,14 @@
 from datetime import datetime
+from hashlib import sha256
 
-import jwt
 from config import app, csrf, db
-from controller.routes.token import admin_required, generate_token, token_required
+from controller.routes.token import (admin_required, gen_access_refresh_token,
+                                     token_required)
 from controller.validation.schemas import SigninSchema, SignupSchema
-from flask import Blueprint, abort, jsonify, make_response, request, g
+from flask import Blueprint, g, jsonify, request
+from flask_jwt_extended import get_jwt
 from marshmallow import ValidationError
-from model import User, UserType
-from flask_jwt_extended import verify_jwt_in_request, get_jwt
-
-from model.invalid_tokens import InvalidToken
+from model import InvalidToken, User, UserType
 
 auth = Blueprint('auth_api', __name__)
 
@@ -45,10 +44,10 @@ def signup():
         # Not sure how safe this is security wise to tell them exactly what's
         # in use already but i think it would be a UX issue to leave it vague
         if User.query.filter_by(username=data['username']).first() != None:
-            return jsonify({'error': 'Username already in use'}), 409
+            return jsonify(error='Username already in use'), 409
 
         if User.query.filter_by(email=data['email']).first() != None:
-            return jsonify({'error': 'Email already in use'}), 409
+            return jsonify(error='Email already in use'), 409
 
         new_user = User(
             **data, user_type=UserType.query.filter_by(user_type_name='Normal User').first())
@@ -57,10 +56,9 @@ def signup():
         db.session.commit()
 
         # Generate the JWT Token
-        return jsonify({'message': 'User successfully registered', 'access_token': generate_token(new_user),
-                        'refresh_token': generate_token(new_user, True)}), 200
+        return gen_access_refresh_token(new_user), 200
     except ValidationError as e:
-        return jsonify({'error': e.messages}), 400
+        return jsonify(errors=e.messages), 400
 
 
 @auth.route('/signup/manager', methods=['POST'])
@@ -107,6 +105,7 @@ def signin():
         - 401 if the user + password combo doesnt exist
         - 500 If the server failed to carry out the request
     """
+
     try:
         data = SigninSchema().load(request.get_json(
             silent=True, force=True) or request.form.to_dict())
@@ -115,22 +114,21 @@ def signin():
         ) or User.query.filter_by(email=data['iden']).first()
 
         if user:
+            if user.deleted_at:  # dont sign in deleted users
+                return jsonify(
+                    error='This user has been deleted'), 401
+
             if user.check_password(data['password']):
                 # Generate the JWT Token
-                return jsonify({
-                    'message': 'Login Successful',
-                    'access_token': generate_token(user),
-                    'refresh_token': generate_token(user, True)
-                }), 200
+                return gen_access_refresh_token(user), 200
 
         return jsonify(
-            {'error': 'Incorrect username or email and password combination'}), 401
+            error='Incorrect username or email and password combination'), 401
     except ValidationError as e:
-        return jsonify({'error': e.messages}), 400
+        return jsonify(errors=e.messages), 400
 
 
 @auth.route('/logout', methods=['POST'])
-@csrf.exempt
 @token_required
 def logout():
     """
@@ -141,14 +139,11 @@ def logout():
         - 400 if the body sent with the request was malformed
         - 500 If the server failed to carry out the request
     """
-    verify_jwt_in_request()
+
     payload = get_jwt()
 
-    if payload['type'] != 'refresh':
-        abort(make_response({'error': 'Token is invalid'}, 400))
-        
-    if InvalidToken.query.get(payload['jti']):
-        abort(make_response({'error': 'Token is invalid'}, 400))
+    if not _is_valid_refresh_token(payload):
+        return jsonify(error='Token is invalid'), 400
 
     invalid_t = InvalidToken(
         payload['jti'], datetime.fromtimestamp(payload['exp']))
@@ -156,7 +151,7 @@ def logout():
     db.session.add(invalid_t)
     db.session.commit()
 
-    return jsonify({'message': 'User logged out successfully'}), 200
+    return jsonify(message='User logged out successfully'), 200
 
 
 @auth.route('/refresh', methods=['POST'])
@@ -165,14 +160,11 @@ def refresh():
     """
     Endpoint for refreshing the access token
     """
-    verify_jwt_in_request()
+
     payload = get_jwt()
 
-    if payload['type'] != 'refresh':
-        abort(make_response({'error': 'Token is invalid'}, 400))
-        
-    if InvalidToken.query.get(payload['jti']):
-        abort(make_response({'error': 'Token is invalid'}, 400))
+    if not _is_valid_refresh_token(payload):
+        return jsonify(error='Token is invalid'), 400
 
     invalid_t = InvalidToken(
         payload['jti'], datetime.fromtimestamp(payload['exp']))
@@ -180,11 +172,40 @@ def refresh():
     db.session.add(invalid_t)
     db.session.commit()
 
-    return jsonify({
-        'message': 'Login Successful',
-        'access_token': generate_token(g.current_user),
-        'refresh_token': generate_token(g.current_user, True)
-    }), 200
+    return gen_access_refresh_token(g.current_user), 200
+
+
+def _is_valid_refresh_token(payload: dict):
+    """
+    Validates a Refresh token based on the structure, token blacklist 
+    and fingerprint
+
+    Args:
+        payload(dict):
+            The JWT refresh token payload
+
+    Returns:
+        bool -> True if the token is valid, False otherwise
+    """
+
+    # check if this token is a refresh token
+    if payload.get('type') != 'refresh':
+        return False
+
+    # check if this token is already blacklisted
+    if InvalidToken.query.get(payload.get('jti')):
+        return False
+
+    # check if the fingerprint in the token is the same as the httponly cookie
+    # Token sidejacking XSS attack prevention measure
+    fingerprint_cookie = request.cookies.get(
+        'FuelGuru_Secure_Fgp', default='', type=str)
+
+    if payload.get('fingerprint') != sha256(fingerprint_cookie.encode('utf-8')).hexdigest():
+        return False
+
+    # if all checks passed, the token should be valid
+    return True
 
 
 app.register_blueprint(auth, url_prefix='/auth')

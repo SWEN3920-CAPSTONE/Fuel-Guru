@@ -8,28 +8,32 @@ from model.posts import (AmenityTag, AmenityType, Comment, Gas,
                          Promotion, Rating, Review)
 from model.users import User, UserType
 from werkzeug.exceptions import HTTPException
+from sqlalchemy.exc import SQLAlchemyError
+
 
 @app.after_request
 def setheaders(resp):
-    if resp ==None:
+    if resp == None:
         resp = make_response()
-    resp.set_cookie('CSRF-TOKEN', generate_csrf()) # to protect form submissions
+    # to protect form submissions
+    # more research needed
+    resp.set_cookie('CSRF-TOKEN', generate_csrf(), samesite='Lax')
     return resp
 
 
-@app.route('/amenities/types', methods=['POST', 'PUT','GET'])
+@app.route('/amenities/types', methods=['POST', 'PUT', 'GET'])
 @admin_required
 def amenity_types():
     """
     Endpoint for handling amenity types
-    
+
     Body for POST:
         - amenity_name
-        
+
     Body for PUT:
         - id 
         - amenity_name
-        
+
     Returns with message:
         - 200 If the request was sucessful
         - 400 if the request is malformed
@@ -40,19 +44,19 @@ def amenity_types():
     pass
 
 
-@app.route('/gas/types', methods=['POST','PUT','GET'])
+@app.route('/gas/types', methods=['POST', 'PUT', 'GET'])
 @admin_required
 def gas_types():
     """
     Endpoint for handling gas types
-    
+
     Body for POST:
         - gas_type_name
-        
+
     Body for PUT:
         - id 
         - gas_type_name
-        
+
     Returns with message:
         - 200 If the request was sucessful
         - 400 if the request is malformed
@@ -64,5 +68,10 @@ def gas_types():
 
 
 @app.errorhandler(HTTPException)
-def http_error(err:HTTPException):
-    return jsonify({'error':err.description}), err.code
+def http_error(err: HTTPException):
+    return jsonify(error=err.description), err.code
+
+
+@app.errorhandler(SQLAlchemyError)
+def sqlalchemy_error(err: SQLAlchemyError):
+    return jsonify(error=f'Database error: {str(err)} with code {err.code}'), 500
