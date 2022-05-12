@@ -55,7 +55,7 @@ class GasPriceSuggestionSchema(ma.SQLAlchemyAutoSchema):
         transient = True
         
     post = fields.Nested('PostSchema')
-    gases = fields.Nested('GasSchema')
+    gases = fields.Nested('GasSchema', many=True)
 
     @post_dump
     def flatten_post(self, data, **kwargs):
@@ -170,14 +170,18 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
 
     @post_load
     def load_user(self, data, **kwargs):
-        data['password'] = data.pop('_password')
+        passwd = data.pop('_password', None)
+        if passwd:
+            data['password'] = passwd
+            
         varnames = User.__init__.__code__.co_varnames
+        
+        moddata = dict()
+        for key,value in data.items():
+            if key in varnames:
+                moddata[key] = value
 
-        for key in data:
-            if not key in varnames:
-                data.pop(key)
-
-        return data
+        return moddata
 
 class GasStationSchema(ma.SQLAlchemyAutoSchema):
     class Meta():

@@ -12,6 +12,7 @@ email-validator = "*"
 marshmallow-sqlalchemy = "*"
 gunicorn = "*"
 flask-cors = "*"
+flask-jwt-extended = "*"
 
 [dev-packages]
 flask-admin = "*"
