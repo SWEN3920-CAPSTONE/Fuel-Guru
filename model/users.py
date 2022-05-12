@@ -135,6 +135,17 @@ class User(db.Model):
         return f'<{self.id}, {self.username}> {self.firstname} {self.lastname}'
 
 
+post_types_for_user_types = db.Table('post_types_for_user_types',
+                                     db.Column('post_types', db.ForeignKey(
+                                         'post_types.id'), primary_key=True),
+                                     db.Column('user_types', db.ForeignKey('user_types.id'), primary_key=True))
+"""
+Represents a many-to-many join table between PostType and UserType where 
+one PostType can be posted by many UserTypes and one UserType can post 
+many PostTypes
+"""
+
+
 class UserType(db.Model):
     """
     Represents the different user types in Fuel Guru
@@ -174,6 +185,10 @@ class UserType(db.Model):
 
     users = db.relationship('User', backref='user_type')
     """SQLAlchemy relationship to get all users of a specifc type"""
+
+    allowed_post_types = db.relationship(
+        'PostType', secondary=post_types_for_user_types, backref='allowed_user_types', cascade='all, delete')
+    """SQLAlchemy relationship to get the post types this user type is allowed to make"""
 
     def __init__(self, user_type_name, is_admin, can_vote, id=None) -> None:
         self.user_type_name = user_type_name
