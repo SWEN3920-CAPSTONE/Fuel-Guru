@@ -90,6 +90,10 @@ class HandleUserTypesSchema(Schema):
     is_admin = fields.Boolean(required=True,
                               truthy={'true', 'TRUE', 'True'},
                               falsy={'FALSE', 'false', 'False'})
+    
+    can_vote = fields.Boolean(required=True,
+                              truthy={'true', 'TRUE', 'True'},
+                              falsy={'FALSE', 'false', 'False'})
 
 
 class EditUserSchema(Schema):
@@ -154,3 +158,8 @@ class EditUserSchema(Schema):
             data['password'] = password
 
         return data
+
+
+class PostVoteSchema(Schema):
+    
+    post_id = fields.Integer(strict=True)

@@ -12,6 +12,7 @@ import sys
 from datetime import timedelta, timezone
 
 from faker import Faker
+from sqlalchemy import inspect
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 from config import db
@@ -22,9 +23,9 @@ fake = Faker()
 
 # static types in the system
 USER_TYPES = [
-    UserType('Normal User', False),
-    UserType('Gas Station Manager', False),
-    UserType('System User', True)
+    UserType('Normal User', False, True),
+    UserType('Gas Station Manager', False, False),
+    UserType('System User', True, False)
 ]
 
 
@@ -73,12 +74,17 @@ users:list[User] = []
 posts:list[Post] = []
 gasstations:list[GasStation] = []
 
+db.session.autoflush=True
 # add the types if they dont exist in the db or fetch the type to get 
 # the ID if it does exist
 
 for i in range(len(USER_TYPES)):
     try:
-        db.session.add(USER_TYPES[i])
+        existing = UserType.query.filter(UserType.user_type_name == USER_TYPES[i].user_type_name).first()
+        if existing:
+            USER_TYPES[i].id = existing.id
+        db.session.merge(USER_TYPES[i])
+        db.session.flush()
         db.session.commit()
     except IntegrityError:
         db.session.rollback()
@@ -91,7 +97,10 @@ for i in range(len(USER_TYPES)):
     
 for i in range(len(POST_TYPES)):
     try:
-        db.session.add(POST_TYPES[i])
+        existing =PostType.query.filter(PostType.post_type_name == POST_TYPES[i].post_type_name).first()
+        if existing:
+            POST_TYPES[i].id = existing.id
+        db.session.merge(POST_TYPES[i])
         db.session.commit()
     except IntegrityError:
         db.session.rollback()
@@ -104,7 +113,10 @@ for i in range(len(POST_TYPES)):
 
 for i in range(len(GAS_TYPES)):
     try:
-        db.session.add(GAS_TYPES[i])
+        existing =GasType.query.filter(GasType.gas_type_name == GAS_TYPES[i].gas_type_name).first()
+        if existing:
+            GAS_TYPES[i].id = existing.id
+        db.session.merge(GAS_TYPES[i])
         db.session.commit()
     except IntegrityError:
         db.session.rollback()
@@ -117,7 +129,10 @@ for i in range(len(GAS_TYPES)):
     
 for i in range(len(AMENITY_TYPES)):
     try:
-        db.session.add(AMENITY_TYPES[i])
+        existing =AmenityType.query.filter(AmenityType.amenity_name == AMENITY_TYPES[i].amenity_name).first()
+        if existing:
+            AMENITY_TYPES[i].id = existing.id
+        db.session.merge(AMENITY_TYPES[i])
         db.session.commit()
     except IntegrityError:
         db.session.rollback()
@@ -150,6 +165,8 @@ while quota < SEED_COUNT:
         total += 1  
         quota += 1
         print(f'\r   {quota} users added', end='', flush=True)
+else:
+    print(f'\r   {quota} users added', end='', flush=True)
     
 longest = max(longest, len(f'   {quota} users added'))
 print('\r\N{check mark}')
@@ -180,6 +197,8 @@ while quota < SEED_COUNT:
         total += 1 
         quota += 1
         print(f'\r   {quota} gas stations added', end='', flush=True)
+else:
+    print(f'\r   {quota} gas stations added', end='', flush=True)
         
         
 print('\r\N{check mark}')
@@ -225,6 +244,9 @@ while i < SEED_COUNT:
             print(f'\r   {quota} posts added', end='', flush=True)
     else:
         i +=1
+else:
+    print(f'\r   {quota} posts added', end='', flush=True)
+    
 
 print('\r\N{check mark}')
 longest = max(longest, len(f'   {quota} posts added'))
@@ -285,6 +307,8 @@ while quota < len(posts):
         total += 1 
         quota += 1
         print(f'\r   {quota} post details added', end='', flush=True)
+else:
+    print(f'\r   {quota} post details added', end='', flush=True)
 
 print('\r\N{check mark}')
 longest = max(longest, len(f'   {quota} post details added'))
@@ -324,6 +348,8 @@ while i < len(posts):
             print(f'\r   {quota} upvotes added', end='', flush=True)
     else:
         i +=1
+else:
+    print(f'\r   {quota} upvotes added', end='', flush=True)
 
 print('\r\N{check mark}')
 longest = max(longest, len(f'   {quota} upvotes added'))
@@ -363,6 +389,8 @@ while i < len(posts):
             print(f'\r   {quota} downvotes added', end='', flush=True)
     else:
         i +=1
+else:
+    print(f'\r   {quota} downvotes added', end='', flush=True)
 
 print('\r\N{check mark}')
 longest = max(longest, len(f'   {quota} downvotes added'))
