@@ -4,6 +4,7 @@ import json
 from config import app, db
 from controller.routes.token import (admin_required, gen_access_refresh_token,
                                      token_required)
+from controller.utils import get_request_body
 from controller.validation.schemas import EditUserSchema, HandleUserTypesSchema
 from flask import Blueprint, g, jsonify, request
 from marshmallow import ValidationError
@@ -46,8 +47,7 @@ def edit_user():
         db.session.commit()
     if request.method == 'PUT':
         try:
-            data: dict = EditUserSchema().load(request.get_json(
-                force=True, silent=True) or request.form.to_dict())
+            data: dict = EditUserSchema().load(get_request_body())
             userdata = UserSchema().dump(g.current_user)
 
             # merge old user data and updated fields
@@ -69,13 +69,13 @@ def edit_user():
             return res, 200
 
         except IntegrityError as e:
-            return jsonify(error='Email address is already in use'),409
+            return jsonify(error='Email address is already in use'), 409
 
         except ValidationError as e:
             return jsonify(errors=e.messages), 400
-    
+
     else:
-        return jsonify(error='Method not allowed'),405
+        return jsonify(error='Method not allowed'), 405
 
 
 @user_api.route('/types', methods=['POST', 'PUT', 'GET'])
@@ -105,11 +105,11 @@ def user_types():
     if request.method == 'POST':
         try:
             # try to create a new user type
-            
-            # validate request body 
-            data = HandleUserTypesSchema(exclude=('id',)).load(request.get_json(
-                force=True, silent=True) or request.form.to_dict())
-            
+
+            # validate request body
+            data = HandleUserTypesSchema(
+                exclude=('id',)).load(get_request_body())
+
             utype = UserType(**data)
             db.session.add(utype)
             db.session.commit()
@@ -123,11 +123,10 @@ def user_types():
     elif request.method == 'PUT':
         try:
             # try to update the user type
-            
+
             # validate request body
-            data = HandleUserTypesSchema().load(request.get_json(
-                force=True, silent=True) or request.form.to_dict())
-            
+            data = HandleUserTypesSchema().load(get_request_body())
+
             utype = UserType(**data)
             db.session.merge(utype)
             db.session.commit()

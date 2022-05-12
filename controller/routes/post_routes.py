@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from config import app, db
 from controller.routes.token import admin_required, token_required
+from controller.utils import get_request_body
 from controller.validation.schemas import HandlePostSchema, HandlePostTypesSchema, PostVoteSchema
 from flask import Blueprint, g, jsonify, request
 from marshmallow import ValidationError
@@ -147,8 +148,7 @@ def posts():
     """
     if request.method == 'POST':
         try:
-            data = HandlePostSchema(context={'method': request.method}, exclude=('post_id',)).load(request.get_json(
-                force=True, silent=True) or request.form.to_dict())
+            data = HandlePostSchema(context={'method': request.method}, exclude=('post_id',)).load(get_request_body())
 
             post_type: PostType = PostType.query.get(data.get('post_type_id'))
 
@@ -169,8 +169,7 @@ def posts():
 
     if request.method == 'PUT':
         try:
-            data = HandlePostSchema(context={'method': request.method}, exclude=('gas_station_id', 'post_type_id')).load(request.get_json(
-                force=True, silent=True) or request.form.to_dict())
+            data = HandlePostSchema(context={'method': request.method}, exclude=('gas_station_id', 'post_type_id')).load(get_request_body())
 
             post: Post = Post.query.get(data.get('post_id'))
 
@@ -192,8 +191,7 @@ def posts():
 
     if request.method == 'DELETE':
         try:
-            data = HandlePostSchema(context={'method': request.method}, only=('post_id',)).load(request.get_json(
-            force=True, silent=True) or request.form.to_dict())
+            data = HandlePostSchema(context={'method': request.method}, only=('post_id',)).load(get_request_body())
         
             post: Post = Post.query.get(data.get('post_id'))
 
@@ -237,8 +235,7 @@ def _vote_on_post(success_msg, focus_attr, other_attr):
         return jsonify(error='This user is not allowed to vote on posts'), 403
 
     try:
-        data = PostVoteSchema().load(request.get_json(
-            force=True, silent=True) or request.form.to_dict())
+        data = PostVoteSchema().load(get_request_body())
 
         post: Post = Post.query.get(data.get('post_id'))
 
@@ -353,8 +350,7 @@ def post_types():
             # try to create a new post type
 
             # validate request body
-            data = HandlePostTypesSchema(exclude=('id',)).load(request.get_json(
-                force=True, silent=True) or request.form.to_dict())
+            data = HandlePostTypesSchema(exclude=('id',)).load(get_request_body())
 
             ptype = PostType(**data)
             db.session.add(ptype)
@@ -371,8 +367,7 @@ def post_types():
             # try to update the post type
 
             # validate request body
-            data = HandlePostTypesSchema().load(request.get_json(
-                force=True, silent=True) or request.form.to_dict())
+            data = HandlePostTypesSchema().load(get_request_body())
 
             ptype = PostType(**data)
             db.session.merge(ptype)

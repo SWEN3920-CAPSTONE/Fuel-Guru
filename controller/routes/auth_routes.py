@@ -2,13 +2,14 @@ from datetime import datetime
 from hashlib import sha256
 
 from config import app, csrf, db
-from controller.routes.token import (admin_required, gen_access_refresh_token,
-                                     token_required)
+from controller.routes.token import admin_required, gen_access_refresh_token, token_required
+from controller.utils import get_request_body
 from controller.validation.schemas import SigninSchema, SignupSchema
-from flask import Blueprint, g, jsonify, request
-from flask_jwt_extended import get_jwt
+from flask import Blueprint, jsonify, request, g
 from marshmallow import ValidationError
-from model import InvalidToken, User, UserType
+from model import User, UserType, InvalidToken
+
+from flask_jwt_extended import get_jwt
 
 auth = Blueprint('auth_api', __name__)
 
@@ -38,8 +39,7 @@ def signup():
     """
 
     try:
-        data = SignupSchema().load(request.get_json(
-            force=True, silent=True) or request.form.to_dict())
+        data = SignupSchema().load(get_request_body())
 
         # Not sure how safe this is security wise to tell them exactly what's
         # in use already but i think it would be a UX issue to leave it vague
@@ -107,8 +107,7 @@ def signin():
     """
 
     try:
-        data = SigninSchema().load(request.get_json(
-            silent=True, force=True) or request.form.to_dict())
+        data = SigninSchema().load(get_request_body())
 
         user: User = User.query.filter_by(username=data['iden']).first(
         ) or User.query.filter_by(email=data['iden']).first()
