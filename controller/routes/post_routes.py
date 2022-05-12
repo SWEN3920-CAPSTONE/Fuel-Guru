@@ -1,13 +1,20 @@
 from datetime import datetime, timedelta
+
 from config import app, db
 from controller.routes.token import admin_required, token_required
 from controller.utils import get_request_body
-from controller.validation.schemas import HandlePostSchema, HandlePostTypesSchema, PostVoteSchema
+from controller.validation.schemas import (HandlePostSchema,
+                                           HandlePostTypesSchema,
+                                           PostVoteSchema)
 from flask import Blueprint, g, jsonify, request
 from marshmallow import ValidationError
-from model import Post, GasStation, PostType, Comment, Review, Rating, GasPriceSuggestion, AmenityTag, AmenityType, GasType, Gas, Promotion
-from sqlalchemy.exc import SQLAlchemyError, IntegrityError
-from model.schemas import AmenityTagSchema, CommentSchema, GasPriceSuggestionSchema, PostSchema, PostTypeSchema, PromotionSchema, ReviewSchema
+from model import (AmenityTag, AmenityType, Comment, Gas, GasPriceSuggestion,
+                   GasStation, GasType, Post, PostType, Promotion, Rating,
+                   Review)
+from model.schemas import (AmenityTagSchema, GasPriceSuggestionSchema,
+                           PostSchema, PostTypeSchema, PromotionSchema,
+                           ReviewSchema)
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 posts_api = Blueprint('posts_api', __name__)
 
@@ -22,7 +29,7 @@ def _manage_post_by_type(post_type, data, post, is_edit=False):
         comment = Comment(review=rev, **details, edit=is_edit)
         db.session.add(comment)
         db.session.commit()
-        
+
         return ReviewSchema().dumps(rev)
 
     if post_type.post_type_name == 'Rating':
@@ -34,7 +41,7 @@ def _manage_post_by_type(post_type, data, post, is_edit=False):
         rating = Rating(review=rev, **details, edit=is_edit)
         db.session.add(rating)
         db.session.commit()
-        
+
         return ReviewSchema().dumps(rev)
 
     if post_type.post_type_name == 'Review':
@@ -49,7 +56,7 @@ def _manage_post_by_type(post_type, data, post, is_edit=False):
         db.session.add(rating)
         db.session.add(comment)
         db.session.commit()
-        
+
         return ReviewSchema().dumps(rev)
 
     if post_type.post_type_name == 'Amenity Tag':
@@ -62,7 +69,7 @@ def _manage_post_by_type(post_type, data, post, is_edit=False):
 
         db.session.add(amenity_tag)
         db.session.commit()
-        
+
         return AmenityTagSchema().dumps(amenity_tag)
 
     if post_type.post_type_name == 'Promotion':
@@ -73,7 +80,7 @@ def _manage_post_by_type(post_type, data, post, is_edit=False):
         promo = Promotion(post=post, **details, edit=is_edit)
         db.session.add(promo)
         db.session.commit()
-        
+
         return PromotionSchema().dumps(promo)
 
     if post_type.post_type_name == 'Gas Price Suggestion':
@@ -91,7 +98,7 @@ def _manage_post_by_type(post_type, data, post, is_edit=False):
         db.session.add(gas_post)
         db.session.add_all(gases)
         db.session.commit()
-        
+
         return GasPriceSuggestionSchema().dumps(gas_post)
 
 
@@ -148,7 +155,8 @@ def posts():
     """
     if request.method == 'POST':
         try:
-            data = HandlePostSchema(context={'method': request.method}, exclude=('post_id',)).load(get_request_body())
+            data = HandlePostSchema(context={'method': request.method}, exclude=(
+                'post_id',)).load(get_request_body())
 
             post_type: PostType = PostType.query.get(data.get('post_type_id'))
 
@@ -169,7 +177,8 @@ def posts():
 
     if request.method == 'PUT':
         try:
-            data = HandlePostSchema(context={'method': request.method}, exclude=('gas_station_id', 'post_type_id')).load(get_request_body())
+            data = HandlePostSchema(context={'method': request.method}, exclude=(
+                'gas_station_id', 'post_type_id')).load(get_request_body())
 
             post: Post = Post.query.get(data.get('post_id'))
 
@@ -191,8 +200,9 @@ def posts():
 
     if request.method == 'DELETE':
         try:
-            data = HandlePostSchema(context={'method': request.method}, only=('post_id',)).load(get_request_body())
-        
+            data = HandlePostSchema(context={'method': request.method}, only=(
+                'post_id',)).load(get_request_body())
+
             post: Post = Post.query.get(data.get('post_id'))
 
             if not post:
@@ -203,15 +213,16 @@ def posts():
 
             if (post.created_at + timedelta(minutes=30)) < datetime.utcnow():
                 return jsonify(error='The 30-minute modification window has passed for the specified post'), 405
-            
+
             post.deleted_at = datetime.utcnow()
             db.session.commit()
-            
-            return jsonify(message='The post was successfully deleted'),200
+
+            return jsonify(message='The post was successfully deleted'), 200
         except ValidationError as e:
             return jsonify(errors=e.messages), 400
     else:
-        return jsonify(error='method not allowed'),405
+        return jsonify(error='method not allowed'), 405
+
 
 def _vote_on_post(success_msg, focus_attr, other_attr):
     """
@@ -350,7 +361,8 @@ def post_types():
             # try to create a new post type
 
             # validate request body
-            data = HandlePostTypesSchema(exclude=('id',)).load(get_request_body())
+            data = HandlePostTypesSchema(
+                exclude=('id',)).load(get_request_body())
 
             ptype = PostType(**data)
             db.session.add(ptype)

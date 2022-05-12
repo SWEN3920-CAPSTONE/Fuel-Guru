@@ -1,11 +1,11 @@
 from datetime import datetime, timedelta
 from functools import wraps
-from uuid import uuid4
 from hashlib import sha256
+from uuid import uuid4
 
 import jwt
 from config import app
-from flask import abort, g, make_response, session
+from flask import abort, g, make_response
 from flask_jwt_extended import get_jwt, verify_jwt_in_request
 from flask_jwt_extended.exceptions import NoAuthorizationError
 from jwt import DecodeError, ExpiredSignatureError, InvalidSignatureError
