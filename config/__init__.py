@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
@@ -9,7 +10,7 @@ from flask_mail import Mail
 
 from .config import Config
 
-app = Flask('config')
+app = Flask('config', template_folder=os.path.abspath('controller/templates'))
 app.config.from_object(Config)
 
 db = SQLAlchemy(app)

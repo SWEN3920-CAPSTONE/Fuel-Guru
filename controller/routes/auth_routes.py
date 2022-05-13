@@ -1,15 +1,19 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from hashlib import sha256
+from uuid import uuid4
 
-from config import app, csrf, db
-from controller.routes.token import admin_required, gen_access_refresh_token, token_required
-from controller.utils import get_request_body
+import jwt
+from config import app, csrf, db, mail
+from controller.routes.token import gen_access_refresh_token, token_required
+from controller.utils import flash_errors, get_request_body
+from controller.validation.forms import ResetPassword
 from controller.validation.schemas import SigninSchema, SignupSchema
-from flask import Blueprint, jsonify, request, g
-from marshmallow import ValidationError
-from model import User, UserType, InvalidToken
-
+from flask import (Blueprint, flash, g, jsonify, render_template, request,
+                   url_for)
 from flask_jwt_extended import get_jwt
+from flask_mail import Message
+from marshmallow import ValidationError
+from model import InvalidToken, User, UserType
 
 auth_api = Blueprint('auth_api', __name__)
 
@@ -155,40 +159,109 @@ def refresh():
 def forgot_password():
     """
     Sends generated reset link to user email
-    
+
     Body:
         - email (str):
             The user's email to which the reset link will be sent
-    
+
     Returns:
         - 200 if successful
         - 401 if no user corresponding to the email exists or has been deleted
         - 500 if something else goes wrong
     """
+
+    data = get_request_body()
+
+    user = User.query.filter_by(email=data.get('email')).first()
+
+    if not user:
+        return jsonify(error='User does not exist'), 401
+
+    if user.deleted_at:
+        return jsonify(error='This user has been deleted'), 401
+
+    change = generate_reset_link(user)
+
+    ehtml = f"""
+    Hi {user.firstname} {user.lastname},
     
+    <br>
+    <br>We received a request to change your password.
+    
+    {change}
+    """
+
+    msg = Message('Fuel Guru Password Reset Request',
+                  recipients=[user.email], html=ehtml)
+
+    mail.send(msg)
+
+    return jsonify(message='Password reset email sent'), 200
 
 
-@auth_api.route('/resetpsswd/<token:str>', methods=['POST'])
+
+
+@auth_api.route('/resetpsswd/<string:token>', methods=['POST', 'GET'])
 def reset_user_password(token):
     """
     Sends generated reset link to user email
-    
+
     Args:
         token (str):
             The token in the link sent by the forgotpasswd route
-            
+
     Body:
         - password (str):
             The user's new password
-            
+
+        - conf_password (str):
+            The user's new password again
+
     Returns:
         - 200 if successful
         - 401 if the token is invalid due to malformation or expiry
         - 500 if something else goes wrong
     """
-    pass
+    form = ResetPassword()
+    try:
+        dtoken = jwt.decode(token, app.config.get(
+            'SECRET_KEY'), algorithms=['HS256'])
 
+    except jwt.ExpiredSignatureError as e:
+        return jsonify(error='The reset token has expired'), 401
 
+    except:
+        return jsonify(error='Something went wrong'), 401
+
+    if InvalidToken.query.get(dtoken.get('jti')):
+        return jsonify(error='Invalid reset token'), 401
+
+    user = User.query.get(dtoken.get('sub'))
+
+    if not user:
+        return jsonify(error='This user does not exist'), 401
+
+    if user.deleted_at:
+        return jsonify(error='This user has been deleted'), 401
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            if form.password.data != form.conf_password.data:
+                flash('The passwords do not match', 'error')
+            else:
+                user.password = form.password.data
+
+                inv_token = InvalidToken(dtoken.get(
+                    'jti'), datetime.fromtimestamp(dtoken.get('exp')))
+
+                db.session.add(inv_token)
+                db.session.commit()
+
+                return jsonify(message='Password reset success'), 200
+        else:
+            flash_errors(form)
+
+    return render_template('reset_password.html', form=form, token=token)
 
 
 def _is_valid_refresh_token(payload: dict):
@@ -227,5 +300,42 @@ def _is_valid_refresh_token(payload: dict):
 
     # if all checks passed, the token should be valid
     return True
+
+
+def generate_reset_link(user, html=True):
+    """
+    Generate a password reset link
+
+    Args:
+        user (User):
+            The user to generate the link for
+
+        html (bool):
+            True to return a section of html in as a string or the link by itself as a string
+
+    Returns:
+        str -> the change link or html with the change link
+    """
+
+    change_token = jwt.encode({
+        'type': 'reset',
+        'sub': user.id,
+        'jti': uuid4().hex,
+        'exp': datetime.utcnow() + timedelta(minutes=30)
+    }, key=app.config.get('SECRET_KEY'))
+
+    link = f"{request.root_url}/{url_for('auth_api.reset_user_password', token=change_token)}"
+
+    section = f"""
+    <br><br>You may change your password by using the link below:
+    <br><a href="{link}"> {link}</a>
+        
+    <br> This link will be valid for 30 minutes
+    
+    <br><br>If this was not done by you, you may ignore this email.
+    """
+
+    return section if html else link
+
 
 app.register_blueprint(auth_api, url_prefix='/auth')
