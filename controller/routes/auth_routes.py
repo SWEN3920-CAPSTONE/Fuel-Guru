@@ -11,12 +11,12 @@ from model import User, UserType, InvalidToken
 
 from flask_jwt_extended import get_jwt
 
-auth = Blueprint('auth_api', __name__)
+auth_api = Blueprint('auth_api', __name__)
 
 # TODO test
 
 
-@auth.route('/signup', methods=['POST'])
+@auth_api.route('/signup', methods=['POST'])
 @csrf.exempt
 def signup():
     """
@@ -61,30 +61,7 @@ def signup():
         return jsonify(errors=e.messages), 400
 
 
-@auth.route('/signup/manager', methods=['POST'])
-@admin_required
-def add_gasstation_manager():
-    """
-    Endpoint for specialised signup for gas station managers
-
-    Body:
-        - username (str)
-        - password (str)
-        - email (str)
-        - firstname (str)
-        - lastname (str)
-
-    Returns with message:
-        - 200 if successful and a JWT to be stored in the client-side
-        - 400 if the body sent with the request was malformed
-        - 401 if the user making the request is not logged in
-        - 403 if the user making the request is not authorized to
-        - 500 If the server failed to carry out the request 
-    """
-    pass
-
-
-@auth.route('/signin', methods=['POST'])
+@auth_api.route('/signin', methods=['POST'])
 @csrf.exempt
 def signin():
     """
@@ -127,7 +104,7 @@ def signin():
         return jsonify(errors=e.messages), 400
 
 
-@auth.route('/logout', methods=['POST'])
+@auth_api.route('/logout', methods=['POST'])
 @token_required
 def logout():
     """
@@ -153,7 +130,7 @@ def logout():
     return jsonify(message='User logged out successfully'), 200
 
 
-@auth.route('/refresh', methods=['POST'])
+@auth_api.route('/refresh', methods=['POST'])
 @token_required
 def refresh():
     """
@@ -172,6 +149,46 @@ def refresh():
     db.session.commit()
 
     return gen_access_refresh_token(g.current_user), 200
+
+
+@auth_api.route('/forgotpsswd', methods=['POST'])
+def forgot_password():
+    """
+    Sends generated reset link to user email
+    
+    Body:
+        - email (str):
+            The user's email to which the reset link will be sent
+    
+    Returns:
+        - 200 if successful
+        - 401 if no user corresponding to the email exists or has been deleted
+        - 500 if something else goes wrong
+    """
+    
+
+
+@auth_api.route('/resetpsswd/<token:str>', methods=['POST'])
+def reset_user_password(token):
+    """
+    Sends generated reset link to user email
+    
+    Args:
+        token (str):
+            The token in the link sent by the forgotpasswd route
+            
+    Body:
+        - password (str):
+            The user's new password
+            
+    Returns:
+        - 200 if successful
+        - 401 if the token is invalid due to malformation or expiry
+        - 500 if something else goes wrong
+    """
+    pass
+
+
 
 
 def _is_valid_refresh_token(payload: dict):
@@ -201,10 +218,14 @@ def _is_valid_refresh_token(payload: dict):
         'FuelGuru_Secure_Fgp', default='', type=str)
 
     if payload.get('fingerprint') != sha256(fingerprint_cookie.encode('utf-8')).hexdigest():
+        # assume attack attempt and black list
+        invalid_t = InvalidToken(payload.get(
+            'jti'), datetime.fromtimestamp(payload.get('exp')))
+        db.session.add(invalid_t)
+        db.session.commit()
         return False
 
     # if all checks passed, the token should be valid
     return True
 
-
-app.register_blueprint(auth, url_prefix='/auth')
+app.register_blueprint(auth_api, url_prefix='/auth')

@@ -526,6 +526,9 @@ class Rating(db.Model):
             tnow = datetime.utcnow()
             review.last_edited = tnow
             review.post.last_edited = tnow
+            if review.comment:
+                review.comment.last_edited = tnow
+                
         self.last_edited = review.last_edited
         self.rating_val = rating_val
         self.review = review
@@ -576,6 +579,9 @@ class Comment(db.Model):
             tnow = datetime.utcnow()
             review.last_edited = tnow
             review.post.last_edited = tnow
+            if review.rating:
+                review.rating.last_edited = tnow
+                
         self.last_edited = review.last_edited
         self.body = body
         self.review = review

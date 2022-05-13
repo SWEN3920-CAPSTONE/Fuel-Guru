@@ -1,19 +1,43 @@
 from datetime import datetime, timedelta
+
 from config import app, db
 from controller.routes.token import admin_required, token_required
 from controller.utils import get_request_body
-from controller.validation.schemas import HandlePostSchema, HandlePostTypesSchema, PostVoteSchema
+from controller.validation.schemas import (HandlePostSchema,
+                                           HandlePostTypesSchema,
+                                           PostVoteSchema)
 from flask import Blueprint, g, jsonify, request
 from marshmallow import ValidationError
-from model import Post, GasStation, PostType, Comment, Review, Rating, GasPriceSuggestion, AmenityTag, AmenityType, GasType, Gas, Promotion
-from sqlalchemy.exc import SQLAlchemyError, IntegrityError
-from model.schemas import AmenityTagSchema, CommentSchema, GasPriceSuggestionSchema, PostSchema, PostTypeSchema, PromotionSchema, ReviewSchema
+from model import (AmenityTag, AmenityType, Comment, Gas, GasPriceSuggestion,
+                   GasStation, GasType, Post, PostType, Promotion, Rating,
+                   Review)
+from model.schemas import (AmenityTagSchema, AmenityTypeSchema, GasPriceSuggestionSchema, GasTypeSchema,
+                           PostSchema, PostTypeSchema, PromotionSchema,
+                           ReviewSchema)
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 posts_api = Blueprint('posts_api', __name__)
 
 
-def _manage_post_by_type(post_type, data, post, is_edit=False):
-    if post_type.post_type_name == 'Comment':
+def _manage_post_by_type(data, post, is_edit=False):
+    """
+    Create or edit a post and its details
+    
+    Args:            
+        data (dict):
+            The data to be used to edit or create the post
+            
+        post (Post):
+            The new post to be adde to the database or the existing post to be edited
+            
+        is_edit (bool):
+            True if an existing post should be edited or False if a new post should be created
+    
+    Returns:
+        dict -> The serialized post    
+    """
+    
+    if post.post_type.post_type_name == 'Comment':
         details = data.get('comment')
         if not details:
             return jsonify(error='Comment body missing or malformed'), 400
@@ -22,10 +46,10 @@ def _manage_post_by_type(post_type, data, post, is_edit=False):
         comment = Comment(review=rev, **details, edit=is_edit)
         db.session.add(comment)
         db.session.commit()
-        
+
         return ReviewSchema().dumps(rev)
 
-    if post_type.post_type_name == 'Rating':
+    if post.post_type.post_type_name == 'Rating':
         details = data.get('rating')
         if not details:
             return jsonify(error='Rating value missing or malformed'), 400
@@ -34,10 +58,10 @@ def _manage_post_by_type(post_type, data, post, is_edit=False):
         rating = Rating(review=rev, **details, edit=is_edit)
         db.session.add(rating)
         db.session.commit()
-        
+
         return ReviewSchema().dumps(rev)
 
-    if post_type.post_type_name == 'Review':
+    if post.post_type.post_type_name == 'Review':
         details = data.get('review')
         if not details:
             return jsonify(error='Review missing or malformed'), 400
@@ -49,10 +73,10 @@ def _manage_post_by_type(post_type, data, post, is_edit=False):
         db.session.add(rating)
         db.session.add(comment)
         db.session.commit()
-        
+
         return ReviewSchema().dumps(rev)
 
-    if post_type.post_type_name == 'Amenity Tag':
+    if post.post_type.post_type_name == 'Amenity Tag':
         details = data.get('amenity_tag')
         if not details:
             return jsonify(error='Amenity id missing or malformed'), 400
@@ -62,10 +86,10 @@ def _manage_post_by_type(post_type, data, post, is_edit=False):
 
         db.session.add(amenity_tag)
         db.session.commit()
-        
+
         return AmenityTagSchema().dumps(amenity_tag)
 
-    if post_type.post_type_name == 'Promotion':
+    if post.post_type.post_type_name == 'Promotion':
         details = data.get('promotion')
         if not details:
             return jsonify(error='Promotion missing or malformed'), 400
@@ -73,10 +97,10 @@ def _manage_post_by_type(post_type, data, post, is_edit=False):
         promo = Promotion(post=post, **details, edit=is_edit)
         db.session.add(promo)
         db.session.commit()
-        
+
         return PromotionSchema().dumps(promo)
 
-    if post_type.post_type_name == 'Gas Price Suggestion':
+    if post.post_type.post_type_name == 'Gas Price Suggestion':
         details = data.get('gas_price_suggestion')
         if not details:
             return jsonify(error='Gas price suggestion missing or malformed'), 400
@@ -91,7 +115,7 @@ def _manage_post_by_type(post_type, data, post, is_edit=False):
         db.session.add(gas_post)
         db.session.add_all(gases)
         db.session.commit()
-        
+
         return GasPriceSuggestionSchema().dumps(gas_post)
 
 
@@ -146,9 +170,10 @@ def posts():
         - 405 if the user is trying to edit a post after the 30 minute window
         - 500 if the request failed on the server side
     """
-    if request.method == 'POST':
-        try:
-            data = HandlePostSchema(context={'method': request.method}, exclude=('post_id',)).load(get_request_body())
+    try:
+        if request.method == 'POST':
+            data = HandlePostSchema(context={'method': request.method}, exclude=(
+                'post_id',)).load(get_request_body())
 
             post_type: PostType = PostType.query.get(data.get('post_type_id'))
 
@@ -164,12 +189,9 @@ def posts():
 
             return jsonify(message='Post created successfully', data=resdata), 200
 
-        except ValidationError as e:
-            return jsonify(errors=e.messages), 400
-
-    if request.method == 'PUT':
-        try:
-            data = HandlePostSchema(context={'method': request.method}, exclude=('gas_station_id', 'post_type_id')).load(get_request_body())
+        if request.method == 'PUT':
+            data = HandlePostSchema(context={'method': request.method}, exclude=(
+                'gas_station_id', 'post_type_id')).load(get_request_body())
 
             post: Post = Post.query.get(data.get('post_id'))
 
@@ -186,13 +208,10 @@ def posts():
 
             return jsonify(message='The post has been updated successfully', data=resdata)
 
-        except ValidationError as e:
-            return jsonify(errors=e.messages), 400
+        if request.method == 'DELETE':
+            data = HandlePostSchema(context={'method': request.method}, only=(
+                'post_id',)).load(get_request_body())
 
-    if request.method == 'DELETE':
-        try:
-            data = HandlePostSchema(context={'method': request.method}, only=('post_id',)).load(get_request_body())
-        
             post: Post = Post.query.get(data.get('post_id'))
 
             if not post:
@@ -203,15 +222,18 @@ def posts():
 
             if (post.created_at + timedelta(minutes=30)) < datetime.utcnow():
                 return jsonify(error='The 30-minute modification window has passed for the specified post'), 405
-            
+
             post.deleted_at = datetime.utcnow()
             db.session.commit()
-            
-            return jsonify(message='The post was successfully deleted'),200
-        except ValidationError as e:
-            return jsonify(errors=e.messages), 400
-    else:
-        return jsonify(error='method not allowed'),405
+
+            return jsonify(message='The post was successfully deleted'), 200
+        
+        else:
+            return jsonify(error='method not allowed'), 405
+    
+    except ValidationError as e:
+        return jsonify(errors=e.messages), 400
+
 
 def _vote_on_post(success_msg, focus_attr, other_attr):
     """
@@ -316,74 +338,35 @@ def downvote():
     return _vote_on_post('Upvote toggled successfully', 'downvoters', 'upvoters')
 
 
-@posts_api.route('/types', methods=['POST', 'PUT', 'GET'])
-@admin_required
-def post_types():
+@posts_api.route('/amenities/types', methods=['GET'])
+@token_required
+def get_amenity_types():
     """
-    Endpoint for handling all post type operations
-
-    If method == POST:
-        Creates a post type based on the information sent
-    If method == GET:
-        Gets all post types
-    If method == PUT:
-        Updates a post type based on the information sent
-
-    Body for POST: 
-        - post_type_name (str)
-        - is_votable (bool)
-
-    Body for PUT:    
-        - post_type_name (str)
-        - is_votable (bool)
-        - id (int)
-
-    Returns with message:
-        - 200 if the request was successful
-        - 400 if the request body was malformed for the method
-        - 403 If the user making the request is not an admin
-        - 404 if the post type to be edited could not be found
-        - 500 if the server fails to carry out the request
+    Fetches all the amenity types in the database
     """
-    if request.method == 'POST':
-        try:
-            # try to create a new post type
+    data = AmenityTypeSchema(many=True).dump(AmenityType.query.all())
+    return jsonify(message='Fetch successful', data=data)
+    
+    
+@posts_api.route('/gas/types', methods=['GET'])
+@token_required
+def gas_types():
+    """
+    Fetches all the gas types in the database
+    """
+    data = GasTypeSchema(many=True).dump(GasType.query.all())
+    return jsonify(message='Fetch successful', data=data)
 
-            # validate request body
-            data = HandlePostTypesSchema(exclude=('id',)).load(get_request_body())
 
-            ptype = PostType(**data)
-            db.session.add(ptype)
-            db.session.commit()
-        except ValidationError as e:
-            return jsonify(errors=e.messages), 400
-        except IntegrityError:
-            return jsonify(error='This post type already exists'), 409
-
-        return jsonify(message='Post type added successfully'), 200
-
-    elif request.method == 'PUT':
-        try:
-            # try to update the post type
-
-            # validate request body
-            data = HandlePostTypesSchema().load(get_request_body())
-
-            ptype = PostType(**data)
-            db.session.merge(ptype)
-            db.session.commit()
-        except ValidationError as e:
-            return jsonify(errors=e.messages), 400
-
-        return jsonify(message='User type modified successfully'), 200
-
-    elif request.method == 'GET':
-        # get all the post types in the DB
-        data = PostTypeSchema(many=True).dump(PostType.query.all())
-        return jsonify(message='Fetch successful', data=data), 200
-
-    else:
-        return jsonify(error='method not allowed'), 405
+@posts_api.route('/types', methods=['GET'])
+@token_required
+def get_post_types():
+    """
+    Fetches all post types that is user is allowed to make
+    """
+    data = g.current_user.user_type.allowed_post_types
+    data = PostTypeSchema(many=True).dump(data)
+    return jsonify(message='Fetch successful', data=data)
 
 
 app.register_blueprint(posts_api, url_prefix='/posts')

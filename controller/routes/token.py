@@ -1,11 +1,11 @@
 from datetime import datetime, timedelta
 from functools import wraps
-from uuid import uuid4
 from hashlib import sha256
+from uuid import uuid4
 
 import jwt
 from config import app
-from flask import abort, g, make_response, session
+from flask import abort, g, make_response
 from flask_jwt_extended import get_jwt, verify_jwt_in_request
 from flask_jwt_extended.exceptions import NoAuthorizationError
 from jwt import DecodeError, ExpiredSignatureError, InvalidSignatureError
@@ -34,7 +34,8 @@ def gen_access_refresh_token(user: User):
         'sub': user.id,
         'jti': uuid4().hex,
         'type': 'refresh',
-        'fingerprint': sha256(fingerprint.encode('utf-8')).hexdigest(), # hash fingerprint
+        # hash fingerprint
+        'fingerprint': sha256(fingerprint.encode('utf-8')).hexdigest(),
         'iat': ctime,
         'exp': ctime + timedelta(**app.config.get('JWT_REFRESH_LIFESPAN')),
     }, app.config.get('SECRET_KEY'), algorithm="HS256")

@@ -8,27 +8,34 @@ class Config(object):
     """
     Environment variables configuration class.
     """
-    DEBUG = False
-    
-    SECRET_KEY = os.environ.get("SECRET_KEY") or 'se%^&!70DCRETk*y'
-    
+    SECRET_KEY = os.environ.get("SECRET_KEY", 'se%^&!70DCRETk*y')
+
     # SQLAlchemy variables
     SQLALCHEMY_DATABASE_URI = os.environ.get(
-        'DATABASE_URL') or 'postgresql://yourusername:yourpassword@localhost/databasename'
+        'DATABASE_URL', 'postgresql://yourusername:yourpassword@localhost/databasename')
 
     if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
         SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace(
             "postgres://", "postgresql://", 1)
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    
+
     # JWT variables
-    JWT_ACCESS_LIFESPAN = {'hours': 24} 
-    JWT_REFRESH_LIFESPAN = {'days': 30}
+    JWT_ACCESS_LIFESPAN = {os.environ.get('JWT_ACCESS_UNIT', 'minutes'): int(
+        os.environ.get('JWT_ACCESS_VAL', 5))}
+    JWT_REFRESH_LIFESPAN = {os.environ.get('JWT_REFRESH_UNIT', 'days'): int(
+        os.environ.get('JWT_REFRESH_VAL', 30))}
+
+    PORT = int(os.environ.get('PORT',9000))
+    HOST = os.environ.get('HOST', '0.0.0.0')
+
+    IS_DEV = os.environ.get('IS_DEV', 'False') == 'True'
     
-    PORT = os.environ.get('PORT')
-    HOST = os.environ.get('HOST')
     
-    IS_DEV = os.environ.get('IS_DEV')
-    DEBUG_ON = os.environ.get('DEBUG_ON')
-    
+    MAIL_SERVER=os.environ.get('MAIL_SERVER','localhost')    
+    MAIL_PORT= int(os.environ.get('MAIL_PORT',25))    
+    MAIL_USE_TLS= os.environ.get('MAIL_USE_TLS','False') == 'True'
+    MAIL_USE_SSL=os.environ.get('MAIL_USE_SSL','False') == 'True'
+    MAIL_USERNAME=os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD=os.environ.get('MAIL_PASSWORD')
+    MAIL_DEFAULT_SENDER=os.environ.get('MAIL_DEFAULT_SENDER')
