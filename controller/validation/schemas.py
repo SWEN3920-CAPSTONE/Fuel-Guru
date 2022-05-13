@@ -2,6 +2,15 @@ from flask import escape
 from marshmallow import Schema, post_load, validate, validates, ValidationError, fields, validates_schema
 
 
+class EscStr(fields.Str):
+
+    def _deserialize(self, value, attr, data, **kwargs):
+        return super()._deserialize(str(escape(value)), attr, data, **kwargs)
+
+    def _serialize(self, value, attr, obj, **kwargs):
+        return super()._serialize(str(escape(value)), attr, obj, **kwargs)
+
+
 class SignupSchema(Schema):
     """
     Schema to validate the data sent to the signup route for normal users
@@ -180,41 +189,29 @@ class HandlePostTypesSchema(Schema):
 class HandlePostSchema(Schema):
     # internal schemas
     class PostComment(Schema):
-        body = fields.Str(required=True, validate=[
-                          validate.Length(min=1, max=500)])
-
-        @validates('body')
-        def escape_body(self, val):
-            return str(escape(val))
+        body = EscStr(required=True, validate=[
+            validate.Length(min=1, max=500)])
 
     class PostRating(Schema):
         rating_val = fields.Integer(required=True, strict=True, validate=[
                                     validate.Range(min=1, max=5)])
 
     class PostPromotion(Schema):
-        desc = fields.Str(required=True, validate=[
-                          validate.Length(min=1, max=255)])
+        desc = EscStr(required=True, validate=[
+            validate.Length(min=1, max=255)])
 
         start_date = fields.DateTime(required=True)
 
         end_date = fields.DateTime(required=True)
 
-        image = fields.Str()
-
-        @validates('desc')
-        def escape_desc(self, val):
-            return str(escape(val))
+        image = EscStr()
 
     class PostReview(Schema):
         rating_val = fields.Integer(required=True, strict=True, validate=[
                                     validate.Range(min=1, max=5)])
 
-        body = fields.Str(required=True, validate=[
-                          validate.Length(min=1, max=500)])
-
-        @validates('body')
-        def escape_body(self, val):
-            return str(escape(val))
+        body = EscStr(required=True, validate=[
+            validate.Length(min=1, max=500)])
 
     class PostAmenity(Schema):
         amenity_id = fields.Int(required=True, strict=True)
@@ -223,13 +220,13 @@ class HandlePostSchema(Schema):
         class PostGas(Schema):
             gas_type_id = fields.Int(required=True, strict=True)
 
-            price = fields.Float(required=True, allow_nan=False, validate=[
-                                 validate.Range(min=1)])
+            price = fields.Decimal(required=True, allow_nan=False, validate=[
+                validate.Range(min=1)])
 
         gases = fields.Nested(PostGas, many=True, required=True)
-        
+
         @validates('gases')
-        def at_least_one_gas(self,val):
+        def at_least_one_gas(self, val, **kwargs):
             if len(val) >= 1:
                 return val
             else:
@@ -280,15 +277,57 @@ class HandlePostSchema(Schema):
                 if not single_post:
                     raise ValidationError(
                         'Only one type of post\'s data should be provided')
-                    
+
                 return True
-            
+
             if not some_posts and (self.context.get('method') == 'POST' or self.context.get('method') == 'PUT'):
-                raise ValidationError('Post details should be sent in a POST or PUT method')
+                raise ValidationError(
+                    'Post details should be sent in a POST or PUT method')
 
             if some_posts and self.context.get('method') == 'DELETE':
-                raise ValidationError('No post details should be included in a delete request')
-            
+                raise ValidationError(
+                    'No post details should be included in a delete request')
+
             return True
         else:
             raise ValidationError('No data provided')
+
+
+class HandleGasTypesSchema(Schema):
+    id = fields.Int(required=True, strict=True)
+
+    gas_type_name = EscStr(required=True, validate=[
+        validate.Length(min=1, max=255)])
+
+
+class HandleAmenityTypesSchema(Schema):
+    id = fields.Int(required=True, strict=True)
+
+    amenity_name = EscStr(required=True, validate=[
+        validate.Length(min=1, max=255)])
+
+
+class HandleGasStationsSchema(Schema):
+    id = fields.Int(required=True, strict=True)
+
+    name = EscStr(required=True, validate=[validate.Length(min=1, max=255)])
+
+    address = EscStr(required=True, validate=[
+        validate.Length(min=1, max=255)])
+
+    lat = fields.Decimal(required=True)
+
+    lng = fields.Decimal(required=True)
+
+    image = EscStr()
+
+    manager_id = fields.Int(strict=True)
+
+    @validates_schema
+    def at_least_one_field(self, data, **kwargs):
+        if self.partial:
+            data_provided = data.get('address') or data.get('lat') or data.get(
+                'lng') or data.get('image') or data.get('manager_id') or data.get('name')
+
+            return bool(data_provided) and bool(data.get('id'))
+        return True

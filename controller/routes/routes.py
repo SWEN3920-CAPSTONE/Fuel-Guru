@@ -1,4 +1,4 @@
-from config import app
+from config import app, db
 from flask import jsonify, make_response
 from flask_wtf.csrf import generate_csrf
 from werkzeug.exceptions import HTTPException
@@ -22,4 +22,5 @@ def http_error(err: HTTPException):
 
 @app.errorhandler(SQLAlchemyError)
 def sqlalchemy_error(err: SQLAlchemyError):
+    db.session.rollback()
     return jsonify(error=f'Database error: {str(err)} with code {err.code}'), 500
