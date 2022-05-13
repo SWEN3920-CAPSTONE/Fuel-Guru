@@ -151,6 +151,46 @@ def refresh():
     return gen_access_refresh_token(g.current_user), 200
 
 
+@auth_api.route('/forgotpsswd', methods=['POST'])
+def forgot_password():
+    """
+    Sends generated reset link to user email
+    
+    Body:
+        - email (str):
+            The user's email to which the reset link will be sent
+    
+    Returns:
+        - 200 if successful
+        - 401 if no user corresponding to the email exists or has been deleted
+        - 500 if something else goes wrong
+    """
+    
+
+
+@auth_api.route('/resetpsswd/<token:str>', methods=['POST'])
+def reset_user_password(token):
+    """
+    Sends generated reset link to user email
+    
+    Args:
+        token (str):
+            The token in the link sent by the forgotpasswd route
+            
+    Body:
+        - password (str):
+            The user's new password
+            
+    Returns:
+        - 200 if successful
+        - 401 if the token is invalid due to malformation or expiry
+        - 500 if something else goes wrong
+    """
+    pass
+
+
+
+
 def _is_valid_refresh_token(payload: dict):
     """
     Validates a Refresh token based on the structure, token blacklist 
@@ -187,6 +227,5 @@ def _is_valid_refresh_token(payload: dict):
 
     # if all checks passed, the token should be valid
     return True
-
 
 app.register_blueprint(auth_api, url_prefix='/auth')

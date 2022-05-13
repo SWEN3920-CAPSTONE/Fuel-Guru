@@ -259,8 +259,8 @@ def add_gasstation_manager():
         <b>email: {manager.email}
         
         You may change your password by using the link below:
-        <a href="{request.root_url}/resetpwd/{change_token}"> 
-            {request.root_url}/resetpwd/{change_token}</a>
+        <a href="{request.root_url}auth/resetpwd/{change_token}"> 
+            {request.root_url}auth/resetpwd/{change_token}</a>
             
         If this was not done by you, you may ignore this email.
         """
