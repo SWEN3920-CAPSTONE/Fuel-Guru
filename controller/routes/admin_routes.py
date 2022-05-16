@@ -3,10 +3,11 @@ from uuid import uuid4
 
 import jwt
 from config import app, db, mail
+from controller.routes.auth_routes import generate_reset_link
 from controller.routes.token import admin_required
 from controller.utils import get_request_body
 from controller.validation.schemas import HandleAmenityTypesSchema, HandleGasStationsSchema, HandleGasTypesSchema, HandlePostTypesSchema, HandleUserTypesSchema, SignupSchema
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, url_for
 from marshmallow import ValidationError
 from model import PostType, UserType
 from model.gasstation import GasStation
@@ -245,31 +246,25 @@ def add_gasstation_manager():
         db.session.add(manager)
         db.session.commit()
 
-        change_token = jwt.encode({
-            'sub': manager.id,
-            'jti': uuid4().hex,
-            'exp': datetime.utcnow() + timedelta(minutes=30)
-        }, key=app.config.get('SECRET_KEY'))
+        change_link = generate_reset_link(manager)
 
+        # very basic, no styling lol
         ehtml = f"""
         Welcome to Fuel Guru {manager.firstname} {manager.lastname}. 
-        <b> You have been added as a gas station manager.
+        <br> You have been added as a gas station manager.
+        <br>
         
-        <b>username: {manager.username}
-        <b>email: {manager.email}
+        <br>username: {manager.username}
+        <br>email: {manager.email}
         
-        You may change your password by using the link below:
-        <a href="{request.root_url}auth/resetpwd/{change_token}"> 
-            {request.root_url}auth/resetpwd/{change_token}</a>
-            
-        If this was not done by you, you may ignore this email.
+        {change_link}        
         """
 
         msg = Message('Welcome to FuelGuru', recipients=[
-                      manager.email], html=ehtml)
+                      manager.email],html = ehtml)
 
-        # doesnt work since we dont actually have a mail server
-        # mail.send(msg)
+        # using gmail to send
+        mail.send(msg)
 
         return jsonify(message='Add gas station manager success'), 200
 
