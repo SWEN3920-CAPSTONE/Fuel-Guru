@@ -14,6 +14,7 @@ from flask_jwt_extended import get_jwt
 from flask_mail import Message
 from marshmallow import ValidationError
 from model import InvalidToken, User, UserType
+from model.schemas import UserSchema
 
 auth_api = Blueprint('auth_api', __name__)
 
@@ -101,7 +102,7 @@ def signin():
             if user.check_password(data['password']):
                 # Generate the JWT Token
                 return gen_access_refresh_token(user), 200
-
+        
         return jsonify(
             error='Incorrect username or email and password combination'), 401
     except ValidationError as e:
@@ -330,7 +331,7 @@ def generate_reset_link(user, html=True):
     <br><br>You may change your password by using the link below:
     <br><a href="{link}"> {link}</a>
         
-    <br> This link will be valid for 30 minutes
+    <br><br> This link will be valid for 30 minutes
     
     <br><br>If this was not done by you, you may ignore this email.
     """
