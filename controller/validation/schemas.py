@@ -255,24 +255,27 @@ class HandlePostSchema(Schema):
     @validates_schema
     def validate_post_data(self, data: dict, **kwargs):
         # check if some data has been provided
-        some_posts = data.get('promotion') or data.get(
-            'rating') or data.get('review')
-        some_posts = some_posts or data.get(
-            'amenity_tag') or data.get('gas_price_suggestion')
-        some_posts = some_posts or data.get('comment')
+        some_posts = data.get('promotion')\
+            or data.get('rating')\
+            or data.get('review')\
+            or data.get('amenity_tag')\
+            or data.get('gas_price_suggestion')\
+            or data.get('comment')
 
-        data_provided = data.get('post_id') or data.get(
-            'gas_station_id')
-        data_provided = data_provided or data.get(
-            'post_type_id') or some_posts
+        data_provided = data.get('post_id') \
+            or data.get('gas_station_id')\
+            or data.get('post_type_id') \
+            or some_posts
 
         if data_provided:
             if some_posts and (self.context.get('method') == 'POST' or self.context.get('method') == 'PUT'):
                 # xor the posts
-                single_post = bool(data.get('promotion')) ^ bool(
-                    data.get('comment')) ^ bool(data.get('gas_price_suggestion'))
-                single_post = single_post ^ bool(data.get('review')) ^ bool(
-                    data.get('rating')) ^ bool(data.get('amenity_tag'))
+                single_post = bool(data.get('promotion'))\
+                    ^ bool(data.get('comment')) \
+                    ^ bool(data.get('gas_price_suggestion'))\
+                    ^ bool(data.get('review'))\
+                    ^ bool(data.get('rating'))\
+                    ^ bool(data.get('amenity_tag'))
 
                 if not single_post:
                     raise ValidationError(
@@ -326,8 +329,40 @@ class HandleGasStationsSchema(Schema):
     @validates_schema
     def at_least_one_field(self, data, **kwargs):
         if self.partial:
-            data_provided = data.get('address') or data.get('lat') or data.get(
-                'lng') or data.get('image') or data.get('manager_id') or data.get('name')
+            data_provided = data.get('address') \
+                or data.get('lat') \
+                or data.get('lng') \
+                or data.get('image') \
+                or data.get('manager_id') \
+                or data.get('name')
 
-            return bool(data_provided) and bool(data.get('id'))
+            if bool(data_provided) and bool(data.get('id')):
+                return True
+            else:
+                raise ValidationError(
+                    'Data for at least one field other than id must be provided')
         return True
+
+
+class GasStationSearchSchema(Schema):
+    name = EscStr(validate=[
+        validate.Length(min=1, max=255)])
+
+    cheapest = fields.Bool(truthy={'true', 'TRUE', 'True'},
+                           falsy={'FALSE', 'false', 'False'}, load_default=False)
+
+    nearest = fields.Bool(truthy={'true', 'TRUE', 'True'},
+                          falsy={'FALSE', 'false', 'False'}, load_default=False)
+    
+    lat = fields.Float()
+    
+    lng = fields.Float()    
+
+    @validates_schema
+    def at_least_one_field(self, data, **kwargs):            
+        if data.get('nearest'):
+            if not (bool(data.get('lat')) and bool(data.get('lng'))):
+                raise ValidationError('Lat and lng must be provided if nearest is true', field_name='nearest')
+        
+        return True
+    

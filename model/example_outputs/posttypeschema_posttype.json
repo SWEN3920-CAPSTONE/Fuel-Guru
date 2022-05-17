@@ -1,0 +1,18 @@
+[
+	{
+		"id": 356,
+		"allowed_user_types": [
+			1491
+		],
+		"post_type_name": "Comment",
+		"is_votable": true
+	},
+	{
+		"id": 357,
+		"allowed_user_types": [
+			1491
+		],
+		"post_type_name": "Rating",
+		"is_votable": false
+	}
+]

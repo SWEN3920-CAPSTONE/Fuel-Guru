@@ -1,20 +1,18 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 from hashlib import sha256
-from uuid import uuid4
 
 import jwt
 from config import app, csrf, db, mail
 from controller.routes.token import gen_access_refresh_token, token_required
-from controller.utils import flash_errors, get_request_body
+from controller.utils import flash_errors, get_request_body, generate_reset_link
 from controller.validation.forms import ResetPassword
 from controller.validation.schemas import SigninSchema, SignupSchema
-from flask import (Blueprint, flash, g, jsonify, render_template, request,
-                   url_for)
+from flask import (Blueprint, flash, g, jsonify, render_template, request)
 from flask_jwt_extended import get_jwt
 from flask_mail import Message
 from marshmallow import ValidationError
-from model import InvalidToken, User, UserType
-from model.schemas import UserSchema
+from model.users import User, UserType
+from model.invalid_tokens import InvalidToken
 
 auth_api = Blueprint('auth_api', __name__)
 
@@ -301,42 +299,6 @@ def _is_valid_refresh_token(payload: dict):
 
     # if all checks passed, the token should be valid
     return True
-
-
-def generate_reset_link(user, html=True):
-    """
-    Generate a password reset link
-
-    Args:
-        user (User):
-            The user to generate the link for
-
-        html (bool):
-            True to return a section of html in as a string or the link by itself as a string
-
-    Returns:
-        str -> the change link or html with the change link
-    """
-
-    change_token = jwt.encode({
-        'type': 'reset',
-        'sub': user.id,
-        'jti': uuid4().hex,
-        'exp': datetime.utcnow() + timedelta(minutes=30)
-    }, key=app.config.get('SECRET_KEY'))
-
-    link = f"{request.root_url}/{url_for('auth_api.reset_user_password', token=change_token)}"
-
-    section = f"""
-    <br><br>You may change your password by using the link below:
-    <br><a href="{link}"> {link}</a>
-        
-    <br><br> This link will be valid for 30 minutes
-    
-    <br><br>If this was not done by you, you may ignore this email.
-    """
-
-    return section if html else link
 
 
 app.register_blueprint(auth_api, url_prefix='/auth')

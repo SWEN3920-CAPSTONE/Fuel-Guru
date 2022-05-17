@@ -1,8 +1,9 @@
 from datetime import datetime
-from sqlalchemy import ForeignKeyConstraint
-from config import db
-from sqlalchemy.ext.hybrid import hybrid_property
 
+from config import db
+from sqlalchemy import ForeignKeyConstraint, func, select, text
+from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.orm import aliased
 
 # Many-to-many join tables
 
@@ -25,6 +26,7 @@ one Post can be downvoted by many Users and one User can downvote many Posts
 """
 
 # Regular tables
+
 
 class Post(db.Model):
     """
@@ -106,6 +108,8 @@ class Post(db.Model):
 
     post_type = db.relationship('PostType', backref='posts')
 
+    gas_station = db.relationship('GasStation', backref='all_posts')
+
     def __init__(self, gas_station, post_type, creator, deleted_at=None) -> None:
         self.creator = creator
         self.deleted_at = deleted_at
@@ -121,9 +125,31 @@ class Post(db.Model):
     def upvote_count(self):
         return len(self.upvoters)
 
+    @upvote_count.expression
+    def upvote_count(cls):
+        return select(func.count(upvoted_posts.c.posts).label('upvs'), upvoted_posts.c.posts.label('upid')).where(upvoted_posts.c.posts == cls.id).group_by(upvoted_posts.c.posts).label('upvote_count')
+
     @hybrid_property
     def downvote_count(self):
         return len(self.downvoters)
+
+    @downvote_count.expression
+    def downvote_count(cls):
+        return select(func.count(downvoted_posts.c.posts).label('downvs'), downvoted_posts.c.posts.label('downid')).where(downvoted_posts.c.posts == cls.id).group_by(downvoted_posts.c.posts).label('downvote_count')
+
+    @hybrid_property
+    def net_votes(self):
+        return self.upvote_count - self.downvote_count
+
+    @net_votes.expression
+    def net_votes(cls):
+        dwn = aliased(select(func.count(downvoted_posts.c.posts).label('downvs'), downvoted_posts.c.posts.label('downid')).where(
+            downvoted_posts.c.posts == cls.id).group_by(downvoted_posts.c.posts).subquery(), name='downvote_count')
+
+        upv = aliased(select(func.count(upvoted_posts.c.posts).label('upvs'), upvoted_posts.c.posts.label('upid')).where(
+            upvoted_posts.c.posts == cls.id).group_by(upvoted_posts.c.posts).subquery(), name='upvote_count')
+
+        return select(text('coalesce(upvote_count.upvs,0) - coalesce(downvote_count.downvs,0) as net_v, upvote_count.upid as vid')).select_from(dwn.join(upv, text('downvote_count.downid = upvote_count.upid'), full=True)).label('net_votes')
 
 
 class PostType(db.Model):
@@ -528,7 +554,7 @@ class Rating(db.Model):
             review.post.last_edited = tnow
             if review.comment:
                 review.comment.last_edited = tnow
-                
+
         self.last_edited = review.last_edited
         self.rating_val = rating_val
         self.review = review
@@ -581,7 +607,7 @@ class Comment(db.Model):
             review.post.last_edited = tnow
             if review.rating:
                 review.rating.last_edited = tnow
-                
+
         self.last_edited = review.last_edited
         self.body = body
         self.review = review

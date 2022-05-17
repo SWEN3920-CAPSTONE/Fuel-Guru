@@ -1,20 +1,19 @@
 from datetime import datetime, timedelta
 
 from config import app, db
-from controller.routes.token import admin_required, token_required
+from controller.routes.token import token_required
 from controller.utils import get_request_body
-from controller.validation.schemas import (HandlePostSchema,
-                                           HandlePostTypesSchema,
-                                           PostVoteSchema)
+from controller.validation.schemas import HandlePostSchema, PostVoteSchema
 from flask import Blueprint, g, jsonify, request
 from marshmallow import ValidationError
-from model import (AmenityTag, AmenityType, Comment, Gas, GasPriceSuggestion,
-                   GasStation, GasType, Post, PostType, Promotion, Rating,
-                   Review)
-from model.schemas import (AmenityTagSchema, AmenityTypeSchema, GasPriceSuggestionSchema, GasTypeSchema,
-                           PostSchema, PostTypeSchema, PromotionSchema,
-                           ReviewSchema)
-from sqlalchemy.exc import IntegrityError, SQLAlchemyError
+from model.gasstation import GasStation
+from model.posts import (AmenityTag, AmenityType, Comment, Gas,
+                         GasPriceSuggestion, GasType, Post, PostType,
+                         Promotion, Rating, Review)
+from model.schemas import (AmenityTagSchema, AmenityTypeSchema,
+                           GasPriceSuggestionSchema, GasTypeSchema, PostSchema,
+                           PostTypeSchema, PromotionSchema, ReviewSchema)
+from sqlalchemy.exc import SQLAlchemyError
 
 posts_api = Blueprint('posts_api', __name__)
 
