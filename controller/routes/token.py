@@ -9,7 +9,7 @@ from flask import abort, g, make_response
 from flask_jwt_extended import get_jwt, verify_jwt_in_request
 from flask_jwt_extended.exceptions import NoAuthorizationError
 from jwt import DecodeError, ExpiredSignatureError, InvalidSignatureError
-from model import User
+from model.users import User
 
 
 def gen_access_refresh_token(user: User):
