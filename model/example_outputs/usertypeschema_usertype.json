@@ -1,0 +1,43 @@
+[
+	{
+		"user_type_name": "Gas Station Manager",
+		"id": 1492,
+		"is_admin": false,
+		"allowed_post_types": [
+			{
+				"id": 359,
+				"post_type_name": "Promotion",
+				"is_votable": false
+			},
+			{
+				"id": 360,
+				"post_type_name": "Gas Price Suggestion",
+				"is_votable": true
+			},
+			{
+				"id": 361,
+				"post_type_name": "Amenity Tag",
+				"is_votable": true
+			}
+		],
+		"can_vote": false
+	},
+	{
+		"user_type_name": "System User",
+		"id": 1493,
+		"is_admin": true,
+		"allowed_post_types": [
+			{
+				"id": 360,
+				"post_type_name": "Gas Price Suggestion",
+				"is_votable": true
+			},
+			{
+				"id": 361,
+				"post_type_name": "Amenity Tag",
+				"is_votable": true
+			}
+		],
+		"can_vote": false
+	}
+]

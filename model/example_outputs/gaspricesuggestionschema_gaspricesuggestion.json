@@ -1,0 +1,3365 @@
+[
+	{
+		"id": 8191,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:15.066759",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 626,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 49,
+			"deleted_at": null,
+			"username": "hendersonthomas",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:15.066759"
+	},
+	{
+		"id": 8214,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:15.205080",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 628,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 47,
+			"deleted_at": null,
+			"username": "kelseysanders",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:15.205080"
+	},
+	{
+		"id": 8229,
+		"gases": [
+			{
+				"id": 921,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 11592302.597267
+			}
+		],
+		"last_edited": "2022-05-01T23:18:15.294146",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 629,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 47,
+			"deleted_at": null,
+			"username": "walkererika",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:15.294146"
+	},
+	{
+		"id": 8245,
+		"gases": [
+			{
+				"id": 922,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 3493197026.43976
+			},
+			{
+				"id": 923,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 86756724756069.1
+			}
+		],
+		"last_edited": "2022-05-01T23:18:15.383166",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 629,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 43,
+			"deleted_at": null,
+			"username": "stephen99",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:15.383166"
+	},
+	{
+		"id": 8246,
+		"gases": [
+			{
+				"id": 924,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 3690223.48028
+			},
+			{
+				"id": 925,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 64.4524232890643
+			}
+		],
+		"last_edited": "2022-05-01T23:18:15.390162",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 629,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 45,
+			"deleted_at": null,
+			"username": "lindabrown",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:15.390162"
+	},
+	{
+		"id": 8262,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:15.475756",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 630,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 51,
+			"deleted_at": null,
+			"username": "ayalarenee",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:15.475756"
+	},
+	{
+		"id": 8267,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:15.506751",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 630,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 42,
+			"deleted_at": null,
+			"username": "amcgrath",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:15.506751"
+	},
+	{
+		"id": 8273,
+		"gases": [
+			{
+				"id": 926,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 38860.8923613973
+			},
+			{
+				"id": 927,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 563.234298493208
+			}
+		],
+		"last_edited": "2022-05-01T23:18:15.542771",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 631,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 50,
+			"deleted_at": null,
+			"username": "alejandrowatson",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:15.542771"
+	},
+	{
+		"id": 8274,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:15.549770",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 631,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 40,
+			"deleted_at": null,
+			"username": "iparker",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:15.549770"
+	},
+	{
+		"id": 8277,
+		"gases": [
+			{
+				"id": 928,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 26641.578561043
+			},
+			{
+				"id": 929,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 918217580827.512
+			}
+		],
+		"last_edited": "2022-05-01T23:18:15.564922",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 631,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 59,
+			"deleted_at": null,
+			"username": "angela06",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:15.564922"
+	},
+	{
+		"id": 8283,
+		"gases": [
+			{
+				"id": 930,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 34027425158736.9
+			}
+		],
+		"last_edited": "2022-05-01T23:18:15.598774",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 631,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 43,
+			"deleted_at": null,
+			"username": "stephen99",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:15.598774"
+	},
+	{
+		"id": 8292,
+		"gases": [
+			{
+				"id": 931,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 17933.7436578283
+			},
+			{
+				"id": 932,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 73074089915537.9
+			}
+		],
+		"last_edited": "2022-05-01T23:18:15.652808",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 631,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 40,
+			"deleted_at": null,
+			"username": "iparker",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:15.652808"
+	},
+	{
+		"id": 8300,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:15.699821",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 631,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 50,
+			"deleted_at": null,
+			"username": "coffeyjames",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:15.699821"
+	},
+	{
+		"id": 8313,
+		"gases": [
+			{
+				"id": 933,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 82379565.9629685
+			},
+			{
+				"id": 934,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 7562389934.32169
+			}
+		],
+		"last_edited": "2022-05-01T23:18:15.775846",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 631,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 54,
+			"deleted_at": null,
+			"username": "johnwest",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:15.775846"
+	},
+	{
+		"id": 8316,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:15.792849",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 631,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 43,
+			"deleted_at": null,
+			"username": "kennethwashington",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:15.792849"
+	},
+	{
+		"id": 8325,
+		"gases": [
+			{
+				"id": 935,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 724726865967.554
+			},
+			{
+				"id": 936,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 24555649642545.1
+			}
+		],
+		"last_edited": "2022-05-01T23:18:15.851284",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 631,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 45,
+			"deleted_at": null,
+			"username": "lindabrown",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:15.851284"
+	},
+	{
+		"id": 8348,
+		"gases": [
+			{
+				"id": 937,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 2742301.41517898
+			},
+			{
+				"id": 938,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 588.91381644544
+			}
+		],
+		"last_edited": "2022-05-01T23:18:15.996599",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 632,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 47,
+			"deleted_at": null,
+			"username": "kelseysanders",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:15.996599"
+	},
+	{
+		"id": 8375,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:16.177306",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 632,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 50,
+			"deleted_at": null,
+			"username": "alejandrowatson",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:16.177306"
+	},
+	{
+		"id": 8384,
+		"gases": [
+			{
+				"id": 939,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 5975.4000054205
+			}
+		],
+		"last_edited": "2022-05-01T23:18:16.236313",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 632,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 47,
+			"deleted_at": null,
+			"username": "kelseysanders",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:16.236313"
+	},
+	{
+		"id": 8393,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:16.293326",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 632,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 49,
+			"deleted_at": null,
+			"username": "hendersonthomas",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:16.293326"
+	},
+	{
+		"id": 8399,
+		"gases": [
+			{
+				"id": 940,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 865178880222.1
+			},
+			{
+				"id": 941,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 41726.148616204
+			}
+		],
+		"last_edited": "2022-05-01T23:18:16.332343",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 632,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 43,
+			"deleted_at": null,
+			"username": "stephen99",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:16.332343"
+	},
+	{
+		"id": 8408,
+		"gases": [
+			{
+				"id": 942,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 4198690793.65202
+			}
+		],
+		"last_edited": "2022-05-01T23:18:16.392491",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 632,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1492,
+				"user_type_name": "Gas Station Manager",
+				"can_vote": false,
+				"is_admin": false
+			},
+			"post_count": 4,
+			"deleted_at": null,
+			"username": "scott93",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:16.392491"
+	},
+	{
+		"id": 8419,
+		"gases": [
+			{
+				"id": 943,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 534920.820087424
+			},
+			{
+				"id": 944,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 6866452.10584465
+			}
+		],
+		"last_edited": "2022-05-01T23:18:16.459629",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 632,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 45,
+			"deleted_at": null,
+			"username": "lindabrown",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:16.459629"
+	},
+	{
+		"id": 8421,
+		"gases": [
+			{
+				"id": 945,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 9170877951.46087
+			},
+			{
+				"id": 946,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 8218.52405562098
+			}
+		],
+		"last_edited": "2022-05-01T23:18:16.474631",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 633,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 52,
+			"deleted_at": null,
+			"username": "jacksonwesley",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:16.474631"
+	},
+	{
+		"id": 8438,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:16.573849",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 633,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 31,
+			"deleted_at": null,
+			"username": "sydney26",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:16.573849"
+	},
+	{
+		"id": 8447,
+		"gases": [
+			{
+				"id": 947,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 739825912.55368
+			},
+			{
+				"id": 948,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 6477649939600.36
+			}
+		],
+		"last_edited": "2022-05-01T23:18:16.633853",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 633,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 50,
+			"deleted_at": null,
+			"username": "coffeyjames",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:16.633853"
+	},
+	{
+		"id": 8449,
+		"gases": [
+			{
+				"id": 949,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 6304603447880.63
+			}
+		],
+		"last_edited": "2022-05-01T23:18:16.645856",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 633,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 50,
+			"deleted_at": null,
+			"username": "coffeyjames",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:16.645856"
+	},
+	{
+		"id": 8456,
+		"gases": [
+			{
+				"id": 950,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 91.8860487048756
+			}
+		],
+		"last_edited": "2022-05-01T23:18:16.685862",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 634,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 45,
+			"deleted_at": null,
+			"username": "jerry25",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:16.685862"
+	},
+	{
+		"id": 8460,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:16.711314",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 634,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 52,
+			"deleted_at": null,
+			"username": "jacksonwesley",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:16.711314"
+	},
+	{
+		"id": 8462,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:16.724308",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 634,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 54,
+			"deleted_at": null,
+			"username": "johnwest",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:16.724308"
+	},
+	{
+		"id": 8464,
+		"gases": [
+			{
+				"id": 951,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 12019.3342982831
+			}
+		],
+		"last_edited": "2022-05-01T23:18:16.736310",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 634,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 52,
+			"deleted_at": null,
+			"username": "jacksonwesley",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:16.736310"
+	},
+	{
+		"id": 8479,
+		"gases": [
+			{
+				"id": 952,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 7521.906947359
+			},
+			{
+				"id": 953,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 97541.6817629992
+			}
+		],
+		"last_edited": "2022-05-01T23:18:16.836326",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 634,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 59,
+			"deleted_at": null,
+			"username": "angela06",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:16.836326"
+	},
+	{
+		"id": 8484,
+		"gases": [
+			{
+				"id": 954,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 8404612619969.34
+			},
+			{
+				"id": 955,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 19939.34855341
+			}
+		],
+		"last_edited": "2022-05-01T23:18:16.872343",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 634,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 45,
+			"deleted_at": null,
+			"username": "jerry25",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:16.872343"
+	},
+	{
+		"id": 8485,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:16.879350",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 634,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 49,
+			"deleted_at": null,
+			"username": "hendersonthomas",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:16.879350"
+	},
+	{
+		"id": 8493,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:16.933608",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 634,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 47,
+			"deleted_at": null,
+			"username": "kelseysanders",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:16.933608"
+	},
+	{
+		"id": 8497,
+		"gases": [
+			{
+				"id": 956,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 619634100047.71
+			},
+			{
+				"id": 957,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 876631.2381719
+			}
+		],
+		"last_edited": "2022-05-01T23:18:16.962054",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 634,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 31,
+			"deleted_at": null,
+			"username": "sydney26",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:16.962054"
+	},
+	{
+		"id": 8515,
+		"gases": [
+			{
+				"id": 958,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 127595204524.154
+			},
+			{
+				"id": 959,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 2164199.63422475
+			}
+		],
+		"last_edited": "2022-05-01T23:18:17.081018",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 634,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 52,
+			"deleted_at": null,
+			"username": "jacksonwesley",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:17.081018"
+	},
+	{
+		"id": 8516,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:17.087977",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 634,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 49,
+			"deleted_at": null,
+			"username": "hendersonthomas",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:17.087977"
+	},
+	{
+		"id": 8522,
+		"gases": [
+			{
+				"id": 960,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 52333001045.7637
+			},
+			{
+				"id": 961,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 90554348260382.3
+			}
+		],
+		"last_edited": "2022-05-01T23:18:17.127117",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 634,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 47,
+			"deleted_at": null,
+			"username": "kelseysanders",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:17.127117"
+	},
+	{
+		"id": 8528,
+		"gases": [
+			{
+				"id": 962,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 69102138188604.7
+			}
+		],
+		"last_edited": "2022-05-01T23:18:17.164127",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 634,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 59,
+			"deleted_at": null,
+			"username": "angela06",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:17.164127"
+	},
+	{
+		"id": 8531,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:17.184117",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 634,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 40,
+			"deleted_at": null,
+			"username": "greenanna",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:17.184117"
+	},
+	{
+		"id": 8549,
+		"gases": [
+			{
+				"id": 963,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 701612644334.33
+			},
+			{
+				"id": 964,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 89540005.7426587
+			}
+		],
+		"last_edited": "2022-05-01T23:18:17.301199",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 635,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 54,
+			"deleted_at": null,
+			"username": "johnwest",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:17.301199"
+	},
+	{
+		"id": 8556,
+		"gases": [
+			{
+				"id": 965,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 328991388506.251
+			}
+		],
+		"last_edited": "2022-05-01T23:18:17.347210",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 635,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 54,
+			"deleted_at": null,
+			"username": "johnwest",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:17.347210"
+	},
+	{
+		"id": 8561,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:17.379911",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 635,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 54,
+			"deleted_at": null,
+			"username": "johnwest",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:17.379911"
+	},
+	{
+		"id": 8569,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:17.425249",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 635,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 47,
+			"deleted_at": null,
+			"username": "walkererika",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:17.425249"
+	},
+	{
+		"id": 8577,
+		"gases": [
+			{
+				"id": 966,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 641092104.372815
+			}
+		],
+		"last_edited": "2022-05-01T23:18:17.476413",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 635,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 44,
+			"deleted_at": null,
+			"username": "tinareeves",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:17.476413"
+	},
+	{
+		"id": 8579,
+		"gases": [
+			{
+				"id": 967,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 40.677886542687
+			}
+		],
+		"last_edited": "2022-05-01T23:18:17.490417",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 635,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 50,
+			"deleted_at": null,
+			"username": "coffeyjames",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:17.490417"
+	},
+	{
+		"id": 8580,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:17.497419",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 635,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 47,
+			"deleted_at": null,
+			"username": "kelseysanders",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:17.497419"
+	},
+	{
+		"id": 8598,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:17.608443",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 635,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 50,
+			"deleted_at": null,
+			"username": "coffeyjames",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:17.608443"
+	},
+	{
+		"id": 8599,
+		"gases": [
+			{
+				"id": 968,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 5191016656271.27
+			},
+			{
+				"id": 969,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 9546585.71507952
+			}
+		],
+		"last_edited": "2022-05-01T23:18:17.614445",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 635,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 59,
+			"deleted_at": null,
+			"username": "robert55",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:17.614445"
+	},
+	{
+		"id": 8609,
+		"gases": [
+			{
+				"id": 970,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 969479.578526307
+			}
+		],
+		"last_edited": "2022-05-01T23:18:17.673458",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 635,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 59,
+			"deleted_at": null,
+			"username": "angela06",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:17.673458"
+	},
+	{
+		"id": 8614,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:17.701473",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 635,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 60,
+			"deleted_at": null,
+			"username": "ryanabigail",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:17.701473"
+	},
+	{
+		"id": 8619,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:17.731942",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 635,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 59,
+			"deleted_at": null,
+			"username": "robert55",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:17.731942"
+	},
+	{
+		"id": 8645,
+		"gases": [
+			{
+				"id": 971,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 233610801.944154
+			},
+			{
+				"id": 972,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 35372672.418959
+			}
+		],
+		"last_edited": "2022-05-01T23:18:17.895626",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 636,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 47,
+			"deleted_at": null,
+			"username": "mathewsdavid",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:17.895626"
+	},
+	{
+		"id": 8661,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:17.993716",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 636,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 31,
+			"deleted_at": null,
+			"username": "sydney26",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:17.993716"
+	},
+	{
+		"id": 8679,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:18.111164",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 636,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 47,
+			"deleted_at": null,
+			"username": "mathewsdavid",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:18.111164"
+	},
+	{
+		"id": 8687,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:18.166365",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 636,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 47,
+			"deleted_at": null,
+			"username": "kelseysanders",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:18.166365"
+	},
+	{
+		"id": 8690,
+		"gases": [
+			{
+				"id": 973,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 4.38901119540795
+			}
+		],
+		"last_edited": "2022-05-01T23:18:18.189361",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 637,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 45,
+			"deleted_at": null,
+			"username": "jerry25",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:18.189361"
+	},
+	{
+		"id": 8705,
+		"gases": [
+			{
+				"id": 974,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 5965926.67643722
+			}
+		],
+		"last_edited": "2022-05-01T23:18:18.300394",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 637,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1492,
+				"user_type_name": "Gas Station Manager",
+				"can_vote": false,
+				"is_admin": false
+			},
+			"post_count": 2,
+			"deleted_at": null,
+			"username": "megan70",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:18.300394"
+	},
+	{
+		"id": 8711,
+		"gases": [
+			{
+				"id": 975,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 51332571.815414
+			},
+			{
+				"id": 976,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 39.4050096707955
+			}
+		],
+		"last_edited": "2022-05-01T23:18:18.341396",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 637,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 54,
+			"deleted_at": null,
+			"username": "johnwest",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:18.341396"
+	},
+	{
+		"id": 8716,
+		"gases": [
+			{
+				"id": 977,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 7416286360.92968
+			},
+			{
+				"id": 978,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 81945863109337.8
+			}
+		],
+		"last_edited": "2022-05-01T23:18:18.373408",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 637,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 43,
+			"deleted_at": null,
+			"username": "kennethwashington",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:18.373408"
+	},
+	{
+		"id": 8734,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:18.494116",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 638,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 49,
+			"deleted_at": null,
+			"username": "hendersonthomas",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:18.494116"
+	},
+	{
+		"id": 8746,
+		"gases": [
+			{
+				"id": 979,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 220603.951094093
+			},
+			{
+				"id": 980,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 9.19029068073432
+			}
+		],
+		"last_edited": "2022-05-01T23:18:18.575176",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 639,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 50,
+			"deleted_at": null,
+			"username": "coffeyjames",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:18.575176"
+	},
+	{
+		"id": 8748,
+		"gases": [
+			{
+				"id": 981,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 18522533527943.1
+			},
+			{
+				"id": 982,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 55022607.2539934
+			}
+		],
+		"last_edited": "2022-05-01T23:18:18.588180",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 639,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 47,
+			"deleted_at": null,
+			"username": "kelseysanders",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:18.588180"
+	},
+	{
+		"id": 8749,
+		"gases": [
+			{
+				"id": 983,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 50802530085.2128
+			},
+			{
+				"id": 984,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 5124974.55745387
+			}
+		],
+		"last_edited": "2022-05-01T23:18:18.595188",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 639,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 43,
+			"deleted_at": null,
+			"username": "kennethwashington",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:18.595188"
+	},
+	{
+		"id": 8759,
+		"gases": [
+			{
+				"id": 985,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 6454.14970439361
+			},
+			{
+				"id": 986,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 6941658.38627003
+			}
+		],
+		"last_edited": "2022-05-01T23:18:18.665203",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 639,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 38,
+			"deleted_at": null,
+			"username": "ukramer",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:18.665203"
+	},
+	{
+		"id": 8760,
+		"gases": [
+			{
+				"id": 987,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 366819012446.19
+			},
+			{
+				"id": 988,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 829813.250317011
+			}
+		],
+		"last_edited": "2022-05-01T23:18:18.672198",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 639,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 40,
+			"deleted_at": null,
+			"username": "greenanna",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:18.672198"
+	},
+	{
+		"id": 8767,
+		"gases": [
+			{
+				"id": 989,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 79555447.890996
+			},
+			{
+				"id": 990,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 46.190660848144
+			}
+		],
+		"last_edited": "2022-05-01T23:18:18.724531",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 639,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 59,
+			"deleted_at": null,
+			"username": "robert55",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:18.724531"
+	},
+	{
+		"id": 8784,
+		"gases": [
+			{
+				"id": 991,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 1845201.40858752
+			},
+			{
+				"id": 992,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 757.45412998884
+			}
+		],
+		"last_edited": "2022-05-01T23:18:18.845573",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 639,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 30,
+			"deleted_at": null,
+			"username": "millersharon",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:18.845573"
+	},
+	{
+		"id": 8785,
+		"gases": [
+			{
+				"id": 993,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 3095735117947.61
+			},
+			{
+				"id": 994,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 68623.2692144808
+			}
+		],
+		"last_edited": "2022-05-01T23:18:18.853576",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 639,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 43,
+			"deleted_at": null,
+			"username": "stephen99",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:18.853576"
+	},
+	{
+		"id": 8789,
+		"gases": [
+			{
+				"id": 995,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 62455913740392.2
+			},
+			{
+				"id": 996,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 845529.19617478
+			}
+		],
+		"last_edited": "2022-05-01T23:18:18.880969",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 639,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 47,
+			"deleted_at": null,
+			"username": "walkererika",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:18.880969"
+	},
+	{
+		"id": 8804,
+		"gases": [
+			{
+				"id": 997,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 242454000.15995
+			},
+			{
+				"id": 998,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 11370377716.6357
+			}
+		],
+		"last_edited": "2022-05-01T23:18:18.978440",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 639,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 59,
+			"deleted_at": null,
+			"username": "angela06",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:18.978440"
+	},
+	{
+		"id": 8806,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:18.992435",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 639,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 51,
+			"deleted_at": null,
+			"username": "ayalarenee",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:18.992435"
+	},
+	{
+		"id": 8816,
+		"gases": [
+			{
+				"id": 999,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 666.148230529962
+			}
+		],
+		"last_edited": "2022-05-01T23:18:19.064767",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 640,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 44,
+			"deleted_at": null,
+			"username": "tinareeves",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:19.064767"
+	},
+	{
+		"id": 8821,
+		"gases": [
+			{
+				"id": 1000,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 87.3554556456402
+			}
+		],
+		"last_edited": "2022-05-01T23:18:19.103760",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 640,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 51,
+			"deleted_at": null,
+			"username": "ayalarenee",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:19.103760"
+	},
+	{
+		"id": 8824,
+		"gases": [
+			{
+				"id": 1001,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 403.706099544804
+			},
+			{
+				"id": 1002,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 545591590953.774
+			}
+		],
+		"last_edited": "2022-05-01T23:18:19.125767",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 640,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 47,
+			"deleted_at": null,
+			"username": "mathewsdavid",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:19.125767"
+	},
+	{
+		"id": 8834,
+		"gases": [
+			{
+				"id": 1003,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 89.421084205052
+			},
+			{
+				"id": 1004,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 87640023.6667554
+			}
+		],
+		"last_edited": "2022-05-01T23:18:19.198263",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 640,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 52,
+			"deleted_at": null,
+			"username": "jacksonwesley",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:19.198263"
+	},
+	{
+		"id": 8848,
+		"gases": [
+			{
+				"id": 1005,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 8024.6970156898
+			},
+			{
+				"id": 1006,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 53.3138110820699
+			}
+		],
+		"last_edited": "2022-05-01T23:18:19.291305",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 641,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 47,
+			"deleted_at": null,
+			"username": "walkererika",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:19.291305"
+	},
+	{
+		"id": 8852,
+		"gases": [
+			{
+				"id": 1007,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 2221.71352698294
+			},
+			{
+				"id": 1008,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 0.71583852093572
+			}
+		],
+		"last_edited": "2022-05-01T23:18:19.321324",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 641,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 38,
+			"deleted_at": null,
+			"username": "ukramer",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:19.321324"
+	},
+	{
+		"id": 8857,
+		"gases": [
+			{
+				"id": 1009,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 10205971518235.7
+			},
+			{
+				"id": 1010,
+				"gas_type": {
+					"id": 160,
+					"gas_type_name": "Diesel"
+				},
+				"price": 55051655485.1596
+			}
+		],
+		"last_edited": "2022-05-01T23:18:19.355331",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 641,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 60,
+			"deleted_at": null,
+			"username": "ryanabigail",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:19.355331"
+	},
+	{
+		"id": 8863,
+		"gases": [
+			{
+				"id": 1011,
+				"gas_type": {
+					"id": 161,
+					"gas_type_name": "87"
+				},
+				"price": 9774656144521.16
+			},
+			{
+				"id": 1012,
+				"gas_type": {
+					"id": 162,
+					"gas_type_name": "90"
+				},
+				"price": 548999768.19715
+			}
+		],
+		"last_edited": "2022-05-01T23:18:19.394349",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 641,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 59,
+			"deleted_at": null,
+			"username": "robert55",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:19.394349"
+	},
+	{
+		"id": 8876,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:19.481390",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 641,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 34,
+			"deleted_at": null,
+			"username": "johntaylor",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:19.481390"
+	},
+	{
+		"id": 8885,
+		"gases": [],
+		"last_edited": "2022-05-01T23:18:19.549513",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 641,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 50,
+			"deleted_at": null,
+			"username": "alejandrowatson",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 360,
+			"post_type_name": "Gas Price Suggestion",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:19.549513"
+	}
+]

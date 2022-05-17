@@ -1,0 +1,172 @@
+[
+	{
+		"amenity_type": {
+			"id": 165,
+			"amenity_name": "Convenience Store"
+		},
+		"id": 8136,
+		"last_edited": "2022-05-01T23:18:14.759070",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 624,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 31,
+			"deleted_at": null,
+			"username": "sydney26",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 361,
+			"post_type_name": "Amenity Tag",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:14.759070"
+	},
+	{
+		"amenity_type": {
+			"id": 164,
+			"amenity_name": "Bathroom"
+		},
+		"id": 8141,
+		"last_edited": "2022-05-01T23:18:14.787083",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 625,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 47,
+			"deleted_at": null,
+			"username": "kelseysanders",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 361,
+			"post_type_name": "Amenity Tag",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:14.787083"
+	},
+	{
+		"amenity_type": {
+			"id": 165,
+			"amenity_name": "Convenience Store"
+		},
+		"id": 8152,
+		"last_edited": "2022-05-01T23:18:14.844985",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 625,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 59,
+			"deleted_at": null,
+			"username": "angela06",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 361,
+			"post_type_name": "Amenity Tag",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:14.844985"
+	},
+	{
+		"amenity_type": {
+			"id": 163,
+			"amenity_name": "Air pump"
+		},
+		"id": 8166,
+		"last_edited": "2022-05-01T23:18:14.920996",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 625,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 30,
+			"deleted_at": null,
+			"username": "millersharon",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 361,
+			"post_type_name": "Amenity Tag",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:14.920996"
+	},
+	{
+		"amenity_type": {
+			"id": 163,
+			"amenity_name": "Air pump"
+		},
+		"id": 8176,
+		"last_edited": "2022-05-01T23:18:14.981544",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 625,
+		"downvoters": [],
+		"deleted_at": null,
+		"downvote_count": 0,
+		"net_votes": 0,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 30,
+			"deleted_at": null,
+			"username": "millersharon",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 361,
+			"post_type_name": "Amenity Tag",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:18:14.981544"
+	}
+]

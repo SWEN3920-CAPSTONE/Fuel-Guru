@@ -1,0 +1,130 @@
+[
+	{
+		"reputation": 0,
+		"managed_gasstations": [],
+		"user_type": {
+			"user_type_name": "Gas Station Manager",
+			"id": 1492,
+			"is_admin": false,
+			"allowed_post_types": [
+				{
+					"id": 359,
+					"post_type_name": "Promotion",
+					"is_votable": false
+				},
+				{
+					"id": 360,
+					"post_type_name": "Gas Price Suggestion",
+					"is_votable": true
+				},
+				{
+					"id": 361,
+					"post_type_name": "Amenity Tag",
+					"is_votable": true
+				}
+			],
+			"can_vote": false
+		},
+		"firstname": "Kristy",
+		"post_count": 0,
+		"deleted_at": null,
+		"lastname": "Rivera",
+		"id": 764,
+		"email": "pricedanielle@example.org",
+		"created_at": "2022-05-01T23:56:55.681162",
+		"username": "holmesmichelle",
+		"level": "None"
+	},
+	{
+		"reputation": 0,
+		"managed_gasstations": [],
+		"user_type": {
+			"user_type_name": "Normal User",
+			"id": 1491,
+			"is_admin": false,
+			"allowed_post_types": [
+				{
+					"id": 356,
+					"post_type_name": "Comment",
+					"is_votable": true
+				},
+				{
+					"id": 357,
+					"post_type_name": "Rating",
+					"is_votable": false
+				},
+				{
+					"id": 358,
+					"post_type_name": "Review",
+					"is_votable": true
+				},
+				{
+					"id": 360,
+					"post_type_name": "Gas Price Suggestion",
+					"is_votable": true
+				},
+				{
+					"id": 361,
+					"post_type_name": "Amenity Tag",
+					"is_votable": true
+				}
+			],
+			"can_vote": true
+		},
+		"firstname": "Jacob",
+		"post_count": 21,
+		"deleted_at": null,
+		"lastname": "Matthews",
+		"id": 765,
+		"email": "ghenry@example.net",
+		"created_at": "2022-05-01T23:56:55.793186",
+		"username": "dominguezfrank",
+		"level": "None"
+	},
+	{
+		"reputation": 0,
+		"managed_gasstations": [],
+		"user_type": {
+			"user_type_name": "Normal User",
+			"id": 1491,
+			"is_admin": false,
+			"allowed_post_types": [
+				{
+					"id": 356,
+					"post_type_name": "Comment",
+					"is_votable": true
+				},
+				{
+					"id": 357,
+					"post_type_name": "Rating",
+					"is_votable": false
+				},
+				{
+					"id": 358,
+					"post_type_name": "Review",
+					"is_votable": true
+				},
+				{
+					"id": 360,
+					"post_type_name": "Gas Price Suggestion",
+					"is_votable": true
+				},
+				{
+					"id": 361,
+					"post_type_name": "Amenity Tag",
+					"is_votable": true
+				}
+			],
+			"can_vote": true
+		},
+		"firstname": "Linda",
+		"post_count": 8,
+		"deleted_at": null,
+		"lastname": "Beltran",
+		"id": 766,
+		"email": "johnwilson@example.com",
+		"created_at": "2022-05-01T23:56:55.905212",
+		"username": "howardlisa",
+		"level": "None"
+	}
+]
