@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
 from config import app, db
 from controller.routes.token import token_required
@@ -13,109 +13,236 @@ from model.posts import (AmenityTag, AmenityType, Comment, Gas,
 from model.schemas import (AmenityTagSchema, AmenityTypeSchema,
                            GasPriceSuggestionSchema, GasTypeSchema, PostSchema,
                            PostTypeSchema, PromotionSchema, ReviewSchema)
+from sqlalchemy import and_, func
 from sqlalchemy.exc import SQLAlchemyError
 
 posts_api = Blueprint('posts_api', __name__)
 
+def _handle_gas_price_suggestion_post(data,post,is_edit):
 
-def _manage_post_by_type(data, post, is_edit=False):
-    """
-    Create or edit a post and its details
+    details = data.get('gas_price_suggestion')
+    if not details:
+        return jsonify(error='Gas price suggestion missing or malformed'), 400
+
+    gas_post = GasPriceSuggestion(post, edit=is_edit)
+
+    gases = []
+    existing = []
+    today = datetime.fromisoformat(date.today().isoformat())
     
-    Args:            
-        data (dict):
-            The data to be used to edit or create the post
-            
-        post (Post):
-            The new post to be adde to the database or the existing post to be edited
-            
-        is_edit (bool):
-            True if an existing post should be edited or False if a new post should be created
+    for gas in details.get('gases'):
+        gas_type = GasType.query.get(gas.get('gas_type_id'))
+        gas_obj =Gas(gas.get('price'), gas_type, gas_post)
+        gases.append(gas_obj)
+
+    req_prices=[g.price for g in gases]
+    req_gtype_ids =[g.gas_type.id for g in gases]
     
-    Returns:
-        dict -> The serialized post    
-    """
+    if len(set(req_gtype_ids)) != len(req_gtype_ids):
+        return jsonify(error='Only one price per gas type allowed per post'),400
     
-    if post.post_type.post_type_name == 'Comment':
-        details = data.get('comment')
-        if not details:
-            return jsonify(error='Comment body missing or malformed'), 400
+    q=Post.query.filter(Post.gas_station_id == post.gas_station_id)\
+        .from_self(func.array_agg(Gas.gas_type_id), func.array_agg(Gas.price), Post)\
+            .join(GasPriceSuggestion, and_(
+                GasPriceSuggestion.post_id == Post.id,
+                GasPriceSuggestion.last_edited == Post.last_edited))\
+            .filter(GasPriceSuggestion.last_edited >= today)\
+            .join(GasPriceSuggestion.gases)\
+            .filter(Gas.price.in_(req_prices)).filter(Gas.gas_type_id.in_(req_gtype_ids)).group_by(Post)
 
-        rev = Review(post)
-        comment = Comment(review=rev, **details, edit=is_edit)
-        db.session.add(comment)
-        db.session.commit()
+    existing = q.all()
 
-        return ReviewSchema().dumps(rev)
+    if existing:
+        
+        for epost in existing:
+            if ((sorted(epost[0]) == sorted(req_gtype_ids)) and (sorted(epost[1]) == sorted(req_prices))):                    
+                
+                if post.creator.user_type.can_vote:
+                    if post.creator in epost[2].upvoters:
+                        return jsonify(error='These prices have already been posted today and the user has already upvoted that post'), 400
+                    
+                    if post.creator in epost[2].downvoters:
+                        epost[2].downvoters.remove(post.creator)
+                        
+                    epost[2].upvoters.append(post.creator)
 
-    if post.post_type.post_type_name == 'Rating':
-        details = data.get('rating')
-        if not details:
-            return jsonify(error='Rating value missing or malformed'), 400
+                    db.session.commit()
 
-        rev = Review(post)
-        rating = Rating(review=rev, **details, edit=is_edit)
-        db.session.add(rating)
-        db.session.commit()
+                    return jsonify(message='These prices have already been posted so those prices have been upvoted instead'), 202
+                else:
+                    return jsonify(error='These prices have already been posted'), 400
+    
+    db.session.add(gas_post)
+    db.session.add_all(gases)
+    db.session.commit()
 
-        return ReviewSchema().dumps(rev)
+    if is_edit:
+        msg = 'The gas price suggestion has been updated successfully'
+    else:
+        msg = 'Gas Price Suggestion created successfully'
+        
+    return jsonify(data=GasPriceSuggestionSchema().dump(gas_post), message=msg),200
 
-    if post.post_type.post_type_name == 'Review':
-        details = data.get('review')
-        if not details:
-            return jsonify(error='Review missing or malformed'), 400
+def _handle_promotion_post(data,post,is_edit):
+    
+    details = data.get('promotion')
+    
+    if not details:
+        return jsonify(error='Promotion missing or malformed'), 400
 
-        rev = Review(post)
-        comment = Comment(review=rev, body=details.get('body'), edit=is_edit)
-        rating = Rating(
-            review=rev, rating_val=details.get('rating_val'), edit=is_edit)
-        db.session.add(rating)
-        db.session.add(comment)
-        db.session.commit()
+    promo = Promotion(post=post, **details, edit=is_edit)
+    db.session.add(promo)
+    db.session.commit()
+    
+    if is_edit:
+        msg = 'The promotion tag has been updated successfully'
+    else:
+        msg ='Promotion created successfully'
 
-        return ReviewSchema().dumps(rev)
+    return jsonify(data=PromotionSchema().dump(promo), message=msg)
+    
+def _handle_amenity_post(data,post,is_edit):
+    details = data.get('amenity_tag')
+    if not details:
+        return jsonify(error='Amenity id missing or malformed'), 400
 
-    if post.post_type.post_type_name == 'Amenity Tag':
-        details = data.get('amenity_tag')
-        if not details:
-            return jsonify(error='Amenity id missing or malformed'), 400
+    amenity_type = AmenityType.query.get(details.get('amenity_id'))
+    if not amenity_type:
+        return jsonify(error='The specified amenity type does not exist'), 400
 
-        amenity_type = AmenityType.query.get(details.get('amenity_id'))
-        amenity_tag = AmenityTag(amenity_type, post, edit=is_edit)
+    amenity_tag = AmenityTag(amenity_type, post, edit=is_edit)
 
+    q = Post.query.filter(Post.gas_station_id == post.gas_station_id)\
+        .join(AmenityTag, and_(
+            AmenityTag.post_id == Post.id,
+            AmenityTag.last_edited == Post.last_edited))\
+        .filter(AmenityTag.amenity_type_id == amenity_type.id)
+        
+    print(q)
+    
+    existing = q.first()
+    
+    print(existing)
+
+    if existing:
+        if post.creator.user_type.can_vote:
+            if post.creator in existing.upvoters:
+                return jsonify(error='This amenity has already been posted today and the user has already upvoted that post'), 400
+            else:
+                if post.creator in existing.downvoters:
+                    existing.downvoters.remove(post.creator)
+                    
+                existing.upvoters.append(post.creator)
+
+                db.session.commit()
+
+                return jsonify(message='This amenity has already been posted so that amenity has been upvoted instead'), 202
+        else:
+            return jsonify(error='This amenity has already been posted'), 400
+    else:
         db.session.add(amenity_tag)
         db.session.commit()
 
-        return AmenityTagSchema().dumps(amenity_tag)
+    if is_edit:
+        msg = 'The amenity tag has been updated successfully'
+    else:
+        msg ='Amenity created successfully'
+        
+    return jsonify(data=AmenityTagSchema().dump(amenity_tag), message=msg),200
+    
+def _handle_review_post(data,post,is_edit):
+    details = data.get('review')
+    if not details:
+        return jsonify(error='Review missing or malformed'), 400
+
+    rev = Review(post)
+    comment = Comment(review=rev, body=details.get('body'), edit=is_edit)
+    
+    rating = Rating(
+        review=rev, rating_val=details.get('rating_val'), edit=is_edit)
+    
+    db.session.add(rating)
+    db.session.add(comment)
+    db.session.commit()
+
+    if is_edit:
+        msg = 'The review has been updated successfully'
+    else:
+        msg ='Review created successfully'
+        
+    return jsonify(data=ReviewSchema().dump(rev),message=msg),200
+
+def _handle_rating_post(data,post,is_edit):
+    details = data.get('rating')
+    if not details:
+        return jsonify(error='Rating value missing or malformed'), 400
+
+    rev = Review(post)
+    rating = Rating(review=rev, **details, edit=is_edit)
+    db.session.add(rating)
+    db.session.commit()
+
+    if is_edit:
+        msg = 'The rating has been updated successfully'
+    else:
+        msg ='Rating created successfully'
+        
+    return jsonify(data=ReviewSchema().dump(rev),message=msg),200
+
+def _handle_comment_post(data:dict, post:Post, is_edit:bool):
+    details = data.get('comment')
+    
+    if not details:
+        return jsonify(error='Comment body missing or malformed'), 400
+
+    rev = Review(post)
+    comment = Comment(review=rev, **details, edit=is_edit)
+    db.session.add(comment)
+    db.session.commit()
+
+    if is_edit:
+        msg = 'The comment has been updated successfully'
+    else:
+        msg ='Comment created successfully'
+        
+    return jsonify(data=ReviewSchema().dump(rev),message=msg),200
+
+
+def _manage_post_by_type(data: dict, post: Post, is_edit=False):
+    """
+    Create or edit a post and its details
+
+    Args:            
+        data (dict):
+            The data to be used to edit or create the post
+
+        post (Post):
+            The new post to be adde to the database or the existing post to be edited
+
+        is_edit (bool):
+            True if an existing post should be edited or False if a new post should be created
+
+    Returns:
+        dict -> The serialized post    
+    """
+
+    if post.post_type.post_type_name == 'Comment':
+        return _handle_comment_post(data,post,is_edit)
+
+    if post.post_type.post_type_name == 'Rating':
+        return _handle_rating_post(data,post,is_edit)
+
+    if post.post_type.post_type_name == 'Review':
+        return _handle_review_post(data,post,is_edit)
+
+    if post.post_type.post_type_name == 'Amenity Tag':
+        return _handle_amenity_post(data,post,is_edit)
 
     if post.post_type.post_type_name == 'Promotion':
-        details = data.get('promotion')
-        if not details:
-            return jsonify(error='Promotion missing or malformed'), 400
-
-        promo = Promotion(post=post, **details, edit=is_edit)
-        db.session.add(promo)
-        db.session.commit()
-
-        return PromotionSchema().dumps(promo)
+        return _handle_promotion_post(data,post,is_edit)
 
     if post.post_type.post_type_name == 'Gas Price Suggestion':
-        details = data.get('gas_price_suggestion')
-        if not details:
-            return jsonify(error='Gas price suggestion missing or malformed'), 400
-
-        gas_post = GasPriceSuggestion(post, edit=is_edit)
-
-        gases = []
-        for gas in details.get('gases'):
-            gas_type = GasType.query.get(gas.get('gas_type_id'))
-            gases.append(Gas(details.get('price'), gas_type, gas_post))
-
-        db.session.add(gas_post)
-        db.session.add_all(gases)
-        db.session.commit()
-
-        return GasPriceSuggestionSchema().dumps(gas_post)
+        return _handle_gas_price_suggestion_post(data,post,is_edit)
 
 
 @posts_api.route('', methods=['POST', 'DELETE', 'PUT'])
@@ -184,10 +311,8 @@ def posts():
 
             post = Post(gas_station, post_type, g.current_user)
 
-            resdata = _manage_post_by_type(post_type, data, post)
-
-            return jsonify(message='Post created successfully', data=resdata), 200
-
+            return _manage_post_by_type(data, post, False)
+        
         if request.method == 'PUT':
             data = HandlePostSchema(context={'method': request.method}, exclude=(
                 'gas_station_id', 'post_type_id')).load(get_request_body())
@@ -203,9 +328,7 @@ def posts():
             if (post.created_at + timedelta(minutes=30)) < datetime.utcnow():
                 return jsonify(error='The 30-minute modification window has passed for the specified post'), 405
 
-            resdata = _manage_post_by_type(post.post_type, data, post, True)
-
-            return jsonify(message='The post has been updated successfully', data=resdata)
+            return _manage_post_by_type(data, post, True)
 
         if request.method == 'DELETE':
             data = HandlePostSchema(context={'method': request.method}, only=(
@@ -226,10 +349,10 @@ def posts():
             db.session.commit()
 
             return jsonify(message='The post was successfully deleted'), 200
-        
+
         else:
             return jsonify(error='method not allowed'), 405
-    
+
     except ValidationError as e:
         return jsonify(errors=e.messages), 400
 
@@ -345,8 +468,8 @@ def get_amenity_types():
     """
     data = AmenityTypeSchema(many=True).dump(AmenityType.query.all())
     return jsonify(message='Fetch successful', data=data)
-    
-    
+
+
 @posts_api.route('/gas/types', methods=['GET'])
 @token_required
 def gas_types():
