@@ -8,10 +8,10 @@ API_KEY = app.config.get('API_KEY')
 '''api_key.txt is git ignored, request API key from owner if necessary'''
 
 #This URL requests nearby gas stations
-url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
+url = app.config.get('URL')
 
 #This is URL requests directions from the user's current location to the destination
-url_route = 'https://maps.googleapis.com/maps/api/directions/json?'
+url_route = app.config.get('URL_ROUTE')
 
 
 def init_geolocation():
@@ -51,7 +51,7 @@ def nearby_gasstation(lat, lng):
     except:
         return jsonify(error='An unknown error occured', data='{}')
 
-def nearby_gasstation(mylat, mylng, lat, lng):
+def find_gasstation(mylat, mylng, lat, lng):
     user_location = {'lat' : mylat, 'lng': mylng } #This should be where the user's location is provided    
     des_location = {'lat' : lat, 'lng': lng} #This should be where the destination's location is provided
     try:

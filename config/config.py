@@ -41,3 +41,5 @@ class Config(object):
     MAIL_DEFAULT_SENDER=os.environ.get('MAIL_DEFAULT_SENDER')
 
     API_KEY = os.environ.get('API_KEY')
+    URL = os.environ.get('URL')
+    URL_ROUTE = os.environ.get('URL_ROUTE')
