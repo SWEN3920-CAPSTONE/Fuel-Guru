@@ -27,7 +27,7 @@ class GasStation(db.Model):
 
     manager = db.relationship('User', backref='managed_gasstations')
 
-    def __init__(self, name, address, lat, lng, image, manager=None, id=None):
+    def __init__(self, name, address, lat, lng, image=None, manager=None, id=None):
         self.name = name
         self.address = address
         self.lat = lat
