@@ -55,6 +55,7 @@ class GasTypeSchema(ma.SQLAlchemyAutoSchema):
         include_relationships = True
         load_instance = True
         transient = True
+        
 
 
 class GasSchema(ma.SQLAlchemyAutoSchema):
@@ -64,6 +65,7 @@ class GasSchema(ma.SQLAlchemyAutoSchema):
         load_instance = True
         transient = True
 
+    price = fields.Decimal(as_string=True)
     gas_type = fields.Nested('GasTypeSchema')
     gas_post = fields.Nested('GasPriceSuggestionSchema', exclude=('gases',))
 

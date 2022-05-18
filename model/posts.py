@@ -299,7 +299,6 @@ class Gas(db.Model):
         self.gas_type = gas_type
         self.price = price
 
-
 # Post Types
 
 class GasPriceSuggestion(db.Model):

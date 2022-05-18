@@ -93,6 +93,7 @@ class GasStation(db.Model):
             .join(GasStation.all_posts)\
             .filter(Post.post_type_id == p_type.id)\
             .filter(Post.last_edited >= this_week)\
+            .where(Post.deleted_at==None)\
             .join(Review, and_(
                 Review.post_id == Post.id,
                 Review.last_edited == Post.last_edited))
@@ -114,6 +115,7 @@ class GasStation(db.Model):
             .join(GasStation.all_posts)\
             .filter(Post.post_type_id == p_type.id)\
             .filter(Post.last_edited >= this_week)\
+            .where(Post.deleted_at==None)\
             .join(Review, and_(
                 Review.post_id == Post.id,
                 Review.last_edited == Post.last_edited))
@@ -135,6 +137,7 @@ class GasStation(db.Model):
             .join(GasStation.all_posts)\
             .filter(Post.post_type_id == p_type.id)\
             .filter(Post.last_edited >= this_week)\
+            .where(Post.deleted_at==None)\
             .join(Review, and_(
                 Review.post_id == Post.id,
                 Review.last_edited == Post.last_edited))
@@ -146,16 +149,15 @@ class GasStation(db.Model):
         from model.posts import Post, Promotion
         
         today = datetime.fromisoformat(date.today().isoformat())
-
-        this_week = today - timedelta(days=7)
         
         q = GasStation.query.filter(GasStation.id == self.id)\
             .from_self(Promotion)\
             .join(GasStation.all_posts)\
-            .filter(Post.last_edited >= this_week)\
+            .where(Post.deleted_at==None)\
             .join(Promotion, and_(
                 Promotion.post_id == Post.id,
-                Promotion.last_edited == Post.last_edited))
+                Promotion.last_edited == Post.last_edited))\
+            .filter(Promotion.end_date >= today)\
 
         return q.all()
 
@@ -175,6 +177,7 @@ class GasStation(db.Model):
             .from_self(AmenityTag)\
             .join(GasStation.all_posts)\
             .filter(Post.last_edited >= this_week)\
+            .where(Post.deleted_at==None)\
             .join(AmenityTag, and_(
                 AmenityTag.post_id == Post.id,
                 AmenityTag.last_edited == Post.last_edited))
@@ -191,6 +194,7 @@ class GasStation(db.Model):
             .from_self(GasPriceSuggestion)\
             .join(GasStation.all_posts)\
             .where(Post.last_edited >= today)\
+            .where(Post.deleted_at==None)\
             .join(GasPriceSuggestion, and_(
                 GasPriceSuggestion.post_id == Post.id,
                 GasPriceSuggestion.last_edited == Post.last_edited))
@@ -222,6 +226,7 @@ class GasStation(db.Model):
         upvoted_count = GasStation.query.filter(GasStation.id == self.id)\
             .from_self(GasPriceSuggestion, func.count(upvoted_posts.c.posts).label('upvs'))\
             .join(GasStation.all_posts)\
+            .where(Post.deleted_at==None)\
             .join(GasPriceSuggestion, and_(
                 GasPriceSuggestion.post_id == Post.id,
                 GasPriceSuggestion.last_edited == Post.last_edited))\
@@ -232,6 +237,7 @@ class GasStation(db.Model):
         downvoted_count = GasStation.query.filter(GasStation.id == self.id)\
             .from_self(GasPriceSuggestion, func.count(downvoted_posts.c.posts).label('downvs'))\
             .join(GasStation.all_posts)\
+            .where(Post.deleted_at==None)\
             .join(GasPriceSuggestion, and_(
                 GasPriceSuggestion.post_id == Post.id,
                 GasPriceSuggestion.last_edited == Post.last_edited))\
