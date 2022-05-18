@@ -331,3 +331,14 @@ class HandleGasStationsSchema(Schema):
 
             return bool(data_provided) and bool(data.get('id'))
         return True
+
+class HandleUserLocationSchema(Schema):
+    id = fields.Int(required=True, strict=True)
+
+    lat = fields.Decimal(required=True)
+
+    lng = fields.Decimal(required=True)
+
+    @validates_schema
+    def all_fields_filled(self, data, **kwargs):
+        return bool(data.get('id')) and bool(data.get('lat')) and bool(data.get('lng'))

@@ -34,10 +34,9 @@ def init_geolocation():
 
 def nearby_gasstation(lat, lng):    
 #Gas Stations relative to user's currect location
-    user_location = {'lat' : lat, 'lng': lng } #This should be where the user's location is provided
     #Contains gas stations nearby relative to the current user's location
     try:
-        res_current = requests.get(url + 'location=' + user_location.get('lat') +'%2C'+ user_location.get('lng') + '&radius=1500' + '&type=gas_station' + '&key=' + API_KEY)
+        res_current = requests.get(url + 'location=' + str(lat) +'%2C'+ str(lng) + '&radius=1500' + '&type=gas_station' + '&key=' + API_KEY)
         if res_current.json()['status'] == 'OK':
             return jsonify(message=res_current.json()['status'], data=res_current.json()['results']), 200
         elif res_current.json()['status'] == 'ZERO_RESULTS':
@@ -49,13 +48,12 @@ def nearby_gasstation(lat, lng):
         elif res_current.json()['status'] == 'REQUEST_DENIED':
             return jsonify(error=res_current.json()['status'], data='{}'), 500   
     except:
-        return jsonify(error='An unknown error occured', data='{}')
+        return jsonify(error='An unknown error occured', data='{}'), 500
 
-def find_gasstation(mylat, mylng, lat, lng):
-    user_location = {'lat' : mylat, 'lng': mylng } #This should be where the user's location is provided    
-    des_location = {'lat' : lat, 'lng': lng} #This should be where the destination's location is provided
+def find_gasstation(user_lat, user_lng, gs_lat, gs_lng):
+    
     try:
-        res_route = requests.get(url_route + 'origin=' + user_location.get('lat') +'%2C'+ user_location.get('lng') +'&destination=' + des_location.get('lat') + '%2C' + des_location.get('lat') + '&key=' + API_KEY)
+        res_route = requests.get(url_route + 'origin=' + str(user_lat) +'%2C'+ str(user_lng) +'&destination=' + str(gs_lat) + '%2C' + str(gs_lng) + '&key=' + API_KEY)
         if res_route.json()['status'] == 'OK':
             return jsonify(message=res_route.json()['status'], data=res_route.json()['results']), 200
         elif res_route.json()['status'] == 'ZERO_RESULTS' or res_route.json()['status'] == 'NOT_FOUND':

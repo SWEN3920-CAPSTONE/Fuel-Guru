@@ -3,9 +3,12 @@ from email import message
 from email.mime import image
 from pprint import pprint
 from flask import Blueprint, jsonify, request
+from marshmallow import ValidationError
 from config import app, db, csrf
 from model.gasstation import GasStation
-from ..geolocation import init_geolocation
+from ..geolocation import init_geolocation, nearby_gasstation
+from controller.validation.schemas import HandleUserLocationSchema
+from controller.utils import get_request_body
 import json
 
 gasstation_api = Blueprint('gasstation_api', __name__)
@@ -72,13 +75,27 @@ def init_gastations():
         return jsonify(error='gass stations are already in the database')
 
 @gasstation_api.route('/search/nearby', methods=['POST'])
+@csrf.exempt
 def search_nearby_gasstation():
     """
     Endpoint is for finding the nearest gas stations based on the user's current location.
     """
-    #if request.method == 'POST':
-
-    pass
+    try:
+        if request.method == 'POST':
+            data : dict = HandleUserLocationSchema().load(get_request_body())
+            res, status = nearby_gasstation(data.get('lat'), data.get('lng'))
+            if status == 200:
+                resdata = json.loads(res.data)['data']
+                return jsonify(message='Nearby Gasstations retrived successfully', data=resdata), 200
+            else:
+                if status == 404:
+                    return jsonify(error='You are not nearby any gas stations'), 404
+                return jsonify(error="Something went wrong on the server's side, please try again later"), 500
+        else:
+            return jsonify(error='Method not allowed'), 405
+    except ValidationError as e:
+        return jsonify(errors=e.messages), 400
+    
 
 @gasstation_api.route('/find',methods=['POST'])
 def find_gasstation():
