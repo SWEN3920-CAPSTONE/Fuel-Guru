@@ -117,12 +117,8 @@ def _handle_amenity_post(data,post,is_edit):
             AmenityTag.post_id == Post.id,
             AmenityTag.last_edited == Post.last_edited))\
         .filter(AmenityTag.amenity_type_id == amenity_type.id)
-        
-    print(q)
     
     existing = q.first()
-    
-    print(existing)
 
     if existing:
         if post.creator.user_type.can_vote:
