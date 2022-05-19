@@ -4,7 +4,6 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from flask_mail import Mail
 
@@ -13,7 +12,13 @@ from .config import Config
 app = Flask('config', template_folder=os.path.abspath('controller/templates'))
 app.config.from_object(Config)
 
-db = SQLAlchemy(app)
+if Config.TESTING:
+    from .testing import TestAlchemy
+    db = TestAlchemy(app)
+else:
+    from flask_sqlalchemy import SQLAlchemy
+    db = SQLAlchemy(app)
+
 ma = Marshmallow(app)
 migrate = Migrate(app, db)
 csrf = CSRFProtect(app)
