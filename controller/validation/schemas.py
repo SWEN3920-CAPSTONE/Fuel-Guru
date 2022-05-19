@@ -365,4 +365,18 @@ class GasStationSearchSchema(Schema):
                 raise ValidationError('Lat and lng must be provided if nearest is true', field_name='nearest')
         
         return True
-    
+
+class HandleUserLocationSchema(Schema):
+    lat = fields.Decimal(required=True)
+
+    lng = fields.Decimal(required=True)
+
+
+class HandleUserGasstationLocationSchema(Schema):
+    user_lat = fields.Decimal(required=True)
+
+    user_lng = fields.Decimal(required=True)
+
+    gs_lat = fields.Decimal(required=True)
+
+    gs_lng = fields.Decimal(required=True)

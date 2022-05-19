@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 
 dev/
+
+api_key.txt

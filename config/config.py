@@ -12,7 +12,7 @@ class Config(object):
 
     # SQLAlchemy variables
     SQLALCHEMY_DATABASE_URI = os.environ.get(
-        'DATABASE_URL', 'postgresql://yourusername:yourpassword@localhost/databasename')
+        'DATABASE_URL', 'postgresql://postgres@localhost/fuelgurudb')
 
     if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
         SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace(
@@ -41,3 +41,7 @@ class Config(object):
     MAIL_DEFAULT_SENDER=os.environ.get('MAIL_DEFAULT_SENDER')
     
     TESTING=os.environ.get('TESTING','False') == 'True'
+
+    API_KEY = os.environ.get('API_KEY')
+    URL = os.environ.get('URL')
+    URL_ROUTE = os.environ.get('URL_ROUTE')
