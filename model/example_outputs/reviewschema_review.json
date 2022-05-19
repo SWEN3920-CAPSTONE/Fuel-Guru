@@ -1,0 +1,153 @@
+[
+	{
+		"body": "Air especially including care laugh game bit. Care often show admit bar. Against girl pattern decade economy.",
+		"rating_val": 2,
+		"last_edited": "2022-05-01T23:56:56.926632",
+		"upvote_count": 1,
+		"upvoters": [
+			768
+		],
+		"gas_station": 674,
+		"downvoters": [
+			758,
+			761
+		],
+		"deleted_at": null,
+		"downvote_count": 2,
+		"net_votes": -1,
+		"id": 10398,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 18,
+			"deleted_at": null,
+			"username": "amcclain",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 358,
+			"post_type_name": "Review",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:56:56.926632"
+	},
+	{
+		"body": "Must throw might international difference. Rise wrong sense if little old term. Skin class matter check later case major. Truth fear role music little effect.",
+		"rating_val": null,
+		"last_edited": "2022-05-01T23:56:56.963236",
+		"upvote_count": 1,
+		"upvoters": [
+			761
+		],
+		"gas_station": 676,
+		"downvoters": [
+			758,
+			759,
+			763,
+			765,
+			766
+		],
+		"deleted_at": null,
+		"downvote_count": 5,
+		"net_votes": -4,
+		"id": 10405,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 20,
+			"deleted_at": null,
+			"username": "lgriffin",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 356,
+			"post_type_name": "Comment",
+			"is_votable": true
+		},
+		"created_at": "2022-05-01T23:56:56.963236"
+	},
+	{
+		"body": null,
+		"rating_val": 5,
+		"last_edited": "2022-05-01T23:56:56.969230",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 676,
+		"downvoters": [
+			758,
+			759,
+			763,
+			766,
+			768
+		],
+		"deleted_at": null,
+		"downvote_count": 5,
+		"net_votes": -5,
+		"id": 10406,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 21,
+			"deleted_at": null,
+			"username": "dominguezfrank",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 357,
+			"post_type_name": "Rating",
+			"is_votable": false
+		},
+		"created_at": "2022-05-01T23:56:56.969230"
+	},
+	{
+		"body": null,
+		"rating_val": 4,
+		"last_edited": "2022-05-01T23:56:56.975412",
+		"upvote_count": 0,
+		"upvoters": [],
+		"gas_station": 676,
+		"downvoters": [
+			759,
+			763,
+			768
+		],
+		"deleted_at": null,
+		"downvote_count": 3,
+		"net_votes": -3,
+		"id": 10407,
+		"creator": {
+			"reputation": 0,
+			"user_type": {
+				"id": 1491,
+				"user_type_name": "Normal User",
+				"can_vote": true,
+				"is_admin": false
+			},
+			"post_count": 21,
+			"deleted_at": null,
+			"username": "dominguezfrank",
+			"level": "None"
+		},
+		"post_type": {
+			"id": 357,
+			"post_type_name": "Rating",
+			"is_votable": false
+		},
+		"created_at": "2022-05-01T23:56:56.975412"
+	}
+]

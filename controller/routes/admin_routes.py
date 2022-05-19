@@ -1,23 +1,22 @@
-from datetime import datetime, timedelta
 from uuid import uuid4
 
-import jwt
 from config import app, db, mail
-from controller.routes.auth_routes import generate_reset_link
 from controller.routes.token import admin_required
-from controller.utils import get_request_body
-from controller.validation.schemas import HandleAmenityTypesSchema, HandleGasStationsSchema, HandleGasTypesSchema, HandlePostTypesSchema, HandleUserTypesSchema, SignupSchema
-from flask import Blueprint, jsonify, request, url_for
-from marshmallow import ValidationError
-from model import PostType, UserType
-from model.gasstation import GasStation
-from model.posts import AmenityType, GasType
-from model.schemas import AmenityTypeSchema, GasStationSchema, GasTypeSchema, PostTypeSchema, UserTypeSchema
-from sqlalchemy.exc import IntegrityError
-
-from model.users import User
-
+from controller.utils import generate_reset_link, get_request_body
+from controller.validation.schemas import (HandleAmenityTypesSchema,
+                                           HandleGasStationsSchema,
+                                           HandleGasTypesSchema,
+                                           HandlePostTypesSchema,
+                                           HandleUserTypesSchema, SignupSchema)
+from flask import Blueprint, jsonify, request
 from flask_mail import Message
+from marshmallow import ValidationError
+from model.gasstation import GasStation
+from model.posts import AmenityType, GasType, PostType
+from model.schemas import (AmenityTypeSchema, GasStationSchema, GasTypeSchema,
+                           PostTypeSchema, UserTypeSchema)
+from model.users import User, UserType
+from sqlalchemy.exc import IntegrityError
 
 admin_api = Blueprint('admin_api', __name__)
 
@@ -137,7 +136,7 @@ def user_types():
     return _admin_type_ops(HandleUserTypesSchema, UserType, UserTypeSchema, 'user', post_schema_kwargs={'exclude': ('id',)})
 
 
-@admin_api.route('gasstations', methods=['POST', 'PUT'])
+@admin_api.route('/gasstations', methods=['POST', 'PUT'])
 @admin_required
 def gasstations():
     """
@@ -171,12 +170,13 @@ def gasstations():
     """
     try:
         if request.method == 'POST':
-            data:dict = HandleGasStationsSchema(exclude=('id',)).dump(get_request_body())
+            data: dict = HandleGasStationsSchema(
+                exclude=('id',)).dump(get_request_body())
 
             if data.get('manager_id'):
                 manager = User.query.get(data.get('manager_id'))
                 if not manager:
-                    return jsonify(error='The user specified to be the manager was not found'),404
+                    return jsonify(error='The user specified to be the manager was not found'), 404
             else:
                 manager = None
 
@@ -188,32 +188,32 @@ def gasstations():
             return jsonify(message='Gas station added successfully'), 400
 
         if request.method == 'PUT':
-            data:dict = HandleGasStationsSchema(partial=(
+            data: dict = HandleGasStationsSchema(partial=(
                 'name', 'address', 'lat', 'lng', 'image', 'manager_id')).dump(get_request_body())
-            
+
             station = GasStation.query.get(data.get('id'))
-            
+
             if not station:
                 return jsonify(error='The specified station does not exist'), 404
-            
+
             if data.get('manager_id'):
                 manager = User.query.get(data.get('manager_id'))
                 data.pop('manager_id')
                 if not manager:
-                    return jsonify(error='The user specified to be the manager was not found'),404                
+                    return jsonify(error='The user specified to be the manager was not found'), 404
             else:
                 manager = station.manager
-                
+
             existing = GasStationSchema().dump(station)
-            
-            updated = GasStation(**existing,manager=manager,**data)
-            
+
+            updated = GasStation(**existing, manager=manager, **data)
+
             db.session.merge(updated)
             db.session.commit()
-            
-            return jsonify(message='The gas station has been successfully updated'),200
+
+            return jsonify(message='The gas station has been successfully updated'), 200
     except ValidationError as e:
-        return jsonify(errors=e.messages),400
+        return jsonify(errors=e.messages), 400
 
 
 @admin_api.route('/gasstations/manager', methods=['POST'])
@@ -261,7 +261,7 @@ def add_gasstation_manager():
         """
 
         msg = Message('Welcome to FuelGuru', recipients=[
-                      manager.email],html = ehtml)
+                      manager.email], html=ehtml)
 
         # using gmail to send
         mail.send(msg)

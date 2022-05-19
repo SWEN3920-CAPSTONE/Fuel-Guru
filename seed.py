@@ -12,11 +12,12 @@ import sys
 from datetime import timedelta, timezone
 
 from faker import Faker
-from sqlalchemy import inspect
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 from config import db
-from model import *
+from model.users import *
+from model.gasstation import *
+from model.posts import *
 
 # generate fake info
 fake = Faker()
@@ -38,9 +39,9 @@ POST_TYPES = [
 ]
 
 ALLOWED_POST_TYPES = [
-    [POST_TYPES[0], POST_TYPES[1], POST_TYPES[2], POST_TYPES[4], POST_TYPES[5]],
-    [POST_TYPES[3], POST_TYPES[4], POST_TYPES[5]],
-    [POST_TYPES[4], POST_TYPES[5]]
+    lambda : [POST_TYPES[0], POST_TYPES[1], POST_TYPES[2], POST_TYPES[4], POST_TYPES[5]],
+    lambda: [POST_TYPES[3], POST_TYPES[4], POST_TYPES[5]],
+    lambda: [POST_TYPES[4], POST_TYPES[5]]
 ]
 
 GAS_TYPES = [
@@ -84,11 +85,7 @@ db.session.autoflush = True
 
 for i in range(len(POST_TYPES)):
     try:
-        existing = PostType.query.filter(
-            PostType.post_type_name == POST_TYPES[i].post_type_name).first()
-        if existing:
-            POST_TYPES[i].id = existing.id
-        db.session.merge(POST_TYPES[i])
+        db.session.add(POST_TYPES[i])
         db.session.commit()
     except IntegrityError:
         db.session.rollback()
@@ -101,17 +98,13 @@ for i in range(len(POST_TYPES)):
 
 
 for i in range(len(USER_TYPES)):
-    try:
-        existing = UserType.query.filter(
-            UserType.user_type_name == USER_TYPES[i].user_type_name).first()
-        if existing:
-            USER_TYPES[i].id = existing.id
+    try:        
+        USER_TYPES[i].allowed_post_types = ALLOWED_POST_TYPES[i]()
         
-        USER_TYPES[i].allowed_post_types = ALLOWED_POST_TYPES[i]
-        db.session.merge(USER_TYPES[i])
+        db.session.add(USER_TYPES[i])
         db.session.flush()
         db.session.commit()
-    except IntegrityError:
+    except IntegrityError as e:
         db.session.rollback()
         USER_TYPES[i] = UserType.query.filter(
             UserType.user_type_name == USER_TYPES[i].user_type_name).first()
@@ -123,11 +116,7 @@ for i in range(len(USER_TYPES)):
 
 for i in range(len(GAS_TYPES)):
     try:
-        existing = GasType.query.filter(
-            GasType.gas_type_name == GAS_TYPES[i].gas_type_name).first()
-        if existing:
-            GAS_TYPES[i].id = existing.id
-        db.session.merge(GAS_TYPES[i])
+        db.session.add(GAS_TYPES[i])
         db.session.commit()
     except IntegrityError:
         db.session.rollback()
@@ -141,11 +130,7 @@ for i in range(len(GAS_TYPES)):
 
 for i in range(len(AMENITY_TYPES)):
     try:
-        existing = AmenityType.query.filter(
-            AmenityType.amenity_name == AMENITY_TYPES[i].amenity_name).first()
-        if existing:
-            AMENITY_TYPES[i].id = existing.id
-        db.session.merge(AMENITY_TYPES[i])
+        db.session.add(AMENITY_TYPES[i])
         db.session.commit()
     except IntegrityError:
         db.session.rollback()
@@ -176,6 +161,7 @@ while quota < SEED_COUNT:
         db.session.add(u)
         db.session.commit()
     except SQLAlchemyError as e:
+        print(e)
         db.session.rollback()
     else:
         total += 1

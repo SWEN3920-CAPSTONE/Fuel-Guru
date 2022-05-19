@@ -61,3 +61,9 @@ To run the server (pipenv shell activated)
 ```shell
 python server.py
 ```
+
+To add random test data to the database (pipenv shell activated)
+
+```shell
+python seed.py 
+```
