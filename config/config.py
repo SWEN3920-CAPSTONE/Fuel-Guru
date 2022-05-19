@@ -39,3 +39,5 @@ class Config(object):
     MAIL_USERNAME=os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD=os.environ.get('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER=os.environ.get('MAIL_DEFAULT_SENDER')
+    
+    TESTING=os.environ.get('TESTING','False') == 'True'
