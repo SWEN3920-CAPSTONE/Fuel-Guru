@@ -55,7 +55,9 @@ def find_gasstation(user_lat, user_lng, gs_lat, gs_lng):
     try:
         res_route = requests.get(url_route + 'origin=' + str(user_lat) +'%2C'+ str(user_lng) +'&destination=' + str(gs_lat) + '%2C' + str(gs_lng) + '&key=' + API_KEY)
         if res_route.json()['status'] == 'OK':
-            return jsonify(message=res_route.json()['status'], data=res_route.json()['results']), 200
+            #pprint(res_route.json())
+            return res_route, 200
+            #return jsonify(message=res_route.json()['status'], response=res_route.json()), 200
         elif res_route.json()['status'] == 'ZERO_RESULTS' or res_route.json()['status'] == 'NOT_FOUND':
             return jsonify(error=res_route.json()['status'], data='{}'), 404
         elif res_route.json()['status'] == 'INVALID_REQUEST':
@@ -63,7 +65,7 @@ def find_gasstation(user_lat, user_lng, gs_lat, gs_lng):
         elif res_route.json()['status'] == 'REQUEST_DENIED':
             return jsonify(error=res_route.json()['status'], data='{}'), 500  
     except:
-        return jsonify(error='An unknown error occured', data='{}')
+        return jsonify(error='An unknown error occured', data='{}'), 500
 
 #pprint(res_init.json())
 

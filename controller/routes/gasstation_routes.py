@@ -6,8 +6,8 @@ from flask import Blueprint, jsonify, request
 from marshmallow import ValidationError
 from config import app, db, csrf
 from model.gasstation import GasStation
-from ..geolocation import init_geolocation, nearby_gasstation
-from controller.validation.schemas import HandleUserLocationSchema
+from ..geolocation import find_gasstation, init_geolocation, nearby_gasstation
+from controller.validation.schemas import HandleUserLocationSchema, HandleUserGasstationLocationSchema
 from controller.utils import get_request_body
 import json
 
@@ -98,11 +98,23 @@ def search_nearby_gasstation():
     
 
 @gasstation_api.route('/find',methods=['POST'])
-def find_gasstation():
+@csrf.exempt
+def findRoute_gasstation():
     """
     Endpoint is for finding a route to a gas station based on the user's current location.
     """
-    pass
-
+    try:
+        if request.method == 'POST':
+            data: dict = HandleUserGasstationLocationSchema().load(get_request_body())
+            res, status = find_gasstation(data.get('user_lat'), data.get('user_lng'), data.get('gs_lat'), data.get('gs_lng'))
+            pprint(res)
+            if status == 200:
+                return jsonify(message='Route to Gasstation found sucessfully', data=res.json()), 200
+            else:
+                if status == 404:
+                    return jsonify(error='no route could be found between the origin and destination'), 404
+                return jsonify(error="Something went wrong on the server's side, please try again later"), 500
+    except ValidationError as e:
+        return jsonify(errors=e.messages), 400
 
 app.register_blueprint(gasstation_api, url_prefix='/gasstations')
