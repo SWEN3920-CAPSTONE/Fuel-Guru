@@ -66,6 +66,8 @@ if sys.argv:
     except ValueError as e:
         print(f'Invalid int for seed count arg: <{sys.argv[1]}>')
         SEED_COUNT = 15
+    except:
+        SEED_COUNT = 15
 else:
     SEED_COUNT = 15
 
@@ -233,7 +235,7 @@ while i < SEED_COUNT:
                 if g.manager == u:
                     pt = random.choice([*POST_TYPES[3:]])
                 else:
-                    pt = None
+                    continue
 
             p = Post(g, pt, u)
             db.session.add(p)

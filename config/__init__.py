@@ -4,7 +4,6 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
-from flask_wtf import CSRFProtect
 from flask_mail import Mail
 
 from .config import Config
@@ -21,7 +20,7 @@ else:
 
 ma = Marshmallow(app)
 migrate = Migrate(app, db)
-csrf = CSRFProtect(app)
+#csrf = CSRFProtect(app)
 cors = CORS(app)
 jwtm = JWTManager(app)
 mail = Mail(app)
