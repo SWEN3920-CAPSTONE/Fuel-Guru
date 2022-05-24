@@ -15,8 +15,12 @@ main {
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
 }
 
-
 nav a.router-link-exact-active { 
+  color: #AA1414;
+  text-decoration: underline;
+}
+
+a.router-link-exact-active { 
   color: #AA1414;
   text-decoration: underline;
 }
@@ -29,4 +33,9 @@ nav a:hover {
 a:link, a:visited { 
   text-decoration: none; 
   color: black;
+}
+
+input[type=text], input[type=password], input[type=email] {
+  padding: 5px;
+  width: 220px;
 }

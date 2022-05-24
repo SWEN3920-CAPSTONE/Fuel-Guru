@@ -22,7 +22,6 @@
   #home-page {
     display: grid;
     grid-template-columns: auto auto;
-    padding-top: 50px; 
     column-gap: 160px;
   }
 
