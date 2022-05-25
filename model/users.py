@@ -123,10 +123,16 @@ class User(db.Model):
         return reduce(lambda a, b: a + b.upvotes, self.posts, 0) - reduce(lambda a, b: a + b.downvotes, self.posts, 0) 
 
     @hybrid_property
-    def level(self):
-        if self.reputation == 0:
-            return 'None'  # we never actually fleshed out what the ranges would be for the levels
-        return 'Guru' #temp
+    def level(self):        
+        if self.reputation >= 1000:
+            return 'Guru'
+        elif self.reputation >= 750:
+            return 'Master'
+        elif self.reputation >= 500:
+            return 'Expert'
+        elif self.reputation >= 250:
+            return 'Amateur'
+        return 'Novice'
 
     @hybrid_property
     def post_count(self):
