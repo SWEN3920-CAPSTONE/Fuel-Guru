@@ -203,7 +203,6 @@ def _handle_comment_post(data:dict, post:Post, is_edit:bool):
         
     return jsonify(data=ReviewSchema().dump(rev),message=msg),200
 
-
 def _manage_post_by_type(data: dict, post: Post, is_edit=False):
     """
     Create or edit a post and its details
@@ -385,6 +384,9 @@ def _vote_on_post(success_msg, focus_attr, other_attr):
 
             if not post.post_type.is_votable:
                 return jsonify(error='The type of the specified post is not votable'), 405
+            
+            if post.creator == g.current_user:
+                return jsonify(error='Users cannot vote on their own posts'),403
 
             # toggle vote
             if g.current_user in getattr(post, other_attr):
@@ -427,7 +429,8 @@ def upvote():
         - 200 if the request was successful
         - 400 if the body was malformed
         - 401 If the user making the request is not logged in
-        - 403 If the user's type is not allowed to upvote
+        - 403 If the user's type is not allowed to upvote or if the user 
+        is trying to upvote their own post
         - 404 If the post does not exist or has been deleted
         - 405 if the post type is not votable
         - 500 if the request fails on the server's part    

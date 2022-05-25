@@ -2,7 +2,7 @@ from datetime import datetime
 from hashlib import sha256
 
 import jwt
-from config import app, csrf, db, mail
+from config import app, db, mail
 from controller.routes.token import gen_access_refresh_token, token_required
 from controller.utils import flash_errors, get_request_body, generate_reset_link
 from controller.validation.forms import ResetPassword
@@ -20,7 +20,6 @@ auth_api = Blueprint('auth_api', __name__)
 
 
 @auth_api.route('/signup', methods=['POST'])
-@csrf.exempt
 def signup():
     """
     Endpoint for signup
@@ -65,7 +64,6 @@ def signup():
 
 
 @auth_api.route('/signin', methods=['POST'])
-@csrf.exempt
 def signin():
     """
     Endpoint for signin

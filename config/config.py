@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+load_dotenv(override=True)
 
 
 class Config(object):
@@ -39,6 +39,8 @@ class Config(object):
     MAIL_USERNAME=os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD=os.environ.get('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER=os.environ.get('MAIL_DEFAULT_SENDER')
+    
+    TESTING=os.environ.get('TESTING','False') == 'True'
 
     API_KEY = os.environ.get('API_KEY')
     URL = os.environ.get('URL')
