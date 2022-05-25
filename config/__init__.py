@@ -29,3 +29,6 @@ from controller.routes.routes import *
 from controller.routes.user_routes import *
 
 db.create_all()
+
+with app.test_client() as client:
+    client.post('/gasstations')

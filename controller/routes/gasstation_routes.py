@@ -118,7 +118,7 @@ def get_gasstation(station_id):
     return jsonify(message='Fetch was successful', data=data), 200
 
 
-@gasstation_api.route('', methods=['POST', 'GET'])
+@gasstation_api.route('', methods=['POST'])
 @csrf.exempt
 def init_gastations():
     """
@@ -126,6 +126,7 @@ def init_gastations():
 
     Will run only if the gas station table is empty
     """
+    print('function ran')
     if len(db.session.query(GasStation).all()) == 0 and request.method == 'POST':
         gassations, status = init_geolocation()
         gss = json.loads(gassations.data)['data']
