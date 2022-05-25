@@ -320,6 +320,9 @@ def posts():
             if post.deleted_at:
                 return jsonify(error='The specified post has been deleted'), 404
 
+            if post.creator != g.current_user:
+                return jsonify(error='Only the owner of the specified post may edit it. You are not the owner'), 403
+            
             if (post.created_at + timedelta(minutes=30)) < datetime.utcnow():
                 return jsonify(error='The 30-minute modification window has passed for the specified post'), 405
 
@@ -337,8 +340,12 @@ def posts():
             if post.deleted_at:
                 return jsonify(error='The specified post has been deleted already'), 404
 
+            if post.creator != g.current_user:
+                return jsonify(error='Only the owner of the specified post may delete it. You are not the owner'), 403
+            
             if (post.created_at + timedelta(minutes=30)) < datetime.utcnow():
                 return jsonify(error='The 30-minute modification window has passed for the specified post'), 405
+            
 
             post.deleted_at = datetime.utcnow()
             db.session.commit()
