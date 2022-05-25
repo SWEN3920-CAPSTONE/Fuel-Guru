@@ -22,10 +22,10 @@ class SignupSchema(Schema):
         validate.Regexp(
             '^[A-Za-z]+([0-9A-Za-z]+\_?)*[0-9A-Za-z]+$',
             0,
-            error='The username must contain uppercase letters, lowercase letters, numbers and underscores only')])
+            error='The username must contain uppercase letters, lowercase letters, numbers and underscores only. It must start with a letter and cannot end with an underscore')])
 
     password = fields.Str(required=True, validate=[
-        validate.Regexp('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!-&@~])[A-Za-z0-9!-&@~]+$', 0,
+        validate.Regexp('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!-+@^_~])[A-Za-z0-9!-+@^_~]+$', 0,
                           error='The password must have at least 1 uppercase, 1 lowercase letter, 1 number and 1 special character'),
         validate.Length(min=12, error='The password must be at least 12 characters')])
 
@@ -48,7 +48,7 @@ class SigninSchema(Schema):
     """Username or Email"""
 
     password = fields.Str(required=True, validate=[
-        validate.Regexp('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!-&@~])[A-Za-z0-9!-&@~]+$', 0,
+        validate.Regexp('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!-+@^_~])[A-Za-z0-9!-+@^_~]+$', 0,
                           error='The password must have at least 1 uppercase, 1 lowercase letter, 1 number and 1 special character'),
         validate.Length(min=12, error='The password must be at least 12 characters')])
 
@@ -120,12 +120,12 @@ class EditUserSchema(Schema):
     new_email = fields.Email(validate=[validate.Length(min=1, max=255)])
 
     current_password = fields.Str(validate=[
-        validate.Regexp('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!-&@~])[A-Za-z0-9!-&@~]+$', 0,
+        validate.Regexp('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!-+@^_~])[A-Za-z0-9!-+@^_~]+$', 0,
                         error='The current password must have at least 1 uppercase, 1 lowercase letter, 1 number and 1 special character'),
         validate.Length(min=12, error='The current password must be at least 12 characters')])
 
     new_password = fields.Str(validate=[
-        validate.Regexp('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!-&@~])[A-Za-z0-9!-&@~]+$', 0,
+        validate.Regexp('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!-+@^_~])[A-Za-z0-9!-+@^_~]+$', 0,
                         error='The new password must have at least 1 uppercase, 1 lowercase letter, 1 number and 1 special character'),
         validate.Length(min=12, error='The new password must be at least 12 characters')])
 
