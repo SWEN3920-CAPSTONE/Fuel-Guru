@@ -13,11 +13,11 @@ from sqlalchemy.exc import IntegrityError
 user_api = Blueprint('user_api', __name__)
 
 
-@user_api.route('', methods=['DELETE', 'PUT'])
+@user_api.route('', methods=['DELETE', 'PUT', 'GET'])
 @token_required
-def edit_user():
+def normal_users():
     """
-    Endpoint for editing or deleting a user
+    Endpoint for editing or deleting a user or getting the user profile
 
     No body for DELETE
 
@@ -72,6 +72,8 @@ def edit_user():
         except ValidationError as e:
             return jsonify(errors=e.messages), 400
 
+    if request.method == 'GET':
+        return jsonify(message='Data fetched successfully', data=UserSchema().dump(g.current_user))
     else:
         return jsonify(error='Method not allowed'), 405
 
