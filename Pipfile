@@ -15,10 +15,10 @@ flask-cors = "*"
 flask-jwt-extended = "*"
 flask-mail = "*"
 requests = "*"
+faker = "*"
 
 [dev-packages]
 autopep8 = "*"
-faker = "*"
 pillow = "*"
 pytest = "*"
 coverage = "*"
