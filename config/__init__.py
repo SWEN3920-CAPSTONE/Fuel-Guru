@@ -5,20 +5,18 @@ from flask_jwt_extended import JWTManager
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_mail import Mail
+from flask_sqlalchemy import SQLAlchemy
 
 from .config import Config
 
-app = Flask('config', template_folder=os.path.abspath('controller/templates'))
+app:Flask = Flask('config', template_folder=os.path.abspath('controller/templates'))
 app.config.from_object(Config)
 
 if Config.TESTING:
-    from .testing import TestAlchemy
-    db = TestAlchemy(app)
-else:
-    from flask_sqlalchemy import SQLAlchemy
-    db = SQLAlchemy(app)
+    app.testing=True
 
-ma = Marshmallow(app)
+db:SQLAlchemy = SQLAlchemy(app)
+ma:Marshmallow = Marshmallow(app)
 migrate = Migrate(app, db)
 #csrf = CSRFProtect(app)
 cors = CORS(app)

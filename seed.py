@@ -14,7 +14,7 @@ from datetime import timedelta, timezone
 from faker import Faker
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
-from config import db
+from config import db, app
 from model.users import *
 from model.gasstation import *
 from model.posts import *
@@ -39,7 +39,8 @@ POST_TYPES = [
 ]
 
 ALLOWED_POST_TYPES = [
-    lambda : [POST_TYPES[0], POST_TYPES[1], POST_TYPES[2], POST_TYPES[4], POST_TYPES[5]],
+    lambda: [POST_TYPES[0], POST_TYPES[1],
+             POST_TYPES[2], POST_TYPES[4], POST_TYPES[5]],
     lambda: [POST_TYPES[3], POST_TYPES[4], POST_TYPES[5]],
     lambda: [POST_TYPES[4], POST_TYPES[5]]
 ]
@@ -100,9 +101,9 @@ for i in range(len(POST_TYPES)):
 
 
 for i in range(len(USER_TYPES)):
-    try:        
+    try:
         USER_TYPES[i].allowed_post_types = ALLOWED_POST_TYPES[i]()
-        
+
         db.session.add(USER_TYPES[i])
         db.session.flush()
         db.session.commit()
@@ -154,12 +155,26 @@ print(f'\N{check mark}  {total} type records added')
 quota = 0
 while quota < SEED_COUNT:
     try:
-        # get a random user type between normal or manager
-        rx = random.randint(0, 1)
+        # make sure at least one user of each type exists in the database
+        if quota == 0:
+            rx = 0
+        elif quota == 1:
+            rx = 1
+        elif quota == 2:
+            rx = 2
+        else:
+            # get a random user type between normal or manager
+            rx = random.randint(0, 1)
+
         utype = USER_TYPES[rx]
-        u = User(fake.unique.user_name(), fake.unique.email(),
-                 fake.first_name(), fake.last_name(), fake.password(), utype)
+
+        username = fake.unique.user_name()
+        password = fake.password(length=12)
+
+        u = User(username, fake.unique.email(),
+                 fake.first_name(), fake.last_name(), password, utype)
         users.append(u)
+
         db.session.add(u)
         db.session.commit()
     except SQLAlchemyError as e:
@@ -180,229 +195,245 @@ print('\r\N{check mark}')
 
 # add gas stations
 
-quota = 0
-while quota < SEED_COUNT:
-    try:
-        # decide randomly if this gas station should have a manager
-        if random.randint(0, 1):
-            # get a random user to be the manager
-            rx = random.randint(0, len(users)-1)
-            u = users[rx]
-            if u.user_type.user_type_name != 'Gas Station Manager':
-                u = None  # set the user to None if the user's type is not manager
+if app.config.get('IS_DEV'):
+    quota = 0
+    while quota < SEED_COUNT:
+        try:
+            # decide randomly if this gas station should have a manager
+            if random.randint(0, 1):
+                # get a random user to be the manager
+                rx = random.randint(0, len(users)-1)
+                u = users[rx]
+                if u.user_type.user_type_name != 'Gas Station Manager':
+                    u = None  # set the user to None if the user's type is not manager
+            else:
+                u = None
+            g = GasStation(fake.company(), fake.address(),
+                        fake.latitude(), fake.longitude(), fake.image(), u)
+            gasstations.append(g)
+            db.session.add(g)
+            db.session.commit()
+        except SQLAlchemyError as e:
+            db.session.rollback()
         else:
-            u = None
-        g = GasStation(fake.company(), fake.address(),
-                       fake.latitude(), fake.longitude(), fake.image(), u)
-        gasstations.append(g)
-        db.session.add(g)
-        db.session.commit()
-    except SQLAlchemyError as e:
-        db.session.rollback()
+            total += 1
+            quota += 1
+            print(f'\r   {quota} gas stations added', end='', flush=True)
     else:
-        total += 1
-        quota += 1
         print(f'\r   {quota} gas stations added', end='', flush=True)
-else:
-    print(f'\r   {quota} gas stations added', end='', flush=True)
 
 
-print('\r\N{check mark}')
-longest = max(longest, len(f'   {quota} gas stations added'))
+    print('\r\N{check mark}')
+    longest = max(longest, len(f'   {quota} gas stations added'))
 
 # end add gas stations
 
 
-# add posts
+    # add posts
 
-quota = 0
-while i < SEED_COUNT:
-    # get the gas station to add posts to
-    g = gasstations[i]
-    quota2 = 0
-    # choose a random amount of posts to add to each gas station
-    postnum = random.randint(0, SEED_COUNT)
-    while quota2 < postnum:
+    quota = 0
+    while i < SEED_COUNT:
+        # get the gas station to add posts to
+        g = gasstations[i]
+        quota2 = 0
+        # choose a random amount of posts to add to each gas station
+        postnum = random.randint(0, SEED_COUNT)
+        while quota2 < postnum:
+            try:
+                # get a random user to make the post
+                u = users[random.randint(0, len(users)-1)]
+
+                pt = None
+                # randomly choose a post type the user is allowed make
+                # based on the user type
+                if u.user_type.user_type_name == 'Normal User':
+                    pt = random.choice([*POST_TYPES[0:3], *POST_TYPES[4:]])
+                if u.user_type.user_type_name == 'Gas Station Manager':
+                    if g.manager == u:
+                        pt = random.choice([*POST_TYPES[3:]])
+                    else:
+                        continue
+
+                p = Post(g, pt, u)
+                db.session.add(p)
+                db.session.commit()
+                posts.append(p)
+            except SQLAlchemyError as e:
+                db.session.rollback()
+            else:
+                total += 1
+                quota += 1
+                quota2 += 1
+                print(f'\r   {quota} posts added', end='', flush=True)
+        else:
+            i += 1
+    else:
+        print(f'\r   {quota} posts added', end='', flush=True)
+
+
+    print('\r\N{check mark}')
+    longest = max(longest, len(f'   {quota} posts added'))
+
+    # end add posts
+
+
+    # add post details
+
+    quota = 0
+    while quota < len(posts):
         try:
-            # get a random user to make the post
-            u = users[random.randint(0, len(users)-1)]
+            ptn = posts[quota].post_type.post_type_name  # post type name
 
-            # randomly choose a post type the user is allowed make
-            # based on the user type
-            if u.user_type.user_type_name == 'Normal User':
-                pt = random.choice([*POST_TYPES[0:3], *POST_TYPES[4:]])
-            if u.user_type.user_type_name == 'Gas Station Manager':
-                if g.manager == u:
-                    pt = random.choice([*POST_TYPES[3:]])
-                else:
-                    continue
-
-            p = Post(g, pt, u)
-            db.session.add(p)
-            db.session.commit()
-            posts.append(p)
+            # create post details based on post type
+            if ptn == 'Comment':
+                rev = Review(posts[quota])
+                c = Comment(fake.paragraph(nb_sentences=3), rev)
+                db.session.add(rev)
+                db.session.add(c)
+                db.session.commit()
+            elif ptn == 'Rating':
+                rev = Review(posts[quota])
+                ra = Rating(random.randint(1, 5), rev)
+                db.session.add(rev)
+                db.session.add(ra)
+                db.session.commit()
+            elif ptn == 'Review':
+                rev = Review(posts[quota])
+                c = Comment(fake.paragraph(nb_sentences=3), rev)
+                ra = Rating(random.randint(1, 5), rev)
+                db.session.add(rev)
+                db.session.add(c)
+                db.session.add(ra)
+                db.session.commit()
+            elif ptn == 'Promotion':
+                start_date = fake.future_datetime(tzinfo=timezone.utc)
+                end_date = start_date + timedelta(days=random.randint(1, 30))
+                promo = Promotion(start_date, end_date, fake.image(
+                ), fake.paragraph(nb_sentences=2), posts[quota])
+                db.session.add(promo)
+                db.session.commit()
+            elif ptn == 'Gas Price Suggestion':
+                gps = GasPriceSuggestion(posts[quota])
+                # choose random gas types
+                num = random.randint(0, len(GAS_TYPES)-1)
+                types = random.choices(population=GAS_TYPES, k=num)
+                gps_gases = [Gas(fake.pyfloat(positive=True), t, gps)
+                            for t in types]
+                gps.gases = gps_gases
+                db.session.add(gps)
+                db.session.commit()
+            elif ptn == 'Amenity Tag':
+                a = AmenityTag(AMENITY_TYPES[random.randint(
+                    0, len(AMENITY_TYPES)-1)], posts[quota])
+                db.session.add(a)
+                db.session.commit()
         except SQLAlchemyError as e:
             db.session.rollback()
         else:
             total += 1
             quota += 1
-            quota2 += 1
-            print(f'\r   {quota} posts added', end='', flush=True)
+            print(f'\r   {quota} post details added', end='', flush=True)
     else:
-        i += 1
-else:
-    print(f'\r   {quota} posts added', end='', flush=True)
-
-
-print('\r\N{check mark}')
-longest = max(longest, len(f'   {quota} posts added'))
-
-# end add posts
-
-
-# add post details
-
-quota = 0
-while quota < len(posts):
-    try:
-        ptn = posts[quota].post_type.post_type_name  # post type name
-
-        # create post details based on post type
-        if ptn == 'Comment':
-            rev = Review(posts[quota])
-            c = Comment(fake.paragraph(nb_sentences=3), rev)
-            db.session.add(rev)
-            db.session.add(c)
-            db.session.commit()
-        elif ptn == 'Rating':
-            rev = Review(posts[quota])
-            ra = Rating(random.randint(1, 5), rev)
-            db.session.add(rev)
-            db.session.add(ra)
-            db.session.commit()
-        elif ptn == 'Review':
-            rev = Review(posts[quota])
-            c = Comment(fake.paragraph(nb_sentences=3), rev)
-            ra = Rating(random.randint(1, 5), rev)
-            db.session.add(rev)
-            db.session.add(c)
-            db.session.add(ra)
-            db.session.commit()
-        elif ptn == 'Promotion':
-            start_date = fake.future_datetime(tzinfo=timezone.utc)
-            end_date = start_date + timedelta(days=random.randint(1, 30))
-            promo = Promotion(start_date, end_date, fake.image(
-            ), fake.paragraph(nb_sentences=2), posts[quota])
-            db.session.add(promo)
-            db.session.commit()
-        elif ptn == 'Gas Price Suggestion':
-            gps = GasPriceSuggestion(posts[quota])
-            # choose random gas types
-            num = random.randint(0, len(GAS_TYPES)-1)
-            types = random.choices(population=GAS_TYPES, k=num)
-            gps_gases = [Gas(fake.pyfloat(positive=True), t, gps)
-                         for t in types]
-            gps.gases = gps_gases
-            db.session.add(gps)
-            db.session.commit()
-        elif ptn == 'Amenity Tag':
-            a = AmenityTag(AMENITY_TYPES[random.randint(
-                0, len(AMENITY_TYPES)-1)], posts[quota])
-            db.session.add(a)
-            db.session.commit()
-    except SQLAlchemyError as e:
-        db.session.rollback()
-    else:
-        total += 1
-        quota += 1
         print(f'\r   {quota} post details added', end='', flush=True)
-else:
-    print(f'\r   {quota} post details added', end='', flush=True)
 
-print('\r\N{check mark}')
-longest = max(longest, len(f'   {quota} post details added'))
+    print('\r\N{check mark}')
+    longest = max(longest, len(f'   {quota} post details added'))
 
-# end add post details
+    # end add post details
 
-# add upvotes
-quota = 0
-i = 0
-while i < len(posts):
-    # get the post to add upvotes to
-    p = posts[i]
-    quota2 = 0
-    # choose a random amount of upvotes to add to each post
-    usernum = random.randint(0, SEED_COUNT)
-    while quota2 < usernum:
-        try:
-            # get a random user to make the upvote
-            u = users[random.randint(0, len(users)-1)]
+    # add upvotes
+    quota = 0
+    i = 0
+    while i < len(posts):
+        fails = 0
+        # get the post to add upvotes to
+        p = posts[i]
+        quota2 = 0
+        # choose a random amount of upvotes to add to each post
+        usernum = random.randint(0, SEED_COUNT-1)
+        while quota2 < usernum:
+            try:
+                # get a random user to make the upvote
+                u = users[random.randint(0, len(users)-1)]
 
-            # only normal users can upvote
-            if u.user_type.user_type_name == 'Normal User':
-                # if the user is the creator or the user is already an upvoter, skip
-                if p.creator == u or u in p.upvoters:
-                    raise SQLAlchemyError()
-                if u in p.downvoters:
-                    p.downvoters.remove(u)
-                p.upvoters.append(u)
+                # only normal users can upvote
+                if u.user_type.user_type_name == 'Normal User':
+                    # if the user is the creator or the user is already an upvoter, skip
+                    if p.creator == u or u in p.upvoters:
+                        raise SQLAlchemyError('This user is the creator or already upvoted')
+                    if u in p.downvoters:
+                        p.downvoters.remove(u)
+                    p.upvoters.append(u)
 
-            db.session.commit()
-        except SQLAlchemyError as e:
-            db.session.rollback()
+                    db.session.commit()
+                    fails = 0
+                else:
+                    raise SQLAlchemyError('This user can\'t upvote')
+            except SQLAlchemyError as e:
+                fails+=1
+                if fails>5:
+                    quota2 = usernum 
+                db.session.rollback()
+            else:
+                total += 1
+                quota += 1
+                quota2 += 1
+                print(f'\r   {quota} upvotes added', end='', flush=True)
         else:
-            total += 1
-            quota += 1
-            quota2 += 1
-            print(f'\r   {quota} upvotes added', end='', flush=True)
+            i += 1
     else:
-        i += 1
-else:
-    print(f'\r   {quota} upvotes added', end='', flush=True)
+        print(f'\r   {quota} upvotes added', end='', flush=True)
 
-print('\r\N{check mark}')
-longest = max(longest, len(f'   {quota} upvotes added'))
+    print('\r\N{check mark}')
+    longest = max(longest, len(f'   {quota} upvotes added'))
 
-# end add upvotes
+    # end add upvotes
 
-# add downvotes
-quota = 0
-i = 0
-while i < len(posts):
-    # post to add downvotes to
-    p = posts[i]
-    quota2 = 0
-    # choose a random amount of downvotes to add to each post
-    usernum = random.randint(0, SEED_COUNT)
-    while quota2 < usernum:
-        try:
-            # get a random user to make the downvote
-            u = users[random.randint(0, len(users)-1)]
+    # add downvotes
+    quota = 0
+    i = 0
+    while i < len(posts):
+        fails = 0
+        # post to add downvotes to
+        p = posts[i]
+        quota2 = 0
+        # choose a random amount of downvotes to add to each post
+        usernum = random.randint(0, SEED_COUNT-1)
+        while quota2 < usernum:
+            try:
+                # get a random user to make the downvote
+                u = users[random.randint(0, len(users)-1)]
 
-            # only normal users can downvote
-            if u.user_type.user_type_name == 'Normal User':
-                # if the user is the creator or the user is already a downvoter, skip
-                if p.creator == u or u in p.downvoters:
-                    raise SQLAlchemyError()
-                if u in p.upvoters:
-                    p.upvoters.remove(u)
-                p.downvoters.append(u)
+                # only normal users can downvote
+                if u.user_type.user_type_name == 'Normal User':
+                    # if the user is the creator or the user is already a downvoter or upvoter, skip
+                    if p.creator == u or u in p.downvoters or u in p.upvoters:
+                        raise SQLAlchemyError('This user is the creator or already upvoted')
+                    
+                    p.downvoters.append(u)
 
-            db.session.commit()
-        except SQLAlchemyError as e:
-            db.session.rollback()
+                    db.session.commit()
+                    fails = 0
+                else:
+                    raise SQLAlchemyError('This user can\'t upvote')
+            except SQLAlchemyError as e:
+                fails+=1
+                if fails>5:
+                    quota2 = usernum 
+                    
+                db.session.rollback()
+            else:
+                total += 1
+                quota += 1
+                quota2 += 1
+                print(f'\r   {quota} downvotes added', end='', flush=True)
         else:
-            total += 1
-            quota += 1
-            quota2 += 1
-            print(f'\r   {quota} downvotes added', end='', flush=True)
+            i += 1
     else:
-        i += 1
-else:
-    print(f'\r   {quota} downvotes added', end='', flush=True)
+        print(f'\r   {quota} downvotes added', end='', flush=True)
 
-print('\r\N{check mark}')
-longest = max(longest, len(f'   {quota} downvotes added'))
+    print('\r\N{check mark}')
+    longest = max(longest, len(f'   {quota} downvotes added'))
 
 # end add downvotes
 
