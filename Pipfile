@@ -16,15 +16,12 @@ flask-jwt-extended = "*"
 flask-mail = "*"
 requests = "*"
 faker = "*"
-pillow = "*"
-
-[dev-packages]
 autopep8 = "*"
-faker = "*"
 pillow = "*"
 pytest = "*"
 coverage = "*"
 pytest-cov = "*"
+pytest-html = "*"
 
 [requires]
 python_version = "3.9"
