@@ -15,14 +15,13 @@ flask-cors = "*"
 flask-jwt-extended = "*"
 flask-mail = "*"
 requests = "*"
-
-[dev-packages]
-autopep8 = "*"
 faker = "*"
+autopep8 = "*"
 pillow = "*"
 pytest = "*"
 coverage = "*"
 pytest-cov = "*"
+pytest-html = "*"
 
 [requires]
 python_version = "3.9"

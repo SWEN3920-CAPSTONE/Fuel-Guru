@@ -428,7 +428,7 @@ class Promotion(db.Model):
     )
 
     image = db.Column(
-        db.LargeBinary,
+        db.String,
         nullable=True
     )
 

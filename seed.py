@@ -7,6 +7,7 @@ usage:  python seed.py [<int>]
         to add for each table. Default value is 15
 """
 
+import base64
 import random
 import sys
 from datetime import timedelta, timezone
@@ -209,7 +210,7 @@ if app.config.get('IS_DEV'):
             else:
                 u = None
             g = GasStation(fake.company(), fake.address(),
-                        fake.latitude(), fake.longitude(), fake.image(), u)
+                        fake.latitude(), fake.longitude(), base64.b64encode(fake.image()).decode('utf-8'), u)
             gasstations.append(g)
             db.session.add(g)
             db.session.commit()
@@ -308,8 +309,7 @@ if app.config.get('IS_DEV'):
             elif ptn == 'Promotion':
                 start_date = fake.future_datetime(tzinfo=timezone.utc)
                 end_date = start_date + timedelta(days=random.randint(1, 30))
-                promo = Promotion(start_date, end_date, fake.image(
-                ), fake.paragraph(nb_sentences=2), posts[quota])
+                promo = Promotion(start_date, end_date, base64.b64encode(fake.image()).decode('utf-8'), fake.paragraph(nb_sentences=2), posts[quota])
                 db.session.add(promo)
                 db.session.commit()
             elif ptn == 'Gas Price Suggestion':

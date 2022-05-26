@@ -10,20 +10,6 @@ from model.posts import (AmenityTag, AmenityType, Comment, Gas,
 from model.users import User, UserType
 
 
-class BinaryData(fields.Str):
-    """
-    For converting the images stored in the Database
-    """
-
-    def _deserialize(self, value: str, attr, data, **kwargs):
-        value = base64.b64decode(value)
-        return super()._deserialize(value, attr, data, **kwargs)
-
-    def _serialize(self, value: bytes, attr, obj, **kwargs):
-        value = base64.b64encode(value)
-        return super()._serialize(value, attr, obj, **kwargs)
-
-
 class AmenityTypeSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = AmenityType
@@ -40,7 +26,6 @@ class PromotionSchema(ma.SQLAlchemyAutoSchema):
         transient = True
 
     post = fields.Nested('PostSchema')
-    image = BinaryData()
 
     @post_dump
     def flatten_post(self, data, **kwargs):
@@ -228,8 +213,6 @@ class GasStationSchema(ma.SQLAlchemyAutoSchema):
         load_instance = True
         transient = True
         exclude = ('all_posts',)
-
-    image = BinaryData()
 
     reviews = fields.Nested(ReviewSchema, many=True, dump_only=True)
 
