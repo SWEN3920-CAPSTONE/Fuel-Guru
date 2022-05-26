@@ -21,6 +21,7 @@ pillow = "*"
 pytest = "*"
 coverage = "*"
 pytest-cov = "*"
+pytest-html = "*"
 
 [requires]
 python_version = "3.9"
