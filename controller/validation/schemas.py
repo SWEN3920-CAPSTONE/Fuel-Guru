@@ -204,7 +204,7 @@ class HandlePostSchema(Schema):
 
         end_date = fields.DateTime(required=True)
 
-        image = EscStr()
+        image = EscStr(required=False, allow_none=True)
 
     class PostReview(Schema):
         rating_val = fields.Integer(required=True, strict=True, validate=[
