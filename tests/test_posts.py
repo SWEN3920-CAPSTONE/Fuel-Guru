@@ -1,12 +1,18 @@
 import base64
 import itertools
 from pprint import pprint
-from faker import Faker
+
 import pytest
+from faker import Faker
 from flask.testing import FlaskClient
 
 from tests.conftest import AuthActions
-from tests.utils import has_date_range_error, has_disallowed_post_type_error, has_duplicate_gas_type_error, has_invalid_date_error, has_invalid_num_error, has_invalid_token_error, has_length_range_error, has_manager_post_error, has_min_value_error, has_post_created, has_value_range_error
+from tests.utils import (has_404_error, has_date_range_error, has_deleted_post_error, has_disallowed_post_type_error,
+                         has_duplicate_gas_type_error, has_invalid_date_error,
+                         has_invalid_num_error, has_invalid_token_error,
+                         has_length_range_error, has_manager_post_error,
+                         has_min_value_error, has_no_self_vote_error, has_not_votable_error, has_post_created,
+                         has_value_range_error, has_vote_disallowed_error, has_vote_success)
 
 fake = Faker()
 
@@ -181,7 +187,7 @@ class TestPosts():
             pytest.param('kgarcia', 'vYMovXVs^58Q',2,[{'gas_type_id':1, 'price':90}, {'gas_type_id':2, 'price': 'sevent@y'}],400,lambda resp: has_invalid_num_error(resp), id='UT67')       
         ]
     )
-    def test_gas_price_suggestion(self, auth:AuthActions, iden, password, gas_station_id, gases, code, func):
+    def test_create_gas_price_suggestion(self, auth:AuthActions, iden, password, gas_station_id, gases, code, func):
         
         auth.signin(iden,password)
     
@@ -199,3 +205,66 @@ class TestPosts():
         assert resp.status_code == code
         
         func(resp)
+
+
+    @pytest.mark.parametrize(
+        ('iden', 'password', 'gas_station_id', 'amenity_id', 'twice', 'code', 'func'),
+        [
+            pytest.param('kgarcia', 'vYMovXVs^58Q',2,1,False,200,lambda resp: has_post_created(b'Amenity', resp), id='UT68'),
+            pytest.param('marckennedy', 'ZBly62WopR$2', 1,1,True,200,lambda resp: has_post_created(b'Amenity', resp), id ='UT69'),
+            pytest.param('kgarcia', 'vYMovXVs^58Q',2,0,False,400,lambda resp: has_404_error(resp), id='UT70')    
+        ]
+    )
+    def test_create_amenity_tag(self, auth:AuthActions, iden, password, gas_station_id, amenity_id,twice, code, func):
+        auth.signin(iden,password)
+    
+        data = {
+            'gas_station_id':gas_station_id,
+            'post_type_id': 6,
+            'amenity_tag': {
+                'amenity_id':amenity_id
+            }
+        }
+        
+        resp = auth.client.post(f'{self.url}', json=data, headers={
+            'Authorization': f'Bearer {auth.jwt}'})
+        print(resp.data)
+        assert resp.status_code == code
+        
+        func(resp)
+        
+        if twice:
+            resp = auth.client.post(f'{self.url}', json=data, headers={
+            'Authorization': f'Bearer {auth.jwt}'})
+            print(resp.data)
+            assert resp.status_code == 400
+            assert b'You already made this post today' in resp.data
+    
+            
+    @pytest.mark.parametrize(
+        ('iden','password', 'post_id', 'code', 'func'),
+        [
+            pytest.param('marckennedy', 'ZBly62WopR$2',1, 200, lambda resp: has_vote_success(resp), id='UT71'),
+            pytest.param('kgarcia', 'vYMovXVs^58Q', 1, 403, lambda resp: has_vote_disallowed_error(resp), id='UT72'),
+            pytest.param('marckennedy', 'ZBly62WopR$2',2, 403, lambda resp: has_no_self_vote_error(resp), id='UT73'),
+            pytest.param('nicolehernandez', '#o35Pu@P7KMx',6, 405, lambda resp: has_not_votable_error(resp), id='UT74'),
+            pytest.param('nicolehernandez', '#o35Pu@P7KMx',5, 404, lambda resp: has_deleted_post_error(resp),id='UT75'),
+        ]
+    )
+    def test_upvote(self, auth:AuthActions, iden, password, post_id, code, func):
+        auth.signin(iden,password)
+    
+        data = {
+            'post_id': post_id
+        }
+        
+        resp = auth.client.post(f'{self.url}/upvote', json=data, headers={
+            'Authorization': f'Bearer {auth.jwt}'})
+        print(resp.data)
+        assert resp.status_code == code
+        
+        func(resp)
+    
+    
+    def test_down_vote(self):
+        pass

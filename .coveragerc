@@ -1,0 +1,11 @@
+[run]
+branch=True
+
+include=
+    model/*
+    controller/*
+    config/*
+    
+omit=
+    */user_routes.py
+    */admin_routes.py
