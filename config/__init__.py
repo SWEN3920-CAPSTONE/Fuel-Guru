@@ -31,3 +31,7 @@ from controller.routes.routes import *
 from controller.routes.user_routes import *
 
 db.create_all()
+
+if len(db.session.query(UserType).all()) == 0 and app.testing == False:
+    # run seed if db is empty
+    import seed
