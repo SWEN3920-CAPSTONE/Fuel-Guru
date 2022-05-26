@@ -13,8 +13,10 @@ from .config import Config
 app:Flask = Flask('config', template_folder=os.path.abspath('controller/templates'))
 app.config.from_object(Config)
 
+
 if Config.TESTING:
     app.testing=True
+    
 
 db:SQLAlchemy = SQLAlchemy(app)
 ma:Marshmallow = Marshmallow(app)
