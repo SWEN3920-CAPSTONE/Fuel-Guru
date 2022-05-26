@@ -5,26 +5,29 @@
     </div>      
     <form id="signup-form">
       <div>
-        <input type="text" placeholder="Firstname" required>
+        <input type="text" placeholder="Firstname" required ref="fname">
       </div>
       <div>
-        <input type="text" placeholder="Lastname" required>
+        <input type="text" placeholder="Lastname" required ref="lname">
       </div>
       <div>
-        <input type="email" placeholder="Email Address" required>
+        <input type="email" placeholder="Email Address" required ref="email">
       </div>
       <div>
-        <input type="password" placeholder="Password" required/>
+        <input type="text" placeholder="Username" required ref="uname">
       </div>
       <div>
-        <input type="password" placeholder="Comfirm Password" required/>
+        <input type="password" placeholder="Password" required ref="pword">
       </div>
       <div>
-        <input type="checkbox" id="terms-checkbox" required />
+        <input type="password" placeholder="Comfirm Password" required ref="pword2">
+      </div>
+      <div>
+        <input type="checkbox" id="terms-checkbox" required ref="terms">
         <label for="terms-checkbox">I agree to the terms and conditions.</label>
       </div>
       <div>
-        <input type="checkbox" id="age-checkbox" required />
+        <input type="checkbox" id="age-checkbox" required ref="age">
         <label for="age-checkbox">I am 18 years and older.</label>
       </div>
     </form>
@@ -42,6 +45,35 @@
     </div>
   </main>
 </template>
+
+<script>
+export default {
+  methods: {
+    getGasStations() {
+      fetch('http://localhost:9000/auth/signup', {        
+        body: JSON.stringify({
+          "username": "johndoe3",
+          "password": "John1234$doe",
+          "email": "john3@gmail.com",
+          "firstname": "Doe",
+          "lastname": "John"
+        }),
+        method: "POST"
+      })
+      .then(result => result.text())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
+  },
+created() {
+  this.getGasStations()
+}
+}
+</script>
 
 <style>
 #signup-page {

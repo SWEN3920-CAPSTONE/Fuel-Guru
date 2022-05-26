@@ -24,14 +24,14 @@
 <script>
 ///"/gasstations/search"
 
-//init_gastations
+//access control issue '(Access-Control-Allow-Origin)
 export default {
   methods: {
     getGasStations() {
       fetch('http://localhost:9000/gasstations/search', {
-        body: {
+        body: JSON.stringify({
           "name": "Total"
-        },
+        }),
         method: "POST"
       })
       .then(result => result.json())
