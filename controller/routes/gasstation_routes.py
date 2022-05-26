@@ -22,6 +22,7 @@ gasstation_api = Blueprint('gasstation_api', __name__)
 
 
 @gasstation_api.route('/search', methods=['POST'])
+@csrf.exempt
 def search_gasstations():
     """
     Endpoint for handling gas stations search

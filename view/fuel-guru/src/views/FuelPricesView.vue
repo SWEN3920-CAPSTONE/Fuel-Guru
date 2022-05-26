@@ -21,6 +21,33 @@
 </main>  
 </template>
 
+<script>
+///"/gasstations/search"
+
+//init_gastations
+export default {
+  methods: {
+    getGasStations() {
+      fetch('http://localhost:9000/gasstations/search', {
+        body: {
+          "name": "Total"
+        },
+        method: "POST"
+      })
+      .then(result => result.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
+  },
+created() {
+  this.getGasStations()
+}
+}
+</script>
 
 <style>
 main {
