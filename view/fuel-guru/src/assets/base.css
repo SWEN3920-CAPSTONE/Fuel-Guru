@@ -45,3 +45,8 @@ input[type=text], input[type=password], input[type=email] {
   padding: 5px;
   width: 220px;
 }
+
+select {
+  padding: 5px;
+  width: 220px;
+}
