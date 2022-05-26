@@ -10,5 +10,6 @@ _password_reg = Regexp('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!-&@~])[A-Za-z0-
 class ResetPassword(FlaskForm):
     password = PasswordField(
         validators=[InputRequired(), _password_reg, Length(min=12)])
+    
     conf_password = PasswordField('Confirm Password', validators=[
                                   InputRequired(), _password_reg])

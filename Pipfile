@@ -17,10 +17,12 @@ flask-mail = "*"
 requests = "*"
 
 [dev-packages]
-flask-admin = "*"
 autopep8 = "*"
 faker = "*"
 pillow = "*"
+pytest = "*"
+coverage = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.9"
