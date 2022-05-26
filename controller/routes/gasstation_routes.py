@@ -118,35 +118,6 @@ def get_gasstation(station_id):
     return jsonify(message='Fetch was successful', data=data), 200
 
 
-@gasstation_api.route('', methods=['POST', 'GET'])
-def init_gastations():
-    """
-    Endpoint is for adding the initial gas station data to the database
-
-    Will run only if the gas station table is empty
-    """
-    if len(db.session.query(GasStation).all()) == 0 and request.method == 'POST':
-        gassations, status = init_geolocation()
-        gss = json.loads(gassations.data)['data']
-        pprint(json.loads(gassations.data)['data'])
-        if status == 200:
-            for gasstation in gss:
-                name = gasstation.get('name')
-                address = gasstation.get('vicinity'),
-                lat = gasstation['geometry']['location'].get('lat')
-                lng = gasstation['geometry']['location'].get('lng')
-                #image = #gasstation.get('icon')
-                gs = GasStation(name, address, lat , lng)
-                db.session.add(gs)
-                db.session.commit()
-            return jsonify(message='Gas stations sucessfully added'), 200
-        else:
-            if status == 404:
-                return jsonify(error='No gas stations were found'), 404
-            #print(gassations.error)
-    else:
-        return jsonify(error='gass stations are already in the database')
-
 @gasstation_api.route('/search/nearby', methods=['POST'])
 def search_nearby_gasstation():
     """
@@ -189,3 +160,31 @@ def findRoute_gasstation():
         return jsonify(errors=e.messages), 400
 
 app.register_blueprint(gasstation_api, url_prefix='/gasstations')
+
+def init_gastations():
+    """
+    Endpoint is for adding the initial gas station data to the database
+
+    Will run only if the gas station table is empty
+    """
+    if len(db.session.query(GasStation).all()) == 0 and request.method == 'POST':
+        gassations, status = init_geolocation()
+        gss = json.loads(gassations.data)['data']
+        pprint(json.loads(gassations.data)['data'])
+        if status == 200:
+            for gasstation in gss:
+                name = gasstation.get('name')
+                address = gasstation.get('vicinity'),
+                lat = gasstation['geometry']['location'].get('lat')
+                lng = gasstation['geometry']['location'].get('lng')
+                #image = #gasstation.get('icon')
+                gs = GasStation(name, address, lat , lng)
+                db.session.add(gs)
+                db.session.commit()
+            return jsonify(message='Gas stations sucessfully added'), 200
+        else:
+            if status == 404:
+                return jsonify(error='No gas stations were found'), 404
+            #print(gassations.error)
+    else:
+        return jsonify(error='gass stations are already in the database')

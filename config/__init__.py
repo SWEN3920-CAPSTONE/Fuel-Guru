@@ -1,10 +1,11 @@
 import os
+
 from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
+from flask_mail import Mail
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
-from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 
 from .config import Config
@@ -32,6 +33,9 @@ from controller.routes.user_routes import *
 
 db.create_all()
 
+with app.app_context():
+    init_gastations()
+    
 if len(db.session.query(UserType).all()) == 0 and app.testing == False:
     # run seed if db is empty
     import seed
