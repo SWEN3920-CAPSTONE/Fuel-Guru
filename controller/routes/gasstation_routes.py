@@ -1,22 +1,22 @@
-
-from email import message
-from email.mime import image
-from pprint import pprint
-from flask import Blueprint, jsonify, request
-from marshmallow import ValidationError
-from config import app, db, csrf
-from model.gasstation import GasStation
-from ..geolocation import find_gasstation, init_geolocation, nearby_gasstation
-from controller.validation.schemas import HandleUserLocationSchema, HandleUserGasstationLocationSchema, GasStationSearchSchema
-from controller.utils import get_request_body
 import json
 from datetime import date, datetime, timedelta
+from pprint import pprint
+
+from config import app, db
+from controller.utils import get_request_body
+from controller.validation.schemas import (GasStationSearchSchema,
+                                           HandleUserGasstationLocationSchema,
+                                           HandleUserLocationSchema)
+from flask import Blueprint, jsonify, request
+from marshmallow import ValidationError
 from model.gasstation import GasStation
 from model.posts import (GasPriceSuggestion, Post, downvoted_posts,
                          upvoted_posts)
 from model.schemas import GasStationSchema
 from sqlalchemy import and_, desc, func, select
 from sqlalchemy.orm import aliased
+
+from ..geolocation import find_gasstation, init_geolocation, nearby_gasstation
 
 gasstation_api = Blueprint('gasstation_api', __name__)
 
