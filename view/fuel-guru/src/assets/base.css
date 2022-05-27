@@ -50,3 +50,20 @@ select {
   padding: 5px;
   width: 220px;
 }
+
+li { 
+  background-color: white;
+  list-style: none;
+  padding-bottom: 20px;
+}
+
+li #lst-item {
+  border: 2px solid #AA1414;
+  border-radius: 20px;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 20% 50% 30%;
+  column-gap: 5px;
+  align-items: center;
+}
+

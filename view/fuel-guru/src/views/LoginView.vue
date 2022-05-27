@@ -32,7 +32,8 @@ export default {
   data(){
     return {
       un_e:'', 
-      pw:''
+      pw:'',
+      stat: false
     }
   },
   methods: {    
@@ -47,6 +48,9 @@ export default {
       .then(result => result.json()) //use json intsead of text to get the refresh token
       .then(data => {
         console.log(data); //the data.refresh_token should be in local storage 
+        if (data.message == "SUCCESS"){
+          this.stat = true
+        }
       })
       .catch(error => {
         console.log("no")

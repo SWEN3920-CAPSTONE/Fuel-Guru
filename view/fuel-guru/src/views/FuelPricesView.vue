@@ -39,8 +39,8 @@
     </div>
   </div>
   <div id="search-area">     
-    <input type="text"  id="search-fp" placeholder="Search..">
-    <button id="search-btn">Search</button>
+    <input type="text"  id="search-fp" placeholder="Search.." v-model="search_fp">
+    <button id="search-btn" @click="getGasStations">Search</button>
   </div>
   <div id="filter-area">    
     <label for="parish">PARISH: </label>
@@ -79,48 +79,84 @@
       <option>Name</option>
     </select>
   </div>  
-  <div id="results-area">     
-    <!--v-for to display results-->
-    <p>S</p>
-  </div>     
+  <div id="results-area">           
+    <!-- v-for to display results -->  
+    <li v-for="r in res" :key="r"> 
+      <div id="lst-item">
+        <div>
+          <!-- for image -->
+          <img src="@/assets/other.jpg" alt="Gas Station Image" id="other">
+          </div>
+          <div>
+            <h3>{{ r.name.toUpperCase() }}</h3>
+            <p>
+              {{ r.address }} 
+            </p>
+          </div>
+          <div>
+            <p>
+              <b>E-10 87 Fuel</b> &nbsp;&nbsp;&nbsp; PRICE<br>
+              <b>E-10 90 Fuel</b> &nbsp;&nbsp;&nbsp; PRICE<br>
+              <b>Deisel Fuel </b> &nbsp;&nbsp;&nbsp; PRICE<br>
+              <b>ULSD Fuel</b> &nbsp;&nbsp;&nbsp; PRICE<br>
+            </p>
+          </div>
+      </div>   
+    </li>
+    </div>    
 </main>  
 </template>
 
-<!--
+
 <script>
 ///"/gasstations/search"
 
 //access control issue '(Access-Control-Allow-Origin)
-/*
+
 export default {
+  data() {
+    return {
+      search_fp: '',
+      res: {}
+    }
+  },
   methods: {
     getGasStations() {
       fetch('http://localhost:9000/gasstations/search', {
         body: JSON.stringify({
-          "name": "Total"
+          "name": this.search_fp
         }),
         method: "POST"
       })
       .then(result => result.json())
       .then(data => {
-        console.log(data);
+        this.res=data.data;
+        //console.log(typeof data);
+        console.log(this.res);
+       // console.log(data.name)
       })
       .catch(error => {
         console.log(error)
       })
     }
   },
-created() {
-  this.getGasStations()
+  created() {
+    this.getGasStations()
+  }
 }
-}*/
+
 </script>
--->
+
 <style>
 main {
   padding-top: 50px; 
   color: black;
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+}
+
+#results-area {
+  margin-left: 80px;
+  margin-right: 80px;
 }
 
 #fuelprices-area {
@@ -192,4 +228,9 @@ label {
   padding-right: 5px;
   padding-left: 30px;
 }
+
+#other{
+  height: 80px;
+}
+
 </style>
