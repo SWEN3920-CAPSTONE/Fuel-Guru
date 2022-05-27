@@ -96,3 +96,22 @@ def has_invalid_num_error(resp):
     
 def has_duplicate_gas_type_error(resp):
     assert b'Only one price per gas type allowed per post' in resp.data
+    
+def has_404_error(resp):
+    assert b'does not exist' in resp.data
+    
+def has_vote_success(resp):
+    assert b'vote toggled successfully' in resp.data
+    
+def has_vote_disallowed_error(resp):
+    assert b'user is not allowed to vote on posts' in resp.data
+    
+def has_no_self_vote_error(resp):
+    assert b'Users cannot vote on their own posts' in resp.data
+    
+def has_not_votable_error(resp):
+    assert b'post is not votable' in resp.data
+    
+def has_deleted_post_error(resp):
+    assert b'specified post has been deleted' in resp.data
+    

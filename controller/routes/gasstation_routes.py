@@ -119,7 +119,6 @@ def get_gasstation(station_id):
 
 
 @gasstation_api.route('/search/nearby', methods=['POST'])
-@csrf.exempt
 def search_nearby_gasstation():
     """
     Endpoint is for finding the nearest gas stations based on the user's current location.
@@ -142,7 +141,6 @@ def search_nearby_gasstation():
     
 
 @gasstation_api.route('/find',methods=['POST'])
-@csrf.exempt
 def findRoute_gasstation():
     """
     Endpoint is for finding a route to a gas station based on the user's current location.
