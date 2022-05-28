@@ -5,12 +5,11 @@
         </div>
         <div id="map-container">
             <GoogleMap api-key="AIzaSyDRP8nSFiRqi-kKZMOBKYoghzawthJgUhs" style="width: 100%; height: 500px" :center="center" :zoom="15">
-              <Marker v-for="marker in markers" :options="marker" />
+              <Marker v-for="marker in markers" :options="marker" :key="marker"/>
             </GoogleMap>
         </div>
     </main>
 </template>
-
 
 <script>
 import { defineComponent } from "vue";
@@ -56,5 +55,4 @@ export default defineComponent({
   width: 100%;
   text-align: center;
 }
-
 </style>
