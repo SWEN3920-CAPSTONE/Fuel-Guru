@@ -35,7 +35,7 @@ export default {
       pw:'',
       stat: false
     }
-  },
+  }, 
   methods: {    
     signin() {
       fetch('http://localhost:9000/auth/signin', {        
