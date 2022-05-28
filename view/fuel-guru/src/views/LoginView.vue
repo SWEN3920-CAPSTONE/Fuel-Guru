@@ -5,24 +5,91 @@
       </div>
       <form id="login-form">      
         <div>
-          <input placeholder="Username" type="text" />
+          <input placeholder="Username/Email" type="text" v-model="un_e" id="un_e">
         </div>    
         <div>
-          <input placeholder="Password" type="password" />
+          <input placeholder="Password" type="password" v-model="pw" id="pw">
         </div>
       </form>
+      <!--<div id="res" v-if="signin">
+      {{res}}
+      </div>-->      
       <div id="login-page-btns">
         <!--sign in to user's page-->
         <div>
-          <button id="login-btn">Login</button>
+          <button id="login-btn" @click="signin">Login</button>
         </div> 
         <div>
-          <router-link :to="{name: 'Signup'}" id="login-page-signup">Signup / Login</router-link>
+          <router-link :to="{name: 'Signup'}" id="login-page-signup">Signup</router-link>
         </div>
         <router-view/>
-      </div>
+      </div> 
   </main>
 </template>
+
+<script>
+export default { 
+  data(){
+    return {
+      un_e:'', 
+      pw:'',
+      stat: false
+    }
+  }, 
+  methods: {    
+    signin() {
+      fetch('http://localhost:9000/auth/signin', {        
+        body: JSON.stringify({
+          "iden": this.un_e, 
+          "password": this.pw       
+        }),
+        method: "POST"
+      })
+      .then(result => result.json()) //use json intsead of text to get the refresh token
+      .then(data => {
+        console.log(data); //the data.refresh_token should be in local storage 
+        if (data.message == "SUCCESS"){
+          this.stat = true
+        }
+      })
+      .catch(error => {
+        console.log("no")
+       // console.log(error);        
+      })
+    },
+  },
+  created() {
+    this.signin()
+  }  
+}
+
+/*
+export default {
+  methods: {
+    getGasStations() {
+      fetch('http://localhost:9000/auth/signin', {        
+        body: JSON.stringify({
+          "iden": "johndoe3",
+          "password": "John1234$doe"
+          //"email": "john3@gmail.com"
+          
+        }),
+        method: "POST"
+      })
+      .then(result => result.text()) //use json intseal of text to get the refresh token
+      .then(data => {
+        console.log(data); //the data.refresh_token should be in local storage 
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
+  },
+created() {
+  this.getGasStations()
+}
+}*/
+</script>
 
 <style>
 #login-page {
@@ -50,10 +117,10 @@
 #login-page-signup {
   border: 2px solid #AA1414;
   border-radius: 25px;
-  padding-top: 5px;
+  padding-top: 2px;
   padding-bottom: 5px;
-  padding-left: 4.5%;
-  padding-right: 4.5%;
+  padding-left: 6.5%;
+  padding-right: 6.5%;
   color: #AA1414;
   background-color: white;
 }
@@ -71,5 +138,9 @@
 
 #login-avatar {
   max-height: 150px;
+}
+
+#res {
+  color: #AA1414;
 }
 </style>

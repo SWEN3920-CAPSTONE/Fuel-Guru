@@ -32,6 +32,9 @@ def _handle_gas_price_suggestion_post(data,post,is_edit):
     
     for gas in details.get('gases'):
         gas_type = GasType.query.get(gas.get('gas_type_id'))
+        if not gas_type:
+            return jsonify(error='A specified gas type does not exist'), 400
+        
         gas_obj =Gas(gas.get('price'), gas_type, gas_post)
         gases.append(gas_obj)
 
@@ -58,6 +61,9 @@ def _handle_gas_price_suggestion_post(data,post,is_edit):
             if ((sorted(epost[0]) == sorted(req_gtype_ids)) and (sorted(epost[1]) == sorted(req_prices))):                    
                 
                 if post.creator.user_type.can_vote:
+                    if post.creator == epost[2].creator:
+                        return jsonify(error='You already made this post today'),400
+                    
                     if post.creator in epost[2].upvoters:
                         return jsonify(error='These prices have already been posted today and the user has already upvoted that post'), 400
                     
@@ -90,6 +96,9 @@ def _handle_promotion_post(data,post,is_edit):
     if not details:
         return jsonify(error='Promotion missing or malformed'), 400
 
+    if details.get('end_date') < details.get('start_date'):
+        return jsonify(error='The end date cannot be earlier than the start date'), 400
+        
     promo = Promotion(post=post, **details, edit=is_edit)
     db.session.add(promo)
     db.session.commit()
@@ -97,16 +106,18 @@ def _handle_promotion_post(data,post,is_edit):
     if is_edit:
         msg = 'The promotion tag has been updated successfully'
     else:
-        msg ='Promotion created successfully'
+        msg = 'Promotion created successfully'
 
     return jsonify(data=PromotionSchema().dump(promo), message=msg)
     
 def _handle_amenity_post(data,post,is_edit):
     details = data.get('amenity_tag')
+    
     if not details:
         return jsonify(error='Amenity id missing or malformed'), 400
 
     amenity_type = AmenityType.query.get(details.get('amenity_id'))
+    
     if not amenity_type:
         return jsonify(error='The specified amenity type does not exist'), 400
 
@@ -122,6 +133,9 @@ def _handle_amenity_post(data,post,is_edit):
 
     if existing:
         if post.creator.user_type.can_vote:
+            if post.creator == existing.creator:
+                return jsonify(error='You already made this post today'),400
+                    
             if post.creator in existing.upvoters:
                 return jsonify(error='This amenity has already been posted today and the user has already upvoted that post'), 400
             else:
@@ -303,6 +317,12 @@ def posts():
 
             gas_station: GasStation = GasStation.query.get(
                 data.get('gas_station_id'))
+            
+            if not gas_station:
+                return jsonify(error='The specified gas station does not exist'),404
+            
+            if g.current_user.user_type.user_type_name =='Gas Station Manager' and gas_station.manager !=g.current_user:
+                return jsonify(error='Gas station managers can only make posts for gas stations they manage'), 403
 
             post = Post(gas_station, post_type, g.current_user)
 
@@ -320,6 +340,9 @@ def posts():
             if post.deleted_at:
                 return jsonify(error='The specified post has been deleted'), 404
 
+            if post.creator != g.current_user:
+                return jsonify(error='Only the owner of the specified post may edit it. You are not the owner'), 403
+            
             if (post.created_at + timedelta(minutes=30)) < datetime.utcnow():
                 return jsonify(error='The 30-minute modification window has passed for the specified post'), 405
 
@@ -337,8 +360,12 @@ def posts():
             if post.deleted_at:
                 return jsonify(error='The specified post has been deleted already'), 404
 
+            if post.creator != g.current_user:
+                return jsonify(error='Only the owner of the specified post may delete it. You are not the owner'), 403
+            
             if (post.created_at + timedelta(minutes=30)) < datetime.utcnow():
                 return jsonify(error='The 30-minute modification window has passed for the specified post'), 405
+            
 
             post.deleted_at = datetime.utcnow()
             db.session.commit()

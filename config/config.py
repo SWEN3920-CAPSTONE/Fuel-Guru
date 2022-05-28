@@ -3,7 +3,6 @@ import os
 
 load_dotenv(override=True)
 
-
 class Config(object):
     """
     Environment variables configuration class.

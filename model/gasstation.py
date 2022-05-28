@@ -22,7 +22,7 @@ class GasStation(db.Model):
 
     lng = db.Column(db.Numeric, nullable=False)
 
-    image = db.Column(db.LargeBinary)
+    image = db.Column(db.String())
 
     manager_id = db.Column(
         db.Integer, db.ForeignKey('users.id'), nullable=True)

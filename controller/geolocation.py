@@ -1,11 +1,8 @@
-from pprint import pprint
-from urllib import response
-from flask import jsonify
-from config import app
 import requests
+from config import app
+from flask import jsonify
 
 API_KEY = app.config.get('API_KEY')
-'''api_key.txt is git ignored, request API key from owner if necessary'''
 
 #This URL requests nearby gas stations
 url = app.config.get('URL')
