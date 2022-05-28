@@ -32,6 +32,9 @@ def _handle_gas_price_suggestion_post(data,post,is_edit):
     
     for gas in details.get('gases'):
         gas_type = GasType.query.get(gas.get('gas_type_id'))
+        if not gas_type:
+            return jsonify(error='A specified gas type does not exist'), 400
+        
         gas_obj =Gas(gas.get('price'), gas_type, gas_post)
         gases.append(gas_obj)
 

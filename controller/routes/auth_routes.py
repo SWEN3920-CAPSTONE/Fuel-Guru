@@ -4,15 +4,16 @@ from hashlib import sha256
 import jwt
 from config import app, db, mail
 from controller.routes.token import gen_access_refresh_token, token_required
-from controller.utils import flash_errors, get_request_body, generate_reset_link
+from controller.utils import (flash_errors, generate_reset_link,
+                              get_request_body)
 from controller.validation.forms import ResetPassword
 from controller.validation.schemas import SigninSchema, SignupSchema
-from flask import (Blueprint, flash, g, jsonify, render_template, request)
+from flask import Blueprint, flash, g, jsonify, render_template, request
 from flask_jwt_extended import get_jwt
 from flask_mail import Message
 from marshmallow import ValidationError
-from model.users import User, UserType
 from model.invalid_tokens import InvalidToken
+from model.users import User, UserType
 
 auth_api = Blueprint('auth_api', __name__)
 
