@@ -1,0 +1,69 @@
+nav {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: right;
+  color: black;
+  margin: 40px;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+}
+
+button {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 15px;  
+  cursor: pointer;
+}
+
+main {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: black;
+  margin: 40px;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+}
+
+nav a.router-link-exact-active { 
+  color: #AA1414;
+  text-decoration: underline;
+}
+
+a.router-link-exact-active { 
+  color: #AA1414;
+  text-decoration: underline;
+}
+
+nav a:hover { 
+  color: #AA1414;
+  text-decoration: underline;
+}
+
+a:link, a:visited { 
+  text-decoration: none; 
+  color: black;
+}
+
+input[type=text], input[type=password], input[type=email] {
+  padding: 5px;
+  width: 220px;
+}
+
+select {
+  padding: 5px;
+  width: 220px;
+}
+
+li { 
+  background-color: white;
+  list-style: none;
+  padding-bottom: 20px;
+}
+
+li #lst-item {
+  border: 2px solid #AA1414;
+  border-radius: 20px;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 20% 50% 30%;
+  column-gap: 5px;
+  align-items: center;
+}
+
