@@ -167,7 +167,7 @@ def init_gastations():
 
     Will run only if the gas station table is empty
     """
-    if len(db.session.query(GasStation).all()) == 0 and request.method == 'POST':
+    if len(db.session.query(GasStation).all()) == 0:
         gassations, status = init_geolocation()
         gss = json.loads(gassations.data)['data']
         pprint(json.loads(gassations.data)['data'])
