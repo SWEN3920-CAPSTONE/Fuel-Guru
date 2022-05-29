@@ -10,9 +10,11 @@
     "test:e2e:ci": "start-server-and-test preview http://127.0.0.1:5050/ 'cypress run'"
   },
   "dependencies": {
+    "@fawmi/vue-google-maps": "^0.9.67",
     "vue": "^3.2.33",
     "vue-router": "^4.0.14",
-    "vue-simple-alert": "^1.1.1"
+    "vue3-google-map": "^0.13.0",
+    "vue3-simple-alert": "^1.0.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.1",

@@ -44,8 +44,8 @@
   </div>
   <div id="filter-area">    
     <label for="parish">PARISH: </label>
-    <select id="parish">
-      <option>Please select one</option>
+    <select id="parish" v-model="parish">
+      <option disabled>Please select one</option>
       <option>Clarendon</option>
       <option>Hanover</option>
       <option>Kingston & St. Andrew</option>
@@ -60,9 +60,10 @@
       <option>Trelawny</option>
       <option>Westmoreland</option>
     </select>
-    <label for="company">COMPANY: </label>
-    <select id="company">
-      <option>Please select one</option>
+    <!--redundant code-->
+    <!-- <label for="company">COMPANY: </label>
+    <select id="company" v-model="company">
+      <option disabled>Please select one</option>
       <option>Blaze</option>
       <option>Cool Oasis</option>
       <option>Fesco</option>
@@ -71,12 +72,12 @@
       <option>Texaco</option>
       <option>Total</option>
       <option>Unipet</option>
-    </select>
+    </select> -->
     <label for="sortby">SORT BY: </label>
-    <select id="sortby"> 
-      <option>Please select one</option>
+    <select id="sortby" v-model="sortby"> 
+      <option disabled>Please select one</option>
       <option>Price</option>
-      <option>Name</option>
+      <option>Location</option>
     </select>
   </div>  
   <div id="results-area">           
@@ -104,44 +105,63 @@
       </div>   
     </li>
     </div>    
+    <div>
+      {{parish}}
+      {{sortby}}
+    </div>
 </main>  
 </template>
 
-
 <script>
-///"/gasstations/search"
-
-//access control issue '(Access-Control-Allow-Origin)
-
 export default {
-  data() {
-    return {
-      search_fp: '',
-      res: {}
-    }
-  },
   methods: {
     getGasStations() {
-      fetch('http://localhost:9000/gasstations/search', {
-        body: JSON.stringify({
-          "name": this.search_fp
-        }),
-        method: "POST"
-      })
-      .then(result => result.json())
-      .then(data => {
-        this.res=data.data;
-        //console.log(typeof data);
-        console.log(this.res);
-       // console.log(data.name)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+      if (this.parish =='' && this.sortby =='' && this.search_fp !=''){
+        fetch('http://localhost:9000/gasstations/search', {
+          body: JSON.stringify({
+            "name": this.search_fp
+          }),
+          method: "POST"
+        })
+        .then(result => result.json())
+        .then(data => {
+          this.res=data.data;
+          console.log(data);
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      }
+      else if (this.search_fp =='' && this.parish !='' && this.sortby !='') {
+        fetch('http://localhost:9000/gasstations/search', {
+          body: JSON.stringify({
+            "name": this.search_fp
+          }),
+          method: "POST"
+        })
+        .then(result => result.json())
+        .then(data => {
+          this.res=data.data; 
+          //console.log(typeof data);
+          console.log(data);
+          //console.log(data.name)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      }
     }
   },
   created() {
     this.getGasStations()
+  },
+  data() {
+    return {
+      search_fp: '',
+      res: {},
+      parish: '',
+      sortby: ''
+    }
   }
 }
 
