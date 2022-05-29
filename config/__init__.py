@@ -38,4 +38,5 @@ db.create_all()
 with app.app_context():
     init_gastations()
     
-import seed
+if len(db.session.query(PostType).all()) ==0:
+    import seed
