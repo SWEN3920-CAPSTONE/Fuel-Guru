@@ -49,7 +49,8 @@ ALLOWED_POST_TYPES = [
 GAS_TYPES = [
     GasType('Diesel'),
     GasType('87'),
-    GasType('90')
+    GasType('90'),
+    GasType('ULSD')
 ]
 
 
@@ -151,52 +152,52 @@ print(f'\N{check mark}  {total} type records added')
 # adding types complete
 
 
-# add users
-
-quota = 0
-while quota < SEED_COUNT:
-    try:
-        # make sure at least one user of each type exists in the database
-        if quota == 0:
-            rx = 0
-        elif quota == 1:
-            rx = 1
-        elif quota == 2:
-            rx = 2
-        else:
-            # get a random user type between normal or manager
-            rx = random.randint(0, 1)
-
-        utype = USER_TYPES[rx]
-
-        username = fake.unique.user_name()
-        password = fake.password(length=12)
-
-        u = User(username, fake.unique.email(),
-                 fake.first_name(), fake.last_name(), password, utype)
-        users.append(u)
-
-        db.session.add(u)
-        db.session.commit()
-    except SQLAlchemyError as e:
-        print(e)
-        db.session.rollback()
-    else:
-        total += 1
-        quota += 1
-        print(f'\r   {quota} users added', end='', flush=True)
-else:
-    print(f'\r   {quota} users added', end='', flush=True)
-
-longest = max(longest, len(f'   {quota} users added'))
-print('\r\N{check mark}')
-
-# end add users
-
-
-# add gas stations
-
 if app.config.get('IS_DEV'):
+    # add users
+
+    quota = 0
+    while quota < SEED_COUNT:
+        try:
+            # make sure at least one user of each type exists in the database
+            if quota == 0:
+                rx = 0
+            elif quota == 1:
+                rx = 1
+            elif quota == 2:
+                rx = 2
+            else:
+                # get a random user type between normal or manager
+                rx = random.randint(0, 1)
+
+            utype = USER_TYPES[rx]
+
+            username = fake.unique.user_name()
+            password = fake.password(length=12)
+
+            u = User(username, fake.unique.email(),
+                    fake.first_name(), fake.last_name(), password, utype)
+            users.append(u)
+
+            db.session.add(u)
+            db.session.commit()
+        except SQLAlchemyError as e:
+            print(e)
+            db.session.rollback()
+        else:
+            total += 1
+            quota += 1
+            print(f'\r   {quota} users added', end='', flush=True)
+    else:
+        print(f'\r   {quota} users added', end='', flush=True)
+
+    longest = max(longest, len(f'   {quota} users added'))
+    print('\r\N{check mark}')
+
+    # end add users
+
+
+    # add gas stations
+
     quota = 0
     while quota < SEED_COUNT:
         try:

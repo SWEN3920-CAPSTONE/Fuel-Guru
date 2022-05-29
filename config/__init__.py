@@ -38,6 +38,4 @@ db.create_all()
 with app.app_context():
     init_gastations()
     
-if len(db.session.query(UserType).all()) == 0 and app.testing == False:
-    # run seed if db is empty
-    import seed
+import seed
