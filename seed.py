@@ -146,13 +146,14 @@ for i in range(len(AMENITY_TYPES)):
     else:
         total += 1
 
-longest = max(longest, len(f'   {total} type records added'))
-print(f'\N{check mark}  {total} type records added')
-
-# adding types complete
-
 
 if app.config.get('IS_DEV'):
+
+    longest = max(longest, len(f'   {total} type records added'))
+    print(f'\N{check mark}  {total} type records added')
+
+    # adding types complete
+
     # add users
 
     quota = 0
@@ -436,8 +437,8 @@ if app.config.get('IS_DEV'):
     print('\r\N{check mark}')
     longest = max(longest, len(f'   {quota} downvotes added'))
 
-# end add downvotes
+    # end add downvotes
 
-print('='*longest)
-print(f'\N{check mark}  {total} records added')
-print('='*longest)
+    print('='*longest)
+    print(f'\N{check mark}  {total} records added')
+    print('='*longest)
