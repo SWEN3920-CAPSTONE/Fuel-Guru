@@ -39,8 +39,8 @@
     </div>
   </div>
   <div id="search-area">     
-    <input type="text"  id="search-fp" placeholder="Search.." v-model="search_fp">
-    <button id="search-btn" @click="getGasStations">Search</button>
+    <input type="text"  id="search-fp" placeholder="Search.." v-model="searchBar">
+    <button id="search-btn" @click.stop.prevent="getGasStations">Search</button>
   </div>
   <div id="filter-area">    
     <label for="parish">PARISH: </label>
@@ -82,7 +82,7 @@
   </div>  
   <div id="results-area">           
     <!-- v-for to display results -->  
-    <li v-for="r in res" :key="r"> 
+    <li v-for="r in response.value" :key="r"> 
       <div id="lst-item">
         <div>
           <!-- for image -->
@@ -103,16 +103,63 @@
             </p>
           </div>
       </div>   
-    </li>
+    </li> 
     </div>    
-    <div>
-      {{parish}}
-      {{sortby}}
-    </div>
 </main>  
 </template>
 
-<script>
+<script setup>
+import {ref} from 'vue';
+
+var searchBar = ref(''); 
+var parish = ref(''); 
+var sortby = ref(''); 
+var response = {}; 
+
+function getGasStations() {
+  if (parish.value ==='' && sortby.value ==='' && searchBar.value !==''){
+    fetch('http://localhost:9000/gasstations/search', {
+      body: JSON.stringify({
+        "name": searchBar.value
+      }),
+      method: "POST"
+    })
+    .then(result => result.json())
+    .then(data => {
+      searchBar.value=''; //not sure why this doesn't work without it being cleared
+      response.value=data.data;
+    //  console.log(data);
+      console.log(response.value);
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+}
+      
+      
+      /*
+      else if (this.search_fp =='' && this.parish !='' && this.sortby !='') {
+        fetch('http://localhost:9000/gasstations/search', {
+          body: JSON.stringify({
+            "name": this.search_fp
+          }),
+          method: "POST"
+        })
+        .then(result => result.json())
+        .then(data => {
+          this.res=data.data; 
+          //console.log(typeof data);
+          console.log(data);
+          //console.log(data.name)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      }
+
+//router.go(); 
+/*
 export default {
   methods: {
     getGasStations() {
@@ -131,7 +178,7 @@ export default {
         .catch(error => {
           console.log(error)
         })
-      }
+      }/*
       else if (this.search_fp =='' && this.parish !='' && this.sortby !='') {
         fetch('http://localhost:9000/gasstations/search', {
           body: JSON.stringify({
@@ -163,7 +210,7 @@ export default {
       sortby: ''
     }
   }
-}
+}*/
 
 </script>
 
