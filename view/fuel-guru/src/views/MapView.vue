@@ -22,14 +22,15 @@ export default defineComponent({
     var markers = [];
     const center = { lat: 18.024960, lng: -76.796557 }; //map centred in Kingston by default
     if(navigator.geolocation){ //if location access granted
+    console.log('location access granted')
       navigator.geolocation.getCurrentPosition((position) => {
         center.lat = position.coords.latitude
         center.lng = position.coords.longitude
 
       fetch('http://localhost:9000/gasstations/search/nearby', {
       body: JSON.stringify({
-        'lat': position.coords.latitude,
-        'lng': position.coords.longitude 
+        'lat': 18.024960,
+        'lng': -76.796557 
       }),
       method: "POST"
     })
@@ -46,9 +47,11 @@ export default defineComponent({
       });
     console.log(center)
     }
+    console.log(markers)
     return { center, markers };
   },
 });
+
 </script>
 
 <style>
