@@ -31,8 +31,8 @@ function checkloggedIn() {
 function logoutUser() {
     loggedIn.value = false;
     localStorage.removeItem('refreshToken');
-
     router.push({name: 'Home'});
+    alert(`You are logged out!`);
 }
 </script>
 

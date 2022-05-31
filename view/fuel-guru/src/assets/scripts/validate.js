@@ -105,7 +105,7 @@
  * The password must have at least 1 uppercase, 1 lowercase letter, 1 number and 1 special character.
  * The password must be at least 12 characters.
  */
- export function validate_password (str) {
+ export function valid_password (str) {
   let strLength = str.length;
   let patternLength = str.match(lettersNumbers).length + str.match(specialChars).length;  
 

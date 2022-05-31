@@ -51,9 +51,10 @@ function login(){
         localStorage.setItem('refreshToken', data.refresh_token);
         emit('update');
         router.push({name: 'FuelPrices'});
+        alert(`Welcome back ${username.value}!`);
       }
       else {         
-        alert("'Incorrect login information!");
+        alert("'Incorrect login credentials!");
       }
     })
     .catch(error => {
