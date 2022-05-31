@@ -48,8 +48,8 @@ export default defineComponent({
 
       fetch('http://localhost:9000/gasstations/search/nearby', {
       body: JSON.stringify({
-        'lat': 18.024960,
-        'lng': -76.796557 
+        'lat': center.lat,
+        'lng': center.lng 
       }),
       method: "POST"
     })
