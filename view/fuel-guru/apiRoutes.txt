@@ -1,0 +1,49 @@
+Endpoint				Methods			Rule
+...........				..............		.............
+admin_api.add_gasstation_manager	POST			/admin/gasstations/manager
+admin_api.amenity_types			GET, POST, PUT		/admin/amenities/types
+admin_api.gas_types			GET, POST, PUT		/admin/gas/types
+admin_api.gasstations			POST, PUT		/admin/gasstations
+admin_api.post_types			GET, POST, PUT		/admin/posts/types
+admin_api.user_types			GET, POST, PUT		/admin/users/types
+auth_api. forgot _password		POST			/auth/forgotpsswd
+auth_api.logout				POST			/auth/logout
+auth_api.refresh			POST			/auth/refresh
+auth_api.reset_user_password		GET, POST		/auth/resetpsswd/‹string:token›
+auth_api.signin				POST			/auth/signin
+auth_api.signup				POST			/auth/signup
+gasstation_api.findRoute_gasstation	POST			/gasstations/find
+gasstation_api.get_gasstation		GET			/gasstations/‹int:station_id›
+gasstation_api.init_gastations		GET, POST		/gasstations
+gasstation_api.search_gasstations	POST			/gasstations/search
+gasstation_api.search_nearby_gasstation	POST			/gasstations/search/nearby
+posts_api.downvote			POST			/posts/downvote
+posts api.gas types			GET			/posts/gas/types
+posts_api.get_amenity_ types		GET			/posts/amenities/types
+posts_api.get_post_types		GET			/posts/types
+posts_api.posts				DELETE, POST, PUT 	/posts
+posts_ap1.upvote			POST			/posts/upvote
+static					GET			/static/‹path:filename›
+user_api.edit_user			DELETE, PUT		/users
+
+
+API Key google maps: AIzaSyDRP8nSFiRqi-kKZMOBKYoghzawthJgUhs
+
+
+JWT - thing
+headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+ fetch("/api/search?make=" + make + "&model=" + model, {
+                method: 'GET',
+                headers: {
+                    'X-CSRFToken': token,
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                credentials: 'same-origin'        
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(jsonResponse) {
+                self.listOfCars = jsonResp
