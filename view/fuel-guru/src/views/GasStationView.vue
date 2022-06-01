@@ -9,7 +9,7 @@ the components are not yet created -->
             <div class="col-md-12">
                 <img src="@/assets/other.jpg" alt="Gas Station Image" id="other">
                 <br>
-                <h2 id="cheapest-d-h">{{station.name}}</h2>
+                <h2 id="cheapest-d-h">{{name}}</h2>
                 <p>{{station.address}}</p>
             </div>
             <div class="row">
@@ -32,7 +32,7 @@ the components are not yet created -->
             <ul id="cheapest-prices">
                 <div id="price">
 
-                    <li id="price-h" v-for="gas in gaslist" :key="gas.id"> 
+                    <li id="price-h" v-for="gas in gasList" :key="gas.id"> 
                         <h4> {{gas.name}} </h4> <!---E-10 87 Fuel -->
                         <h4> {{gas.price}} </h4> <!--- E-10 87 Fuel -->
                     </li>  
@@ -48,7 +48,7 @@ the components are not yet created -->
             <h3>Amenties with the most upvotes</h3>
             <div id="amenity">
                 <li id="amenity-h" v-for="amenity in amenities" :key="amenity.id"> 
-                    <h4> {{station.amenity.name}} </h4>
+                    <h4> {{amenity.name}} </h4>
                 </li>
             </div>
             <br>
@@ -89,6 +89,7 @@ export default {
   data() {
     return {
         name: '',
+        station: {},
         location: '',
         station_id: 1,
         amenities: {},
