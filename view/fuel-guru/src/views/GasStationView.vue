@@ -9,19 +9,19 @@ the components are not yet created -->
             <div class="col-md-12">
                 <img src="@/assets/other.jpg" alt="Gas Station Image" id="other">
                 <br>
-                <h2 id="cheapest-d-h">Gas Station Name</h2>
-                <p>Gas Station Location</p>
+                <h2 id="cheapest-d-h">{{station.name}}</h2>
+                <p>{{station.address}}</p>
             </div>
             <div class="row">
                 <br>
-                <h3>Rating</h3>
+                <h3>Rating {{rating}}/5 </h3>
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-            </div>
+            </div> <!--Create number of stars based on rating 
             <span class="fa fa-star checked"></span>
             <span class="fa fa-star checked"></span>
             <span class="fa fa-star checked"></span>
             <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>-->
         </div>
 
 
@@ -32,7 +32,7 @@ the components are not yet created -->
             <ul id="cheapest-prices">
                 <div id="price">
 
-                    <li id="price-h" v-for="gas in gaslist"> 
+                    <li id="price-h" v-for="gas in gaslist" :key="gas.id"> 
                         <h4> {{gas.name}} </h4> <!---E-10 87 Fuel -->
                         <h4> {{gas.price}} </h4> <!--- E-10 87 Fuel -->
                     </li>  
@@ -47,8 +47,8 @@ the components are not yet created -->
         <div class="amenities-voted">
             <h3>Amenties with the most upvotes</h3>
             <div id="amenity">
-                <li id="amenity-h" v-for="amenity in amenities"> 
-                    <h4> {{amenity.name}} </h4>
+                <li id="amenity-h" v-for="amenity in amenities" :key="amenity.id"> 
+                    <h4> {{station.amenity.name}} </h4>
                 </li>
             </div>
             <br>
@@ -61,7 +61,7 @@ the components are not yet created -->
             <h3>Comments</h3>
             <div class="col-md-12">
                 <ul class="list-group-comments">
-                    <li class="list-group-comment" v-for="comment in comments">
+                    <li class="list-group-comment" v-for="comment in comments" :key="comment.id">
                         <div class="row">
                             
                             <div id="comment">
@@ -72,7 +72,7 @@ the components are not yet created -->
                     </li>
                 </ul>
             </div>
-            <button type="button" class="btn">Leave a comment</button>
+            <button type="button" @click="getGasStation" class="btn">Leave a comment</button>
 
         </div>  
 
@@ -105,13 +105,14 @@ export default {
     //get the fuel prices for a specific gas station
 
 
-
-    getGasStation() {
-      fetch('http://localhost:9000/gasstations/', {
-        body: JSON.stringify({
+        // need to find a way to have the id of the gas station entered
+       /* body: JSON.stringify({
           "station_id": this.station_id
-        }),
-        method: "POST"
+        }),*/
+    getGasStation() {
+      fetch('http://localhost:9000/gasstations/2', {
+       
+        method: "GET"
       })
       .then(result => result.json())
       .then(data => {
@@ -121,7 +122,7 @@ export default {
         this.gasList = this.station.gas_price_suggestion;
         this.amenities = this.station.amenities;
         this.comments = this.station.comments;
-        this.rating = this.station.ratings;
+        this.rating = this.station.avg_rating;
         console.log(this.station);
       })
       .catch(error => {
