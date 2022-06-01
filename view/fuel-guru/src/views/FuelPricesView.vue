@@ -40,7 +40,7 @@
   </div>
   <div id="search-area">     
     <input type="text"  id="search-fp" placeholder="Search.." v-model="search_fp">
-    <button id="search-btn" @click="getGasStations">Search</button>
+    <button id="search-btn" @click="getGasStations()">Search</button>
   </div>
   <div id="filter-area">    
     <label for="parish">PARISH: </label>
@@ -83,7 +83,7 @@
   <div id="results-area">           
     <!-- v-for to display results -->  
     <li v-for="r in res" :key="r"> 
-      <div id="lst-item">
+      <div id="lst-item" @click="goToGasStationPage(r)">
         <div>
           <!-- for image -->
           <img src="@/assets/other.jpg" alt="Gas Station Image" id="other">
@@ -115,6 +115,13 @@
 <script>
 export default {
   methods: {
+
+    goToGasStationPage(r){
+      console.log(r)
+      this.$router.push(`/gasStations/${r.id}`)
+    },
+    
+
     getGasStations() {
       if (this.parish =='' && this.sortby =='' && this.search_fp !=''){
         fetch('http://localhost:9000/gasstations/search', {
