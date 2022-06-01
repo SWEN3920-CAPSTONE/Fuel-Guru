@@ -3,125 +3,223 @@ This would hold the template for all gas stations
 the components are not yet created -->
 
 <template>    
-  <main id="gasStation-area">
-    <div id="gasStation-info">
-      <div>
-        <img src="@/assets/other.jpg" alt="Gas Station Image" id="other2">
-      </div>
-      <div>
-        <h1 id="gasStationName">Gas Station Name</h1>
-        <h2>Gas Station Location</h2>
-      </div>
-    </div>
-    <div>
-      <div id="rating-area">
-        <h3>Gas Station Rate</h3>
-        <button id="rate-btn">Rate</button>
-      </div>
-    </div>
+    <main id="stationArea">
+        <div class="stationGenInfo">
+        <div class="row">
+            <div class="col-md-12">
+                <img src="@/assets/other.jpg" alt="Gas Station Image" id="other">
+                <br>
+                <h2 id="cheapest-d-h">{{station.name}}</h2>
+                <p>{{station.address}}</p>
+            </div>
+            <div class="row">
+                <br>
+                <h3>Rating</h3>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            </div>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+        </div>
 
-      <div id="pricesInfo">
-        <h3>Fuel prices with the most upvotes for today.</h3>
-        <div id="prices">
-          <div>
-            <h4>E-10 87 Fuel</h4>
-            <p>PRICE</p>
-          </div>
-          <div>
-            <h4>E-10 90 Fuel</h4>
-            <p>PRICE</p>
-          </div>
-          <div>
-            <h4>ULSD Fuel</h4>
-            <p>PRICE</p>
-          </div>
-          <div>
-            <h4>Diesel Fuel</h4>
-            <p>PRICE</p>
-          </div>
-        </div>    
-        <div>
-          <div>
-            <!--list of 5 votes-->
-            <h3>Vote on existing fuel prices or suggest the correct a price.</h3>
-          </div>
-          <div>
-            <button id="suggest-price">Suggest A Price</button>
-          </div>
-        </div>
-      </div>
-      
-      <div id="amenityInfo">
-        <h3>Amenities with the most upvotes.</h3>
-        <div id="amenity">
-          <div>
-            <h4>Amenity</h4>
-            <p>NAME</p>
-          </div>
-          <div>
-            <h4>Amenity</h4>
-            <p>NAME</p>
-          </div>
-        </div>
-        <div id="upvoted-amenities">
-          <h3>Vote on existing fuel amenities or suggest the correct amenities.</h3>
-        </div>    
-        <div>
-          <button id="suggest-amenity">Suggest Amenity</button>
-        </div>
-      </div>  
 
-      <div id="comments-area">
-          <h3>COMMENTS</h3>          
-          <div id="prevComments">
-            <!--comments-->
-          </div>
-          <div id="makeComment">     
-            <textarea id="comment-input" placeholder="Comment.." rows="4" cols="100" ></textarea>
-            <button id="comment-btn" >Comment</button>
-          </div>
-      </div>
-  </main>
+        <!--- fuel prices -->
+        <div class="row">
+            <h3>Fuel prices with the most upvotes for today</h3>
+            
+            <ul id="cheapest-prices">
+                <div id="price">
+
+                    <li id="price-h" v-for="gas in gaslist" :key="gas.id"> 
+                        <h4> {{gas.name}} </h4> <!---E-10 87 Fuel -->
+                        <h4> {{gas.price}} </h4> <!--- E-10 87 Fuel -->
+                    </li>  
+                </div>    
+            </ul>
+        
+            <button type="button" class="btn">Suggest a Price</button>
+
+        </div>
+
+        <!--- Amenities -->
+        <div class="amenities-voted">
+            <h3>Amenties with the most upvotes</h3>
+            <div id="amenity">
+                <li id="amenity-h" v-for="amenity in amenities" :key="amenity.id"> 
+                    <h4> {{amenity.name}} </h4>
+                </li>
+            </div>
+            <br>
+            <button type="button" class="btn">Suggest an Amenity</button>
+
+        </div>
+
+        <!--- Comments -->
+        <div class="comments">
+            <h3>Comments</h3>
+            <div class="col-md-12">
+                <ul class="list-group-comments">
+                    <li class="list-group-comment" v-for="comment in comments" :key="comment.id">
+                        <div class="row">
+                            
+                            <div id="comment">
+                                <h4>{{ comment.name }}</h4> <!--check attributes for the comment from the user-->
+                            </div>
+                            
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <button type="button" @click="getGasStation" class="btn">Leave a comment</button>
+
+        </div>  
+
+        </div>
+    </main>
 </template>
 
-<script setup>
+<script>
+///"/gasstations/search"
+
+//access control issue '(Access-Control-Allow-Origin)
+
+export default {
+  data() {
+    return {
+        name: '',
+        location: '',
+        station_id: 1,
+        amenities: {},
+        gasList:{},
+        comments: {},
+        rating: 0,
+    }
+  },
+  methods: {
+
+    //search for a specific gas station result or access it by an id?
+    //GetComments for a specific gas station
+    //get the amenities for a specific gas station
+    //get the fuel prices for a specific gas station
+
+
+        // need to find a way to have the id of the gas station entered
+       /* body: JSON.stringify({
+          "station_id": this.station_id
+        }),*/
+    getGasStation() {
+      fetch('http://localhost:9000/gasstations/2', {
+       
+        method: "GET"
+      })
+      .then(result => result.json())
+      .then(data => {
+        this.station=data.data;
+        this.name = this.station.name;
+        this.location = this.station.location;
+        this.gasList = this.station.gas_price_suggestion;
+        this.amenities = this.station.amenities;
+        this.comments = this.station.comments;
+        this.rating = this.station.ratings;
+        console.log(this.station);
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
+  },
+  created() {
+    this.getGasStation()
+  }
+}
 
 </script>
 
-
 <style>
-#gasStation-area {
+
+.checked {
+  color: #AA1414;
+}
+
+.btn{
+    border: 2px solid #AA1414;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 3%;
+    padding-right: 3%;
+    color: white;
+    background-color: #AA1414;
+    border-radius: 25px;
+}
+
+main {
+  padding-top: 50px; 
+  color: black;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+}
+
+#results-area {
+  margin-left: 80px;
+  margin-right: 80px;
+}
+
+#fuelprices-area {
   display: block;
   padding-bottom: 20px;
 }
 
-#gasStationName {
-  font-size: 40px;
-}
-
-#gasStation-info {
-  display: grid;
-  grid-template-columns: 30% 70%;
-  padding-bottom: 30px;
-}
-
-#other2 {
-  height: 200px;
-}
-
-#prices, #amenity {
+#amenities-voted,#cheapest-prices {
   display: grid;  
   grid-template-columns: auto auto auto auto ;
   text-align: center;
   column-gap: 100px;
 }
 
-#prices div, #amenity div {
+#amenity,#price{
   border: 2px solid #AA1414;
-  border-radius: 20px;
+  border-radius: 25px;
+  padding-bottom: 15px;
 }
 
-#suggest-price, #suggest-amenity, #rate-btn{
+#amenity-h,#price-h {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+#cheapest-87 h2, #cheapest-90 h2, #cheapest-d h2, #cheapest-sd h2 {
+  border-bottom: 2px solid #AA1414;
+}
+
+#search-area {
+  padding-top: 70px;
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+#filter-area {
+  padding-top: 30px;
+  text-align: center;
+  padding-bottom: 20px;
+}
+  
+#search-fp {
+  width: 500px;
+}
+
+#search-btn {
+  border: 2px solid #AA1414;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 3%;
+  padding-right: 3%;
+  color: white;
+  background-color: #AA1414;
+  border-radius: 5px;
+}
+
+#location-87, #location-90, #location-d, #location-sd {
   border: 2px solid #AA1414;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -132,28 +230,14 @@ the components are not yet created -->
   border-radius: 25px;
 }
 
-#prevComments {
-  height: 500px;
-  overflow-x: hidden; 
-  overflow-y: auto;
+label {
+  padding-right: 5px;
+  padding-left: 30px;
 }
 
-#makeComment {
-  display: block;
+#other{
+  height: 150px;
+  float: left;
 }
 
-#rating-area, #pricesInfo, #amenityInfo{
-  padding-bottom: 50px;
-}
-
-#comment-btn {
-  border: 2px solid #AA1414;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 3%;
-  padding-right: 3%;
-  color: white;
-  background-color: #AA1414;
-  border-radius: 5px;
-}
 </style>

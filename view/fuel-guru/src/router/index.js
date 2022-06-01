@@ -41,7 +41,7 @@ const router = createRouter({
       component: FuelPricesView
     },
     {
-      path: '/gasstation',
+      path: '/gasstations',
       name: 'GasStation',
       component: GasStationView
     },
