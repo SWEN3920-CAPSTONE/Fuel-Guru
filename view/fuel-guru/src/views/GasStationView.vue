@@ -81,11 +81,12 @@ the components are not yet created -->
 </template>
 
 <script>
-///"/gasstations/search"
 
 //access control issue '(Access-Control-Allow-Origin)
 
 export default {
+  
+  
   data() {
     return {
         name: '',
@@ -100,7 +101,6 @@ export default {
   },
   methods: {
 
-    //search for a specific gas station result or access it by an id?
     //GetComments for a specific gas station
     //get the amenities for a specific gas station
     //get the fuel prices for a specific gas station
@@ -111,7 +111,8 @@ export default {
           "station_id": this.station_id
         }),*/
     getGasStation() {
-      fetch('http://localhost:9000/gasstations/2', {
+      console.log("station id is " + this.id)
+      fetch('http://localhost:9000/gasstations/'+this.id, {
        
         method: "GET"
       })
@@ -132,6 +133,7 @@ export default {
     }
   },
   created() {
+    this.id = this.$route.params.id
     this.getGasStation()
   }
 }
