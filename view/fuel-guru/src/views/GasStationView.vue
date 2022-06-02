@@ -14,14 +14,14 @@ the components are not yet created -->
             </div>
             <div class="row">
                 <br>
-                <h3>Rating</h3>
+                <h3>Rating {{rating}}/5 </h3>
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-            </div>
+            </div> <!--Create number of stars based on rating 
             <span class="fa fa-star checked"></span>
             <span class="fa fa-star checked"></span>
             <span class="fa fa-star checked"></span>
             <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>-->
         </div>
 
 
@@ -48,7 +48,7 @@ the components are not yet created -->
             <h3>Amenties with the most upvotes</h3>
             <div id="amenity">
                 <li id="amenity-h" v-for="amenity in amenities" :key="amenity.id"> 
-                    <h4> {{amenity.name}} </h4>
+                    <h4> {{station.amenity.name}} </h4>
                 </li>
             </div>
             <br>
@@ -122,7 +122,7 @@ export default {
         this.gasList = this.station.gas_price_suggestion;
         this.amenities = this.station.amenities;
         this.comments = this.station.comments;
-        this.rating = this.station.ratings;
+        this.rating = this.station.avg_rating;
         console.log(this.station);
       })
       .catch(error => {
