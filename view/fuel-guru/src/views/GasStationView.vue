@@ -29,11 +29,11 @@ the components are not yet created -->
         <div class="row">
             <h3>Fuel prices with the most upvotes for today</h3>
             
-            <ul id="cheapest-prices">
-                <div id="price">
+            <ul><!-- v-if="gasList.length>0" not sure why this doesnt work-->
+                <div id="cardRow" >
 
-                    <li id="price-h" v-for="gas in gasList" :key="gas.id"> 
-                        <h4> {{gas.name}} </h4> <!---E-10 87 Fuel -->
+                    <li id="price" v-for="bestprice in gasList" :key="gas.id"> 
+                        <h4> test {{bestprice.gases}} </h4> <!---E-10 87 Fuel -->
                         <h4> {{gas.price}} </h4> <!--- E-10 87 Fuel -->
                     </li>  
                 </div>    
@@ -44,12 +44,19 @@ the components are not yet created -->
         </div>
 
         <!--- Amenities -->
-        <div class="amenities-voted">
+        <div class="row">
             <h3>Amenties with the most upvotes</h3>
-            <div id="amenity">
-                <li id="amenity-h" v-for="amenity in amenities" :key="amenity.id"> 
-                    <h4> {{amenity.name}} </h4>
+            <div id="cardRow" v-if="amenities.length>0">
+                <li id="card" v-for="amenity in amenities" :key="amenity.id"> 
+                    <h4 id="amenity-h"> {{amenity.amenity_type.amenity_name}} </h4>
+              
+                    <br>
+                    <br>
                 </li>
+            
+            </div>
+            <div class="list-group-comments"  v-else>
+                <p>There are no amenities posted at this time.</p> 
             </div>
             <br>
             <button type="button" class="btn">Suggest an Amenity</button>
@@ -59,18 +66,20 @@ the components are not yet created -->
         <!--- Comments -->
         <div class="comments">
             <h3>Comments</h3>
-            <div class="col-md-12">
-                <ul class="list-group-comments">
-                    <li class="list-group-comment" v-for="comment in comments" :key="comment.id">
-                        <div class="row">
-                            
-                            <div id="comment">
-                                <h4>{{ comment.name }}</h4> <!--check attributes for the comment from the user-->
-                            </div>
-                            
-                        </div>
+            <div id="cardRow" >
+                <ul v-if="comments.length>0">
+                    <li id="card" v-for="comment in comments" :key="comment.id">
+                        <h4 id="amenity-h">{{ comment.creator.username }}</h4> <h4 id="amenity-h">{{ comment.created_at }}</h4> 
+                        <p id="amenity-h">{{ comment.body }}</p>
+                        
+                        <h4 id="amenity-h">Up Votes: {{ comment.upvote_count }} &emsp;&emsp;       Down Votes: {{ comment.downvote_count }}</h4>
+                      
+                        <!--check attributes for the comment from the user-->
                     </li>
                 </ul>
+                <div class="list-group-comments" v-else>
+                             <p>There are no comments posted at this time.</p> 
+                        </div>
             </div>
             <button type="button" @click="getGasStation" class="btn">Leave a comment</button>
 
@@ -122,10 +131,11 @@ export default {
         this.name = this.station.name;
         this.location = this.station.location;
         this.gasList = this.station.gas_price_suggestion;
+        console.log("gas list is "+this.gasList);
         this.amenities = this.station.amenities;
         this.comments = this.station.comments;
         this.rating = this.station.avg_rating;
-        console.log(this.station);
+        console.log(data.data);
       })
       .catch(error => {
         console.log(error)
@@ -137,6 +147,7 @@ export default {
     this.getGasStation()
   }
 }
+//SELECT gas_price_suggestions.id, gas_price_suggestions.last_edited, gas_price_suggestions.post_id FROM gas_price_suggestions INNER JOIN posts on gas_price_suggestions.post_id = post.id;
 
 </script>
 
@@ -157,30 +168,21 @@ export default {
     border-radius: 25px;
 }
 
-main {
+#stationarea {
   padding-top: 50px; 
   color: black;
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
 }
 
-#results-area {
-  margin-left: 80px;
-  margin-right: 80px;
-}
 
-#fuelprices-area {
-  display: block;
-  padding-bottom: 20px;
-}
-
-#amenities-voted,#cheapest-prices {
+#cardRow {
   display: grid;  
-  grid-template-columns: auto auto auto auto ;
+  grid-template-columns: auto auto auto ;
   text-align: center;
   column-gap: 100px;
 }
 
-#amenity,#price{
+#amenity,#price,#card{
   border: 2px solid #AA1414;
   border-radius: 25px;
   padding-bottom: 15px;
