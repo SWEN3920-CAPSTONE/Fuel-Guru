@@ -81,24 +81,29 @@ the components are not yet created -->
         <div class="row">
             <h3>HIGHEST UPVOTED FUEL PRICES</h3>
             
-            <ul><!-- v-if="gasList.length>0" not sure why this doesnt work-->
+            <ul v-if="bestPrice!=null"><!-- v-if="gasList.length>0" not sure why this doesnt work-->
                 <div id="cardRow" >
 
-                    <li id="price" v-for="gas in gasList" :key="gas.id"> 
-                        <h4> Type: {{gas.gas_type.gas_type_name}} </h4> <!---E-10 87 Fuel -->
-                        <h4> Price: ${{gas.price}} </h4> <!--- format number?-->
-                    </li>  
+                    <li id="price" v-for="gas in bestPrice" :key="gas.id"> 
+                        <h4> Type: {{gas.gas_type.gas_type_name}} </h4>
+                         <h4> Price: ${{gas.price}} </h4> <!-- format number?-->
+                    </li> 
                 </div>    
             </ul>
+
+            <div class="list-group-comments" v-else>
+                  <p>There are no comments posted at this time.</p> 
+            </div>
         
             <button @click="show_vote_fuelprices=!show_vote_fuelprices" type="button" class="btn">Suggest a Price</button>
 
             <div v-show="show_vote_fuelprices" >
-              
+              test
+              <!---
               <li id="price" v-for="gas in allsuggestedPrices" :key="gas.id"> 
-                        <h4> Type: {{gas.gas_type.gas_type_name}} </h4> <!---E-10 87 Fuel -->
-                        <h4> Price: ${{gas.price}} </h4> <!--- format number?-->
-              </li>  
+                        <h4> Type: {{gas.gas_type.gas_type_name}} </h4> E-10 87 Fuel 
+                        <h4> Price: ${{gas.gases.price}} </h4>format number?
+              </li>  -->
           </div>
         </div>
         <br>
@@ -166,7 +171,8 @@ export default {
         location: '',
         station_id: 1,
         amenities: {},
-        gasList:{},
+        bestPrice:{},
+        allsuggestedPrices:{},
         comments: {},
         rating: 0,
         show_vote_fuelprices:false
@@ -194,9 +200,26 @@ export default {
         this.station=data.data;
         this.name = this.station.name;
         this.location = this.station.location;
-        this.gasList = this.station.current_best_price;
-        this.allsuggestedPrices = this.station.gas_price_suggestions;
-        console.log("gas list is "+this.gasList);
+
+        try{
+          this.bestPrice = this.station.current_best_price.gases;
+          
+        }
+        catch(e){
+            this.bestPrice = null;
+
+        }
+
+        try{
+            this.allsuggestedPrices = this.station.gas_price_suggestions;
+        }
+        catch(e)
+        {
+            this.allsuggestedPrices = null;
+        }
+        
+        console.log("gas list is "+this.bestPrice);
+        //console.log("allsuggestedPrices "+this.allsuggestedPrices);
         this.amenities = this.station.amenities;
         this.comments = this.station.comments;
         this.rating = 5//this.station.avg_rating;
@@ -216,7 +239,7 @@ export default {
     this.getGasStation()
   }
 }
-//SELECT gas_price_suggestions.id, gas_price_suggestions.last_edited, gas_price_suggestions.post_id FROM gas_price_suggestions INNER JOIN posts on gas_price_suggestions.post_id = post.id;
+//SELECT gas_price_suggestions.id, gas_price_suggestions.last_edited, gas_price_suggestions.post_id, posts.id,posts.created_at,posts.last_edited,posts.gas_station_id,posts.post_type_id,posts.creator_id FROM gas_price_suggestions INNER JOIN posts on gas_price_suggestions.post_id = posts.id;
 
 </script>
 
