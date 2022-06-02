@@ -42,8 +42,15 @@ a:link, a:visited {
 }
 
 input[type=text], input[type=password], input[type=email] {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   padding: 5px;
   width: 220px;
+}
+
+textarea {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  padding: 5px;
+  resize: none;
 }
 
 select {
@@ -66,4 +73,3 @@ li #lst-item {
   column-gap: 5px;
   align-items: center;
 }
-

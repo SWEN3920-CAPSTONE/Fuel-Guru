@@ -114,12 +114,22 @@
 
 <script>
 export default {
+  //props: ["id"],
   methods: {
 
     goToGasStationPage(r){
       console.log(r)
-      this.$router.push(`/gasStations/${r.id}`)
+      //this.$router.push(`/gasStations/:${r.id}`)
+      this.$router.push
+      (
+        {
+          name: "GasStation",
+          params: {id:r.id}
+        }
+      )
+
     },
+    
     
 
     getGasStations() {
@@ -164,6 +174,7 @@ export default {
   },
   data() {
     return {
+      //id: r.id,
       search_fp: '',
       res: {},
       parish: '',

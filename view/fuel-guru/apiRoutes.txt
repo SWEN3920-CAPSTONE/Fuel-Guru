@@ -29,3 +29,21 @@ user_api.edit_user			DELETE, PUT		/users
 
 API Key google maps: AIzaSyDRP8nSFiRqi-kKZMOBKYoghzawthJgUhs
 
+
+JWT - thing
+headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+ fetch("/api/search?make=" + make + "&model=" + model, {
+                method: 'GET',
+                headers: {
+                    'X-CSRFToken': token,
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                credentials: 'same-origin'        
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(jsonResponse) {
+                self.listOfCars = jsonResp
