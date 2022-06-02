@@ -53,7 +53,11 @@ export default defineComponent({
       }),
       method: "POST"
     })
-    .then(result => result.json())
+    .then(result => {result.json()
+    if(result.status == 404){
+      alert('No gas stations were found near you')
+    }
+    })
     .then(data => {
         for (var i = 0; i < (data.data).length; i++){
           markers.push({ position: (data.data)[i].geometry.location, label: (data.data)[i].name})

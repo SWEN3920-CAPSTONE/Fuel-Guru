@@ -75,7 +75,7 @@ the components are not yet created -->
             <button type="button" @click="getGasStation" class="btn">Leave a comment</button>
 
         </div>  
-
+            <button type="button" @click="goToMap" class="btn">Get Directions</button>
         </div>
     </main>
 </template>
@@ -130,6 +130,10 @@ export default {
       .catch(error => {
         console.log(error)
       })
+    },
+
+    goToMap() {
+      this.$router.push('/route/' + this.id)
     }
   },
   created() {
