@@ -104,11 +104,28 @@ the components are not yet created -->
               <h3>Current Suggested Prices</h3>
               <hr>
               
+              <div id="search-area">
+                <h5>Make a suggestion!</h5>     
+                Gas Type: <input type="text"  id="sugg-type" placeholder="Suggest Price" v-model="sugg_type">
+                <br>
+                Gas Price: <input type="text"  id="sugg-price" placeholder="Suggest Price" v-model="sugg_price">
+                <button id="search-btn" @click="pass">Suggest Price</button>
+              </div>
+              
               <li v-for="gasArray in allsuggestedPrices" :key="gasArray.id"> 
 
                       <div v-for="gas in gasArray.gases" :key="gas.id"> 
+                          <h5>{{gasArray.creator.username}}</h5>
+                          
                           <h4> Type: {{gas.gas_type.gas_type_name}} </h4>  
                           <h4> Price: ${{gas.price}} </h4>
+
+                          <h5>DownVotes: {{gasArray.downvote_count}} &emsp;&emsp; Upvotes: {{gasArray.upvote_count}}</h5>
+
+                          
+                        <i class="fa fa-thumbs-up" @click="upvote" style="font-size:48px;color:#AA1414"></i>&emsp; <!--functions to be added in-->
+                        <i class="fa fa-thumbs-down" @click="downvote" style="font-size:48px;color:#AA1414"></i>
+                        <br>
                       </div> 
                       <hr>
                       
@@ -146,7 +163,7 @@ the components are not yet created -->
                         <p id="amenity-h">"{{ comment.body }}"</p>
                         
                         <h5 id="amenity-h">Up Votes: {{ comment.upvote_count }} &emsp;&emsp;       Down Votes: {{ comment.downvote_count }}</h5>
-                      
+  
                         <!--check attributes for the comment from the user-->
                     </li>
                     <br>
@@ -183,7 +200,9 @@ export default {
         allsuggestedPrices:{},
         comments: {},
         rating: 0,
-        show_vote_fuelprices:false
+        show_vote_fuelprices:false,
+        sugg_price: '',
+        sugg_type: '',
     }
   },
   methods: {
