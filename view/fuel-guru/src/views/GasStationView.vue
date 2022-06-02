@@ -32,9 +32,9 @@ the components are not yet created -->
             <ul><!-- v-if="gasList.length>0" not sure why this doesnt work-->
                 <div id="cardRow" >
 
-                    <li id="price" v-for="bestprice in gasList" :key="gas.id"> 
-                        <h4> test {{bestprice.gases}} </h4> <!---E-10 87 Fuel -->
-                        <h4> {{gas.price}} </h4> <!--- E-10 87 Fuel -->
+                    <li id="price" v-for="gas in gasList" :key="gas.id"> 
+                        <h4> Type: {{gas.gas_type.gas_type_name}} </h4> <!---E-10 87 Fuel -->
+                        <h4> Price: {{gas.price}} </h4> <!--- E-10 87 Fuel -->
                     </li>  
                 </div>    
             </ul>
@@ -48,10 +48,8 @@ the components are not yet created -->
             <h3>Amenties with the most upvotes</h3>
             <div id="cardRow" v-if="amenities.length>0">
                 <li id="card" v-for="amenity in amenities" :key="amenity.id"> 
-                    <h4 id="amenity-h"> {{amenity.amenity_type.amenity_name}} </h4>
-              
-                    <br>
-                    <br>
+                    <h4 id="title-card"> {{amenity.amenity_type.amenity_name}} </h4>
+                
                 </li>
             
             </div>
@@ -59,29 +57,33 @@ the components are not yet created -->
                 <p>There are no amenities posted at this time.</p> 
             </div>
             <br>
-            <button type="button" class="btn">Suggest an Amenity</button>
-
+            
+        <button type="button" class="btn">Suggest an Amenity</button>
         </div>
 
         <!--- Comments -->
         <div class="comments">
             <h3>Comments</h3>
-            <div id="cardRow" >
+            <div id="commentRow" >
                 <ul v-if="comments.length>0">
                     <li id="card" v-for="comment in comments" :key="comment.id">
-                        <h4 id="amenity-h">{{ comment.creator.username }}</h4> <h4 id="amenity-h">{{ comment.created_at }}</h4> 
-                        <p id="amenity-h">{{ comment.body }}</p>
+                        <h4 id="amenity-h">{{ comment.creator.username }} &emsp; &emsp; &emsp; Date: {{ comment.created_at }}</h4> 
                         
-                        <h4 id="amenity-h">Up Votes: {{ comment.upvote_count }} &emsp;&emsp;       Down Votes: {{ comment.downvote_count }}</h4>
+                        <p id="amenity-h">"{{ comment.body }}"</p>
+                        
+                        <h5 id="amenity-h">Up Votes: {{ comment.upvote_count }} &emsp;&emsp;       Down Votes: {{ comment.downvote_count }}</h5>
                       
                         <!--check attributes for the comment from the user-->
                     </li>
+                    <br>
+                    
                 </ul>
                 <div class="list-group-comments" v-else>
                              <p>There are no comments posted at this time.</p> 
                         </div>
-            </div>
             <button type="button" @click="getGasStation" class="btn">Leave a comment</button>
+
+            </div>
 
         </div>  
 
@@ -130,7 +132,7 @@ export default {
         this.station=data.data;
         this.name = this.station.name;
         this.location = this.station.location;
-        this.gasList = this.station.gas_price_suggestion;
+        this.gasList = this.station.current_best_price.gases;
         console.log("gas list is "+this.gasList);
         this.amenities = this.station.amenities;
         this.comments = this.station.comments;
@@ -174,12 +176,19 @@ export default {
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
 }
 
+#commentRow{
+  display: grid;  
+  grid-template-columns: 650px ;
+  text-align: center;
+  column-gap: 100px;
+}
+
 
 #cardRow {
   display: grid;  
-  grid-template-columns: auto auto auto ;
+  grid-template-columns: 300px 300px auto ;
   text-align: center;
-  column-gap: 100px;
+  column-gap: 50px;
 }
 
 #amenity,#price,#card{
@@ -191,6 +200,13 @@ export default {
 #amenity-h,#price-h {
   padding-left: 20px;
   padding-right: 20px;
+  text-align: left;
+}
+
+#amenity-p,#price-p,#title-card {
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
 }
 
 #cheapest-87 h2, #cheapest-90 h2, #cheapest-d h2, #cheapest-sd h2 {
