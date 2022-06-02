@@ -39,8 +39,8 @@
     </div>
   </div>
   <div id="search-area">     
-    <input type="text"  id="search-fp" placeholder="Search.." v-model="searchBar">
-    <button id="search-btn" @click.stop.prevent="getGasStations">Search</button>
+    <input type="text"  id="search-fp" placeholder="Search.." v-model="search_fp">
+    <button id="search-btn" @click="getGasStations()">Search</button>
   </div>
   <div id="filter-area">    
     <label for="parish">PARISH: </label>
@@ -82,8 +82,8 @@
   </div>  
   <div id="results-area">           
     <!-- v-for to display results -->  
-    <li v-for="r in response.value" :key="r"> 
-      <div id="lst-item">
+    <li v-for="r in res" :key="r"> 
+      <div id="lst-item" @click="goToGasStationPage(r)">
         <div>
           <!-- for image -->
           <img src="@/assets/other.jpg" alt="Gas Station Image" id="other">
@@ -103,40 +103,86 @@
             </p>
           </div>
       </div>   
-    </li> 
+    </li>
     </div>    
+    <div>
+      {{parish}}
+      {{sortby}}
+    </div>
 </main>  
 </template>
 
-<script setup>
-import {ref} from 'vue';
+<script>
+export default {
+  //props: ["id"],
+  methods: {
 
-var searchBar = ref(''); 
-var parish = ref(''); 
-var sortby = ref(''); 
-var response = {}; 
+    goToGasStationPage(r){
+      console.log(r)
+      //this.$router.push(`/gasStations/:${r.id}`)
+      this.$router.push
+      (
+        {
+          name: "GasStation",
+          params: {id:r.id}
+        }
+      )
 
-function getGasStations() {
-  if (parish.value ==='' && sortby.value ==='' && searchBar.value !==''){
-    fetch('http://localhost:9000/gasstations/search', {
-      body: JSON.stringify({
-        "name": searchBar.value
-      }),
-      method: "POST"
-    })
-    .then(result => result.json())
-    .then(data => {
-      searchBar.value=''; //not sure why this doesn't work without it being cleared
-      response.value=data.data;
-    //  console.log(data);
-      console.log(response.value);
-    })
-    .catch(error => {
-      console.log(error)
-    })
+    },
+    
+    
+
+    getGasStations() {
+      if (this.parish =='' && this.sortby =='' && this.search_fp !=''){
+        fetch('http://localhost:9000/gasstations/search', {
+          body: JSON.stringify({
+            "name": this.search_fp
+          }),
+          method: "POST"
+        })
+        .then(result => result.json())
+        .then(data => {
+          this.res=data.data;
+          console.log(data);
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      }
+      else if (this.search_fp =='' && this.parish !='' && this.sortby !='') {
+        fetch('http://localhost:9000/gasstations/search', {
+          body: JSON.stringify({
+            "name": this.search_fp
+          }),
+          method: "POST"
+        })
+        .then(result => result.json())
+        .then(data => {
+          this.res=data.data; 
+          //console.log(typeof data);
+          console.log(data);
+          //console.log(data.name)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      }
+    }
+  },
+  created() {
+    this.getGasStations()
+  },
+  data() {
+    return {
+      //id: r.id,
+      search_fp: '',
+      res: {},
+      parish: '',
+      sortby: ''
+    }
   }
 }
-      
+
 </script>
 
 <style>

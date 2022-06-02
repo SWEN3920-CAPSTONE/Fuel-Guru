@@ -9,7 +9,7 @@ the components are not yet created -->
             <div class="col-md-12">
                 <img src="@/assets/other.jpg" alt="Gas Station Image" id="other">
                 <br>
-                <h2 id="cheapest-d-h">{{station.name}}</h2>
+                <h2 id="cheapest-d-h">{{name}}</h2>
                 <p>{{station.address}}</p>
             </div>
             <div class="row">
@@ -32,7 +32,7 @@ the components are not yet created -->
             <ul id="cheapest-prices">
                 <div id="price">
 
-                    <li id="price-h" v-for="gas in gaslist" :key="gas.id"> 
+                    <li id="price-h" v-for="gas in gasList" :key="gas.id"> 
                         <h4> {{gas.name}} </h4> <!---E-10 87 Fuel -->
                         <h4> {{gas.price}} </h4> <!--- E-10 87 Fuel -->
                     </li>  
@@ -81,14 +81,16 @@ the components are not yet created -->
 </template>
 
 <script>
-///"/gasstations/search"
 
 //access control issue '(Access-Control-Allow-Origin)
 
 export default {
+  
+  
   data() {
     return {
         name: '',
+        station: {},
         location: '',
         station_id: 1,
         amenities: {},
@@ -99,7 +101,6 @@ export default {
   },
   methods: {
 
-    //search for a specific gas station result or access it by an id?
     //GetComments for a specific gas station
     //get the amenities for a specific gas station
     //get the fuel prices for a specific gas station
@@ -110,7 +111,8 @@ export default {
           "station_id": this.station_id
         }),*/
     getGasStation() {
-      fetch('http://localhost:9000/gasstations/2', {
+      console.log("station id is " + this.id)
+      fetch('http://localhost:9000/gasstations/'+this.id, {
        
         method: "GET"
       })
@@ -131,6 +133,7 @@ export default {
     }
   },
   created() {
+    this.id = this.$route.params.id
     this.getGasStation()
   }
 }
