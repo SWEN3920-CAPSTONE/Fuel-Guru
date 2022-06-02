@@ -1,3 +1,4 @@
+from email import message
 import json
 from datetime import date, datetime, timedelta
 from pprint import pprint
@@ -20,6 +21,25 @@ from ..geolocation import find_gasstation, init_geolocation, nearby_gasstation
 
 gasstation_api = Blueprint('gasstation_api', __name__)
 
+
+@gasstation_api.route('', methods=['GET'])
+def all_gasstations():
+    """
+    End point for getting all the gas stations in the system
+    
+    no body or params
+    
+    Returns with data:
+        - 200 if there are gas stations
+        - 404 if there are none        
+    """
+    stations= GasStation.query.all()
+    
+    if len(stations)>0:
+        return jsonify(data=GasStationSchema(many=True).dump(stations), message='Success'),200
+    else:
+        return jsonify(data=[], message='No gas stations in the database'),404
+    
 
 @gasstation_api.route('/search', methods=['POST'])
 def search_gasstations():
