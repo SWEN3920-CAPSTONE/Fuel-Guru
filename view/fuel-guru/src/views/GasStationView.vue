@@ -97,15 +97,23 @@ the components are not yet created -->
         
             <button @click="show_vote_fuelprices=!show_vote_fuelprices" type="button" class="btn">Suggest a Price</button>
 
-            <div v-show="show_vote_fuelprices" >
-              test
-              <!---
-              <li id="price" v-for="gas in allsuggestedPrices" :key="gas.id"> 
-                        <h4> Type: {{gas.gas_type.gas_type_name}} </h4> E-10 87 Fuel 
-                        <h4> Price: ${{gas.gases.price}} </h4>format number?
-              </li>  -->
-          </div>
+            
         </div>
+
+        <div id="price" v-show="show_vote_fuelprices" >
+              <h3>Current Suggested Prices</h3>
+              <hr>
+              
+              <li v-for="gasArray in allsuggestedPrices" :key="gasArray.id"> 
+
+                      <div v-for="gas in gasArray.gases" :key="gas.id"> 
+                          <h4> Type: {{gas.gas_type.gas_type_name}} </h4>  
+                          <h4> Price: ${{gas.price}} </h4>
+                      </div> 
+                      <hr>
+                      
+              </li> 
+          </div>
         <br>
 
         <!--- Amenities -->
