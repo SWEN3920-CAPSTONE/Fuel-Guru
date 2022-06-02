@@ -11,23 +11,29 @@ the components are not yet created -->
                 <br>
                 <h2 id="cheapest-d-h">{{name}}</h2>
                 <p>{{station.address}}</p>
+
+                <h3> Rating 
+            <span class="fa fa-star" v-if="rating==0"></span>
+            <span class="fa fa-star checked" v-if="rating>=1"></span>
+            <span class="fa fa-star checked" v-if="rating>=2"></span>
+            <span class="fa fa-star checked" v-if="rating>=3"></span>
+            <span class="fa fa-star checked" v-if="rating>=4"></span>
+            <span class="fa fa-star checked" v-if="rating>=5"></span>
+            ({{rating}})
+            
+            </h3>
             </div>
-            <div class="row">
+        
                 <br>
-                <h3>Rating {{rating}}/5 </h3>
+                 
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-            </div> <!--Create number of stars based on rating 
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>-->
+            <!--Create number of stars based on rating -->
+
+            
         </div>
-
-
         <!--- fuel prices -->
         <div class="row">
-            <h3>Fuel prices with the most upvotes for today</h3>
+            <h3>HIGHEST UPVOTED FUEL PRICES</h3>
             
             <ul><!-- v-if="gasList.length>0" not sure why this doesnt work-->
                 <div id="cardRow" >
@@ -42,10 +48,11 @@ the components are not yet created -->
             <button type="button" class="btn">Suggest a Price</button>
 
         </div>
+        <br>
 
         <!--- Amenities -->
         <div class="row">
-            <h3>Amenties with the most upvotes</h3>
+            <h3>HIGHEST UPVOTED AMENITIES</h3>
             <div id="cardRow" v-if="amenities.length>0">
                 <li id="card" v-for="amenity in amenities" :key="amenity.id"> 
                     <h4 id="title-card"> {{amenity.amenity_type.amenity_name}} </h4>
@@ -60,6 +67,7 @@ the components are not yet created -->
             
         <button type="button" class="btn">Suggest an Amenity</button>
         </div>
+        <br>
 
         <!--- Comments -->
         <div class="comments">
@@ -186,7 +194,7 @@ export default {
 
 #cardRow {
   display: grid;  
-  grid-template-columns: 300px 300px auto ;
+  grid-template-columns: 20% 20% 20% 20% ;
   text-align: center;
   column-gap: 50px;
 }
@@ -194,7 +202,10 @@ export default {
 #amenity,#price,#card{
   border: 2px solid #AA1414;
   border-radius: 25px;
-  padding-bottom: 15px;
+  padding-bottom: 5px;
+  
+  display: inline-block;
+  vertical-align: middle;
 }
 
 #amenity-h,#price-h {
