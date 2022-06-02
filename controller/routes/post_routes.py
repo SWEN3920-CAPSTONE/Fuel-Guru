@@ -483,7 +483,7 @@ def downvote():
         - 405 if the post type is not votable
         - 500 if the request fails
     """
-    return _vote_on_post('Upvote toggled successfully', 'downvoters', 'upvoters')
+    return _vote_on_post('Downvote toggled successfully', 'downvoters', 'upvoters')
 
 
 @posts_api.route('/amenities/types', methods=['GET'])
