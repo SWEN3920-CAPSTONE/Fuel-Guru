@@ -5,19 +5,19 @@
       </div>
       <form id="login-form">      
         <div>
-          <input placeholder="Username/Email" type="text" v-model="un_e" id="un_e">
+          <input placeholder="Username/Email" type="text" v-model="username" id="un_e">
         </div>    
         <div>
-          <input placeholder="Password" type="password" v-model="pw" id="pw">
+          <input placeholder="Password" type="password" v-model="password" id="pw">
         </div>
       </form>
-      <!--<div id="res" v-if="signin">
-      {{res}}
-      </div>-->      
+      <!--<div id="res">
+      {{response}}
+      </div>-->
       <div id="login-page-btns">
         <!--sign in to user's page-->
         <div>
-          <button id="login-btn" @click="signin">Login</button>
+          <button id="login-btn" @click.stop.prevent="login">Login</button>
         </div> 
         <div>
           <router-link :to="{name: 'Signup'}" id="login-page-signup">Signup</router-link>
@@ -27,68 +27,47 @@
   </main>
 </template>
 
-<script>
-export default { 
-  data(){
-    return {
-      un_e:'', 
-      pw:'',
-      stat: false
-    }
-  }, 
-  methods: {    
-    signin() {
-      fetch('http://localhost:9000/auth/signin', {        
-        body: JSON.stringify({
-          "iden": this.un_e, 
-          "password": this.pw       
-        }),
-        method: "POST"
-      })
-      .then(result => result.json()) //use json intsead of text to get the refresh token
-      .then(data => {
-        console.log(data); //the data.refresh_token should be in local storage 
-        if (data.message == "SUCCESS"){
-          this.stat = true
-        }
-      })
-      .catch(error => {
-        console.log("no")
-       // console.log(error);        
-      })
-    },
-  },
-  created() {
-    this.signin()
-  }  
+<script setup>
+import {ref} from 'vue';
+import router from '../router/index.js';
+
+const emit = defineEmits(['update']);
+
+var username = ref('');
+var password = ref('');
+
+function login(){
+  fetch('http://localhost:9000/auth/signin', {
+    body: JSON.stringify({
+      "iden": username.value,
+      "password": password.value
+    }),
+      method: "POST"
+    })
+    .then(result => result.json()) //use json intsead of text to get the refresh token
+    .then(data => {
+      console.log(data); //the data.refresh_token should be in local storage 
+      if (data.message === "Success") {
+        localStorage.setItem('refreshToken', data.refresh_token);
+        emit('update');
+        router.push({name: 'FuelPrices'});
+        alert(`Welcome back ${username.value}!`);
+      }
+      else {         
+        alert("'Incorrect login credentials!");
+      }
+    })
+    .catch(error => {
+      console.log(error);        
+    })
 }
 
 /*
-export default {
-  methods: {
-    getGasStations() {
-      fetch('http://localhost:9000/auth/signin', {        
-        body: JSON.stringify({
           "iden": "johndoe3",
           "password": "John1234$doe"
           //"email": "john3@gmail.com"
-          
-        }),
-        method: "POST"
-      })
-      .then(result => result.text()) //use json intseal of text to get the refresh token
-      .then(data => {
-        console.log(data); //the data.refresh_token should be in local storage 
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    }
-  },
-created() {
-  this.getGasStations()
-}
-}*/
+        */  
+  
 </script>
 
 <style>
