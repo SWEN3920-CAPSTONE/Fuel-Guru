@@ -12,22 +12,68 @@ the components are not yet created -->
                 <h2 id="cheapest-d-h">{{name}}</h2>
                 <p>{{station.address}}</p>
 
+<!--stylesheet for stars-->
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
                 <h3> Rating 
-            <span class="fa fa-star" v-if="rating==0"></span>
-            <span class="fa fa-star checked" v-if="rating>=1"></span>
-            <span class="fa fa-star checked" v-if="rating>=2"></span>
-            <span class="fa fa-star checked" v-if="rating>=3"></span>
-            <span class="fa fa-star checked" v-if="rating>=4"></span>
-            <span class="fa fa-star checked" v-if="rating>=5"></span>
-            ({{rating}})
+                  <!--Create number of stars based on rating -->
+                  <span v-if="rating==0">
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                  </span>
+
+                  <span v-if="rating==1">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                  </span>
+
+                  <span v-if="rating==2">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked" ></span>
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                  </span>
+
+                  <span v-if="rating==3">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked" ></span>
+                    <span class="fa fa-star checked" ></span>
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                  </span>
+
+                  <span v-if="rating==4">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked" ></span>
+                    <span class="fa fa-star checked" ></span>
+                    <span class="fa fa-star checked" ></span>
+                    <span class="fa fa-star" ></span>
+                  </span>
+
+                  <span v-if="rating==5">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked" ></span>
+                    <span class="fa fa-star checked" ></span>
+                    <span class="fa fa-star checked" ></span>
+                    <span class="fa fa-star checked" ></span>
+                  </span>
+
+
+             ({{rating}}) <!--Display rating in brackets-->
             
             </h3>
             </div>
         
-                <br>
+        
                  
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-            <!--Create number of stars based on rating -->
+            
 
             
         </div>
@@ -40,13 +86,20 @@ the components are not yet created -->
 
                     <li id="price" v-for="gas in gasList" :key="gas.id"> 
                         <h4> Type: {{gas.gas_type.gas_type_name}} </h4> <!---E-10 87 Fuel -->
-                        <h4> Price: {{gas.price}} </h4> <!--- E-10 87 Fuel -->
+                        <h4> Price: ${{gas.price}} </h4> <!--- format number?-->
                     </li>  
                 </div>    
             </ul>
         
-            <button type="button" class="btn">Suggest a Price</button>
+            <button @click="show_vote_fuelprices=!show_vote_fuelprices" type="button" class="btn">Suggest a Price</button>
 
+            <div v-show="show_vote_fuelprices" >
+              
+              <li id="price" v-for="gas in allsuggestedPrices" :key="gas.id"> 
+                        <h4> Type: {{gas.gas_type.gas_type_name}} </h4> <!---E-10 87 Fuel -->
+                        <h4> Price: ${{gas.price}} </h4> <!--- format number?-->
+              </li>  
+          </div>
         </div>
         <br>
 
@@ -116,6 +169,7 @@ export default {
         gasList:{},
         comments: {},
         rating: 0,
+        show_vote_fuelprices:false
     }
   },
   methods: {
@@ -140,11 +194,12 @@ export default {
         this.station=data.data;
         this.name = this.station.name;
         this.location = this.station.location;
-        this.gasList = this.station.current_best_price.gases;
+        this.gasList = this.station.current_best_price;
+        this.allsuggestedPrices = this.station.gas_price_suggestions;
         console.log("gas list is "+this.gasList);
         this.amenities = this.station.amenities;
         this.comments = this.station.comments;
-        this.rating = this.station.avg_rating;
+        this.rating = 5//this.station.avg_rating;
         console.log(data.data);
       })
       .catch(error => {
