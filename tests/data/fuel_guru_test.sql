@@ -74,6 +74,7 @@ INSERT INTO public.gas_price_suggestions VALUES (1, '2022-05-24 06:45:13.582139'
 INSERT INTO public.gas_types VALUES (1, 'Diesel');
 INSERT INTO public.gas_types VALUES (2, '87');
 INSERT INTO public.gas_types VALUES (3, '90');
+INSERT INTO public.gas_types VALUES (4, 'ULSD');
 
 
 INSERT INTO public.gases VALUES (1, 808697540833.285, 1, 1);

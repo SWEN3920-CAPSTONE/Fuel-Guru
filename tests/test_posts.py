@@ -89,16 +89,13 @@ class TestPosts():
         assert resp.status_code == code
         func(resp)
 
+
     @pytest.mark.parametrize(
         ('body', 'code', 'func'),
         [
             pytest.param('This gas station has food', 200,
                          lambda resp: has_post_created(b'Review', resp)),
-            pytest.param('', 400, lambda resp: has_length_range_error(resp)),
-            pytest.param(
-                'I', 200, lambda resp: has_post_created(b'Review', resp)),
-            pytest.param(fake.pystr(min_chars=501, max_chars=501),
-                         400, lambda resp: has_length_range_error(resp))
+            pytest.param('', 400, lambda resp: has_length_range_error(resp))
         ],
         ids=itertools.count(1)
     )
@@ -107,16 +104,8 @@ class TestPosts():
         [
             pytest.param('marckennedy', 'ZBly62WopR$2', 1, 200,
                          lambda resp: has_post_created(b'Review', resp), id='UT51'),
-            pytest.param('marckennedy', 'ZBly62WopR$2', 5, 200,
-                         lambda resp: has_post_created(b'Review', resp), id='UT52'),
             pytest.param('kgarcia', 'vYMovXVs^58Q', 3, 403, lambda resp: has_disallowed_post_type_error(
-                b'Review', resp), id='UT53'),
-            pytest.param('marckennedy', 'ZBly62WopR$2', 0, 400,
-                         lambda resp: has_value_range_error(resp), id='UT54'),
-            pytest.param('marckennedy', 'ZBly62WopR$2', 6, 400,
-                         lambda resp: has_value_range_error(resp), id='UT55'),
-            pytest.param(None, None, 2, 401,
-                         lambda resp: has_invalid_token_error(resp), id='UT56')
+                b'Review', resp), id='UT52')
         ]
     )
     def test_create_review(self, auth: AuthActions, iden, password, rating_val, body, code, func, code2, func2):
@@ -204,6 +193,7 @@ class TestPosts():
 
         func(resp)
 
+
     @pytest.mark.parametrize(
         ('iden', 'password', 'gas_station_id', 'gases', 'code', 'func'),
         [
@@ -288,6 +278,8 @@ class TestPosts():
                          lambda resp: has_not_votable_error(resp), id='UT74'),
             pytest.param('nicolehernandez', '#o35Pu@P7KMx', 5, 404,
                          lambda resp: has_deleted_post_error(resp), id='UT75'),
+            pytest.param('nicolehernandez', '#o35Pu@P7KMx', 5, 404,
+                         lambda resp: has_404_error(resp), id='UT75')
         ]
     )
     def test_upvote(self, auth: AuthActions, iden, password, post_id, code, func):
@@ -304,7 +296,61 @@ class TestPosts():
 
         func(resp)
 
-
     # uses the same function as upvote, wont bother test separately
-    def test_down_vote(self):
+    def test_downvote(self):
         pass
+    
+
+    @pytest.mark.parametrize(
+        ('iden', 'password'),
+        [pytest.param('marckennedy', 'ZBly62WopR$2', id='UT')]
+    )
+    def test_get_amenity_types(self, auth: AuthActions, iden, password):
+        auth.signin(iden, password)
+
+        resp = auth.client.get(f'{self.url}/amenities/types', headers={
+            'Authorization': f'Bearer {auth.jwt}'})
+
+        assert resp.status_code == 200
+
+        assert sorted([amenity.get('amenity_name') for amenity in resp.json.get(
+            'data') or []]) == sorted(['Air pump', 'Bathroom', 'Convenience Store'])
+
+
+    @pytest.mark.parametrize(
+        ('iden', 'password'),
+        [pytest.param('marckennedy', 'ZBly62WopR$2', id='UT')]
+    )
+    def test_get_gas_types(self, auth: AuthActions, iden, password):
+        auth.signin(iden, password)
+
+        resp = auth.client.get(f'{self.url}/gas/types', headers={
+            'Authorization': f'Bearer {auth.jwt}'})
+
+        assert resp.status_code == 200
+
+        assert sorted([gas.get('gas_type_name') for gas in resp.json.get(
+            'data') or []]) == sorted(['Diesel', '87', '90', 'ULSD'])
+
+
+    @pytest.mark.parametrize(
+        ('iden', 'password', 'ptypes'),
+        [
+            pytest.param('marckennedy', 'ZBly62WopR$2', [
+                         'Comment', 'Rating', 'Review', "Gas Price Suggestion", "Amenity Tag"], id='UT'),
+            pytest.param('kgarcia', 'vYMovXVs^58Q', [
+                         'Promotion', "Gas Price Suggestion", "Amenity Tag"], id='UT'),
+            pytest.param('robertwallace', '5oORdvjq*t4K',
+                         ["Gas Price Suggestion", "Amenity Tag"], id='UT')
+        ]
+    )
+    def test_get_post_types(self, auth: AuthActions, iden, password, ptypes):
+        auth.signin(iden, password)
+
+        resp = auth.client.get(f'{self.url}/types', headers={
+            'Authorization': f'Bearer {auth.jwt}'})
+
+        assert resp.status_code == 200
+
+        assert sorted([ptype.get('post_type_name') for ptype in resp.json.get(
+            'data') or []]) == sorted(ptypes)
