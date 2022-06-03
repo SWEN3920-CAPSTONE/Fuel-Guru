@@ -121,10 +121,10 @@ the components are not yet created -->
                           <h4> Price: ${{gas.price}} </h4>
 
                           <h5>DownVotes: {{gasArray.downvote_count}} &emsp;&emsp; Upvotes: {{gasArray.upvote_count}}</h5>
-
+                          <p>id: {{gasArray.id}}</p>
                           
-                        <i class="fa fa-thumbs-up" @click="upvote" style="font-size:48px;color:#AA1414"></i>&emsp; <!--functions to be added in-->
-                        <i class="fa fa-thumbs-down" @click="downvote" style="font-size:48px;color:#AA1414"></i>
+                        <i class="fa fa-thumbs-up" @click="upvote(gasArray.id)" style="font-size:48px;color:#AA1414"></i>&emsp; <!--functions to be added in-->
+                        <i class="fa fa-thumbs-down" @click="downvote(gasArray.id)" style="font-size:48px;color:#AA1414"></i>
                         <br>
                       </div> 
                       <hr>
@@ -203,6 +203,7 @@ export default {
         show_vote_fuelprices:false,
         sugg_price: '',
         sugg_type: '',
+        post_id:22,
     }
   },
   methods: {
@@ -216,6 +217,51 @@ export default {
        /* body: JSON.stringify({
           "station_id": this.station_id
         }),*/
+    
+    upvote(post_id){
+      fetch('http://localhost:9000/posts/upvote', {
+        body: JSON.stringify({
+            "post_id": post_id
+          }),
+        headers: 
+        {
+          Authorization: 'Bearer ' + localStorage.refreshToken
+        },
+        method: "POST"
+      })
+      .then(result => result.json())
+      .then(data => {
+        this.post=data.data;
+        console.log(post_id);
+        console.log(localStorage.refreshToken);
+      })
+      .catch(error => {
+        console.log(error)
+      })
+
+    },
+    downvote(post_id){
+      fetch('http://localhost:9000/posts/downvote', {
+        body: JSON.stringify({
+            "post_id": post_id
+          }),
+        headers: 
+        {
+          Authorization: 'Bearer ' + localStorage.refreshToken
+        },
+        method: "POST"
+      })
+      .then(result => result.json())
+      .then(data => {
+        this.post=data.data;
+        console.log(post_id);
+        console.log(localStorage.refreshToken);
+      })
+      .catch(error => {
+        console.log(error)
+      })
+
+    },
     getGasStation() {
       console.log("station id is " + this.id)
       fetch('http://localhost:9000/gasstations/'+this.id, {
@@ -264,6 +310,7 @@ export default {
   created() {
     this.id = this.$route.params.id
     this.getGasStation()
+    this.upvote()
   }
 }
 //SELECT gas_price_suggestions.id, gas_price_suggestions.last_edited, gas_price_suggestions.post_id, posts.id,posts.created_at,posts.last_edited,posts.gas_station_id,posts.post_type_id,posts.creator_id FROM gas_price_suggestions INNER JOIN posts on gas_price_suggestions.post_id = posts.id;
