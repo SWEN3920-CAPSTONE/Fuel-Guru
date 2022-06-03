@@ -176,18 +176,30 @@ the components are not yet created -->
                 <div class="list-group-comments" v-else>
                              <p>There are no comments posted at this time.</p> 
                         </div>
-            <button type="button" @click="getGasStation" class="btn">Leave a comment</button>
+          
 
             </div>
 
+        <div id="search-area">
+                <h5>Leave a comment!</h5>     
+                <input type="text"  id="comment" placeholder="Comment goes here.." v-model="comment">
+                <br>
+                <br>
+                <button id="search-btn" @click="makeNewComment(comment)">Submit Comment</button>
+          </div>
+        
+        
         </div>  
+            <br>
             <button type="button" @click="goToMap" class="btn">Get Directions</button>
         </div>
     </main>
 </template>
 
 <script>
+
 import GasStationPageVue from '../components/GasStationPage.vue';
+
 
 //access control issue '(Access-Control-Allow-Origin)
 
@@ -205,11 +217,12 @@ export default {
         allsuggestedPrices:{},
         comments: {},
         rating: 0,
-        show_vote_fuelprices:true,
+        show_vote_fuelprices:false,
         sugg_price: '',
         sugg_type: '',
         post_id:22,
         hasToken: false,
+        comment:"",
     }
   },
   methods: {
@@ -231,11 +244,44 @@ export default {
       }
     },
 
+    makeNewComment(commentBody){
+        fetch('http://localhost:9000/posts', {
+        body: JSON.stringify({
+            "gas_station_id":parseInt(this.id),
+            "post_type_id": 1,
+            
+            "comment":
+            
+            {
+              "body":commentBody
+            }
+          }),
+        headers: 
+        {
+          Authorization: 'Bearer ' + localStorage.refreshToken
+        },
+        method: "POST"
+      })
+      .then(result => result.json())
+      .then(data => {
+        this.post=data.data;
+        console.log(this.id);
+        
+        alert(`You have successfully commented`);
+        
+        //this.$router.go()
+        //console.log(localStorage.refreshToken);
+      })
+      .catch(error => {
+        console.log(error)
+        alert(error);
+      })
+    },
     makeGasStationSuggestion(price,type_id)
     {
-        fetch('http://localhost:9000/posts/', {
+        fetch('http://localhost:9000/posts', {
         body: JSON.stringify({
-            "gas_station_id":this.id,
+            "gas_station_id":parseInt(this.id),
             "post_type_id": 5,
             "gas_price_suggestion":
             {
@@ -468,6 +514,11 @@ export default {
   
 #sugg-type,#sugg-price {
   width: 100px;
+}
+
+#comment {
+  width: 500px;
+  height: 100px;;
 }
 
 #search-btn {
