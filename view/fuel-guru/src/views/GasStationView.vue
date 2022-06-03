@@ -95,42 +95,46 @@ the components are not yet created -->
                   <p>There are no comments posted at this time.</p> 
             </div>
         
-            <button @click="show_vote_fuelprices=!show_vote_fuelprices" type="button" class="btn">Suggest a Price</button>
+            <button v-show="this.hasToken" @click="show_vote_fuelprices=!show_vote_fuelprices" type="button" class="btn">View All Gas Price Suggestions</button>
 
             
         </div>
+        <div id="suggestedPrices" v-show="show_vote_fuelprices">
+          <h3>Current Suggested Prices</h3><br>
 
-        <div id="price" v-show="show_vote_fuelprices" >
-              <h3>Current Suggested Prices</h3>
-              <hr>
-              
-              <div id="search-area">
+          <div id="cardRow"  >
+                  
+                <div  v-for="gasArray in allsuggestedPrices" :key="gasArray.id"> 
+                        
+                        <div id="card" v-for="gas in gasArray.gases" :key="gas.id"> 
+                            <h5>{{gasArray.creator.username}}</h5>
+                            
+                            <h4> Type: {{gas.gas_type.gas_type_name}} </h4>  
+                            <h4> Price: ${{gas.price}} </h4>
+
+                            <h5>DownVotes: {{gasArray.downvote_count}} &emsp;&emsp; Upvotes: {{gasArray.upvote_count}}</h5>
+                            <!-- Print ID for testing <p>id: {{gasArray.id}}</p> -->
+                            
+                          <i class="fa fa-thumbs-up" @click="upvote(gasArray.id)" style="font-size:38px;color:#AA1414"></i>&emsp; <!--functions to be added in-->
+                          <i class="fa fa-thumbs-down" @click="downvote(gasArray.id)" style="font-size:38px;color:#AA1414"></i>
+                          
+                          <br>
+                        </div> 
+            
+                </div> 
+            </div>
+            <br>
+            <div id="search-area">
                 <h5>Make a suggestion!</h5>     
-                Gas Type: <input type="text"  id="sugg-type" placeholder="Suggest Price" v-model="sugg_type">
+                Gas Type: <input type="text"  id="sugg-type" placeholder="Gas Type" v-model="sugg_type">
+                &emsp;
+                Gas Price: <input type="text"  id="sugg-price" placeholder="Gas Price" v-model="sugg_price">
                 <br>
-                Gas Price: <input type="text"  id="sugg-price" placeholder="Suggest Price" v-model="sugg_price">
-                <button id="search-btn" @click="pass">Suggest Price</button>
-              </div>
-              
-              <li v-for="gasArray in allsuggestedPrices" :key="gasArray.id"> 
-
-                      <div v-for="gas in gasArray.gases" :key="gas.id"> 
-                          <h5>{{gasArray.creator.username}}</h5>
-                          
-                          <h4> Type: {{gas.gas_type.gas_type_name}} </h4>  
-                          <h4> Price: ${{gas.price}} </h4>
-
-                          <h5>DownVotes: {{gasArray.downvote_count}} &emsp;&emsp; Upvotes: {{gasArray.upvote_count}}</h5>
-                          <p>id: {{gasArray.id}}</p>
-                          
-                        <i class="fa fa-thumbs-up" @click="upvote(gasArray.id)" style="font-size:48px;color:#AA1414"></i>&emsp; <!--functions to be added in-->
-                        <i class="fa fa-thumbs-down" @click="downvote(gasArray.id)" style="font-size:48px;color:#AA1414"></i>
-                        <br>
-                      </div> 
-                      <hr>
-                      
-              </li> 
+                <br>
+                <button id="search-btn" @click="makeGasStationSuggestion(sugg_price,sugg_type)">Suggest Price</button>
           </div>
+        </div>
+          
         <br>
 
         <!--- Amenities -->
@@ -183,6 +187,7 @@ the components are not yet created -->
 </template>
 
 <script>
+import GasStationPageVue from '../components/GasStationPage.vue';
 
 //access control issue '(Access-Control-Allow-Origin)
 
@@ -200,10 +205,11 @@ export default {
         allsuggestedPrices:{},
         comments: {},
         rating: 0,
-        show_vote_fuelprices:false,
+        show_vote_fuelprices:true,
         sugg_price: '',
         sugg_type: '',
         post_id:22,
+        hasToken: false,
     }
   },
   methods: {
@@ -217,7 +223,53 @@ export default {
        /* body: JSON.stringify({
           "station_id": this.station_id
         }),*/
-    
+    checkToken(){
+      if (localStorage.refreshToken!=null)
+      {
+        this.hasToken=true;
+        console.log(this.hasToken);
+      }
+    },
+
+    makeGasStationSuggestion(price,type_id)
+    {
+        fetch('http://localhost:9000/posts/', {
+        body: JSON.stringify({
+            "gas_station_id":this.id,
+            "post_type_id": 5,
+            "gas_price_suggestion":
+            {
+              
+              "gases":
+              {
+                "price":price,
+                "gas_type_id":type_id //compute val based on selection by user
+              },
+
+            }      
+
+          }),
+        headers: 
+        {
+          Authorization: 'Bearer ' + localStorage.refreshToken
+        },
+        method: "POST"
+      })
+      .then(result => result.json())
+      .then(data => {
+        this.post=data.data;
+        console.log(post_id);
+        alert(`You have successfully toggled your upvote`);
+        
+        this.$router.go()
+        console.log(localStorage.refreshToken);
+      })
+      .catch(error => {
+        console.log(error)
+        alert(error);
+      })
+    }
+    ,
     upvote(post_id){
       fetch('http://localhost:9000/posts/upvote', {
         body: JSON.stringify({
@@ -233,10 +285,14 @@ export default {
       .then(data => {
         this.post=data.data;
         console.log(post_id);
+        alert(`You have successfully toggled your upvote`);
+        
+        this.$router.go()
         console.log(localStorage.refreshToken);
       })
       .catch(error => {
         console.log(error)
+        alert(error);
       })
 
     },
@@ -255,6 +311,9 @@ export default {
       .then(data => {
         this.post=data.data;
         console.log(post_id);
+        alert(`You have successfully toggled your downvote`);
+        
+        this.$router.go()
         console.log(localStorage.refreshToken);
       })
       .catch(error => {
@@ -310,7 +369,9 @@ export default {
   created() {
     this.id = this.$route.params.id
     this.getGasStation()
-    this.upvote()
+    this.checkToken();
+    
+    
   }
 }
 //SELECT gas_price_suggestions.id, gas_price_suggestions.last_edited, gas_price_suggestions.post_id, posts.id,posts.created_at,posts.last_edited,posts.gas_station_id,posts.post_type_id,posts.creator_id FROM gas_price_suggestions INNER JOIN posts on gas_price_suggestions.post_id = posts.id;
@@ -350,15 +411,25 @@ export default {
 
 #cardRow {
   display: grid;  
-  grid-template-columns: 20% 20% 20% 20% ;
+  grid-template-columns: auto auto auto auto ;
   text-align: center;
-  column-gap: 50px;
+  column-gap: 15px;
+
+}
+
+#cardRow3 {
+  display: grid;  
+  grid-template-columns: auto auto auto auto;
+  text-align: center;
+  column-gap: 5px;
+  gap: 10px;
 }
 
 #amenity,#price,#card{
   border: 2px solid #AA1414;
   border-radius: 25px;
-  padding-bottom: 5px;
+  
+  padding:15px;
   
   display: inline-block;
   vertical-align: middle;
@@ -381,9 +452,12 @@ export default {
 }
 
 #search-area {
-  padding-top: 70px;
+  border: 2px solid #AA1414;
+  background-color:beige;
   text-align: center;
-  padding-bottom: 20px;
+  padding:10px;
+  
+  
 }
 
 #filter-area {
@@ -392,8 +466,8 @@ export default {
   padding-bottom: 20px;
 }
   
-#search-fp {
-  width: 500px;
+#sugg-type,#sugg-price {
+  width: 100px;
 }
 
 #search-btn {
