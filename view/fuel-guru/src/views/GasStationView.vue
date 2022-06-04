@@ -313,7 +313,7 @@ export default {
       .then(result => result.json())
       .then(data => {
         this.post=data.data;
-        alert(`You have successfully toggled your upvote`);
+        alert(`You have successfully made a suggestion`);
         
         this.$router.go()
         console.log(localStorage.refreshToken);
@@ -337,16 +337,23 @@ export default {
       })
       .then(result => result.json())
       .then(data => {
-        this.post=data.data;
-        console.log(post_id);
-        alert(`You have successfully toggled your upvote`);
         
-        this.$router.go()
-        console.log(localStorage.refreshToken);
+        console.log(post_id);
+        if(data.error!=null)
+        {
+          alert(data.error);
+        }
+        else
+        {
+          alert(`You have successfully toggled your upvote`);
+          this.$router.go()
+        }
+        
+        //console.log(localStorage.refreshToken);
       })
       .catch(error => {
-        console.log(error)
-        alert(error);
+        console.log("error is"+ error)
+        
       })
 
     },
