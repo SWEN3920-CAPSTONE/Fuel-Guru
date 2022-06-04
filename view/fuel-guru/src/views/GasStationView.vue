@@ -171,10 +171,10 @@ the components are not yet created -->
                             <div id="comment-heading">
                                 <h4>{{comment.creator.username}}</h4>
                             </div>
-                            <div id="comment-created">
+                            <div id="comment-created" >
                                 <h4>{{ comment.created_at }}</h4>
                             </div>
-                            <div id="comment-rating">
+                            <div id="comment-icons">
                                 <i class="fa fa-pencil-square" id="thumbs" @click="upvote(comment.id)"></i>   &nbsp;  
                                 <i class="fa fa-trash" id="thumbs" @click="upvote(comment.id)"></i>
                             </div>
@@ -571,12 +571,17 @@ label {
 
 #comment-heading-grid{
   display: grid;  
-  grid-template-columns: auto auto auto ;
-  margin: 0px;
+  grid-template-columns: 20% 60% 20% ;
+  text-align: left;
+  margin-left: 20px;
   height: 40%;
   padding:0px;
 }
 
+#comment-icons{
+  float: right;
+  text-align: left;
+}
 #comment{
   border: 2px solid #AA1414;
   border-radius: 25px;
