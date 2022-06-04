@@ -83,7 +83,7 @@
   <div id="results-area">           
     <!-- v-for to display results -->  
     <li v-for="r in res" :key="r"> 
-      <div id="lst-item" @click="goToGasStationPage(r)">
+      <div id="lst-item">
         <div>
           <!-- for image -->
           <img src="@/assets/other.jpg" alt="Gas Station Image" id="other">
@@ -101,6 +101,8 @@
               <b>Deisel Fuel </b> &nbsp;&nbsp;&nbsp; PRICE<br>
               <b>ULSD Fuel</b> &nbsp;&nbsp;&nbsp; PRICE<br>
             </p>
+            <button id="info-btn" @click="goToGasStationPage(r)">View Info</button>
+
           </div>
       </div>   
     </li>
@@ -241,6 +243,29 @@ main {
 }
 
 #search-btn {
+  border: 2px solid #AA1414;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 3%;
+  padding-right: 3%;
+  color: white;
+  background-color: #AA1414;
+  border-radius: 5px;
+}
+
+#info-btn {
+  border: 2px solid #AA1414;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 3%;
+  padding-right: 3%;
+  width: 180px;
+  color: white;
+  background-color: #AA1414;
+  border-radius: 5px;
+}
+
+#info-btn:hover {
   border: 2px solid #AA1414;
   padding-top: 5px;
   padding-bottom: 5px;

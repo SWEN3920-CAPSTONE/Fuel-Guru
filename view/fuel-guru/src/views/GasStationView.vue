@@ -100,11 +100,11 @@ the components are not yet created -->
             
         </div>
         <div id="suggestedPrices" v-show="show_vote_fuelprices">
-          <h3>Current Suggested Prices</h3><br>
+          <h3>Current Suggested Prices</h3>
 
-          <div id="cardRow"  >
+          <div id="cardRow"  v-if="allsuggestedPrices.length>0">
                   
-                <div  v-for="gasArray in allsuggestedPrices" :key="gasArray.id"> 
+                <div   v-for="gasArray in allsuggestedPrices" :key="gasArray.id"> 
                         
                         <div id="card" v-for="gas in gasArray.gases" :key="gas.id"> 
                             <h5>{{gasArray.creator.username}}</h5>
@@ -121,10 +121,14 @@ the components are not yet created -->
                           <br>
                         </div> 
             
-                </div> 
+                </div>
+                
             </div>
+            <div v-else>
+                  <p>There are no comments posted at this time.</p> 
+            </div> 
             <br>
-            <div id="search-area">
+            <div id="sugg">
                 <h5>Make a suggestion!</h5>     
                 Gas Type: <input type="text"  id="sugg-type" placeholder="Gas Type" v-model="sugg_type">
                 &emsp;
@@ -180,7 +184,7 @@ the components are not yet created -->
 
             </div>
 
-        <div id="search-area">
+        <div id="sugg">
                 <h5>Leave a comment!</h5>     
                 <input type="text"  id="comment" placeholder="Comment goes here.." v-model="comment">
                 <br>
@@ -269,7 +273,7 @@ export default {
         
         alert(`You have successfully commented`);
         
-        //this.$router.go()
+        this.$router.go()
         //console.log(localStorage.refreshToken);
       })
       .catch(error => {
@@ -286,11 +290,16 @@ export default {
             "gas_price_suggestion":
             {
               
-              "gases":
-              {
-                "price":price,
-                "gas_type_id":type_id //compute val based on selection by user
-              },
+              "gases":[
+                {
+                  "gas_type_id":parseInt(type_id),
+                  "price":parseInt(price)
+                }
+              ]
+              
+              
+                
+              
 
             }      
 
@@ -304,7 +313,6 @@ export default {
       .then(result => result.json())
       .then(data => {
         this.post=data.data;
-        console.log(post_id);
         alert(`You have successfully toggled your upvote`);
         
         this.$router.go()
@@ -436,11 +444,15 @@ export default {
     padding-bottom: 5px;
     padding-left: 3%;
     padding-right: 3%;
-    color: white;
-    background-color: #AA1414;
+    color: #AA1414;
+    background-color: white;
     border-radius: 25px;
 }
 
+.btn:hover{
+  background-color: #AA1414;
+  color:white;
+}
 #stationarea {
   padding-top: 50px; 
   color: black;
@@ -497,7 +509,7 @@ export default {
   border-bottom: 2px solid #AA1414;
 }
 
-#search-area {
+#sugg {
   border: 2px solid #AA1414;
   background-color:beige;
   text-align: center;
