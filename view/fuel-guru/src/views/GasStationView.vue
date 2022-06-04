@@ -13,7 +13,7 @@ the components are not yet created -->
                 <p>{{station.address}}</p>
                 <button type="button" @click="goToMap" id="directions-btn" class="btn">Get Directions</button>
 
-<!--stylesheet for stars-->
+                  <!--stylesheet for stars-->
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
                 <br>
                 <br>
@@ -124,19 +124,37 @@ the components are not yet created -->
                           
                 </div>
                 
-            </div>
-            <div v-else>
-                  <p>There are no comments posted at this time.</p> 
-            </div> 
+          </div>
+          <div v-else>
+            <p>There are no comments posted at this time.</p> 
+          </div> 
             <br>
-            <div id="sugg">
-                <h5>Make a gas price suggestion!</h5>     
-                Gas Type: <input type="text"  id="sugg-type" placeholder="Gas Type" v-model="sugg_type">
+          <div id="sugg">
+            <h5>Make a gas price suggestion!</h5> 
+
+            <!-- Selection of Gas Types -->
+            <div id="comment-heading-grid">
+              <div> 
+                <p> Gas Type: </p>
+                <p> Gas Price: </p>
+              </div>
+              
+              <div>
+                  <select id="gasType" v-model="sugg_type">
+                    <option v-for="gas in gasTypes" :key="gas.id" :value="gas.id" placeholder="Select the Gas Type">{{gas.gas_type_name}}</option>
+                  </select>
+
+                    <input type="text"  id="sugg-price" placeholder="Gas Price" v-model="sugg_price">
+              </div>
+              
+                  <!--
+                  Gas Type: <input type="text"  id="sugg-type" placeholder="Gas Type" v-model="sugg_type"> -->
                 &emsp;
-                Gas Price: <input type="text"  id="sugg-price" placeholder="Gas Price" v-model="sugg_price">
+                
                 <br>
                 <br>
                 <button id="search-btn" @click="makeGasStationSuggestion(sugg_price,sugg_type)">Suggest Price</button>
+            </div>
           </div>
         </div>
           
@@ -249,6 +267,7 @@ export default {
         post_id:22,
         hasToken: false,
         comment:"",
+        gasTypes: [],
     }
   },
   methods: {
@@ -527,15 +546,34 @@ export default {
 
     goToMap() {
       this.$router.push('/route/' + this.id)
-    }
+    },
+
+    getGasTypes(){
+      fetch('http://localhost:9000/posts/gas/types', {
+        method: "GET",
+        headers: 
+        {
+          Authorization: 'Bearer ' + localStorage.refreshToken
+        }
+      })
+      .then(result => result.json())
+      .then(data => {
+        this.gasTypes = data.data;
+        console.log("gas types are: " + data.data);
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
   },
+
+  
   created() {
     this.id = this.$route.params.id
     this.getGasStation()
-    console.log("gas prices" + this.allsuggestedPrices);
     this.checkToken();
-    
-    
+    this.getGasTypes();
+  
   }
 }
 //SELECT gas_price_suggestions.id, gas_price_suggestions.last_edited, gas_price_suggestions.post_id, posts.id,posts.created_at,posts.last_edited,posts.gas_station_id,posts.post_type_id,posts.creator_id FROM gas_price_suggestions INNER JOIN posts on gas_price_suggestions.post_id = posts.id;
