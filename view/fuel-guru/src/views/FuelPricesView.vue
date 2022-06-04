@@ -39,8 +39,8 @@
     </div>
   </div>
   <div id="search-area">     
-    <input type="text"  id="search-fp" placeholder="Search.." v-model="search_fp">
-    <button id="search-btn" @click="getGasStations()">Search</button>
+    <input type="text"  id="search-fp" placeholder="Search.." v-model="searchBar">
+    <button id="search-btn" @click.stop.prevent="getGasStations">Search</button>
   </div>
   <div id="filter-area">    
     <label for="parish">PARISH: </label>
@@ -60,19 +60,6 @@
       <option>Trelawny</option>
       <option>Westmoreland</option>
     </select>
-    <!--redundant code-->
-    <!-- <label for="company">COMPANY: </label>
-    <select id="company" v-model="company">
-      <option disabled>Please select one</option>
-      <option>Blaze</option>
-      <option>Cool Oasis</option>
-      <option>Fesco</option>
-      <option>Independent</option>
-      <option>Rubis</option>
-      <option>Texaco</option>
-      <option>Total</option>
-      <option>Unipet</option>
-    </select> -->
     <label for="sortby">SORT BY: </label>
     <select id="sortby" v-model="sortby"> 
       <option disabled>Please select one</option>
@@ -82,16 +69,17 @@
   </div>  
   <div id="results-area">           
     <!-- v-for to display results -->  
-    <li v-for="r in res" :key="r"> 
-      <div id="lst-item" @click="goToGasStationPage(r)">
+    <li v-for="gasStation in response.value" :key="gasStation"> 
+    <router-link :to="{ name: 'GasStation', params: { id: gasStation.id } }">
+      <div id="lst-item">
         <div>
           <!-- for image -->
           <img src="@/assets/other.jpg" alt="Gas Station Image" id="other">
           </div>
           <div>
-            <h3>{{ r.name.toUpperCase() }}</h3>
+            <h3>{{ gasStation.name.toUpperCase() }}</h3>
             <p>
-              {{ r.address }} 
+              {{ gasStation.address }} 
             </p>
           </div>
           <div>
@@ -103,86 +91,43 @@
             </p>
           </div>
       </div>   
-    </li>
+      </router-link>
+    </li> 
     </div>    
-    <div>
-      {{parish}}
-      {{sortby}}
-    </div>
 </main>  
 </template>
 
-<script>
-export default {
-  //props: ["id"],
-  methods: {
+<script setup>
+import {ref} from 'vue';
 
-    goToGasStationPage(r){
-      console.log(r)
-      //this.$router.push(`/gasStations/:${r.id}`)
-      this.$router.push
-      (
-        {
-          name: "GasStation",
-          params: {id:r.id}
-        }
-      )
+var searchBar = ref(''); 
+var parish = ref(''); 
+var sortby = ref(''); 
+var response = {}; 
 
-    },
-    
-    
-
-    getGasStations() {
-      if (this.parish =='' && this.sortby =='' && this.search_fp !=''){
-        fetch('http://localhost:9000/gasstations/search', {
-          body: JSON.stringify({
-            "name": this.search_fp
-          }),
-          method: "POST"
-        })
-        .then(result => result.json())
-        .then(data => {
-          this.res=data.data;
-          console.log(data);
-        })
-        .catch(error => {
-          console.log(error)
-        })
-      }
-      else if (this.search_fp =='' && this.parish !='' && this.sortby !='') {
-        fetch('http://localhost:9000/gasstations/search', {
-          body: JSON.stringify({
-            "name": this.search_fp
-          }),
-          method: "POST"
-        })
-        .then(result => result.json())
-        .then(data => {
-          this.res=data.data; 
-          //console.log(typeof data);
-          console.log(data);
-          //console.log(data.name)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-      }
-    }
-  },
-  created() {
-    this.getGasStations()
-  },
-  data() {
-    return {
-      //id: r.id,
-      search_fp: '',
-      res: {},
-      parish: '',
-      sortby: ''
-    }
+/**
+ * @returns the gas station data for each gas station that matches the word in the search bar
+ */
+function getGasStations() {
+  if (parish.value ==='' && sortby.value ==='' && searchBar.value !==''){
+    fetch('http://localhost:9000/gasstations/search', {
+      body: JSON.stringify({
+        "name": searchBar.value
+      }),
+      method: "POST"
+    })
+    .then(result => result.json())
+    .then(data => {
+      searchBar.value=''; //not sure why this doesn't work without it being cleared
+      response.value=data.data;
+    //  console.log(data);
+      console.log(response.value);
+    })
+    .catch(error => {
+      console.log(error)
+    })
   }
 }
-
 </script>
 
 <style>

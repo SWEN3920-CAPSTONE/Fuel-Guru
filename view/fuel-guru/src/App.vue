@@ -8,7 +8,6 @@
         <router-link :to="{name: 'Home'}" id="logout" v-if="loggedIn" @click.stop.prevent="logoutUser">Logout</router-link>
         <router-link :to="{name: 'Signup'}" id="signup" v-else>Signup / Login</router-link>
         <!-- if the refresh_token is not empty then the user is logged in and can see the logout button -->
-        <!-- <router-link :to="{name: 'Home'}" id="logout" >Logout</router-link> -->
       </nav>
   <router-view @update="checkloggedIn"/>
   </header>
@@ -20,6 +19,10 @@ import router from './router';
 
 var loggedIn = ref('');
 
+/**
+ * Checks if the user is still logged in if the refresh token they were 
+ * given upon successfully logging in is still stored in local storage
+ */
 function checkloggedIn() {
   if (localStorage.getItem('refreshToken') !== null) {
     loggedIn.value = true;
@@ -28,6 +31,10 @@ function checkloggedIn() {
   }
 }
 
+/**
+ * Allows the user to log out and clear the local storgae of their 
+ * refresh token
+ */
 function logoutUser() {
     loggedIn.value = false;
     localStorage.removeItem('refreshToken');

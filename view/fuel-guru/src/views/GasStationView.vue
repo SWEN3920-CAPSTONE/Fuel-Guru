@@ -81,26 +81,64 @@ the components are not yet created -->
         <div class="row">
             <h3>HIGHEST UPVOTED FUEL PRICES</h3>
             
-            <ul><!-- v-if="gasList.length>0" not sure why this doesnt work-->
+            <ul v-if="bestPrice!=null"><!-- v-if="gasList.length>0" not sure why this doesnt work-->
                 <div id="cardRow" >
 
-                    <li id="price" v-for="gas in gasList" :key="gas.id"> 
-                        <h4> Type: {{gas.gas_type.gas_type_name}} </h4> <!---E-10 87 Fuel -->
-                        <h4> Price: ${{gas.price}} </h4> <!--- format number?-->
-                    </li>  
+                    <li id="price" v-for="gas in bestPrice" :key="gas.id"> 
+                        <h4> Type: {{gas.gas_type.gas_type_name}} </h4>
+                         <h4> Price: ${{gas.price}} </h4> <!-- format number?-->
+                    </li> 
                 </div>    
             </ul>
-        
-            <button @click="show_vote_fuelprices=!show_vote_fuelprices" type="button" class="btn">Suggest a Price</button>
 
-            <div v-show="show_vote_fuelprices" >
-              
-              <li id="price" v-for="gas in allsuggestedPrices" :key="gas.id"> 
-                        <h4> Type: {{gas.gas_type.gas_type_name}} </h4> <!---E-10 87 Fuel -->
-                        <h4> Price: ${{gas.price}} </h4> <!--- format number?-->
-              </li>  
+            <div class="list-group-comments" v-else>
+                  <p>There are no comments posted at this time.</p> 
+            </div>
+        
+            <button v-show="this.hasToken" @click="show_vote_fuelprices=!show_vote_fuelprices" type="button" class="btn">View All Gas Price Suggestions</button>
+
+            
+        </div>
+        <div id="suggestedPrices" v-show="show_vote_fuelprices">
+          <h3>Current Suggested Prices</h3>
+
+          <div id="cardRow"  v-if="allsuggestedPrices.length>0">
+                  
+                <div   v-for="gasArray in allsuggestedPrices" :key="gasArray.id"> 
+                        
+                        <div id="card" v-for="gas in gasArray.gases" :key="gas.id"> 
+                            <h5>{{gasArray.creator.username}}</h5>
+                            
+                            <h4> Type: {{gas.gas_type.gas_type_name}} </h4>  
+                            <h4> Price: ${{gas.price}} </h4>
+
+                            <h5>DownVotes: {{gasArray.downvote_count}} &emsp;&emsp; Upvotes: {{gasArray.upvote_count}}</h5>
+                            <!-- Print ID for testing <p>id: {{gasArray.id}}</p> -->
+                            
+                          <i class="fa fa-thumbs-up" @click="upvote(gasArray.id)" style="font-size:38px;color:#AA1414"></i>&emsp; <!--functions to be added in-->
+                          <i class="fa fa-thumbs-down" @click="downvote(gasArray.id)" style="font-size:38px;color:#AA1414"></i>
+                          
+                          <br>
+                        </div> 
+            
+                </div>
+                
+            </div>
+            <div v-else>
+                  <p>There are no comments posted at this time.</p> 
+            </div> 
+            <br>
+            <div id="sugg">
+                <h5>Make a suggestion!</h5>     
+                Gas Type: <input type="text"  id="sugg-type" placeholder="Gas Type" v-model="sugg_type">
+                &emsp;
+                Gas Price: <input type="text"  id="sugg-price" placeholder="Gas Price" v-model="sugg_price">
+                <br>
+                <br>
+                <button id="search-btn" @click="makeGasStationSuggestion(sugg_price,sugg_type)">Suggest Price</button>
           </div>
         </div>
+          
         <br>
 
         <!--- Amenities -->
@@ -133,7 +171,7 @@ the components are not yet created -->
                         <p id="amenity-h">"{{ comment.body }}"</p>
                         
                         <h5 id="amenity-h">Up Votes: {{ comment.upvote_count }} &emsp;&emsp;       Down Votes: {{ comment.downvote_count }}</h5>
-                      
+  
                         <!--check attributes for the comment from the user-->
                     </li>
                     <br>
@@ -142,17 +180,30 @@ the components are not yet created -->
                 <div class="list-group-comments" v-else>
                              <p>There are no comments posted at this time.</p> 
                         </div>
-            <button type="button" @click="getGasStation" class="btn">Leave a comment</button>
+          
 
             </div>
 
+        <div id="sugg">
+                <h5>Leave a comment!</h5>     
+                <input type="text"  id="comment" placeholder="Comment goes here.." v-model="comment">
+                <br>
+                <br>
+                <button id="search-btn" @click="makeNewComment(comment)">Submit Comment</button>
+          </div>
+        
+        
         </div>  
+            <br>
             <button type="button" @click="goToMap" class="btn">Get Directions</button>
         </div>
     </main>
 </template>
 
 <script>
+
+import GasStationPageVue from '../components/GasStationPage.vue';
+
 
 //access control issue '(Access-Control-Allow-Origin)
 
@@ -166,10 +217,16 @@ export default {
         location: '',
         station_id: 1,
         amenities: {},
-        gasList:{},
+        bestPrice:{},
+        allsuggestedPrices:{},
         comments: {},
         rating: 0,
-        show_vote_fuelprices:false
+        show_vote_fuelprices:false,
+        sugg_price: '',
+        sugg_type: '',
+        post_id:22,
+        hasToken: false,
+        comment:"",
     }
   },
   methods: {
@@ -183,6 +240,148 @@ export default {
        /* body: JSON.stringify({
           "station_id": this.station_id
         }),*/
+    checkToken(){
+      if (localStorage.refreshToken!=null)
+      {
+        this.hasToken=true;
+        console.log(this.hasToken);
+      }
+    },
+
+    makeNewComment(commentBody){
+        fetch('http://localhost:9000/posts', {
+        body: JSON.stringify({
+            "gas_station_id":parseInt(this.id),
+            "post_type_id": 1,
+            
+            "comment":
+            
+            {
+              "body":commentBody
+            }
+          }),
+        headers: 
+        {
+          Authorization: 'Bearer ' + localStorage.refreshToken
+        },
+        method: "POST"
+      })
+      .then(result => result.json())
+      .then(data => {
+        this.post=data.data;
+        console.log(this.id);
+        
+        alert(`You have successfully commented`);
+        
+        this.$router.go()
+        //console.log(localStorage.refreshToken);
+      })
+      .catch(error => {
+        console.log(error)
+        alert(error);
+      })
+    },
+    makeGasStationSuggestion(price,type_id)
+    {
+        fetch('http://localhost:9000/posts', {
+        body: JSON.stringify({
+            "gas_station_id":parseInt(this.id),
+            "post_type_id": 5,
+            "gas_price_suggestion":
+            {
+              
+              "gases":[
+                {
+                  "gas_type_id":parseInt(type_id),
+                  "price":parseInt(price)
+                }
+              ]
+              
+              
+                
+              
+
+            }      
+
+          }),
+        headers: 
+        {
+          Authorization: 'Bearer ' + localStorage.refreshToken
+        },
+        method: "POST"
+      })
+      .then(result => result.json())
+      .then(data => {
+        this.post=data.data;
+        alert(`You have successfully made a suggestion`);
+        
+        this.$router.go()
+        console.log(localStorage.refreshToken);
+      })
+      .catch(error => {
+        console.log(error)
+        alert(error);
+      })
+    }
+    ,
+    upvote(post_id){
+      fetch('http://localhost:9000/posts/upvote', {
+        body: JSON.stringify({
+            "post_id": post_id
+          }),
+        headers: 
+        {
+          Authorization: 'Bearer ' + localStorage.refreshToken
+        },
+        method: "POST"
+      })
+      .then(result => result.json())
+      .then(data => {
+        
+        console.log(post_id);
+        if(data.error!=null)
+        {
+          alert(data.error);
+        }
+        else
+        {
+          alert(`You have successfully toggled your upvote`);
+          this.$router.go()
+        }
+        
+        //console.log(localStorage.refreshToken);
+      })
+      .catch(error => {
+        console.log("error is"+ error)
+        
+      })
+
+    },
+    downvote(post_id){
+      fetch('http://localhost:9000/posts/downvote', {
+        body: JSON.stringify({
+            "post_id": post_id
+          }),
+        headers: 
+        {
+          Authorization: 'Bearer ' + localStorage.refreshToken
+        },
+        method: "POST"
+      })
+      .then(result => result.json())
+      .then(data => {
+        this.post=data.data;
+        console.log(post_id);
+        alert(`You have successfully toggled your downvote`);
+        
+        this.$router.go()
+        console.log(localStorage.refreshToken);
+      })
+      .catch(error => {
+        console.log(error)
+      })
+
+    },
     getGasStation() {
       console.log("station id is " + this.id)
       fetch('http://localhost:9000/gasstations/'+this.id, {
@@ -194,9 +393,26 @@ export default {
         this.station=data.data;
         this.name = this.station.name;
         this.location = this.station.location;
-        this.gasList = this.station.current_best_price;
-        this.allsuggestedPrices = this.station.gas_price_suggestions;
-        console.log("gas list is "+this.gasList);
+
+        try{
+          this.bestPrice = this.station.current_best_price.gases;
+          
+        }
+        catch(e){
+            this.bestPrice = null;
+
+        }
+
+        try{
+            this.allsuggestedPrices = this.station.gas_price_suggestions;
+        }
+        catch(e)
+        {
+            this.allsuggestedPrices = null;
+        }
+        
+        console.log("gas list is "+this.bestPrice);
+        //console.log("allsuggestedPrices "+this.allsuggestedPrices);
         this.amenities = this.station.amenities;
         this.comments = this.station.comments;
         this.rating = 5//this.station.avg_rating;
@@ -214,9 +430,12 @@ export default {
   created() {
     this.id = this.$route.params.id
     this.getGasStation()
+    this.checkToken();
+    
+    
   }
 }
-//SELECT gas_price_suggestions.id, gas_price_suggestions.last_edited, gas_price_suggestions.post_id FROM gas_price_suggestions INNER JOIN posts on gas_price_suggestions.post_id = post.id;
+//SELECT gas_price_suggestions.id, gas_price_suggestions.last_edited, gas_price_suggestions.post_id, posts.id,posts.created_at,posts.last_edited,posts.gas_station_id,posts.post_type_id,posts.creator_id FROM gas_price_suggestions INNER JOIN posts on gas_price_suggestions.post_id = posts.id;
 
 </script>
 
@@ -232,11 +451,15 @@ export default {
     padding-bottom: 5px;
     padding-left: 3%;
     padding-right: 3%;
-    color: white;
-    background-color: #AA1414;
+    color: #AA1414;
+    background-color: white;
     border-radius: 25px;
 }
 
+.btn:hover{
+  background-color: #AA1414;
+  color:white;
+}
 #stationarea {
   padding-top: 50px; 
   color: black;
@@ -253,15 +476,25 @@ export default {
 
 #cardRow {
   display: grid;  
-  grid-template-columns: 20% 20% 20% 20% ;
+  grid-template-columns: auto auto auto auto ;
   text-align: center;
-  column-gap: 50px;
+  column-gap: 15px;
+
+}
+
+#cardRow3 {
+  display: grid;  
+  grid-template-columns: auto auto auto auto;
+  text-align: center;
+  column-gap: 5px;
+  gap: 10px;
 }
 
 #amenity,#price,#card{
   border: 2px solid #AA1414;
   border-radius: 25px;
-  padding-bottom: 5px;
+  
+  padding:15px;
   
   display: inline-block;
   vertical-align: middle;
@@ -283,10 +516,13 @@ export default {
   border-bottom: 2px solid #AA1414;
 }
 
-#search-area {
-  padding-top: 70px;
+#sugg {
+  border: 2px solid #AA1414;
+  background-color:beige;
   text-align: center;
-  padding-bottom: 20px;
+  padding:10px;
+  
+  
 }
 
 #filter-area {
@@ -295,8 +531,13 @@ export default {
   padding-bottom: 20px;
 }
   
-#search-fp {
+#sugg-type,#sugg-price {
+  width: 100px;
+}
+
+#comment {
   width: 500px;
+  height: 100px;;
 }
 
 #search-btn {
