@@ -175,8 +175,8 @@ the components are not yet created -->
                                 <h4>{{ comment.created_at }}</h4>
                             </div>
                             <div id="comment-icons">
-                                <i class="fa fa-pencil-square" id="thumbs" @click="upvote(comment.id)"></i>   &nbsp;  
-                                <i class="fa fa-trash" id="thumbs" @click="upvote(comment.id)"></i>
+                                <i class="fa fa-pencil-square" id="thumbs" @click="editComment(comment.id,comment.body)"></i>   &nbsp;  
+                                <i class="fa fa-trash" id="thumbs" @click="deleteComment(comment.id)"></i>
                             </div>
                         </div>
                          <!--<h4 id="amenity-h">{{ comment.creator.username }} &emsp; &emsp; Date: {{ comment.created_at }} 
@@ -302,6 +302,79 @@ export default {
         alert(error);
       })
     },
+
+    editComment(commentId, commentBody){
+        let newComment = prompt("Please enter your edited comment", commentBody);
+        
+        fetch('http://localhost:9000/posts', {
+        body: JSON.stringify({
+            "post_id": parseInt(commentId),
+            "comment":
+            
+            {
+              "body":newComment
+            }
+          }),
+        headers: 
+        {
+          Authorization: 'Bearer ' + localStorage.refreshToken
+        },
+        method: "PUT"
+      })
+      .then(result => result.json())
+      .then(data => {
+        this.post=data.data;
+
+        if(data.error!=null)
+        {
+          alert(data.error);
+        }
+        else
+        {
+           alert(`You have successfully edited your comment`);
+          this.$router.go()
+        }
+      
+      })
+      .catch(error => {
+        console.log(error)
+        alert(error);
+      })
+    },
+
+    deleteComment(commentId){
+        
+        fetch('http://localhost:9000/posts', {
+        body: JSON.stringify({
+            "post_id": parseInt(commentId),
+          }),
+        headers: 
+        {
+          Authorization: 'Bearer ' + localStorage.refreshToken
+        },
+        method: "PUT"
+      })
+      .then(result => result.json())
+      .then(data => {
+        this.post=data.data;
+
+        if(data.error!=null)
+        {
+          alert(data.error);
+        }
+        else
+        {
+           alert(`You have successfully deleted your comment`);
+          //this.$router.go()
+        }
+      
+      })
+      .catch(error => {
+        console.log(error)
+        alert(error);
+      })
+    },
+
     makeGasStationSuggestion(price,type_id)
     {
         fetch('http://localhost:9000/posts', {
@@ -345,6 +418,7 @@ export default {
       })
     }
     ,
+    //Upvote a post
     upvote(post_id){
       fetch('http://localhost:9000/posts/upvote', {
         body: JSON.stringify({
