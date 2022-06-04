@@ -120,7 +120,6 @@ function getGasStations() {
     .then(data => {
       searchBar.value=''; //not sure why this doesn't work without it being cleared
       response.value=data.data;
-    //  console.log(data);
       console.log(response.value);
     })
     .catch(error => {
@@ -205,6 +204,10 @@ main {
   color: white;
   background-color: #AA1414;
   border-radius: 25px;
+}
+
+#lst-item:hover {
+  color: #AA1414;
 }
 
 label {
