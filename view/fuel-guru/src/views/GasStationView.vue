@@ -11,47 +11,139 @@ the components are not yet created -->
                 <br>
                 <h2 id="cheapest-d-h">{{name}}</h2>
                 <p>{{station.address}}</p>
-            </div>
-            <div class="row">
-                <br>
-                <h3>Rating {{rating}}/5 </h3>
+
+<!--stylesheet for stars-->
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-            </div> <!--Create number of stars based on rating 
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>-->
+
+                <h3> Rating 
+                  <!--Create number of stars based on rating -->
+                  <span v-if="rating==0">
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                  </span>
+
+                  <span v-if="rating==1">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                  </span>
+
+                  <span v-if="rating==2">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked" ></span>
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                  </span>
+
+                  <span v-if="rating==3">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked" ></span>
+                    <span class="fa fa-star checked" ></span>
+                    <span class="fa fa-star" ></span>
+                    <span class="fa fa-star" ></span>
+                  </span>
+
+                  <span v-if="rating==4">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked" ></span>
+                    <span class="fa fa-star checked" ></span>
+                    <span class="fa fa-star checked" ></span>
+                    <span class="fa fa-star" ></span>
+                  </span>
+
+                  <span v-if="rating==5">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked" ></span>
+                    <span class="fa fa-star checked" ></span>
+                    <span class="fa fa-star checked" ></span>
+                    <span class="fa fa-star checked" ></span>
+                  </span>
+
+
+             ({{rating}}) <!--Display rating in brackets-->
+            
+            </h3>
+            </div>
+        
+        
+                 
+            
+
+            
         </div>
-
-
         <!--- fuel prices -->
         <div class="row">
-            <h3>Fuel prices with the most upvotes for today</h3>
+            <h3>HIGHEST UPVOTED FUEL PRICES</h3>
             
-            <ul><!-- v-if="gasList.length>0" not sure why this doesnt work-->
+            <ul v-if="bestPrice!=null"><!-- v-if="gasList.length>0" not sure why this doesnt work-->
                 <div id="cardRow" >
 
-                    <li id="price" v-for="bestprice in gasList" :key="gas.id"> 
-                        <h4> test {{bestprice.gases}} </h4> <!---E-10 87 Fuel -->
-                        <h4> {{gas.price}} </h4> <!--- E-10 87 Fuel -->
-                    </li>  
+                    <li id="price" v-for="gas in bestPrice" :key="gas.id"> 
+                        <h4> Type: {{gas.gas_type.gas_type_name}} </h4>
+                         <h4> Price: ${{gas.price}} </h4> <!-- format number?-->
+                    </li> 
                 </div>    
             </ul>
-        
-            <button type="button" class="btn">Suggest a Price</button>
 
+            <div class="list-group-comments" v-else>
+                  <p>There are no comments posted at this time.</p> 
+            </div>
+        
+            <button v-show="this.hasToken" @click="show_vote_fuelprices=!show_vote_fuelprices" type="button" class="btn">View All Gas Price Suggestions</button>
+
+            
         </div>
+        <div id="suggestedPrices" v-show="show_vote_fuelprices">
+          <h3>Current Suggested Prices</h3><br>
+
+          <div id="cardRow"  >
+                  
+                <div  v-for="gasArray in allsuggestedPrices" :key="gasArray.id"> 
+                        
+                        <div id="card" v-for="gas in gasArray.gases" :key="gas.id"> 
+                            <h5>{{gasArray.creator.username}}</h5>
+                            
+                            <h4> Type: {{gas.gas_type.gas_type_name}} </h4>  
+                            <h4> Price: ${{gas.price}} </h4>
+
+                            <h5>DownVotes: {{gasArray.downvote_count}} &emsp;&emsp; Upvotes: {{gasArray.upvote_count}}</h5>
+                            <!-- Print ID for testing <p>id: {{gasArray.id}}</p> -->
+                            
+                          <i class="fa fa-thumbs-up" @click="upvote(gasArray.id)" style="font-size:38px;color:#AA1414"></i>&emsp; <!--functions to be added in-->
+                          <i class="fa fa-thumbs-down" @click="downvote(gasArray.id)" style="font-size:38px;color:#AA1414"></i>
+                          
+                          <br>
+                        </div> 
+            
+                </div> 
+            </div>
+            <br>
+            <div id="search-area">
+                <h5>Make a suggestion!</h5>     
+                Gas Type: <input type="text"  id="sugg-type" placeholder="Gas Type" v-model="sugg_type">
+                &emsp;
+                Gas Price: <input type="text"  id="sugg-price" placeholder="Gas Price" v-model="sugg_price">
+                <br>
+                <br>
+                <button id="search-btn" @click="makeGasStationSuggestion(sugg_price,sugg_type)">Suggest Price</button>
+          </div>
+        </div>
+          
+        <br>
 
         <!--- Amenities -->
         <div class="row">
-            <h3>Amenties with the most upvotes</h3>
+            <h3>HIGHEST UPVOTED AMENITIES</h3>
             <div id="cardRow" v-if="amenities.length>0">
                 <li id="card" v-for="amenity in amenities" :key="amenity.id"> 
-                    <h4 id="amenity-h"> {{amenity.amenity_type.amenity_name}} </h4>
-              
-                    <br>
-                    <br>
+                    <h4 id="title-card"> {{amenity.amenity_type.amenity_name}} </h4>
+                
                 </li>
             
             </div>
@@ -59,37 +151,55 @@ the components are not yet created -->
                 <p>There are no amenities posted at this time.</p> 
             </div>
             <br>
-            <button type="button" class="btn">Suggest an Amenity</button>
-
+            
+        <button type="button" class="btn">Suggest an Amenity</button>
         </div>
+        <br>
 
         <!--- Comments -->
         <div class="comments">
             <h3>Comments</h3>
-            <div id="cardRow" >
+            <div id="commentRow" >
                 <ul v-if="comments.length>0">
                     <li id="card" v-for="comment in comments" :key="comment.id">
-                        <h4 id="amenity-h">{{ comment.creator.username }}</h4> <h4 id="amenity-h">{{ comment.created_at }}</h4> 
-                        <p id="amenity-h">{{ comment.body }}</p>
+                        <h4 id="amenity-h">{{ comment.creator.username }} &emsp; &emsp; &emsp; Date: {{ comment.created_at }}</h4> 
                         
-                        <h4 id="amenity-h">Up Votes: {{ comment.upvote_count }} &emsp;&emsp;       Down Votes: {{ comment.downvote_count }}</h4>
-                      
+                        <p id="amenity-h">"{{ comment.body }}"</p>
+                        
+                        <h5 id="amenity-h">Up Votes: {{ comment.upvote_count }} &emsp;&emsp;       Down Votes: {{ comment.downvote_count }}</h5>
+  
                         <!--check attributes for the comment from the user-->
                     </li>
+                    <br>
+                    
                 </ul>
                 <div class="list-group-comments" v-else>
                              <p>There are no comments posted at this time.</p> 
                         </div>
+          
+
             </div>
-            <button type="button" @click="getGasStation" class="btn">Leave a comment</button>
 
+        <div id="search-area">
+                <h5>Leave a comment!</h5>     
+                <input type="text"  id="comment" placeholder="Comment goes here.." v-model="comment">
+                <br>
+                <br>
+                <button id="search-btn" @click="makeNewComment(comment)">Submit Comment</button>
+          </div>
+        
+        
         </div>  
-
+            <br>
+            <button type="button" @click="goToMap" class="btn">Get Directions</button>
         </div>
     </main>
 </template>
 
 <script>
+
+import GasStationPageVue from '../components/GasStationPage.vue';
+
 
 //access control issue '(Access-Control-Allow-Origin)
 
@@ -103,9 +213,16 @@ export default {
         location: '',
         station_id: 1,
         amenities: {},
-        gasList:{},
+        bestPrice:{},
+        allsuggestedPrices:{},
         comments: {},
         rating: 0,
+        show_vote_fuelprices:false,
+        sugg_price: '',
+        sugg_type: '',
+        post_id:22,
+        hasToken: false,
+        comment:"",
     }
   },
   methods: {
@@ -119,6 +236,137 @@ export default {
        /* body: JSON.stringify({
           "station_id": this.station_id
         }),*/
+    checkToken(){
+      if (localStorage.refreshToken!=null)
+      {
+        this.hasToken=true;
+        console.log(this.hasToken);
+      }
+    },
+
+    makeNewComment(commentBody){
+        fetch('http://localhost:9000/posts', {
+        body: JSON.stringify({
+            "gas_station_id":parseInt(this.id),
+            "post_type_id": 1,
+            
+            "comment":
+            
+            {
+              "body":commentBody
+            }
+          }),
+        headers: 
+        {
+          Authorization: 'Bearer ' + localStorage.refreshToken
+        },
+        method: "POST"
+      })
+      .then(result => result.json())
+      .then(data => {
+        this.post=data.data;
+        console.log(this.id);
+        
+        alert(`You have successfully commented`);
+        
+        //this.$router.go()
+        //console.log(localStorage.refreshToken);
+      })
+      .catch(error => {
+        console.log(error)
+        alert(error);
+      })
+    },
+    makeGasStationSuggestion(price,type_id)
+    {
+        fetch('http://localhost:9000/posts', {
+        body: JSON.stringify({
+            "gas_station_id":parseInt(this.id),
+            "post_type_id": 5,
+            "gas_price_suggestion":
+            {
+              
+              "gases":
+              {
+                "price":price,
+                "gas_type_id":type_id //compute val based on selection by user
+              },
+
+            }      
+
+          }),
+        headers: 
+        {
+          Authorization: 'Bearer ' + localStorage.refreshToken
+        },
+        method: "POST"
+      })
+      .then(result => result.json())
+      .then(data => {
+        this.post=data.data;
+        console.log(post_id);
+        alert(`You have successfully toggled your upvote`);
+        
+        this.$router.go()
+        console.log(localStorage.refreshToken);
+      })
+      .catch(error => {
+        console.log(error)
+        alert(error);
+      })
+    }
+    ,
+    upvote(post_id){
+      fetch('http://localhost:9000/posts/upvote', {
+        body: JSON.stringify({
+            "post_id": post_id
+          }),
+        headers: 
+        {
+          Authorization: 'Bearer ' + localStorage.refreshToken
+        },
+        method: "POST"
+      })
+      .then(result => result.json())
+      .then(data => {
+        this.post=data.data;
+        console.log(post_id);
+        alert(`You have successfully toggled your upvote`);
+        
+        this.$router.go()
+        console.log(localStorage.refreshToken);
+      })
+      .catch(error => {
+        console.log(error)
+        alert(error);
+      })
+
+    },
+    downvote(post_id){
+      fetch('http://localhost:9000/posts/downvote', {
+        body: JSON.stringify({
+            "post_id": post_id
+          }),
+        headers: 
+        {
+          Authorization: 'Bearer ' + localStorage.refreshToken
+        },
+        method: "POST"
+      })
+      .then(result => result.json())
+      .then(data => {
+        this.post=data.data;
+        console.log(post_id);
+        alert(`You have successfully toggled your downvote`);
+        
+        this.$router.go()
+        console.log(localStorage.refreshToken);
+      })
+      .catch(error => {
+        console.log(error)
+      })
+
+    },
     getGasStation() {
       console.log("station id is " + this.id)
       fetch('http://localhost:9000/gasstations/'+this.id, {
@@ -130,24 +378,49 @@ export default {
         this.station=data.data;
         this.name = this.station.name;
         this.location = this.station.location;
-        this.gasList = this.station.gas_price_suggestion;
-        console.log("gas list is "+this.gasList);
+
+        try{
+          this.bestPrice = this.station.current_best_price.gases;
+          
+        }
+        catch(e){
+            this.bestPrice = null;
+
+        }
+
+        try{
+            this.allsuggestedPrices = this.station.gas_price_suggestions;
+        }
+        catch(e)
+        {
+            this.allsuggestedPrices = null;
+        }
+        
+        console.log("gas list is "+this.bestPrice);
+        //console.log("allsuggestedPrices "+this.allsuggestedPrices);
         this.amenities = this.station.amenities;
         this.comments = this.station.comments;
-        this.rating = this.station.avg_rating;
+        this.rating = 5//this.station.avg_rating;
         console.log(data.data);
       })
       .catch(error => {
         console.log(error)
       })
+    },
+
+    goToMap() {
+      this.$router.push('/route/' + this.id)
     }
   },
   created() {
     this.id = this.$route.params.id
     this.getGasStation()
+    this.checkToken();
+    
+    
   }
 }
-//SELECT gas_price_suggestions.id, gas_price_suggestions.last_edited, gas_price_suggestions.post_id FROM gas_price_suggestions INNER JOIN posts on gas_price_suggestions.post_id = post.id;
+//SELECT gas_price_suggestions.id, gas_price_suggestions.last_edited, gas_price_suggestions.post_id, posts.id,posts.created_at,posts.last_edited,posts.gas_station_id,posts.post_type_id,posts.creator_id FROM gas_price_suggestions INNER JOIN posts on gas_price_suggestions.post_id = posts.id;
 
 </script>
 
@@ -174,23 +447,50 @@ export default {
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
 }
 
+#commentRow{
+  display: grid;  
+  grid-template-columns: 650px ;
+  text-align: center;
+  column-gap: 100px;
+}
+
 
 #cardRow {
   display: grid;  
-  grid-template-columns: auto auto auto ;
+  grid-template-columns: auto auto auto auto ;
   text-align: center;
-  column-gap: 100px;
+  column-gap: 15px;
+
+}
+
+#cardRow3 {
+  display: grid;  
+  grid-template-columns: auto auto auto auto;
+  text-align: center;
+  column-gap: 5px;
+  gap: 10px;
 }
 
 #amenity,#price,#card{
   border: 2px solid #AA1414;
   border-radius: 25px;
-  padding-bottom: 15px;
+  
+  padding:15px;
+  
+  display: inline-block;
+  vertical-align: middle;
 }
 
 #amenity-h,#price-h {
   padding-left: 20px;
   padding-right: 20px;
+  text-align: left;
+}
+
+#amenity-p,#price-p,#title-card {
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
 }
 
 #cheapest-87 h2, #cheapest-90 h2, #cheapest-d h2, #cheapest-sd h2 {
@@ -198,9 +498,12 @@ export default {
 }
 
 #search-area {
-  padding-top: 70px;
+  border: 2px solid #AA1414;
+  background-color:beige;
   text-align: center;
-  padding-bottom: 20px;
+  padding:10px;
+  
+  
 }
 
 #filter-area {
@@ -209,8 +512,13 @@ export default {
   padding-bottom: 20px;
 }
   
-#search-fp {
+#sugg-type,#sugg-price {
+  width: 100px;
+}
+
+#comment {
   width: 500px;
+  height: 100px;;
 }
 
 #search-btn {

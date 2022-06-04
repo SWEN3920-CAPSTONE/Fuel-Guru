@@ -41,18 +41,23 @@ export default defineComponent({
 
     const center = { lat: 18.024960, lng: -76.796557 }; //map centred in Kingston by default
     if(navigator.geolocation){ //if location access granted
+    console.log('location access granted')
       navigator.geolocation.getCurrentPosition((position) => {
         center.lat = position.coords.latitude
         center.lng = position.coords.longitude    
 
       fetch('http://localhost:9000/gasstations/search/nearby', {
       body: JSON.stringify({
-        'lat': position.coords.latitude,
-        'lng': position.coords.longitude 
+        'lat': center.lat,
+        'lng': center.lng 
       }),
       method: "POST"
     })
-    .then(result => result.json())
+    .then(result => {result.json()
+    if(result.status == 404){
+      alert('No gas stations were found near you')
+    }
+    })
     .then(data => {
         for (var i = 0; i < (data.data).length; i++){
           markers.push({ position: (data.data)[i].geometry.location, label: (data.data)[i].name})
@@ -65,9 +70,11 @@ export default defineComponent({
       }, errorPostion, options);
     console.log(center)
     }
+    console.log(markers)
     return { center, markers };
   },
 });
+
 </script>
 
 <style>
