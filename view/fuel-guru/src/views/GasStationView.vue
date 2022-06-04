@@ -240,9 +240,6 @@ the components are not yet created -->
 
 <script>
 
-import GasStationPageVue from '../components/GasStationPage.vue';
-
-
 //access control issue '(Access-Control-Allow-Origin)
 
 export default {
