@@ -133,27 +133,25 @@ the components are not yet created -->
             <h5>Make a gas price suggestion!</h5> 
 
             <!-- Selection of Gas Types -->
-            <div id="comment-heading-grid">
-              <div> 
-                <p> Gas Type: </p>
-                <p> Gas Price: </p>
-              </div>
-              
-              <div>
-                  <select id="gasType" v-model="sugg_type">
-                    <option v-for="gas in gasTypes" :key="gas.id" :value="gas.id" placeholder="Select the Gas Type">{{gas.gas_type_name}}</option>
-                  </select>
+            <div id="gas-entry-grid">
+                   <div> 
+                    <select id="sugg-type" v-model="sugg_type">
+                      <option value="" disabled selected hidden>Select a Gas Type</option>
+                      <option v-for="gas in gasTypes" :key="gas.id" :value="gas.id" placeholder="Select the Gas Type">{{gas.gas_type_name}}</option>
+                    </select>
+                    <br>
+                    <br>
+                    <input type="text"  id="sugg-price" placeholder="Enter suggested gas price" v-model="sugg_price">
+                  </div> 
 
-                    <input type="text"  id="sugg-price" placeholder="Gas Price" v-model="sugg_price">
-              </div>
+                  <div> 
+                    <button id="search-btn" @click="makeGasStationSuggestion(sugg_price,sugg_type)">Suggest Price</button>
+                  </div>
+                 
+
+                  
+                  
               
-                  <!--
-                  Gas Type: <input type="text"  id="sugg-type" placeholder="Gas Type" v-model="sugg_type"> -->
-                &emsp;
-                
-                <br>
-                <br>
-                <button id="search-btn" @click="makeGasStationSuggestion(sugg_price,sugg_type)">Suggest Price</button>
             </div>
           </div>
         </div>
@@ -675,6 +673,8 @@ label {
   float: left;
 }
 
+
+
 #commentRow{
   display: grid;  
   grid-template-columns: 80% ;
@@ -715,13 +715,28 @@ label {
   float: left;
 }
 
+#gas-entry-grid{
+  display: grid;
+  grid-template-columns: 25% 30%;
+  column-gap: 10px;
+  row-gap: 0px;
+
+}
+
 #sugg {
   text-align: left;
   padding:10px;
+  
 }
   
-#sugg-type,#sugg-price {
-  width: 100px;
+#sugg-type{
+   width: 310px;
+   float:left;
+}
+
+#sugg-price {
+  width: 300px;
+  float:left;
 }
 
 #thumbs{
@@ -776,6 +791,17 @@ label {
   padding-bottom: 5px;
   padding-left: 3%;
   padding-right: 3%;
+  color: white;
+  background-color: #AA1414;
+  border-radius: 5px;
+}
+#price-btn {
+  border: 2px solid #AA1414;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 3%;
+  padding-right: 3%;
+  float: right;
   color: white;
   background-color: #AA1414;
   border-radius: 5px;
