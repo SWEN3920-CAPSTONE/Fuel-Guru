@@ -317,7 +317,7 @@ if app.config.get('IS_DEV'):
             elif ptn == 'Gas Price Suggestion':
                 gps = GasPriceSuggestion(posts[quota])
                 # choose random gas types
-                num = random.randint(0, len(GAS_TYPES)-1)
+                num = random.randint(1, len(GAS_TYPES))
                 types = random.choices(population=GAS_TYPES, k=num)
                 gps_gases = [Gas(fake.pyfloat(positive=True), t, gps)
                             for t in types]

@@ -1,6 +1,6 @@
-from email import message
 import json
 from datetime import date, datetime, timedelta
+from email import message
 from pprint import pprint
 
 from config import app, db
@@ -11,10 +11,10 @@ from controller.validation.schemas import (GasStationSearchSchema,
 from flask import Blueprint, jsonify, request
 from marshmallow import ValidationError
 from model.gasstation import GasStation
-from model.posts import (GasPriceSuggestion, Post, downvoted_posts,
-                         upvoted_posts)
-from model.schemas import GasStationSchema
-from sqlalchemy import and_, desc, func, select
+from model.posts import (Gas, GasPriceSuggestion, GasType, Post,
+                         downvoted_posts, upvoted_posts)
+from model.schemas import GasSchema, GasStationSchema
+from sqlalchemy import and_, asc, desc, func, select
 from sqlalchemy.orm import aliased
 
 from ..geolocation import find_gasstation, init_geolocation, nearby_gasstation
@@ -178,8 +178,36 @@ def findRoute_gasstation():
                 return jsonify(error="Something went wrong on the server's side, please try again later"), 500
     except ValidationError as e:
         return jsonify(errors=e.messages), 400
+    
+@gasstation_api.route('/top',methods=['GET'])
+def top_gasstations():
+    """
+    Find the lowest gas prices by gas type for yesterday and today
+    """
+    today = datetime.fromisoformat(date.today().isoformat())
 
+    yesterday_start = today - timedelta(days=1)
+    gas_types = GasType.query.all()
+    res = []
+    for gtype in gas_types:
+        res.append(GasSchema().dump(
+            Gas.query.filter(Gas.gas_type_id==gtype.id)
+            .from_self(Gas)
+            .order_by(asc(Gas.price))
+            .join(GasPriceSuggestion, GasPriceSuggestion.id==Gas.gas_post_id)
+            .join(GasPriceSuggestion.post)
+            .filter(Post.last_edited>=yesterday_start)
+            .order_by(desc(Post.last_edited))
+            .limit(1)
+            .first()))
+    
+    if len(res) >0:
+        return jsonify(data=res, message='Success'),200
+    else:
+        return jsonify(message='Nothing found'),404
+        
 app.register_blueprint(gasstation_api, url_prefix='/gasstations')
+
 
 def init_gastations():
     """
