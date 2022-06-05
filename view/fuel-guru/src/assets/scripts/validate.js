@@ -97,18 +97,22 @@
       let domainInfoLst = domainInfo.split(".");
       let domainName = domainInfoLst[0];
 
-      if (lst.length === 2 && strLength > 5  && strLength === patternLength &&
-        str[0].match(letters).length === 1 && username.length > 5 && username[username-1] !== '_' && 
-        username[username-1] !== '-' && username[username-1] !== '.' && domainInfo.length  > 1 && 
-        domainInfo.match(specialChars).length === 0 && domainName.match(numbers).length === 0 &&
-        domainName[domainName-1] !== '.' && str.test(emailFormat) ) {    
-        return true
+      if (domainName.length < 2) {
+        if (lst.length === 2 && strLength > 5  && strLength === patternLength &&
+          str[0].match(letters).length === 1 && username.length > 5 && username[username-1] !== '_' && 
+          username[username-1] !== '-' && username[username-1] !== '.' && domainInfo.length  > 1 && 
+          domainInfo.match(specialChars).length === 0 && domainName.match(numbers).length === 0 &&
+          domainName[domainName-1] !== '.' && str.test(emailFormat) ) {    
+          return true
+        } else {
+          return false
+        }  
       } else {
         return false
-      }  
+      }
     } else {
       return false
-    }
+    }    
   } else {
     return false
   }

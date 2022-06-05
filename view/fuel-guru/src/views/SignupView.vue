@@ -67,7 +67,7 @@ const emit = defineEmits(['update']);
  * Allows the user to create a fuel guru account
  */
 function signup() {  
-  errMessage = "ERRORS\n - - - - - - - - - - - - - - -";
+  errMessage = "ERRORS\n----------------------------";
   let errors = [];
 
   // santising the inputs
