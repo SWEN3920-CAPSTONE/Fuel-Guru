@@ -101,20 +101,21 @@ the components are not yet created -->
        <div id="suggestedPrices" v-show="show_vote_fuelprices">
          <h3>All Suggested Prices</h3>
  
-         <div id="commentRow"  v-if="allsuggestedPrices.length>0">
+         <div  v-if="allsuggestedPrices.length>0">
                 
-               <div  id="card" v-for="gasArray in allsuggestedPrices" :key="gasArray.id">
-                       <h5 id="headline">Username: </h5><p id="headline">{{gasArray.creator.username}}</p>
+               <div id="fuelRow" v-for="gasArray in allsuggestedPrices" :key="gasArray.id">
+                       <h5 id="headline">{{gasArray.creator.username}}</h5>
  
                        <div  v-for="gas in gasArray.gases" :key="gas.id">
-                           <h4> Type: {{gas.gas_type.gas_type_name}} </h4> 
-                           <h4 id="headline"> Price: ${{gas.price}} </h4>
-                           <hr>
-                           <!-- Print ID for testing <p>id: {{gasArray.id}}</p> --> 
+                           <h4> {{gas.gas_type.gas_type_name}} </h4> 
+                           <h4 id="headline"> ${{gas.price}} </h4>
+                           
                        </div>
-               <h5>Upvotes: {{gasArray.upvote_count}} &emsp;&emsp; DownVotes: {{gasArray.downvote_count}}  </h5>
-               <i class="fa fa-thumbs-up" id="thumbs" @click="upvote(gasArray.id)"></i>&emsp; <!--functions to be added in-->
-               <i class="fa fa-thumbs-down" id="thumbs" @click="downvote(gasArray.id)"></i>
+               <h5><i class="fa fa-thumbs-up" id="thumbs" @click="upvote(gasArray.id)"></i>
+               : {{gasArray.upvote_count}} &emsp;&emsp; 
+               <i class="fa fa-thumbs-down" id="thumbs" @click="downvote(gasArray.id)"></i>{{gasArray.downvote_count}}  </h5>
+               &emsp; <!--functions to be added in-->
+               
                         
                </div>
               
@@ -236,7 +237,7 @@ the components are not yet created -->
                   
                   
                </ul>
-             <div id="sugg">   
+             <div id="sugg" v-show="this.hasToken">   
                  <input type="text"  id="commentEntry" placeholder="Leave a comment..." v-model="body">
 
                 <select v-model="sugg_rating">
@@ -804,7 +805,11 @@ label {
  float: left;
 }
  
- 
+#fuelRow{
+ display: grid; 
+ grid-template-columns: auto auto auto auto auto auto;
+ text-align: center;
+}
  
 #commentRow{
  display: grid; 
