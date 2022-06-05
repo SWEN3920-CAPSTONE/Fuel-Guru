@@ -203,7 +203,7 @@ the components are not yet created -->
  
        <!--- Comments -->
        <div class="comments">
-           <h3>Comments</h3>
+           <h3>Reviews</h3>
            <div id="commentRow" v-if="comments.length>0">
                <ul>
                    <li id="comment" v-for="comment in comments" :key="comment.id">
@@ -623,7 +623,7 @@ export default {
        this.amenities = this.station.amenities;
        console.log("Amenities");
        console.log(this.amenities);
-       this.comments = this.station.comments;
+       this.comments = this.station.reviews;
        this.rating = this.station.avg_rating;
        console.log(data.data);
      })
