@@ -20,7 +20,7 @@ the components are not yet created -->
                <br>
                <h3> Rating
                  <!--Create number of stars based on rating -->
-                 <span v-if="rating==0">
+                 <span v-if="rating==0&& rating<1">
                    <span class="fa fa-star" ></span>
                    <span class="fa fa-star" ></span>
                    <span class="fa fa-star" ></span>
@@ -44,7 +44,7 @@ the components are not yet created -->
                    <span class="fa fa-star" ></span>
                  </span>
  
-                 <span v-if="rating==3">
+                 <span v-if="rating>=3 && rating<4">
                    <span class="fa fa-star checked"></span>
                    <span class="fa fa-star checked" ></span>
                    <span class="fa fa-star checked" ></span>
@@ -104,7 +104,7 @@ the components are not yet created -->
  
           
        </div>
-       <div id="suggestedPrices" v-show="show_vote_fuelprices">
+       <div id="suggestedPrices" >
          <h3>All Suggested Prices</h3>
  
          <div id="commentRow"  v-if="allsuggestedPrices.length>0">
@@ -129,7 +129,7 @@ the components are not yet created -->
            <p>There are no comments posted at this time.</p>
          </div>
            <br>
-         <div id="sugg">
+         <div id="sugg" v-show="show_vote_fuelprices">
            <h5>Make a gas price suggestion!</h5>
  
            <!-- Selection of Gas Types -->
@@ -653,7 +653,7 @@ export default {
        console.log(this.amenities);
        this.comments = this.convertDate(this.station.reviews);
        
-       this.rating = this.station.avg_rating;
+       this.rating = this.station.avg_rating.toFixed(1);
        console.log(data.data);
      })
      .catch(error => {
@@ -716,10 +716,13 @@ export default {
  
 <style>
  
+.fa-star {
+   color: black;
+}
+
 .checked {
  color: #AA1414;
 }
- 
  
 #stationarea {
  padding-top: 50px;
