@@ -56,4 +56,15 @@ function logoutUser() {
 #hme, #abt, #fp, #map {
   padding-right: 50px;
 }
+
+#logout.router-link-exact-active { 
+  color: black;
+  text-decoration: none;
+}
+
+#logout:hover { 
+  color: #AA1414;
+  text-decoration: underline;
+}
+
 </style>

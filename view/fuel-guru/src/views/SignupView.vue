@@ -49,7 +49,7 @@
 <script setup>
 import {ref} from 'vue';
 import router from '../router/index.js';
-import {sanitise_inputs, isEmpty, valid_name, valid_username, validate_email, valid_password, confirmPassword} from '../assets/scripts/validate.js'
+import {sanitise_inputs, isEmpty, valid_name, valid_username, valid_email, valid_password, confirmPassword} from '../assets/scripts/validate.js';
 
 var firstname = ref('');
 var errMessage = ref('');
@@ -58,8 +58,8 @@ var email = ref('');
 var username = ref('');
 var password = ref('');
 var password2 = ref('');
-var confirmTerms = ref(''); //true when checked
-var confirmAge = ref(''); //true when checked
+var confirmTerms = ref(false); //true when checked
+var confirmAge = ref(false); //true when checked
 
 const emit = defineEmits(['update']);
 
@@ -67,7 +67,7 @@ const emit = defineEmits(['update']);
  * Allows the user to create a fuel guru account
  */
 function signup() {  
-  errMessage = "ERRORS\n - - - - - - - - - - - - - - -";
+  errMessage = "ERRORS\n------------------------";
   let errors = [];
 
   // santising the inputs
@@ -93,11 +93,11 @@ if (isEmpty(firstname.value) === true || isEmpty(lastname.value) === true || isE
         errors.push("The username must have at least 5 characters. It must contain uppercase letters, lowercase letters, numbers and underscores only. It must start with a letter and cannot end with an underscore.");
       }
 
-      if (validate_email(email.value) === false) {
+      if (valid_email(email.value) === false) {
         errors.push("Invalid email address.");
       }
 
-      if (valid_password(password.value) === false || valid_password(password2.value) === false) {
+      if (valid_password(password.value) === false) {
         errors.push("The password must have at least 1 uppercase, 1 lowercase letter, 1 number and 1 special character. The password must be at least 12 characters.");
       }
 
@@ -114,7 +114,6 @@ if (isEmpty(firstname.value) === true || isEmpty(lastname.value) === true || isE
       }
     }  
     
-
   if(errors.length === 0) {
     fetch('http://localhost:9000/auth/signup', {
       body: JSON.stringify({
@@ -134,7 +133,7 @@ if (isEmpty(firstname.value) === true || isEmpty(lastname.value) === true || isE
           emit('update');
           router.push({name: 'FuelPrices'});
           alert("Welcome ${firstname.value}!");
-        }
+        } 
       })
       .catch(error => {
         console.log(error);        

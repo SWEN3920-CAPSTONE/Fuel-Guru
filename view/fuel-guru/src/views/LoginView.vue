@@ -30,6 +30,7 @@
 <script setup>
 import {ref} from 'vue';
 import router from '../router/index.js';
+import {sanitise_inputs, isEmpty} from '../assets/scripts/validate.js';
 
 const emit = defineEmits(['update']);
 
@@ -37,6 +38,15 @@ var username = ref('');
 var password = ref('');
 
 function login(){
+  let errMessage = "";
+
+  // santising the inputs
+  username.value = sanitise_inputs(username.value);
+  password.value = sanitise_inputs(password.value);
+
+if (isEmpty(username.value) === true || isEmpty(password.value) === true) {
+    alert("Fill all empty fields.");
+} else {
   fetch('http://localhost:9000/auth/signin', {
     body: JSON.stringify({
       "iden": username.value,
@@ -54,12 +64,13 @@ function login(){
         alert(`Welcome back ${username.value}!`);
       }
       else {         
-        alert("'Incorrect login credentials!");
+        alert("Incorrect login credentials!");
       }
     })
     .catch(error => {
       console.log(error);        
     })
+  }  
 }
 
 /*
