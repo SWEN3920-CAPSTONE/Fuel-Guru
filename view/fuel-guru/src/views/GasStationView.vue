@@ -215,7 +215,7 @@ the components are not yet created -->
                                <h4>{{ comment.created_at }}</h4>
                            </div>
                            <div id="comment-icons">
-                               <i class="fa fa-pencil-square" id="thumbs" @click="editComment(comment.id,comment.body)"></i>   &nbsp; 
+                               <i class="fa fa-pencil-square" id="thumbs" @click="editComment(comment.id,comment.body,comment.rating_val)"></i>   &nbsp; 
                                <i class="fa fa-trash" id="thumbs" @click="deleteComment(comment.id)"></i>
                            </div>
                        </div>
@@ -253,7 +253,7 @@ the components are not yet created -->
                     <option value="5" >5</option>
                 </select>
                 
-                 <button id="comment-btn" @click="makeNewReview(body,sugg_rating)">Add Comment</button>
+                 <button id="comment-btn" @click="makeNewReview(body,sugg_rating)">Add Review</button>
                  <br>
                  <br>
                  <br>
@@ -386,16 +386,17 @@ export default {
      })
    },
  
-   editComment(commentId, commentBody){
-       let newComment = prompt("Please enter your edited comment", commentBody);
-      
+   editComment(commentId, currComment,currRating){
+       let newComment = prompt("Please enter your edited comment", currComment);
+      let newRating = prompt("Please enter your edited comment", currRating);
        fetch('http://localhost:9000/posts', {
        body: JSON.stringify({
            "post_id": parseInt(commentId),
-           "comment":
+           "review":
           
            {
-             "body":newComment
+             "body":newComment,
+             "rating_val":parseInt(newRating)
            }
          }),
        headers:
