@@ -1,43 +1,48 @@
 [
 	{
-		"user_type_name": "Gas Station Manager",
-		"id": 1492,
-		"is_admin": false,
+		"user_type_name": "Normal User",
+		"id": 1,
+		"can_vote": true,
 		"allowed_post_types": [
 			{
-				"id": 359,
-				"post_type_name": "Promotion",
-				"is_votable": false
+				"is_votable": false,
+				"id": 1,
+				"post_type_name": "Review"
 			},
 			{
-				"id": 360,
-				"post_type_name": "Gas Price Suggestion",
-				"is_votable": true
+				"is_votable": true,
+				"id": 3,
+				"post_type_name": "Gas Price Suggestion"
 			},
 			{
-				"id": 361,
-				"post_type_name": "Amenity Tag",
-				"is_votable": true
+				"is_votable": true,
+				"id": 4,
+				"post_type_name": "Amenity Tag"
 			}
 		],
-		"can_vote": false
+		"is_admin": false
 	},
 	{
-		"user_type_name": "System User",
-		"id": 1493,
-		"is_admin": true,
+		"user_type_name": "Gas Station Manager",
+		"id": 2,
+		"can_vote": false,
 		"allowed_post_types": [
 			{
-				"id": 360,
-				"post_type_name": "Gas Price Suggestion",
-				"is_votable": true
+				"is_votable": false,
+				"id": 2,
+				"post_type_name": "Promotion"
 			},
 			{
-				"id": 361,
-				"post_type_name": "Amenity Tag",
-				"is_votable": true
+				"is_votable": true,
+				"id": 3,
+				"post_type_name": "Gas Price Suggestion"
+			},
+			{
+				"is_votable": true,
+				"id": 4,
+				"post_type_name": "Amenity Tag"
 			}
 		],
-		"can_vote": false
+		"is_admin": false
 	}
 ]

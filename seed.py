@@ -31,19 +31,17 @@ USER_TYPES = [
 ]
 
 POST_TYPES = [
-    PostType("Comment", True),
-    PostType("Rating", False),
-    PostType("Review", True),
+    PostType("Review",False),
     PostType("Promotion", False),
     PostType("Gas Price Suggestion", True),
     PostType("Amenity Tag", True)
 ]
 
 ALLOWED_POST_TYPES = [
-    lambda: [POST_TYPES[0], POST_TYPES[1],
-             POST_TYPES[2], POST_TYPES[4], POST_TYPES[5]],
-    lambda: [POST_TYPES[3], POST_TYPES[4], POST_TYPES[5]],
-    lambda: [POST_TYPES[4], POST_TYPES[5]]
+    lambda: [POST_TYPES[0], POST_TYPES[2],
+             POST_TYPES[3]],
+    lambda: [POST_TYPES[1], POST_TYPES[2], POST_TYPES[3]],
+    lambda: [POST_TYPES[2], POST_TYPES[3]]
 ]
 
 GAS_TYPES = [
@@ -229,7 +227,7 @@ if app.config.get('IS_DEV'):
     print('\r\N{check mark}')
     longest = max(longest, len(f'   {quota} gas stations added'))
 
-# end add gas stations
+    # end add gas stations
 
 
     # add posts
@@ -288,25 +286,9 @@ if app.config.get('IS_DEV'):
             ptn = posts[quota].post_type.post_type_name  # post type name
 
             # create post details based on post type
-            if ptn == 'Comment':
-                rev = Review(posts[quota])
-                c = Comment(fake.paragraph(nb_sentences=3), rev)
+            if ptn == 'Review':
+                rev = Review(posts[quota],fake.paragraph(nb_sentences=3),random.randint(1, 5))
                 db.session.add(rev)
-                db.session.add(c)
-                db.session.commit()
-            elif ptn == 'Rating':
-                rev = Review(posts[quota])
-                ra = Rating(random.randint(1, 5), rev)
-                db.session.add(rev)
-                db.session.add(ra)
-                db.session.commit()
-            elif ptn == 'Review':
-                rev = Review(posts[quota])
-                c = Comment(fake.paragraph(nb_sentences=3), rev)
-                ra = Rating(random.randint(1, 5), rev)
-                db.session.add(rev)
-                db.session.add(c)
-                db.session.add(ra)
                 db.session.commit()
             elif ptn == 'Promotion':
                 start_date = fake.future_datetime(tzinfo=timezone.utc)

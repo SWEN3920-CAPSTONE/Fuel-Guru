@@ -4,9 +4,9 @@ from config import ma
 from marshmallow import fields, post_dump, post_load
 
 from model.gasstation import GasStation
-from model.posts import (AmenityTag, AmenityType, Comment, Gas,
+from model.posts import (AmenityTag, AmenityType, Gas,
                          GasPriceSuggestion, GasType, Post, PostType,
-                         Promotion, Rating, Review)
+                         Promotion, Review)
 from model.users import User, UserType
 
 
@@ -52,8 +52,7 @@ class GasSchema(ma.SQLAlchemyAutoSchema):
     price = fields.Decimal(as_string=True)
     gas_type = fields.Nested('GasTypeSchema')
     gas_post = fields.Nested('GasPriceSuggestionSchema', exclude=(
-        'gases', 'post.gas_station.reviews', 'post.gas_station.comments',
-        'post.gas_station.ratings', 'post.gas_station.promotions',
+        'gases', 'post.gas_station.reviews', 'post.gas_station.promotions',
         'post.gas_station.image', 'post.gas_station.amenities',
         'post.gas_station.gas_price_suggestions',
         'post.gas_station.current_best_price',
@@ -144,41 +143,15 @@ class ReviewSchema(ma.SQLAlchemyAutoSchema):
         include_relationships = True
         load_instance = True
         transient = True
-        exclude = ('id', 'comment', 'rating', 'post_id')
+        exclude = ('id', 'post_id')
 
     post = fields.Nested('PostSchema')
-    body = fields.Pluck('CommentSchema', 'body', attribute='comment')
-    rating_val = fields.Pluck('RatingSchema', 'rating_val', attribute='rating')
 
     @post_dump
     def flatten_post(self, data, **kwargs):
         post_data = data.pop('post', dict())
         data = {**data, **post_data}
         return data
-
-
-class RatingSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = Rating
-        include_fk = True
-        include_relationships = True
-        load_instance = True
-        transient = True
-        exclude = ('review', 'review_id', 'id')
-
-    #post = fields.Pluck('ReviewSchema', 'post', attribute='review')
-
-
-class CommentSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = Comment
-        include_fk = True
-        include_relationships = True
-        load_instance = True
-        transient = True
-        exclude = ('review', 'review_id', 'id')
-
-    #post = fields.Pluck('ReviewSchema', 'post', attribute='review')
 
 
 class UserSchema(ma.SQLAlchemyAutoSchema):
@@ -223,12 +196,6 @@ class GasStationSchema(ma.SQLAlchemyAutoSchema):
 
     reviews = fields.Nested(ReviewSchema, many=True,
                             dump_only=True, exclude=('post.gas_station',))
-
-    ratings = fields.Nested(ReviewSchema, many=True,
-                            dump_only=True, exclude=('post.gas_station',))
-
-    comments = fields.Nested(ReviewSchema, many=True,
-                             dump_only=True, exclude=('post.gas_station',))
 
     promotions = fields.Nested(
         PromotionSchema, many=True, dump_only=True, exclude=('post.gas_station',))

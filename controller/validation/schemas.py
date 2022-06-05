@@ -188,14 +188,7 @@ class HandlePostTypesSchema(Schema):
 
 class HandlePostSchema(Schema):
     # internal schemas
-    class PostComment(Schema):
-        body = EscStr(required=True, validate=[
-            validate.Length(min=1, max=500)])
-
-    class PostRating(Schema):
-        rating_val = fields.Integer(required=True, strict=True, validate=[
-                                    validate.Range(min=1, max=5)])
-
+    
     class PostPromotion(Schema):
         desc = EscStr(required=True, validate=[
             validate.Length(min=1, max=255)])
@@ -240,10 +233,6 @@ class HandlePostSchema(Schema):
 
     post_type_id = fields.Int(required=True, strict=True)  # POST
 
-    comment = fields.Nested(PostComment)
-
-    rating = fields.Nested(PostRating)
-
     promotion = fields.Nested(PostPromotion)
 
     review = fields.Nested(PostReview)
@@ -256,11 +245,9 @@ class HandlePostSchema(Schema):
     def validate_post_data(self, data: dict, **kwargs):
         # check if some data has been provided
         some_posts = data.get('promotion')\
-            or data.get('rating')\
             or data.get('review')\
             or data.get('amenity_tag')\
-            or data.get('gas_price_suggestion')\
-            or data.get('comment')
+            or data.get('gas_price_suggestion')
 
         data_provided = data.get('post_id') \
             or data.get('gas_station_id')\
@@ -271,10 +258,8 @@ class HandlePostSchema(Schema):
             if some_posts and (self.context.get('method') == 'POST' or self.context.get('method') == 'PUT'):
                 # xor the posts
                 single_post = bool(data.get('promotion'))\
-                    ^ bool(data.get('comment')) \
                     ^ bool(data.get('gas_price_suggestion'))\
                     ^ bool(data.get('review'))\
-                    ^ bool(data.get('rating'))\
                     ^ bool(data.get('amenity_tag'))
 
                 if not single_post:

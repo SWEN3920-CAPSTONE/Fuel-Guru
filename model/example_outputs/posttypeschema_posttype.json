@@ -1,18 +1,18 @@
 [
 	{
-		"id": 356,
+		"is_votable": false,
+		"id": 1,
+		"post_type_name": "Review",
 		"allowed_user_types": [
-			1491
-		],
-		"post_type_name": "Comment",
-		"is_votable": true
+			1
+		]
 	},
 	{
-		"id": 357,
+		"is_votable": false,
+		"id": 2,
+		"post_type_name": "Promotion",
 		"allowed_user_types": [
-			1491
-		],
-		"post_type_name": "Rating",
-		"is_votable": false
+			2
+		]
 	}
 ]

@@ -1,3 +1,16 @@
+CREATE TABLE IF NOT EXISTS public.alembic_version
+(
+    version_num character varying(32) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT alembic_version_pkc PRIMARY KEY (version_num)
+);
+
+ALTER TABLE IF EXISTS public.alembic_version
+    OWNER to fuel_guru_admin;
+
+INSERT INTO public.alembic_version(
+	version_num)
+	VALUES ('47ca68e2f1b4') ON CONFLICT DO NOTHING;
+
 INSERT INTO public.amenity_types VALUES (1, 'Air pump');
 INSERT INTO public.amenity_types VALUES (2, 'Bathroom');
 INSERT INTO public.amenity_types VALUES (3, 'Convenience Store');
@@ -27,22 +40,20 @@ INSERT INTO public.gas_stations VALUES (5, 'Pope-Steele', '08598 Grant Motorway
 Moranburgh, NV 75349', -51.2053785, -172.811179, '\x89504e470d0a1a0a0000000d4948445200000100000001000802000000d3103f31000004d149444154789cedddbd4d244d1486d1ddd5e76e042c911006260ea1e18c49184482268fcf404218c5303d5d5d7fef39096c0bd573ef5d6b7efffd77fa05a9fef4fe00e84900441300d104403401104d004413c0e8ce4fafbd3f616502209a008666fc1f4d004413c0b8ce4faf6f2fefbdbf627102209a0088268041b97fda1000d1044034018cc8fdd38c00882680e118ff2d09806802209a00c6e2fe694c004413c0408cfff604403401104d00a370ff742100a2096008c67f2f02209a00882680fedc3f1d09806802209a003a73fff42500a209a027e3bf3b01104d0044134037ee9f1108806802e8c3f81f8400882600a209a003f7cf3804403401b466fc0f45004413c0e8de5edefd5af07104d094fb673402209a0088268076dc3f031200d104d088f13f2601104d004413400bee9f6109806802389cf13f3201104d004413c0b1dc3f831300d1047020e37f7c02209a00882680a3b87fa62000a2098068023884fb671602209a00ea33fe272200a209806802a8ccfd331701104d003519ffd31100d10440340154e3fe9991008826803a8cff4909806802209a002a70ffcc4b00441300d104b097fb676a02209a007631fe672700a209806802b89dfb670102209a006e64fcaf4100441300d104700bf7cf32044034016c66fcaf4400441300d104b08dfb673102209a008826800ddc3feb1100d104702de37f4902209a00882680abb87f562500a209e067c6ffc204403401104d003f70ffac4d004413c025c6fff204403401104d00df72ff241000d10440340194b97f42088068022830fe7308806802209a000aee4e8f0fcff7bdbf8216043081b797f7f3d36befaf589300ca2c811002209a00be6509241000d104708925b03c01104d003fb004d62600a209e06796c0c2044034015cc5125895008826806b59024b1200d104b08125b01e01104d00db58028b1100d104b09925b01201104d00b7b004962100a209e04696c01a04403401dcce125880008826805d2c81d909806802d8cb12989a008826800a2c817909806802a8c31298d47fbd3f000abefb459cbbd363dd7f4800d5dc9d1ecfcf7e5ff592eb7fe8e9e3cff875a9567ffa1f04c02e9b7ebceccae9f0f07cfff1f40f7af45f09a0a66596c0d651bd5f83615f248014478ceafd3edf7dcb47ff95002a6bbc04da8fea2ababffb4f029846f1ad0ff5ac2feb75e45cf6fbefbf53ef6f58d0f96985ff095431ceb02fb201a86fcc615f64031c2570090c3eec8b6c00769968d817d900075a7809cc38ec8b6c003658e6dd7fb2018eb5c01298fdc8b9cc06a06cbd615f64031c6ea225b0f6b02fb2014819f64536400b032e81c0615f640364491ef6453640237d978077ff1d1b60598e9c6bd800edb4590286fd2636c00a0cfb9bd9004dd55d0286fd7e36c0640cfbba6c80d66e5b0286fd416c80a179f747b3013ab8bc041c392dd900a330ecbbb001faf85802867d773640370fcff71e7d773600d1fc4006d104403401104d00441300d104403401104d00441300d104403401104d00441300d104403401104d00441300d104403401104d00441300d104403401104d00441300d104403401104d00441300d104403401104d00441300d104403401104d00441300d104403401104d00441300d104403401104d00441300d104403401104d00441300d104403401104d00441300d104403401104d00441300d10440340110ed7f1f94909f017f6b630000000049454e44ae426082', 4);
 
 
-INSERT INTO public.post_types VALUES (1, 'Comment', true);
-INSERT INTO public.post_types VALUES (2, 'Rating', false);
-INSERT INTO public.post_types VALUES (3, 'Review', true);
-INSERT INTO public.post_types VALUES (4, 'Promotion', false);
-INSERT INTO public.post_types VALUES (5, 'Gas Price Suggestion', true);
-INSERT INTO public.post_types VALUES (6, 'Amenity Tag', true);
+INSERT INTO public.post_types VALUES (1, 'Review', false);
+INSERT INTO public.post_types VALUES (2, 'Promotion', false);
+INSERT INTO public.post_types VALUES (3, 'Gas Price Suggestion', true);
+INSERT INTO public.post_types VALUES (4, 'Amenity Tag', true);
 
 
-INSERT INTO public.posts VALUES (1, NULL, '2022-05-24 06:45:13.497119', '2022-05-24 06:45:13.497119', 3, 6, 5);
-INSERT INTO public.posts VALUES (2, NULL, '2022-05-24 06:45:13.511122', '2022-05-24 06:45:13.511122', 3, 3, 1);
-INSERT INTO public.posts VALUES (5, '2022-05-24 06:45:13.545128', '2022-05-24 06:45:13.545128', '2022-05-24 06:45:13.545128', 3, 6, 1);
-INSERT INTO public.posts VALUES (6, NULL, '2022-05-24 06:45:13.555131', '2022-05-24 06:45:13.555131', 3, 2, 1);
-INSERT INTO public.posts VALUES (7, NULL, '2022-05-24 06:45:13.569136', '2022-05-24 06:45:13.569136', 4, 2, 1);
-INSERT INTO public.posts VALUES (8, NULL, '2022-05-24 06:45:13.582139', '2022-05-24 06:45:13.582139', 4, 5, 1);
+INSERT INTO public.posts VALUES (1, NULL, '2022-05-24 06:45:13.497119', '2022-05-24 06:45:13.497119', 3, 4, 5);
+INSERT INTO public.posts VALUES (2, NULL, '2022-05-24 06:45:13.511122', '2022-05-24 06:45:13.511122', 3, 1, 1);
+INSERT INTO public.posts VALUES (5, '2022-05-24 06:45:13.545128', '2022-05-24 06:45:13.545128', '2022-05-24 06:45:13.545128', 3, 4, 1);
+INSERT INTO public.posts VALUES (6, NULL, '2022-05-24 06:45:13.555131', '2022-05-24 06:45:13.555131', 3, 1, 1);
+INSERT INTO public.posts VALUES (7, NULL, '2022-05-24 06:45:13.569136', '2022-05-24 06:45:13.569136', 4, 1, 1);
+INSERT INTO public.posts VALUES (8, NULL, '2022-05-24 06:45:13.582139', '2022-05-24 06:45:13.582139', 4, 3, 1);
 INSERT INTO public.posts VALUES (9, NULL, '2022-05-24 06:45:13.595141', '2022-05-24 06:45:13.595141', 4, 1, 5);
-INSERT INTO public.posts VALUES (10, NULL, '2022-05-24 06:45:13.606144', '2022-05-24 06:45:13.606144', 5, 6, 4);
+INSERT INTO public.posts VALUES (10, NULL, '2022-05-24 06:45:13.606144', '2022-05-24 06:45:13.606144', 5, 4, 4);
 INSERT INTO public.posts VALUES (11, NULL, '2022-05-24 06:45:13.614146', '2022-05-24 06:45:13.614146', 5, 1, 5);
 
 
@@ -51,20 +62,15 @@ INSERT INTO public.amenity_tags VALUES (2, '2022-05-24 06:45:13.545128', 3, 5);
 INSERT INTO public.amenity_tags VALUES (3, '2022-05-24 06:45:13.606144', 1, 10);
 
 
-INSERT INTO public.reviews VALUES (1, 2, '2022-05-24 06:45:13.511122');
-INSERT INTO public.reviews VALUES (2, 6, '2022-05-24 06:45:13.555131');
-INSERT INTO public.reviews VALUES (3, 7, '2022-05-24 06:45:13.569136');
-INSERT INTO public.reviews VALUES (4, 9, '2022-05-24 06:45:13.595141');
-INSERT INTO public.reviews VALUES (5, 11, '2022-05-24 06:45:13.614146');
-
-
-INSERT INTO public.comments VALUES (1, 'Involve impact morning food. Research check stop share.', '2022-05-24 06:45:13.511122', 1, 2);
-INSERT INTO public.comments VALUES (2, 'Nor finish name half yeah big. Perform itself though top item party. Official traditional chance.', '2022-05-24 06:45:13.595141', 4, 9);
-INSERT INTO public.comments VALUES (3, 'Point financial condition six. Lawyer necessary PM myself physical certain. Former around series involve lose natural choose.', '2022-05-24 06:45:13.614146', 5, 11);
+INSERT INTO public.reviews VALUES (1, 2, '2022-05-24 06:45:13.511122', 2,'Involve impact morning food. Research check stop share.');
+INSERT INTO public.reviews VALUES (2, 6, '2022-05-24 06:45:13.555131', 4, 'test string');
+INSERT INTO public.reviews VALUES (3, 7, '2022-05-24 06:45:13.569136', 1, 'test string');
+INSERT INTO public.reviews VALUES (4, 9, '2022-05-24 06:45:13.595141', 5,'Nor finish name half yeah big. Perform itself though top item party. Official traditional chance.');
+INSERT INTO public.reviews VALUES (5, 11, '2022-05-24 06:45:13.614146',3 ,'Point financial condition six. Lawyer necessary PM myself physical certain. Former around series involve lose natural choose.');
 
 
 INSERT INTO public.downvoted_posts VALUES (1, 1);
-INSERT INTO public.downvoted_posts VALUES (2, 5);
+INSERT INTO public.downvoted_posts VALUES (8, 5);
 INSERT INTO public.downvoted_posts VALUES (10, 5);
 
 
@@ -82,35 +88,23 @@ INSERT INTO public.gases VALUES (2, 92413775392.99, 3, 1);
 
 
 INSERT INTO public.post_types_for_user_types VALUES (1, 1);
-INSERT INTO public.post_types_for_user_types VALUES (2, 1);
 INSERT INTO public.post_types_for_user_types VALUES (3, 1);
-INSERT INTO public.post_types_for_user_types VALUES (5, 1);
-INSERT INTO public.post_types_for_user_types VALUES (6, 1);
+INSERT INTO public.post_types_for_user_types VALUES (4, 1);
+INSERT INTO public.post_types_for_user_types VALUES (2, 2);
+INSERT INTO public.post_types_for_user_types VALUES (3, 2);
 INSERT INTO public.post_types_for_user_types VALUES (4, 2);
-INSERT INTO public.post_types_for_user_types VALUES (5, 2);
-INSERT INTO public.post_types_for_user_types VALUES (6, 2);
-INSERT INTO public.post_types_for_user_types VALUES (5, 3);
-INSERT INTO public.post_types_for_user_types VALUES (6, 3);
+INSERT INTO public.post_types_for_user_types VALUES (3, 3);
+INSERT INTO public.post_types_for_user_types VALUES (4, 3);
 
 
-INSERT INTO public.ratings VALUES (1, 2, '2022-05-24 06:45:13.511122', 1, 2);
-INSERT INTO public.ratings VALUES (2, 4, '2022-05-24 06:45:13.555131', 2, 6);
-INSERT INTO public.ratings VALUES (3, 1, '2022-05-24 06:45:13.569136', 3, 7);
-
-
-INSERT INTO public.upvoted_posts VALUES (6, 5);
-INSERT INTO public.upvoted_posts VALUES (7, 5);
+INSERT INTO public.upvoted_posts VALUES (10, 5);
 INSERT INTO public.upvoted_posts VALUES (10, 1);
-INSERT INTO public.upvoted_posts VALUES (11, 1);
 
 
 SELECT pg_catalog.setval('public.amenity_tags_id_seq', 3, true);
 
 
 SELECT pg_catalog.setval('public.amenity_types_id_seq', 3, true);
-
-
-SELECT pg_catalog.setval('public.comments_id_seq', 3, true);
 
 
 SELECT pg_catalog.setval('public.gas_price_suggestions_id_seq', 1, true);
@@ -132,9 +126,6 @@ SELECT pg_catalog.setval('public.posts_id_seq', 11, true);
 
 
 SELECT pg_catalog.setval('public.promotions_id_seq', 1, false);
-
-
-SELECT pg_catalog.setval('public.ratings_id_seq', 3, true);
 
 
 SELECT pg_catalog.setval('public.reviews_id_seq', 5, true);
