@@ -1,14 +1,16 @@
 <template>
     <main id="route-page">
-        <div id="title">
-            <h2>Getting Directions to {{name}}</h2>
-        </div>
-        <div id="sub-title">
-            <h4>{{address}}</h4>
+        <div id="title-cnt">
+            <div id="title">
+                <h2>Getting Directions to {{name}}</h2>
+            </div>
+            <div id="sub-title">
+                <h4>{{address}}</h4>
+            </div>
         </div>
         <div id="map-cnt" style="height:100%; width: 100%;">
             <div id="map-c">
-                <!-- <span v-if="!locationgranted">Please give location permissions</span> -->
+                <span v-if="!locationgranted">{{notifmessage}}</span>
             </div>
         </div>
       
@@ -28,6 +30,8 @@
                 address: '',
                 lat: 19.024960,
                 lng: -76.796557,
+                notifmessage: '',
+                locationgranted: false
             }
         },
 
@@ -67,11 +71,14 @@
                 directionsService.route(request, function(result, status) {
                     if (status == 'OK') {
                         directionsRenderer.setDirections(result);
+                    }if (status == 'ZERO_RESULTS'){
+                        alert('No route could be found this gas station based on your current location')
                     }else{
                         console.log(status)
                     }
                  });
             },
+
 
             setMarker(Points, Label){
                 const markers = new google.maps.Marker({
@@ -85,44 +92,47 @@
             },
 
             errorPostion(error) {
+                this.locationgranted = false
             switch(error.code){
                 case error.PERMISSION_DENIED:
-                    x.innerHTML="User denied the request for Geolocation."
+                   this.notifmessage ="User denied the request for Geolocation."
                 break;
                 case error.POSITION_UNAVAILABLE:
-                    x.innerHTML="Location information is unavailable."
+                    this.notifmessage ="Location information is unavailable."
                 break;
                 case error.TIMEOUT:
-                    x.innerHTML="The request to get user location timed out."
+                    this.notifmessage ="The request to get user location timed out."
                 break;
                 case error.UNKNOWN_ERROR:
-                    x.innerHTML="An unknown error occurred."
+                    this.notifmessage ="An unknown error occurred."
                 break;
             } 
         }
 
         },
-
+  
         created(){
             this.id = this.$route.params.id;
             this.loadGasstion()
         },
-
-       
-
+  
         mounted(){
             if(navigator.geolocation){
+                this.locationgranted = true
                 navigator.geolocation.getCurrentPosition((position) => {
-                        this.mapCenter.lat = position.coords.latitude
-                        this.mapCenter.lng = position.coords.longitude
+                        this.locationgranted = true
+                        let myposition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+                        let loadedStationLoc = new google.maps.LatLng(parseFloat(this.lat), parseFloat(this.lng))
+                        this.mapCenter = myposition
                         console.log(position)
                         this.initMap()
-                        this.setMarker(this.mapCenter, 'A')
-                        this.setMarker({lat: this.lat, lng: this.lng}, 'B')
+                        this.setMarker(this.mapCenter, 'You')
+                        this.setMarker(loadedStationLoc, 'Gas')
                 },this.errorPostion , { enableHighAccuracy : true,timeout: 20000, maximumAge: 0 })
             }
             else{
-
+                this.locationgranted = false;
+                this.notifmessage = 'This Broswer does not support Geolocation. Please use a different broswer'
             }
 
             
@@ -134,6 +144,14 @@
 </script>
 
 <style>
+
+#title-cnt {
+    border: 2px solid #AA1414;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 50px;
+}
+
 #sub-title {
   width: 100%;
   text-align: center;
@@ -142,7 +160,12 @@
 
 #map-c {
     height: 500px;
-    width: 100%
+    width: 100%;
+    text-align: center;
+}
+
+span{
+    color: #AA1414;
 }
 
 

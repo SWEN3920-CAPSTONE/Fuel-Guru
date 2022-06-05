@@ -16,7 +16,10 @@
  * @returns the sanitised string
  */
  export function sanitise_inputs (str) {
-  return str.replace( /[\<(^>+)>/"'&]/g, "");  
+  str.replace( /[\(^>+)>/"'&]/g, "");  
+  str.replace(/\s+/g, '');
+  str.trim();
+  return str
 }
 
 /**
@@ -55,6 +58,7 @@
  * @returns true if the username is valid
  * The username must contain uppercase letters, lowercase letters, numbers and 
  * underscores only. It must start with a letter and cannot end with an underscore.
+ * The length of the username must be greater than 5 and less than 30.
  */
  export function valid_username (str) {
   let strLength = str.length;
@@ -81,21 +85,33 @@
   let pattern = /[0-9a-zA-Z_.@-]/g;
   let patternLength = str.match(pattern).length;  
   let emailFormat = /\S+@\S+\.\S+/;
-  let lst = str.split("@");
-  let username = lst[0];
-  let domainInfo = lst[1];
-  let domainInfoLst = domainInfo.split(".");
-  let domainName = domainInfoLst[0];
 
-  if (lst.length === 2 && strLength > 5  && strLength === patternLength &&
-    str[0].match(letters).length === 1 && username.length > 5 && username[username-1] !== '_' && 
-    username[username-1] !== '-' && username[username-1] !== '.' && domainInfo.length  > 1 && 
-    domainInfo.match(specialChars).length === 0 && domainName.match(numbers).length === 0 &&
-    domainName[domainName-1] !== '.' && str.test(emailFormat) ) {    
-      return true
+  // checking to see if there is an @ sign in str
+  if (str.includes("@")) {
+    let lst = str.split("@");
+    let username = lst[0];
+    let domainInfo = lst[1];
+
+    // checking to see if there is at least one dot (.) in str
+    if (str.includes(".")){
+      let domainInfoLst = domainInfo.split(".");
+      let domainName = domainInfoLst[0];
+
+      if (lst.length === 2 && strLength > 5  && strLength === patternLength &&
+        str[0].match(letters).length === 1 && username.length > 5 && username[username-1] !== '_' && 
+        username[username-1] !== '-' && username[username-1] !== '.' && domainInfo.length  > 1 && 
+        domainInfo.match(specialChars).length === 0 && domainName.match(numbers).length === 0 &&
+        domainName[domainName-1] !== '.' && str.test(emailFormat) ) {    
+        return true
+      } else {
+        return false
+      }  
+    } else {
+      return false
+    }
   } else {
     return false
-  }  
+  }
 }
 
 /**
@@ -107,9 +123,9 @@
  */
  export function valid_password (str) {
   let strLength = str.length;
-  let patternLength = str.match(lettersNumbers).length + str.match(specialChars).length;  
+  //let patternLength = str.match(lettersNumbers).length + str.match(specialChars).length;  
 
-  if (strLength > 11 && strLength < 30 && strLength === patternLength && str.match(capitalLetters).length > 1 && str.match(commonLetters).length > 1 &&
+  if (strLength > 11 && strLength < 30 && str.match(capitalLetters).length > 1 && str.match(commonLetters).length > 1 &&
   str.match(numbers).length > 1 && str.match(specialChars).length > 1 &&  str[0].match(specialChars).length === 0) {
     return true
   } else {
@@ -124,10 +140,6 @@
  * The passwords must be the same to create the user.
  */
  export function confirmPassword (str1, str2) {
-  let strLength = str.length;
-  let pattern = /[0-9a-zA-Z_]/g;
-  let patternLength = str.match(pattern).length;  
-
   if (str1 === str2 && str1.length === str2.length) {
     return true
   } else {

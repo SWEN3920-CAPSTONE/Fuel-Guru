@@ -52,6 +52,7 @@ import router from '../router/index.js';
 import {sanitise_inputs, isEmpty, valid_name, valid_username, validate_email, valid_password, confirmPassword} from '../assets/scripts/validate.js'
 
 var firstname = ref('');
+var errMessage = ref('');
 var lastname = ref('');
 var email = ref('');
 var username = ref('');
@@ -62,8 +63,13 @@ var confirmAge = ref(''); //true when checked
 
 const emit = defineEmits(['update']);
 
+/**
+ * Allows the user to create a fuel guru account
+ */
 function signup() {  
-  let message = '';
+  errMessage = "ERRORS\n - - - - - - - - - - - - - - -";
+  let errors = [];
+
   // santising the inputs
   firstname.value = sanitise_inputs(firstname.value);
   lastname.value = sanitise_inputs(lastname.value);
@@ -72,44 +78,44 @@ function signup() {
   password.value = sanitise_inputs(password.value);
   password2.value = sanitise_inputs(password2.value);
 
-  if (isEmpty(firstname.value) === true || isEmpty(lastname.value) === true || isEmpty(email.value) === true || 
+if (isEmpty(firstname.value) === true || isEmpty(lastname.value) === true || isEmpty(email.value) === true || 
   isEmpty(username.value) === true || isEmpty(password.value) === true || isEmpty(password2.value) === true) {
-    message = message + "Fill all empty fields. \n";
+    errors.push("Fill all empty fields.");
   } else {
-    try {
-      if (valid_name(firstname.value) === false && valid_name(lastname.value) === false) {
-        message = message + "Invalid name. \n";
+      if (valid_name(firstname.value) === false) {
+        errors.push("Invalid Firstname.");
+      }
+      if (valid_name(lastname.value) === false) {
+        errors.push("Invalid Lastname.");
       }
 
       if (valid_username(username.value) === false) {
-        message = message + "Invalid username. \n";
+        errors.push("The username must have at least 5 characters. It must contain uppercase letters, lowercase letters, numbers and underscores only. It must start with a letter and cannot end with an underscore.");
       }
 
       if (validate_email(email.value) === false) {
-        message = message + "The username must contain uppercase letters, lowercase letters, numbers and underscores only. It must start with a letter and cannot end with an underscore. \n";
+        errors.push("Invalid email address.");
       }
 
-      if (valid_password(password.value) === false && valid_password(password2.value) === false) {
-        message = message + "The password must have at least 1 uppercase, 1 lowercase letter, 1 number and 1 special character. The password must be at least 12 characters. \n";
+      if (valid_password(password.value) === false || valid_password(password2.value) === false) {
+        errors.push("The password must have at least 1 uppercase, 1 lowercase letter, 1 number and 1 special character. The password must be at least 12 characters.");
       }
 
       if (confirmPassword(password.value, password2.value) === false) {
-        message = message + "Passwords do not match. \n";
+        errors.push("Passwords do not match.");
       }
 
       if (confirmTerms.value === false) {
-        message = message + "You must agree to the terms and conditions to complete the signup. \n";
+        errors.push("You must agree to the terms and conditions to complete the signup.");
       }
 
       if (confirmAge.value === false) {
-        message = message + "You must confirm your age to complete the signup. \n";
+        errors.push("You must confirm your age to complete the signup.");
       }
-    } catch (error) {
-      console.log(error);
-    }    
-  }  
+    }  
+    
 
-  if(message ===  '') {
+  if(errors.length === 0) {
     fetch('http://localhost:9000/auth/signup', {
       body: JSON.stringify({
         "username": username.value,
@@ -127,17 +133,20 @@ function signup() {
           localStorage.setItem('refreshToken', data.refresh_token);
           emit('update');
           router.push({name: 'FuelPrices'});
-          alert(`Welcome ${firstname.value}!`);
+          alert("Welcome ${firstname.value}!");
         }
       })
       .catch(error => {
         console.log(error);        
       })
   } else {
-    alert(message);
+    for (let i = 0; i < errors.length; i++) {
+      errMessage += `\n(${i+1}) ${errors[i]}`
+    }
+    alert(errMessage);
+    //console.log(errors)
   }
 }
-
 </script>
 
 <style>
