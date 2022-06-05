@@ -242,10 +242,18 @@ the components are not yet created -->
                   
                </ul>
              <div id="sugg">   
-                 <input type="text"  id="commentEntry" placeholder="Leave a comment..." v-model="comment">
+                 <input type="text"  id="commentEntry" placeholder="Leave a comment..." v-model="body">
+
+                <select v-model="sugg_rating">
+                   <option value="" selected disabled hidden>Rate the Gas Station</option>
+                    <option value="1" >1</option>
+                    <option value="2" >2</option>
+                    <option value="3" >3</option>
+                    <option value="4" >4</option>
+                    <option value="5" >5</option>
+                </select>
                 
-                
-                 <button id="comment-btn" @click="makeNewComment(comment)">Add Comment</button>
+                 <button id="comment-btn" @click="makeNewReview(body,sugg_rating)">Add Comment</button>
                  <br>
                  <br>
                  <br>
@@ -281,13 +289,14 @@ export default {
        allsuggestedPrices:{},
        comments: {},
        rating: 0,
+       sugg_rating: 0,
        show_vote_fuelprices:false,
        show_suggest_amenity:false,
        sugg_price: '',
        sugg_type: '',
        post_id:22,
        hasToken: false,
-       comment:"",
+       body:"",
        gasTypes: [],
        amenityTypes: [],
        sugg_amenity: '',
@@ -330,22 +339,24 @@ export default {
      .then(data => {
        this.amenities=data.data;
        console.log(this.amenities);
+       this.getGasStation();
      })
      .catch(error => {
        console.log(error)
      })
    },
  
-   makeNewComment(commentBody){
+   makeNewReview(body,sugg_rating){
        fetch('http://localhost:9000/posts', {
        body: JSON.stringify({
            "gas_station_id":parseInt(this.id),
-           "post_type_id": 1,
+           "post_type_id": 3,
           
-           "comment":
+           "review":
           
            {
-             "body":commentBody
+             "body":body,
+             "rating_val":parseInt(sugg_rating)
            }
          }),
        headers:
@@ -357,11 +368,17 @@ export default {
      .then(result => result.json())
      .then(data => {
        this.post=data.data;
-       console.log(this.id);
-      
-       alert(`You have successfully commented`);
-      
-       this.$router.go()
+
+       if(data.error!=null)
+       {
+         alert(data.error);
+       }
+       else
+       {
+          alert(`You have successfully made a review`);
+          this.getGasStation();
+       }
+    
      })
      .catch(error => {
        console.log(error)
@@ -398,7 +415,7 @@ export default {
        else
        {
           alert(`You have successfully edited your comment`);
-         this.$router.go()
+          this.getGasStation();
        }
     
      })
@@ -431,7 +448,7 @@ export default {
        else
        {
           alert(`You have successfully deleted your comment`);
-         //this.$router.go()
+          this.getGasStation();
        }
     
      })
@@ -474,7 +491,7 @@ export default {
        else
        {
          alert(`You have successfully made a suggestion`);
-         this.$router.go()
+         this.getGasStation();
        }
       
      })
@@ -511,6 +528,7 @@ export default {
        else
        {
          //alert(`You have successfully made a suggestion`);
+         this.getGasStation();
          //this.$router.go()
        }
       
@@ -542,8 +560,9 @@ export default {
        }
        else
        {
-         alert(`You have successfully toggled your upvote`);
-         this.$router.go()
+         //alert(`You have successfully toggled your upvote`);
+         this.getGasStation(); //Update values
+         //this.$router.go()
        }
       
        //console.log(localStorage.refreshToken);
@@ -574,8 +593,8 @@ export default {
        }
        else
        {
-         alert(`You have successfully toggled your downvote`);
-         this.$router.go()
+         //alert(`You have successfully toggled your downvote`);
+         this.getGasStation();
        }
     
        console.log(localStorage.refreshToken);
