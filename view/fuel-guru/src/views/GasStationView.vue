@@ -20,7 +20,7 @@ the components are not yet created -->
                <br>
                <h3> Rating
                  <!--Create number of stars based on rating -->
-                 <span v-if="rating==0">
+                 <span v-if="rating==0&& rating<1">
                    <span class="fa fa-star" ></span>
                    <span class="fa fa-star" ></span>
                    <span class="fa fa-star" ></span>
@@ -44,7 +44,7 @@ the components are not yet created -->
                    <span class="fa fa-star" ></span>
                  </span>
  
-                 <span v-if="rating==3">
+                 <span v-if="rating>=3 && rating<4">
                    <span class="fa fa-star checked"></span>
                    <span class="fa fa-star checked" ></span>
                    <span class="fa fa-star checked" ></span>
@@ -74,10 +74,7 @@ the components are not yet created -->
            </h3>
            </div>
       
-      
-               
-          
- 
+     
           
        </div>
        <!--- fuel prices -->
@@ -89,10 +86,8 @@ the components are not yet created -->
  
                    <li id="price" v-for="gas in bestPrice" :key="gas.id">
                        <h4> Type: {{gas.gas_type.gas_type_name}} </h4>
-                        <h4> Price: ${{gas.price}} </h4> <!-- format number?-->
-                       
-                   </li>
-                   
+                        <h4> Price: ${{gas.price}} </h4> <!-- format number?-->    
+                   </li>         
                </div>   
            </ul>
  
@@ -102,25 +97,25 @@ the components are not yet created -->
       
            <button v-show="this.hasToken" @click="show_vote_fuelprices=!show_vote_fuelprices" type="button" class="btn">View All Gas Price Suggestions</button>
  
-          
        </div>
        <div id="suggestedPrices" v-show="show_vote_fuelprices">
          <h3>All Suggested Prices</h3>
  
-         <div id="commentRow"  v-if="allsuggestedPrices.length>0">
+         <div  v-if="allsuggestedPrices.length>0">
                 
-               <div  id="card" v-for="gasArray in allsuggestedPrices" :key="gasArray.id">
-                       <h5 id="headline">Username: </h5><p id="headline">{{gasArray.creator.username}}</p>
+               <div id="fuelRow" v-for="gasArray in allsuggestedPrices" :key="gasArray.id">
+                       <h5 id="headline">{{gasArray.creator.username}}</h5>
  
                        <div  v-for="gas in gasArray.gases" :key="gas.id">
-                           <h4> Type: {{gas.gas_type.gas_type_name}} </h4> 
-                           <h4 id="headline"> Price: ${{gas.price}} </h4>
-                           <hr>
-                           <!-- Print ID for testing <p>id: {{gasArray.id}}</p> --> 
+                           <h4> {{gas.gas_type.gas_type_name}} </h4> 
+                           <h4 id="headline"> ${{gas.price}} </h4>
+                           
                        </div>
-               <h5>Upvotes: {{gasArray.upvote_count}} &emsp;&emsp; DownVotes: {{gasArray.downvote_count}}  </h5>
-               <i class="fa fa-thumbs-up" id="thumbs" @click="upvote(gasArray.id)"></i>&emsp; <!--functions to be added in-->
-               <i class="fa fa-thumbs-down" id="thumbs" @click="downvote(gasArray.id)"></i>
+               <h5><i class="fa fa-thumbs-up" id="thumbs" @click="upvote(gasArray.id)"></i>
+               : {{gasArray.upvote_count}} &emsp;&emsp; 
+               <i class="fa fa-thumbs-down" id="thumbs" @click="downvote(gasArray.id)"></i>{{gasArray.downvote_count}}  </h5>
+               &emsp; <!--functions to be added in-->
+               
                         
                </div>
               
@@ -129,7 +124,7 @@ the components are not yet created -->
            <p>There are no comments posted at this time.</p>
          </div>
            <br>
-         <div id="sugg">
+         <div id="sugg" >
            <h5>Make a gas price suggestion!</h5>
  
            <!-- Selection of Gas Types -->
@@ -176,19 +171,18 @@ the components are not yet created -->
            <button type="button" class="btn" v-show="this.hasToken" @click="show_suggest_amenity=!show_suggest_amenity">Suggest an Amenity</button>
  
            <div id="suggestedPrices" v-show="show_suggest_amenity">
-              <h3>Suggest an Amenity</h3>
+              
   
               <div id="commentRow">
-                  <div id="card">
+                  <div>
+                    <h4 style="text-align:left" >Suggest an Amenity</h4>
                     <div id="amenity-entry-grid">
                       <div>
                         <select id="sugg-type" v-model="amenity_type">
                           <option value="" disabled selected hidden>Select an Amenity Type</option>
                           <option v-for="amenity in amenityTypes" :key="amenity.id" :value="amenity.id" placeholder="Select the Amenity Type">{{amenity.amenity_name}}</option>
                         </select>
-                        <br>
-                        <br>
-                        <input type="text"  id="sugg-price" placeholder="Enter suggested amenity" v-model="sugg_amenity">
+                        
                       </div>
   
                       <div>
@@ -204,7 +198,7 @@ the components are not yet created -->
  
        <!--- Comments -->
        <div class="comments">
-           <h3>Comments</h3>
+           <h3>Reviews</h3>
            <div id="commentRow" v-if="comments.length>0">
                <ul>
                    <li id="comment" v-for="comment in comments" :key="comment.id">
@@ -213,10 +207,11 @@ the components are not yet created -->
                                <h4>{{comment.creator.username}}</h4>
                            </div>
                            <div id="comment-created" >
+                                
                                <h4>{{ comment.created_at }}</h4>
                            </div>
                            <div id="comment-icons">
-                               <i class="fa fa-pencil-square" id="thumbs" @click="editComment(comment.id,comment.body)"></i>   &nbsp; 
+                               <i class="fa fa-pencil-square" id="thumbs" @click="editComment(comment.id,comment.body,comment.rating_val)"></i>   &nbsp; 
                                <i class="fa fa-trash" id="thumbs" @click="deleteComment(comment.id)"></i>
                            </div>
                        </div>
@@ -242,11 +237,19 @@ the components are not yet created -->
                   
                   
                </ul>
-             <div id="sugg">   
-                 <input type="text"  id="commentEntry" placeholder="Leave a comment..." v-model="comment">
+             <div id="sugg" v-show="this.hasToken">   
+                 <input type="text"  id="commentEntry" placeholder="Leave a comment..." v-model="body">
+
+                <select v-model="sugg_rating">
+                   <option value="" selected disabled hidden>Rate the Gas Station</option>
+                    <option value="1" >1</option>
+                    <option value="2" >2</option>
+                    <option value="3" >3</option>
+                    <option value="4" >4</option>
+                    <option value="5" >5</option>
+                </select>
                 
-                
-                 <button id="comment-btn" @click="makeNewComment(comment)">Add Comment</button>
+                 <button id="comment-btn" @click="makeNewReview(body,sugg_rating)">Add Review</button>
                  <br>
                  <br>
                  <br>
@@ -264,11 +267,8 @@ the components are not yet created -->
 </template>
  
 <script>
- 
-//const emit = defineEmits(['update']);
- 
 //access control issue '(Access-Control-Allow-Origin)
- 
+import moment from '../../node_modules/moment';
 export default {
  
  data() {
@@ -282,17 +282,19 @@ export default {
        allsuggestedPrices:{},
        comments: {},
        rating: 0,
+       sugg_rating: 0,
        show_vote_fuelprices:false,
        show_suggest_amenity:false,
        sugg_price: '',
        sugg_type: '',
        post_id:22,
        hasToken: false,
-       comment:"",
+       body:"",
        gasTypes: [],
        amenityTypes: [],
        sugg_amenity: '',
        amenity_type: '',
+       date: '',
    }
  },
  methods: {
@@ -313,7 +315,8 @@ export default {
        console.log(this.hasToken);
      }
    },
- 
+  
+  
    //Get Amenities for a specific gas station
    makeNewAmenity()
    {
@@ -331,22 +334,24 @@ export default {
      .then(data => {
        this.amenities=data.data;
        console.log(this.amenities);
+       this.getGasStation();
      })
      .catch(error => {
        console.log(error)
      })
    },
  
-   makeNewComment(commentBody){
+   makeNewReview(body,sugg_rating){
        fetch('http://localhost:9000/posts', {
        body: JSON.stringify({
            "gas_station_id":parseInt(this.id),
-           "post_type_id": 1,
+           "post_type_id": 3,
           
-           "comment":
+           "review":
           
            {
-             "body":commentBody
+             "body":body,
+             "rating_val":parseInt(sugg_rating)
            }
          }),
        headers:
@@ -358,11 +363,17 @@ export default {
      .then(result => result.json())
      .then(data => {
        this.post=data.data;
-       console.log(this.id);
-      
-       alert(`You have successfully commented`);
-      
-       this.$router.go()
+
+       if(data.error!=null)
+       {
+         alert(data.error);
+       }
+       else
+       {
+          alert(`You have successfully made a review`);
+          this.getGasStation();
+       }
+    
      })
      .catch(error => {
        console.log(error)
@@ -370,16 +381,17 @@ export default {
      })
    },
  
-   editComment(commentId, commentBody){
-       let newComment = prompt("Please enter your edited comment", commentBody);
-      
+   editComment(commentId, currComment,currRating){
+       let newComment = prompt("Please enter your edited comment", currComment);
+      let newRating = prompt("Please enter your edited comment", currRating);
        fetch('http://localhost:9000/posts', {
        body: JSON.stringify({
            "post_id": parseInt(commentId),
-           "comment":
+           "review":
           
            {
-             "body":newComment
+             "body":newComment,
+             "rating_val":parseInt(newRating)
            }
          }),
        headers:
@@ -399,7 +411,7 @@ export default {
        else
        {
           alert(`You have successfully edited your comment`);
-         this.$router.go()
+          this.getGasStation();
        }
     
      })
@@ -432,7 +444,7 @@ export default {
        else
        {
           alert(`You have successfully deleted your comment`);
-         //this.$router.go()
+          this.getGasStation();
        }
     
      })
@@ -475,7 +487,7 @@ export default {
        else
        {
          alert(`You have successfully made a suggestion`);
-         this.$router.go()
+         this.getGasStation();
        }
       
      })
@@ -512,6 +524,7 @@ export default {
        else
        {
          //alert(`You have successfully made a suggestion`);
+         this.getGasStation();
          //this.$router.go()
        }
       
@@ -543,8 +556,9 @@ export default {
        }
        else
        {
-         alert(`You have successfully toggled your upvote`);
-         this.$router.go()
+         //alert(`You have successfully toggled your upvote`);
+         this.getGasStation(); //Update values
+         //this.$router.go()
        }
       
        //console.log(localStorage.refreshToken);
@@ -575,8 +589,8 @@ export default {
        }
        else
        {
-         alert(`You have successfully toggled your downvote`);
-         this.$router.go()
+         //alert(`You have successfully toggled your downvote`);
+         this.getGasStation();
        }
     
        console.log(localStorage.refreshToken);
@@ -586,7 +600,15 @@ export default {
      })
  
    },
- 
+
+
+   convertDate(reviews){
+    for (var i = 0; i < reviews.length; i++) 
+    {
+      reviews[i].created_at = moment(reviews[i].created_at).format('MMMM Do YYYY, h:mm a');
+    }
+    return reviews;
+  },
   
    //Get all posts for a specific gas station
    getGasStation() {
@@ -624,8 +646,9 @@ export default {
        this.amenities = this.station.amenities;
        console.log("Amenities");
        console.log(this.amenities);
-       this.comments = this.station.comments;
-       this.rating = this.station.avg_rating;
+       this.comments = this.convertDate(this.station.reviews);
+       
+       this.rating = this.station.avg_rating.toFixed(1);
        console.log(data.data);
      })
      .catch(error => {
@@ -688,10 +711,13 @@ export default {
  
 <style>
  
+.fa-star {
+   color: black;
+}
+
 .checked {
  color: #AA1414;
 }
- 
  
 #stationarea {
  padding-top: 50px;
@@ -779,7 +805,11 @@ label {
  float: left;
 }
  
- 
+#fuelRow{
+ display: grid; 
+ grid-template-columns: auto auto auto auto auto auto;
+ text-align: center;
+}
  
 #commentRow{
  display: grid; 
