@@ -66,7 +66,7 @@ class GasStation(db.Model):
 
             num = (rating_only)/(len(vals))
 
-        if len(ratings) == 1:
+        elif len(ratings) == 1:
             num = ratings[0].rating.rating_val
 
         else:
