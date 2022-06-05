@@ -133,33 +133,13 @@ def search_nearby_gasstation():
                 return jsonify(message='Nearby Gasstations retrived successfully', data=resdata), 200
             else:
                 if status == 404:
-                    return jsonify(error='You are not nearby any gas stations'), 404
+                    return jsonify(error='You are not nearby any gas stations', data={}), 404
                 return jsonify(error="Something went wrong on the server's side, please try again later"), 500
         else:
             return jsonify(error='Method not allowed'), 405
     except ValidationError as e:
         return jsonify(errors=e.messages), 400
-    
 
-@gasstation_api.route('/find',methods=['POST'])
-@csrf.exempt
-def findRoute_gasstation():
-    """
-    Endpoint is for finding a route to a gas station based on the user's current location.
-    """
-    try:
-        if request.method == 'POST':
-            data: dict = HandleUserGasstationLocationSchema().load(get_request_body())
-            res, status = find_gasstation(data.get('user_lat'), data.get('user_lng'), data.get('gs_lat'), data.get('gs_lng'))
-            pprint(res)
-            if status == 200:
-                return jsonify(message='Route to Gasstation found sucessfully', data=res.json()), 200
-            else:
-                if status == 404:
-                    return jsonify(error='no route could be found between the origin and destination'), 404
-                return jsonify(error="Something went wrong on the server's side, please try again later"), 500
-    except ValidationError as e:
-        return jsonify(errors=e.messages), 400
 
 app.register_blueprint(gasstation_api, url_prefix='/gasstations')
 
