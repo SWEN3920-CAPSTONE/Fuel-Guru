@@ -74,10 +74,7 @@ the components are not yet created -->
            </h3>
            </div>
       
-      
-               
-          
- 
+     
           
        </div>
        <!--- fuel prices -->
@@ -89,10 +86,8 @@ the components are not yet created -->
  
                    <li id="price" v-for="gas in bestPrice" :key="gas.id">
                        <h4> Type: {{gas.gas_type.gas_type_name}} </h4>
-                        <h4> Price: ${{gas.price}} </h4> <!-- format number?-->
-                       
-                   </li>
-                   
+                        <h4> Price: ${{gas.price}} </h4> <!-- format number?-->    
+                   </li>         
                </div>   
            </ul>
  
@@ -102,9 +97,8 @@ the components are not yet created -->
       
            <button v-show="this.hasToken" @click="show_vote_fuelprices=!show_vote_fuelprices" type="button" class="btn">View All Gas Price Suggestions</button>
  
-          
        </div>
-       <div id="suggestedPrices" >
+       <div id="suggestedPrices" v-show="show_vote_fuelprices">
          <h3>All Suggested Prices</h3>
  
          <div id="commentRow"  v-if="allsuggestedPrices.length>0">
@@ -129,7 +123,7 @@ the components are not yet created -->
            <p>There are no comments posted at this time.</p>
          </div>
            <br>
-         <div id="sugg" v-show="show_vote_fuelprices">
+         <div id="sugg" >
            <h5>Make a gas price suggestion!</h5>
  
            <!-- Selection of Gas Types -->
