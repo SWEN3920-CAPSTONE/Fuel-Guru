@@ -47,27 +47,26 @@ class GasStation(db.Model):
     def avg_rating(self):
         from model.posts import Post, PostType, Review
         
-        p_type = PostType.query.filter_by(post_type_name='Rating').first()
-        p_type2 = PostType.query.filter_by(post_type_name='Review').first()
+        p_type = PostType.query.filter_by(post_type_name='Review').first()
 
         q = GasStation.query.filter(GasStation.id == self.id)\
             .from_self(Review)\
             .join(GasStation.all_posts)\
-            .filter(or_(Post.post_type_id == p_type.id, Post.post_type_id == p_type2.id))\
+            .filter(Post.post_type_id == p_type.id)\
             .join(Review, and_(
                 Review.post_id == Post.id,
                 Review.last_edited == Post.last_edited))
 
         ratings = q.all()
         if len(ratings) > 1:
-            vals = [rating.rating.rating_val for rating in ratings]
+            vals = [rating.rating_val for rating in ratings]
 
             rating_only = sum(vals)
 
             num = (rating_only)/(len(vals))
 
         elif len(ratings) == 1:
-            num = ratings[0].rating.rating_val
+            num = ratings[0].rating_val
 
         else:
             num = 0
@@ -87,50 +86,6 @@ class GasStation(db.Model):
         this_week = today - timedelta(days=7)
         
         p_type = PostType.query.filter_by(post_type_name='Review').first()
-
-        q = GasStation.query.filter(GasStation.id == self.id)\
-            .from_self(Review)\
-            .join(GasStation.all_posts)\
-            .filter(Post.post_type_id == p_type.id)\
-            .filter(Post.last_edited >= this_week)\
-            .where(Post.deleted_at==None)\
-            .join(Review, and_(
-                Review.post_id == Post.id,
-                Review.last_edited == Post.last_edited))
-
-        return q.all()
-
-    @hybrid_property
-    def comments(self):
-        from model.posts import  Post, PostType, Review
-        
-        today = datetime.fromisoformat(date.today().isoformat())
-
-        this_week = today - timedelta(days=7)
-        
-        p_type = PostType.query.filter_by(post_type_name='Comment').first()
-
-        q = GasStation.query.filter(GasStation.id == self.id)\
-            .from_self(Review)\
-            .join(GasStation.all_posts)\
-            .filter(Post.post_type_id == p_type.id)\
-            .filter(Post.last_edited >= this_week)\
-            .where(Post.deleted_at==None)\
-            .join(Review, and_(
-                Review.post_id == Post.id,
-                Review.last_edited == Post.last_edited))
-
-        return q.all()
-
-    @hybrid_property
-    def ratings(self):
-        from model.posts import Post, PostType, Review
-        
-        today = datetime.fromisoformat(date.today().isoformat())
-
-        this_week = today - timedelta(days=7)
-        
-        p_type = PostType.query.filter_by(post_type_name='Rating').first()
 
         q = GasStation.query.filter(GasStation.id == self.id)\
             .from_self(Review)\

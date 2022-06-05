@@ -459,14 +459,8 @@ class Promotion(db.Model):
 
 class Review(db.Model):
     """
-    A representation of a special case in the system where a 
-    comment and a review together make a review. 
-
-    However, to simplify the serialization process on the api end, 
-    all comments and ratings will be treated as reviews that contain 
-    a single comment or a single rating or both a rating and a comment. 
-    For those cases, the post type in the Post table will still 
-    indicate Comment, Rating or Review respectively.
+    Represents the information related to Reviews
+    that the other post types do not have.
     """
 
     __tablename__ = 'reviews'
@@ -481,132 +475,31 @@ class Review(db.Model):
     post_id = db.Column(
         db.Integer,
         db.ForeignKey('posts.id'),
-        primary_key=True,
-        unique=True
+        primary_key=True
     )
 
     last_edited = db.Column(
         db.DateTime,
         nullable=False
     )
-
-    comment = db.relationship('Comment', backref='review', uselist=False,
-                              primaryjoin='and_(Comment.review_id == Review.id, Review.post_id == Comment.post_id, Comment.last_edited == Review.last_edited)')
-    """Could be None if rating is not None"""
-
-    rating = db.relationship('Rating', backref='review', uselist=False,
-                             primaryjoin='and_(Rating.review_id == Review.id, Review.post_id == Rating.post_id, Rating.last_edited == Review.last_edited)')
-    """Could be None if comment is not None"""
-
-    post = db.relationship(
-        'Post', primaryjoin='and_(Review.post_id == Post.id, Post.last_edited == Review.last_edited)')
-
-    def __init__(self, post):
-        self.post = post
-        self.last_edited = post.last_edited
-
-
-class Rating(db.Model):
-    """
-    Represents the information related to Ratings 
-    that the other post types do not have.
-    """
-
-    __tablename__ = 'ratings'
-
-    # Columns
-
-    id = db.Column(
-        db.Integer,
-        primary_key=True,
-        autoincrement=True,  # required when the primary key is composite
-        unique=True
-    )
-
+    
     rating_val = db.Column(
         db.Integer,
         nullable=False
     )
-
-    last_edited = db.Column(
-        db.DateTime,
-        nullable=False
-    )
-
-    review_id = db.Column(
-        db.Integer,
-        primary_key=True
-    )
-
-    post_id = db.Column(
-        db.Integer,
-        primary_key=True
-    )
-
-    __table_args__ = (ForeignKeyConstraint(
-        [review_id, post_id], [Review.id, Review.post_id]),)
-
-    def __init__(self, rating_val, review, edit=False) -> None:
-        if edit:
-            tnow = datetime.utcnow()
-            review.last_edited = tnow
-            review.post.last_edited = tnow
-            if review.comment:
-                review.comment.last_edited = tnow
-
-        self.last_edited = review.last_edited
-        self.rating_val = rating_val
-        self.review = review
-
-
-class Comment(db.Model):
-    """
-    Represents the information related to Comment 
-    that the other post types do not have.
-    """
-
-    __tablename__ = 'comments'
-
-    # Columns
-
-    id = db.Column(
-        db.Integer,
-        primary_key=True,
-        autoincrement=True,  # required when the primary key is composite
-        unique=True
-    )
-
+    
     body = db.Column(
         db.String(500),
-        nullable=True
-    )
-
-    last_edited = db.Column(
-        db.DateTime,
         nullable=False
     )
 
-    review_id = db.Column(
-        db.Integer,
-        primary_key=True
-    )
+    post = db.relationship(
+        'Post', primaryjoin='and_(Review.post_id == Post.id, Post.last_edited == Review.last_edited)')
 
-    post_id = db.Column(
-        db.Integer,
-        primary_key=True
-    )
-
-    __table_args__ = (ForeignKeyConstraint([review_id, post_id], [
-                      Review.id, Review.post_id]),)  # composite ForeignKey
-
-    def __init__(self, body, review, edit=False) -> None:
+    def __init__(self, post, body, rating_val, edit=False):
         if edit:
-            tnow = datetime.utcnow()
-            review.last_edited = tnow
-            review.post.last_edited = tnow
-            if review.rating:
-                review.rating.last_edited = tnow
-
-        self.last_edited = review.last_edited
+            post.last_edited = datetime.utcnow()                
+        self.post = post
+        self.last_edited = post.last_edited
         self.body = body
-        self.review = review
+        self.rating_val = rating_val

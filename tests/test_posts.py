@@ -9,11 +9,10 @@ from tests.utils import (has_404_error, has_date_range_error,
                          has_deleted_post_error,
                          has_disallowed_post_type_error,
                          has_duplicate_gas_type_error, has_invalid_date_error,
-                         has_invalid_num_error, has_invalid_token_error,
-                         has_length_range_error, has_manager_post_error,
-                         has_min_value_error, has_no_self_vote_error,
-                         has_not_votable_error, has_post_created,
-                         has_value_range_error, has_vote_disallowed_error,
+                         has_invalid_num_error, has_length_range_error,
+                         has_manager_post_error, has_min_value_error,
+                         has_no_self_vote_error, has_not_votable_error,
+                         has_post_created, has_vote_disallowed_error,
                          has_vote_success)
 
 fake = Faker()
@@ -21,74 +20,6 @@ fake = Faker()
 
 class TestPosts():
     url = '/posts'
-
-    @pytest.mark.parametrize(
-        ('iden', 'password', 'body', 'code', 'func'),
-        [
-            pytest.param('marckennedy', 'ZBly62WopR$2', 'This gas station has food',
-                         200, lambda resp: has_post_created(b'Comment', resp), id='UT34'),
-            pytest.param('marckennedy', 'ZBly62WopR$2', '', 400,
-                         lambda resp: has_length_range_error(resp), id='UT36'),
-            pytest.param('marckennedy', 'ZBly62WopR$2', 'I', 200,
-                         lambda resp: has_post_created(b'Comment', resp), id='UT38'),
-            pytest.param('marckennedy', 'ZBly62WopR$2', fake.pystr(
-                min_chars=501, max_chars=501), 400, lambda resp: has_length_range_error(resp), id='UT40'),
-            pytest.param('kgarcia', 'vYMovXVs^58Q', 'comment', 403,
-                         lambda resp: has_disallowed_post_type_error(b'Comment', resp), id='UT41'),
-            pytest.param(None, None, 'comment', 401,
-                         lambda resp: has_invalid_token_error(resp), id='UT42'),
-        ]
-    )
-    def test_create_comment(self, auth: AuthActions, iden, password, body, code, func):
-        auth.signin(iden, password)
-
-        data = {
-            'gas_station_id': 1,
-            'post_type_id': 1,
-            'comment': {
-                'body': body
-            }
-        }
-
-        resp = auth.client.post(f'{self.url}', json=data, headers={
-            'Authorization': f'Bearer {auth.jwt}'})
-
-        assert resp.status_code == code
-        func(resp)
-
-    @pytest.mark.parametrize(
-        ('iden', 'password', 'rating_val', 'code', 'func'),
-        [
-            pytest.param('marckennedy', 'ZBly62WopR$2', 1, 200,
-                         lambda resp: has_post_created(b'Rating', resp), id='UT44'),
-            pytest.param('marckennedy', 'ZBly62WopR$2', 5, 200,
-                         lambda resp: has_post_created(b'Rating', resp), id='UT46'),
-            pytest.param('kgarcia', 'vYMovXVs^58Q', 3, 403, lambda resp: has_disallowed_post_type_error(
-                b'Rating', resp), id='UT47'),
-            pytest.param('marckennedy', 'ZBly62WopR$2', 0, 400,
-                         lambda resp: has_value_range_error(resp), id='UT48'),
-            pytest.param('marckennedy', 'ZBly62WopR$2', 6, 400,
-                         lambda resp: has_value_range_error(resp), id='UT49'),
-            pytest.param(None, None, 2, 401,
-                         lambda resp: has_invalid_token_error(resp), id='UT50')
-        ]
-    )
-    def test_create_rating(self, auth: AuthActions, iden, password, rating_val, code, func):
-        auth.signin(iden, password)
-
-        data = {
-            'gas_station_id': 1,
-            'post_type_id': 2,
-            'rating': {
-                'rating_val': rating_val
-            }
-        }
-
-        resp = auth.client.post(f'{self.url}', json=data, headers={
-            'Authorization': f'Bearer {auth.jwt}'})
-        assert resp.status_code == code
-        func(resp)
-
 
     @pytest.mark.parametrize(
         ('body', 'code', 'func'),
@@ -113,7 +44,7 @@ class TestPosts():
 
         data = {
             'gas_station_id': 1,
-            'post_type_id': 3,
+            'post_type_id': 1,
             'review': {
                 'rating_val': rating_val,
                 'body': body
@@ -177,7 +108,7 @@ class TestPosts():
 
         data = {
             'gas_station_id': gas_station_id,
-            'post_type_id': 4,
+            'post_type_id': 2,
             'promotion': {
                 'desc': desc,
                 'start_date': start_date,
@@ -215,7 +146,7 @@ class TestPosts():
 
         data = {
             'gas_station_id': gas_station_id,
-            'post_type_id': 5,
+            'post_type_id': 3,
             'gas_price_suggestion': {
                 'gases': gases
             }
@@ -245,7 +176,7 @@ class TestPosts():
 
         data = {
             'gas_station_id': gas_station_id,
-            'post_type_id': 6,
+            'post_type_id': 4,
             'amenity_tag': {
                 'amenity_id': amenity_id
             }
@@ -272,7 +203,7 @@ class TestPosts():
                          lambda resp: has_vote_success(resp), id='UT71'),
             pytest.param('kgarcia', 'vYMovXVs^58Q', 1, 403,
                          lambda resp: has_vote_disallowed_error(resp), id='UT72'),
-            pytest.param('marckennedy', 'ZBly62WopR$2', 2, 403,
+            pytest.param('marckennedy', 'ZBly62WopR$2', 8, 403,
                          lambda resp: has_no_self_vote_error(resp), id='UT73'),
             pytest.param('nicolehernandez', '#o35Pu@P7KMx', 6, 405,
                          lambda resp: has_not_votable_error(resp), id='UT74'),
@@ -337,7 +268,7 @@ class TestPosts():
         ('iden', 'password', 'ptypes'),
         [
             pytest.param('marckennedy', 'ZBly62WopR$2', [
-                         'Comment', 'Rating', 'Review', "Gas Price Suggestion", "Amenity Tag"], id='UT'),
+                         'Review', "Gas Price Suggestion", "Amenity Tag"], id='UT'),
             pytest.param('kgarcia', 'vYMovXVs^58Q', [
                          'Promotion', "Gas Price Suggestion", "Amenity Tag"], id='UT'),
             pytest.param('robertwallace', '5oORdvjq*t4K',

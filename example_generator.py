@@ -6,7 +6,7 @@ from config import (AmenityTagSchema, AmenityTypeSchema,
                     GasStationSchema, GasTypeSchema, PostTypeSchema,
                     PromotionSchema, ReviewSchema, UserSchema,
                     UserTypeSchema, AmenityTag, AmenityType, GasPriceSuggestion,
-                    GasType, PostType, Promotion, Review, GasStation, User, UserType)
+                    GasType, PostType, Promotion, Review, GasStation, User, UserType, Gas, GasSchema)
 
 
 class DecimalEncoder(json.JSONEncoder):
@@ -26,6 +26,7 @@ schemas_types = [(UserSchema, User, 0, 2),
                  (AmenityTypeSchema, AmenityType, 0, 2),
                  (PromotionSchema, Promotion, 0, 2),
                  (GasTypeSchema, GasType, 0, 2),
+                 (GasSchema, Gas, 0, 2),
                  (GasPriceSuggestionSchema, GasPriceSuggestion, 0, 2),
                  (AmenityTagSchema, AmenityTag, 0, 2),
                  (PostTypeSchema, PostType, 0, 2),

@@ -1,130 +1,126 @@
 [
 	{
+		"email": "stephenhanson@example.com",
 		"reputation": 0,
-		"managed_gasstations": [],
+		"user_type": {
+			"user_type_name": "Normal User",
+			"id": 1,
+			"can_vote": true,
+			"allowed_post_types": [
+				{
+					"is_votable": false,
+					"id": 1,
+					"post_type_name": "Review"
+				},
+				{
+					"is_votable": true,
+					"id": 3,
+					"post_type_name": "Gas Price Suggestion"
+				},
+				{
+					"is_votable": true,
+					"id": 4,
+					"post_type_name": "Amenity Tag"
+				}
+			],
+			"is_admin": false
+		},
+		"id": 1,
+		"created_at": "2022-05-24T06:45:12.522900",
+		"deleted_at": null,
+		"lastname": "Williams",
+		"post_count": 5,
+		"level": "None",
+		"firstname": "Tammy",
+		"username": "marckennedy",
+		"managed_gasstations": []
+	},
+	{
+		"email": "paulvaughn@example.org",
+		"reputation": 0,
 		"user_type": {
 			"user_type_name": "Gas Station Manager",
-			"id": 1492,
-			"is_admin": false,
+			"id": 2,
+			"can_vote": false,
 			"allowed_post_types": [
 				{
-					"id": 359,
-					"post_type_name": "Promotion",
-					"is_votable": false
+					"is_votable": false,
+					"id": 2,
+					"post_type_name": "Promotion"
 				},
 				{
-					"id": 360,
-					"post_type_name": "Gas Price Suggestion",
-					"is_votable": true
+					"is_votable": true,
+					"id": 3,
+					"post_type_name": "Gas Price Suggestion"
 				},
 				{
-					"id": 361,
-					"post_type_name": "Amenity Tag",
-					"is_votable": true
+					"is_votable": true,
+					"id": 4,
+					"post_type_name": "Amenity Tag"
 				}
 			],
-			"can_vote": false
+			"is_admin": false
 		},
-		"firstname": "Kristy",
+		"id": 2,
+		"created_at": "2022-05-24T06:45:12.693939",
+		"deleted_at": null,
+		"lastname": "Castillo",
 		"post_count": 0,
-		"deleted_at": null,
-		"lastname": "Rivera",
-		"id": 764,
-		"email": "pricedanielle@example.org",
-		"created_at": "2022-05-01T23:56:55.681162",
-		"username": "holmesmichelle",
-		"level": "None"
-	},
-	{
-		"reputation": 0,
-		"managed_gasstations": [],
-		"user_type": {
-			"user_type_name": "Normal User",
-			"id": 1491,
-			"is_admin": false,
-			"allowed_post_types": [
-				{
-					"id": 356,
-					"post_type_name": "Comment",
-					"is_votable": true
+		"level": "Novice",
+		"firstname": "Daniel",
+		"username": "kgarcia",
+		"managed_gasstations": [
+			{
+				"current_best_price": null,
+				"image": "\\x89504e470d0a1a0a0000000d4948445200000100000001000802000000d3103f310000080549444154789cedddcd71db56148661da9316b450096a446e266317a0b50b501169c28dd81d78e126b24006a140100470ef3d7fdffbac32c98c8643def7e080a2984fbfbe7eb900aa3e7b3f00c01301b8797a7ef77e082000279cfe2008c0cdebdb0b19b82300074fcfefaf6f2fde8f02970b01401c0158bb1eff6c41ee08c014cb4f34047017b3590101ac9b4675df0656c73f5b902f0258319fd48ea793e52726027880095d1b012cdd8eeaf606b6c73f8d3922800fee9d54ce685504f0bf41739aed3f320238e044033b4f3f57182f04f01f4eaa2602b85c0e6e29fb1b18f463d111019cd9d139ac65a80770fa0ef56103dcfba6a01e408b8d06ce9d7e2e2cf6a403681fd2718e6c9087918e6e00bd5694db06587e12110da0ef19ed781d68f9515c044e500c60c4849e0f2ee33f17c50006991ae0f4e72217c0e833fae3fbcfc69f707a0b8a73479e885600434fff8fef3ffffcfef6e7f7b7f6066046280083d33ffd330d24221480a5c606d882cca8046036fe675c07529008c0ebcd191a88af7e00066ffbdc8effd9e906d8826c140fc0f7f44fb80e44563c80206820acca014418ff2dd8820c940d20daa712b808c454330083d37f62fcd34040350318edf4f273b481fdcbcce227b305ed54308068cbcf02d78150aa051073f959a081384a0590e2f44ff637c07b4143d50920f8e6738beb4004750230d0fd8d7f1a7057248074e37fb6a701b6a0712a046073fac7fdde97eb80a3f401643ffd131af0923b80bc9bcfaded06d88206c91d808dd1e37fc675c05ee2002a8dffd94603ccf211b2066076facdc6ffacfb75807236a40ca0f0e99fb00b9949198082d50698e5dde50ba0fcf89f75bc0e50ce3dc9022879e3bb815d68b44c01589e7ef7f13fe32f5d864a1380e6e99f74b90e50ceaa34018863171a244700cae37f3637c02cef2841009cfe99d7974e17163d00b5b77d1e6217ea2b7a0096828fffd9f42099e55d840e80f17f4f8a5053881b80f1e9cf32fe67e71e2db7010b4103e0f4c346c400d87c60266200c6d4c63f5bd0b5700130fe61295600f6a75f6dfc632150009c7e336c41b32801b0f9b4e397c4274409c09eecf8c7b51001b0fcd8630b9af807c0f20347ce01b89c7ec63f66fe570078610bbaf806c0f8873bb70038fd88c027006e7c83600b7208c0ebf433fe718b9b6048b30e80f11f8df816641a00a71fd1d805c08d2f02aa7f0fc0f87f48790b320a80f18f982c02703cfd8c7f6c1b1e00a73f05d92d686c006c3e08aeec4d30e31f7b0c0c80e52717cd2d6854002c3f48614800bea79ff18ffdfa07c0eccf4b700baa7613ccf8c7219d0360f9412e3d0360f929406d0bea1680fbe967fce3846af700c0217d0260fc5722b505750880d38fbc5a03703ffd408ba600229c7ec6ffb55eff8b009d2d28f74d30a71f8dce071061fc038d4e0610e1f433fe8712d982ce0410e1f4035d64bd0760fca38bc3014418ff9c7e1b0a5bd0b100229c7ea0a303010439fd8c7f74b4378020a71fc6ca6f41c96e8219ffe86b570041c63fa71fdd3d0e20c8e98797da5bd08300e29c7ec63f46d80a20cee90706c97113ccf8df69d0ae52780bfaebde7f8833fe39fd7b4c0734c84b96c87a00714e3fb6cd8399d7eb9c4fbfbe7e59fcab50a79ff17f8ffdc82ff95adc5d812228f98cb763dbe9681940a8f18f6b6c3b237c5881429d7ec6ff2ccec8aff7a27cb802ccdf2910e1b90623dfc072059afa76cfa0dea43924cec82f6fe55da099d7cb207bfa538cfc62afced6bb4041ae060a18f95e1ebf0d6a9c41b101f31047dfd7dedf03cc19f052759162db59f5faf65269481dfb45d8e8b7892a3db3f730f24339fc9be0711b51edd39f77e4d776f2a310dc1fef576fe457da829a3e0bd43183324fe8b57a47bf9e0e1f866bcfa0d8e967db49a4dba741598a2e4a23bfcc16d4f9e3d027de2d2df03c32f2f31af2f7003a1faad319f9558dfa83989d1b51d2f1cfc82f63ebc370bddc1b93194f3f23ff5ac65770c1e24f226bdc1f73f44bb2fb9be04506598607db4e6d162bd0ade954050f8091bf479641768fe7b7423c3dbf077cee18f9521c02b8fed3fb69230a9201235f90f3f7024da7cd3703467e8b44b773abac0358fde615af0c18f908f4cd70961970f431317d1768ff176f0dca806d6790bc5b90dd15e0d0d7cecd57835e4f2b231fab02ad40b7a61bac4bc3a580918f6d462b50e3b78e9ec880916f2ce91664710568ffcedd43f7c71c7dec177a055ad8ce806d07270c5f81067de5fa75068cfc20326e4199ae00d7aeaf061c7d9c36368069364fc774d2f7b072f4d1c8fae3d0dbffbb590e7476e9b620eb1568fbd9b9be56dc220f7417eb1e803c60cce72fc24660b90a22d71614eb0ad082ab074ea813c036f2c0aa3a2bd0382c574725da8254ae002db87a144600adc8233556204f8597ab2c5b1057004f5c3ddc11405ce4618015a8a608cb558a2d882b404d5c3d76220045e4316305c2318796abf85b1001a0a7db3c5edf5efef9fbd5e5c1ec410090f6d9fb01009e0800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d2fe0506758f9713e799760000000049454e44ae426082",
+				"old_best_price": null,
+				"id": 2,
+				"amenities": [],
+				"avg_rating": 0.0,
+				"lat": 13.8218485,
+				"promotions": [],
+				"verified": true,
+				"gas_price_suggestions": [],
+				"reviews": [],
+				"lng": -45.639398,
+				"manager": {
+					"email": "paulvaughn@example.org",
+					"reputation": 0,
+					"user_type": {
+						"user_type_name": "Gas Station Manager",
+						"id": 2,
+						"can_vote": false,
+						"allowed_post_types": [
+							{
+								"is_votable": false,
+								"id": 2,
+								"post_type_name": "Promotion"
+							},
+							{
+								"is_votable": true,
+								"id": 3,
+								"post_type_name": "Gas Price Suggestion"
+							},
+							{
+								"is_votable": true,
+								"id": 4,
+								"post_type_name": "Amenity Tag"
+							}
+						],
+						"is_admin": false
+					},
+					"id": 2,
+					"created_at": "2022-05-24T06:45:12.693939",
+					"deleted_at": null,
+					"lastname": "Castillo",
+					"post_count": 0,
+					"level": "Novice",
+					"firstname": "Daniel",
+					"username": "kgarcia"
 				},
-				{
-					"id": 357,
-					"post_type_name": "Rating",
-					"is_votable": false
-				},
-				{
-					"id": 358,
-					"post_type_name": "Review",
-					"is_votable": true
-				},
-				{
-					"id": 360,
-					"post_type_name": "Gas Price Suggestion",
-					"is_votable": true
-				},
-				{
-					"id": 361,
-					"post_type_name": "Amenity Tag",
-					"is_votable": true
-				}
-			],
-			"can_vote": true
-		},
-		"firstname": "Jacob",
-		"post_count": 21,
-		"deleted_at": null,
-		"lastname": "Matthews",
-		"id": 765,
-		"email": "ghenry@example.net",
-		"created_at": "2022-05-01T23:56:55.793186",
-		"username": "dominguezfrank",
-		"level": "None"
-	},
-	{
-		"reputation": 0,
-		"managed_gasstations": [],
-		"user_type": {
-			"user_type_name": "Normal User",
-			"id": 1491,
-			"is_admin": false,
-			"allowed_post_types": [
-				{
-					"id": 356,
-					"post_type_name": "Comment",
-					"is_votable": true
-				},
-				{
-					"id": 357,
-					"post_type_name": "Rating",
-					"is_votable": false
-				},
-				{
-					"id": 358,
-					"post_type_name": "Review",
-					"is_votable": true
-				},
-				{
-					"id": 360,
-					"post_type_name": "Gas Price Suggestion",
-					"is_votable": true
-				},
-				{
-					"id": 361,
-					"post_type_name": "Amenity Tag",
-					"is_votable": true
-				}
-			],
-			"can_vote": true
-		},
-		"firstname": "Linda",
-		"post_count": 8,
-		"deleted_at": null,
-		"lastname": "Beltran",
-		"id": 766,
-		"email": "johnwilson@example.com",
-		"created_at": "2022-05-01T23:56:55.905212",
-		"username": "howardlisa",
-		"level": "None"
+				"name": "Watts-Rivers",
+				"address": "960 Kenneth Alley Suite 303\r\nSouth Joshua, DC 19469"
+			}
+		]
 	}
 ]
