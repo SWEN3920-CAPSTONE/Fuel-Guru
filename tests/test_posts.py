@@ -278,7 +278,7 @@ class TestPosts():
                          lambda resp: has_not_votable_error(resp), id='UT74'),
             pytest.param('nicolehernandez', '#o35Pu@P7KMx', 5, 404,
                          lambda resp: has_deleted_post_error(resp), id='UT75'),
-            pytest.param('nicolehernandez', '#o35Pu@P7KMx', 5, 404,
+            pytest.param('nicolehernandez', '#o35Pu@P7KMx', 0, 404,
                          lambda resp: has_404_error(resp), id='UT75')
         ]
     )

@@ -6,6 +6,7 @@ import SignupView from '../views/SignupView.vue'
 import MapView from '../views/MapView.vue'
 import FuelPricesView from '../views/FuelPricesView.vue'
 import GasStationView from '../views/GasStationView.vue'
+import RouteMapView from '../views/RouteMapView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,6 +46,12 @@ const router = createRouter({
       name: 'GasStation',
       props: true,
       component: GasStationView
+    },
+    {
+      path: '/route/:id',
+      name: 'RouteMap',
+      props: true,
+      component: RouteMapView
     },
   ]
 })

@@ -346,7 +346,7 @@ class HandleGasStationsSchema(Schema):
 
 class GasStationSearchSchema(Schema):
     name = EscStr(validate=[
-        validate.Length(min=1, max=255)])
+        validate.Length(max=255)])
 
     cheapest = fields.Bool(truthy={'true', 'TRUE', 'True'},
                            falsy={'FALSE', 'false', 'False'}, load_default=False)
