@@ -212,6 +212,7 @@ the components are not yet created -->
                                <h4>{{comment.creator.username}}</h4>
                            </div>
                            <div id="comment-created" >
+                                
                                <h4>{{ comment.created_at }}</h4>
                            </div>
                            <div id="comment-icons">
@@ -271,11 +272,8 @@ the components are not yet created -->
 </template>
  
 <script>
- 
-//const emit = defineEmits(['update']);
- 
 //access control issue '(Access-Control-Allow-Origin)
- 
+import moment from '../../node_modules/moment';
 export default {
  
  data() {
@@ -301,6 +299,7 @@ export default {
        amenityTypes: [],
        sugg_amenity: '',
        amenity_type: '',
+       date: '',
    }
  },
  methods: {
@@ -321,7 +320,8 @@ export default {
        console.log(this.hasToken);
      }
    },
- 
+  
+  
    //Get Amenities for a specific gas station
    makeNewAmenity()
    {
@@ -605,7 +605,15 @@ export default {
      })
  
    },
- 
+
+
+   convertDate(reviews){
+    for (var i = 0; i < reviews.length; i++) 
+    {
+      reviews[i].created_at = moment(reviews[i].created_at).format('MMMM Do YYYY, h:mm a');
+    }
+    return reviews;
+  },
   
    //Get all posts for a specific gas station
    getGasStation() {
@@ -643,7 +651,8 @@ export default {
        this.amenities = this.station.amenities;
        console.log("Amenities");
        console.log(this.amenities);
-       this.comments = this.station.reviews;
+       this.comments = this.convertDate(this.station.reviews);
+       
        this.rating = this.station.avg_rating;
        console.log(data.data);
      })
