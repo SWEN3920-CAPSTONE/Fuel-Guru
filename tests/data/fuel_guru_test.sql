@@ -4,12 +4,9 @@ CREATE TABLE IF NOT EXISTS public.alembic_version
     CONSTRAINT alembic_version_pkc PRIMARY KEY (version_num)
 );
 
-ALTER TABLE IF EXISTS public.alembic_version
-    OWNER to fuel_guru_admin;
-
 INSERT INTO public.alembic_version(
 	version_num)
-	VALUES ('47ca68e2f1b4') ON CONFLICT DO NOTHING;
+	VALUES ('52d20492fe10') ON CONFLICT DO NOTHING;
 
 INSERT INTO public.amenity_types VALUES (1, 'Air pump');
 INSERT INTO public.amenity_types VALUES (2, 'Bathroom');
