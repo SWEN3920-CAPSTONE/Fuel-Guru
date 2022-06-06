@@ -322,7 +322,8 @@ export default {
    {
      fetch('http://localhost:9000/posts', {
        body: JSON.stringify({
-           "gas_station_id":parseInt(this.id)
+           "gas_station_id":parseInt(this.id),
+           
          }),
        headers:
        {
@@ -345,7 +346,7 @@ export default {
        fetch('http://localhost:9000/posts', {
        body: JSON.stringify({
            "gas_station_id":parseInt(this.id),
-           "post_type_id": 3,
+           "post_type_id": 1,
           
            "review":
           
@@ -459,7 +460,7 @@ export default {
        fetch('http://localhost:9000/posts', {
        body: JSON.stringify({
            "gas_station_id":parseInt(this.id),
-           "post_type_id": 5,
+           "post_type_id": 3,
            "gas_price_suggestion":
            {
             
@@ -502,7 +503,7 @@ export default {
       fetch('http://localhost:9000/posts', {
        body: JSON.stringify({
            "gas_station_id":parseInt(this.id),
-           "post_type_id": 6,
+           "post_type_id": 4,
            "amenity_tag":
            {
               "amenity_id":parseInt(type_id),   
