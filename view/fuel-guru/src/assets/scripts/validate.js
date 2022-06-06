@@ -1,14 +1,8 @@
 "use strict";
-/**
+/*
  * FILE CONTAINS THE FUNCTIONS REQUIRED TO VALIDATE USER INPUT
  */
-
- let capitalLetters = /[A-Z]/g;
- let commonLetters = /[a-z]/g;
- let numbers = /[0-9]/g;
- let specialChars = /[!-+@^_~]/g;
  let letters = /[a-zA-Z]/g;
- let lettersNumbers = /[0-9a-zA-Z]/g;
 
 /**
  * 
@@ -80,35 +74,11 @@
  * The email must contain uppercase letters, lowercase letters, numbers, periods,
  * dashes and underscores only. It must start with a letter .
  */
- export function validate_email (str) {
-  let strLength = str.length;
-  let pattern = /[0-9a-zA-Z_.@-]/g;
-  let patternLength = str.match(pattern).length;  
-  let emailFormat = /\S+@\S+\.\S+/;
+ export function valid_email (str) {
+  let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  // checking to see if there is an @ sign in str
-  if (str.includes("@")) {
-    let lst = str.split("@");
-    let username = lst[0];
-    let domainInfo = lst[1];
-
-    // checking to see if there is at least one dot (.) in str
-    if (str.includes(".")){
-      let domainInfoLst = domainInfo.split(".");
-      let domainName = domainInfoLst[0];
-
-      if (lst.length === 2 && strLength > 5  && strLength === patternLength &&
-        str[0].match(letters).length === 1 && username.length > 5 && username[username-1] !== '_' && 
-        username[username-1] !== '-' && username[username-1] !== '.' && domainInfo.length  > 1 && 
-        domainInfo.match(specialChars).length === 0 && domainName.match(numbers).length === 0 &&
-        domainName[domainName-1] !== '.' && str.test(emailFormat) ) {    
-        return true
-      } else {
-        return false
-      }  
-    } else {
-      return false
-    }
+  if (emailPattern.test(str) == true && letters.test(str[0]) === true) {
+    return true
   } else {
     return false
   }
@@ -118,15 +88,12 @@
  * 
  * @param {String} str 
  * @returns true if the username is password
- * The password must have at least 1 uppercase, 1 lowercase letter, 1 number and 1 special character.
- * The password must be at least 12 characters.
+ * The password must have at least 1 uppercase, 1 lowercase letter, 1 number and 
+ * 1 special character. The password must be at least 12 characters.
  */
  export function valid_password (str) {
-  let strLength = str.length;
-  //let patternLength = str.match(lettersNumbers).length + str.match(specialChars).length;  
-
-  if (strLength > 11 && strLength < 30 && str.match(capitalLetters).length > 1 && str.match(commonLetters).length > 1 &&
-  str.match(numbers).length > 1 && str.match(specialChars).length > 1 &&  str[0].match(specialChars).length === 0) {
+  let pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{1,30}$/;
+  if (str.match(pattern)) {
     return true
   } else {
     return false
