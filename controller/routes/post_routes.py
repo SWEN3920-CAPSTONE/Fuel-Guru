@@ -7,9 +7,9 @@ from controller.validation.schemas import HandlePostSchema, PostVoteSchema
 from flask import Blueprint, g, jsonify, request
 from marshmallow import ValidationError
 from model.gasstation import GasStation
-from model.posts import (AmenityTag, AmenityType, Comment, Gas,
+from model.posts import (AmenityTag, AmenityType, Gas,
                          GasPriceSuggestion, GasType, Post, PostType,
-                         Promotion, Rating, Review)
+                         Promotion, Review)
 from model.schemas import (AmenityTagSchema, AmenityTypeSchema,
                            GasPriceSuggestionSchema, GasTypeSchema, PostSchema,
                            PostTypeSchema, PromotionSchema, ReviewSchema)
@@ -19,7 +19,6 @@ from sqlalchemy.exc import SQLAlchemyError
 posts_api = Blueprint('posts_api', __name__)
 
 def _handle_gas_price_suggestion_post(data,post,is_edit):
-
     details = data.get('gas_price_suggestion')
     if not details:
         return jsonify(error='Gas price suggestion missing or malformed'), 400
@@ -90,7 +89,6 @@ def _handle_gas_price_suggestion_post(data,post,is_edit):
     return jsonify(data=GasPriceSuggestionSchema().dump(gas_post), message=msg),200
 
 def _handle_promotion_post(data,post,is_edit):
-    
     details = data.get('promotion')
     
     if not details:
@@ -165,55 +163,15 @@ def _handle_review_post(data,post,is_edit):
     if not details:
         return jsonify(error='Review missing or malformed'), 400
 
-    rev = Review(post)
-    comment = Comment(review=rev, body=details.get('body'), edit=is_edit)
+    rev = Review(post=post,body=details.get('body'),rating_val=details.get('rating_val'), edit=is_edit)
     
-    rating = Rating(
-        review=rev, rating_val=details.get('rating_val'), edit=is_edit)
-    
-    db.session.add(rating)
-    db.session.add(comment)
+    db.session.add(rev)
     db.session.commit()
 
     if is_edit:
         msg = 'The review has been updated successfully'
     else:
         msg ='Review created successfully'
-        
-    return jsonify(data=ReviewSchema().dump(rev),message=msg),200
-
-def _handle_rating_post(data,post,is_edit):
-    details = data.get('rating')
-    if not details:
-        return jsonify(error='Rating value missing or malformed'), 400
-
-    rev = Review(post)
-    rating = Rating(review=rev, **details, edit=is_edit)
-    db.session.add(rating)
-    db.session.commit()
-
-    if is_edit:
-        msg = 'The rating has been updated successfully'
-    else:
-        msg ='Rating created successfully'
-        
-    return jsonify(data=ReviewSchema().dump(rev),message=msg),200
-
-def _handle_comment_post(data:dict, post:Post, is_edit:bool):
-    details = data.get('comment')
-    
-    if not details:
-        return jsonify(error='Comment body missing or malformed'), 400
-
-    rev = Review(post)
-    comment = Comment(review=rev, **details, edit=is_edit)
-    db.session.add(comment)
-    db.session.commit()
-
-    if is_edit:
-        msg = 'The comment has been updated successfully'
-    else:
-        msg ='Comment created successfully'
         
     return jsonify(data=ReviewSchema().dump(rev),message=msg),200
 
@@ -234,12 +192,6 @@ def _manage_post_by_type(data: dict, post: Post, is_edit=False):
     Returns:
         dict -> The serialized post    
     """
-
-    if post.post_type.post_type_name == 'Comment':
-        return _handle_comment_post(data,post,is_edit)
-
-    if post.post_type.post_type_name == 'Rating':
-        return _handle_rating_post(data,post,is_edit)
 
     if post.post_type.post_type_name == 'Review':
         return _handle_review_post(data,post,is_edit)
@@ -275,10 +227,6 @@ def posts():
         - gas_station_id <POST only> (int)
         - post_type_id <POST only> (int)
         - post_details (one of the following):
-            - comment: (dict/object)
-                - body (str)
-            - rating: (dict/object)
-                - rating_val (int)
             - promotion (dict/object):
                 - desc (str)
                 - start_date (UTC date time stamp)
@@ -483,7 +431,7 @@ def downvote():
         - 405 if the post type is not votable
         - 500 if the request fails
     """
-    return _vote_on_post('Upvote toggled successfully', 'downvoters', 'upvoters')
+    return _vote_on_post('Downvote toggled successfully', 'downvoters', 'upvoters')
 
 
 @posts_api.route('/amenities/types', methods=['GET'])

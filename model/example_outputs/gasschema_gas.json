@@ -1,76 +1,70 @@
 [
 	{
-		"id": 914,
-		"price": 1535740020.75525,
+		"gas_type": {
+			"id": 1,
+			"gas_type_name": "Diesel"
+		},
 		"gas_post": {
-			"id": 8137,
-			"last_edited": "2022-05-01T23:18:14.765078",
-			"creator": {
-				"post_count": 60,
-				"level": "None",
-				"reputation": 0,
-				"username": "ryanabigail",
-				"user_type": {
-					"is_admin": false,
-					"user_type_name": "Normal User",
-					"id": 1491,
-					"can_vote": true
-				},
-				"deleted_at": null
-			},
-			"created_at": "2022-05-01T23:18:14.765078",
+			"last_edited": "2022-05-24T06:45:13.582139",
+			"id": 8,
 			"upvote_count": 0,
-			"downvote_count": 0,
-			"upvoters": [],
-			"gas_station": 624,
 			"post_type": {
 				"is_votable": true,
-				"id": 360,
+				"id": 3,
 				"post_type_name": "Gas Price Suggestion"
 			},
-			"downvoters": [],
-			"deleted_at": null
+			"gas_station": {
+				"verified": false,
+				"lng": -65.627353,
+				"id": 4,
+				"avg_rating": 3.0,
+				"lat": 17.903064,
+				"name": "Waters-Rogers",
+				"address": "86253 Nicholas Overpass\r\nEmilystad, VT 21524"
+			},
+			"deleted_at": null,
+			"created_at": "2022-05-24T06:45:13.582139",
+			"creator_id": 1,
+			"post_type_id": 3,
+			"downvote_count": 1,
+			"gas_station_id": 4,
+			"net_votes": -1
 		},
-		"gas_type": {
-			"gas_type_name": "Diesel",
-			"id": 160
-		}
+		"id": 1,
+		"price": "808697540833.285"
 	},
 	{
-		"id": 915,
-		"price": 42107988946.115,
+		"gas_type": {
+			"id": 3,
+			"gas_type_name": "90"
+		},
 		"gas_post": {
-			"id": 8137,
-			"last_edited": "2022-05-01T23:18:14.765078",
-			"creator": {
-				"post_count": 60,
-				"level": "None",
-				"reputation": 0,
-				"username": "ryanabigail",
-				"user_type": {
-					"is_admin": false,
-					"user_type_name": "Normal User",
-					"id": 1491,
-					"can_vote": true
-				},
-				"deleted_at": null
-			},
-			"created_at": "2022-05-01T23:18:14.765078",
+			"last_edited": "2022-05-24T06:45:13.582139",
+			"id": 8,
 			"upvote_count": 0,
-			"downvote_count": 0,
-			"upvoters": [],
-			"gas_station": 624,
 			"post_type": {
 				"is_votable": true,
-				"id": 360,
+				"id": 3,
 				"post_type_name": "Gas Price Suggestion"
 			},
-			"downvoters": [],
-			"deleted_at": null
+			"gas_station": {
+				"verified": false,
+				"lng": -65.627353,
+				"id": 4,
+				"avg_rating": 3.0,
+				"lat": 17.903064,
+				"name": "Waters-Rogers",
+				"address": "86253 Nicholas Overpass\r\nEmilystad, VT 21524"
+			},
+			"deleted_at": null,
+			"created_at": "2022-05-24T06:45:13.582139",
+			"creator_id": 1,
+			"post_type_id": 3,
+			"downvote_count": 1,
+			"gas_station_id": 4,
+			"net_votes": -1
 		},
-		"gas_type": {
-			"gas_type_name": "90",
-			"id": 162
-		}
+		"id": 2,
+		"price": "92413775392.99"
 	}
 ]

@@ -1,603 +1,70 @@
 [
 	{
-		"verified": true,
-		"comments": [
-			{
-				"body": "Coach local in future. According high ten information. Performance fall small partner side whose next.",
-				"rating_val": null,
-				"last_edited": "2022-05-01T23:18:15.230086",
-				"upvote_count": 0,
-				"upvoters": [],
-				"gas_station": 628,
-				"downvoters": [],
-				"deleted_at": null,
-				"downvote_count": 0,
-				"net_votes": 0,
-				"id": 8218,
-				"creator": {
-					"reputation": 0,
-					"user_type": {
-						"id": 1491,
-						"user_type_name": "Normal User",
-						"can_vote": true,
-						"is_admin": false
-					},
-					"post_count": 40,
-					"deleted_at": null,
-					"username": "iparker",
-					"level": "None"
-				},
-				"post_type": {
-					"id": 356,
-					"post_type_name": "Comment",
-					"is_votable": true
-				},
-				"created_at": "2022-05-01T23:18:15.230086"
-			}
-		],
+		"current_best_price": null,
+		"image": "\\x89504e470d0a1a0a0000000d4948445200000100000001000802000000d3103f31000005ca49444154789ceddc3d721b47148551c8e548ebd0521878550ab42e2c454ebc08a6703036c4a2f80360a6bb5ff73d2764a98a28153ef47bd324bffcf3d7df2748f5c7e817002309806802209a00882600a2f50be07c793e5f9ebb7d3bb845d713e0c7f9a70c28e5cfcedfefc7f9e7e9743a3d7d3b9d4e4f5fbe76feeef04aef00362f33382981713a0570be3cfff7a67fe1d7571c080c32e60478c581c0282502d83810e8af5000571665baa918c0c65c44077503d8988b68aa7a00570e045a9826808d038163f508e0cd4b809d2cca1c62b213e01573113bcd1dc0c65cc4c35608e0ca81c0bd960a60e340e0760b06706551e6532b07b03117f181f503d8988b7853f3005a5c02ece140e0a59413e01507029bd000ae2ccae1d203d8988b6209e01773512001bcc181904300ef72202410c0e72cca0b6b1b40b54b803dcc454b7202dcc75cb418013cc85cb40601ec622e9a9d000e602e9a97008ee440988e008ee7409848c300567a06fa188b727d4e80e6cc459509a01373514d02e8cd81508a00c67020142180c12cca6309a00473d1280228c45cd45fab005c02ece140e8c609509703a103014cc0a2dc8e00a6612e6a41009331171d4b00b372201c4200737320ec24804558941fd324009700a3988beee5045890b9e87602589903e15302589f03e10302086251fe9d00e2c8e0a53f46bf00c6f0986e238050df9fbef9f83fb508c02500137102106dc125f8fbff8fbd077206cea2490063df82c347dbf3e579ec0bf89405e0eaf800fccf32113bc0f19ebe7cad3086710b01c431ffbc2400a20980680268c21a300b0164b100bc2200a2098068020862fef99d005ab1074f4100441300d10490c202f0260134640da84f0044134004f3cf7b04403401104d006dd9838b13c0fa2c001f1000d1044034013437760d30ff7c4c00441300d104403401accc02f02901f4e03aac2c01104d00cb32ffdc420044134027d6809a04403401acc902702301104d004413403fddf660f3cfed04403401104d00ab31ffdc45005db90eab46004413c0b2ce97e7d12f610202588a05e05e0258938fff1b09a0377b7029025887f9e7010258d036ff88e11602209a0006b006d42180455c1780f3e5f9c7f9e7e897330d01104d004413c00a3c007d9800c668b4075b00ee2500a20980680298deef0f40ad04b713c030aec32a1000d104303717c03b09806802209a00463a6a0f36ff3c4c0013f3b8733f01104d00d333ffec2180c11e5e03de9b7fcc45771100d1043037f3cf4e02209a00a664d03f8a00c6f363a1030960621680fd04301ff3cf810440340194f0c01a60fe39840096623aba970026e32d7e2c014cc9fc731401104d0055dcb2079b7f0e2780f9987f0e2400a20980680228e4e335605b00cc3fc71200d104b00ecf881e208039987f1a1100d104508bdf0eeb4c004413c0042c00ed0880680228c71ad09300aa33ff342500a2096011ae811f238009987fda114045d73dd8e77a6b02209a00aa33ff342580bacc3f1d08a0286ffd3e04509af9a73501104d00459d2fcfb7ff63dbc2c304509af9a7350194e6c7425b13404576df6e045094b1be0f01104d00a5f9edb0d604508e05a02701546401e846004413402d0fcc3f8e8b3d0450ceab37b43db82901104d008578fed39f006a31d0772680095803da1100d10450c5f61b30e69fce04403401104d00257c3affbcb7077b6ab49300882600a209a00a93cc100218efc63f01e43aac0501104d004413c0602e80c71200d10430137bf0e10430dec3f38f6be0fd0430d25d7f039d16044034010c76ef0c630d3896008631ff542000a2096024cf70861300d10430c69e05c01e7c20010c63fea94000b3720d7c08010ce001681d021863e787b7cffea308806802209a007a3b6a0130051d42000378efd62100a209a02b0f40ab11406fe69f5204403401104d00fd9c2fcfe69f6a04403401f4e3e3bf2001104d00441300d104403401104d00441300d104403401104d00441300d104403401104d00441300d104403401104d00441300d104403401104d00441300d10440340110ed5fb89cd2f7de32ab600000000049454e44ae426082",
+		"old_best_price": null,
+		"id": 1,
+		"amenities": [],
+		"avg_rating": 0.0,
+		"lat": 88.389624,
 		"promotions": [],
-		"amenities": [
-			{
-				"amenity_type": {
-					"id": 165,
-					"amenity_name": "Convenience Store"
-				},
-				"id": 8216,
-				"last_edited": "2022-05-01T23:18:15.218084",
-				"upvote_count": 0,
-				"upvoters": [],
-				"gas_station": 628,
-				"downvoters": [],
-				"deleted_at": null,
-				"downvote_count": 0,
-				"net_votes": 0,
-				"creator": {
-					"reputation": 0,
-					"user_type": {
-						"id": 1491,
-						"user_type_name": "Normal User",
-						"can_vote": true,
-						"is_admin": false
-					},
-					"post_count": 38,
-					"deleted_at": null,
-					"username": "ukramer",
-					"level": "None"
-				},
-				"post_type": {
-					"id": 361,
-					"post_type_name": "Amenity Tag",
-					"is_votable": true
-				},
-				"created_at": "2022-05-01T23:18:15.218084"
-			}
-		],
-		"id": 628,
-		"ratings": [
-			{
-				"body": null,
-				"rating_val": 1,
-				"last_edited": "2022-05-01T23:18:15.212081",
-				"upvote_count": 0,
-				"upvoters": [],
-				"gas_station": 628,
-				"downvoters": [],
-				"deleted_at": null,
-				"downvote_count": 0,
-				"net_votes": 0,
-				"id": 8215,
-				"creator": {
-					"reputation": 0,
-					"user_type": {
-						"id": 1491,
-						"user_type_name": "Normal User",
-						"can_vote": true,
-						"is_admin": false
-					},
-					"post_count": 42,
-					"deleted_at": null,
-					"username": "amcgrath",
-					"level": "None"
-				},
-				"post_type": {
-					"id": 357,
-					"post_type_name": "Rating",
-					"is_votable": false
-				},
-				"created_at": "2022-05-01T23:18:15.212081"
-			},
-			{
-				"body": null,
-				"rating_val": 2,
-				"last_edited": "2022-05-01T23:18:15.247091",
-				"upvote_count": 0,
-				"upvoters": [],
-				"gas_station": 628,
-				"downvoters": [],
-				"deleted_at": null,
-				"downvote_count": 0,
-				"net_votes": 0,
-				"id": 8221,
-				"creator": {
-					"reputation": 0,
-					"user_type": {
-						"id": 1491,
-						"user_type_name": "Normal User",
-						"can_vote": true,
-						"is_admin": false
-					},
-					"post_count": 44,
-					"deleted_at": null,
-					"username": "tinareeves",
-					"level": "None"
-				},
-				"post_type": {
-					"id": 357,
-					"post_type_name": "Rating",
-					"is_votable": false
-				},
-				"created_at": "2022-05-01T23:18:15.247091"
-			}
-		],
-		"lng": -2.624214,
+		"verified": false,
+		"gas_price_suggestions": [],
 		"reviews": [],
+		"lng": 105.272363,
+		"manager": null,
+		"name": "Moore PLC",
+		"address": "49302 Joshua Crest\r\nRyanstad, HI 60192"
+	},
+	{
+		"current_best_price": null,
+		"image": "\\x89504e470d0a1a0a0000000d4948445200000100000001000802000000d3103f310000080549444154789cedddcd71db56148661da9316b450096a446e266317a0b50b501169c28dd81d78e126b24006a140100470ef3d7fdffbac32c98c8643def7e080a2984fbfbe7eb900aa3e7b3f00c01301b8797a7ef77e082000279cfe2008c0cdebdb0b19b82300074fcfefaf6f2fde8f02970b01401c0158bb1eff6c41ee08c014cb4f34047017b3590101ac9b4675df0656c73f5b902f0258319fd48ea793e52726027880095d1b012cdd8eeaf606b6c73f8d3922800fee9d54ce685504f0bf41739aed3f320238e044033b4f3f57182f04f01f4eaa2602b85c0e6e29fb1b18f463d111019cd9d139ac65a80770fa0ef56103dcfba6a01e408b8d06ce9d7e2e2cf6a403681fd2718e6c9087918e6e00bd5694db06587e12110da0ef19ed781d68f9515c044e500c60c4849e0f2ee33f17c50006991ae0f4e72217c0e833fae3fbcfc69f707a0b8a73479e885600434fff8fef3ffffcfef6e7f7b7f6066046280083d33ffd330d24221480a5c606d882cca8046036fe675c07529008c0ebcd191a88af7e00066ffbdc8effd9e906d8826c140fc0f7f44fb80e44563c80206820acca014418ff2dd8820c940d20daa712b808c454330083d37f62fcd34040350318edf4f273b481fdcbcce227b305ed54308068cbcf02d78150aa051073f959a081384a0590e2f44ff637c07b4143d50920f8e6738beb4004750230d0fd8d7f1a7057248074e37fb6a701b6a0712a046073fac7fdde97eb80a3f401643ffd131af0923b80bc9bcfaded06d88206c91d808dd1e37fc675c05ee2002a8dffd94603ccf211b2066076facdc6ffacfb75807236a40ca0f0e99fb00b9949198082d50698e5dde50ba0fcf89f75bc0e50ce3dc9022879e3bb815d68b44c01589e7ef7f13fe32f5d864a1380e6e99f74b90e50ceaa34018863171a244700cae37f3637c02cef2841009cfe99d7974e17163d00b5b77d1e6217ea2b7a0096828fffd9f42099e55d840e80f17f4f8a5053881b80f1e9cf32fe67e71e2db7010b4103e0f4c346c400d87c60266200c6d4c63f5bd0b5700130fe61295600f6a75f6dfc632150009c7e336c41b32801b0f9b4e397c4274409c09eecf8c7b51001b0fcd8630b9af807c0f20347ce01b89c7ec63f66fe570078610bbaf806c0f8873bb70038fd88c027006e7c83600b7208c0ebf433fe718b9b6048b30e80f11f8df816641a00a71fd1d805c08d2f02aa7f0fc0f87f48790b320a80f18f982c02703cfd8c7f6c1b1e00a73f05d92d686c006c3e08aeec4d30e31f7b0c0c80e52717cd2d6854002c3f48614800bea79ff18ffdfa07c0eccf4b700baa7613ccf8c7219d0360f9412e3d0360f929406d0bea1680fbe967fce3846af700c0217d0260fc5722b505750880d38fbc5a03703ffd408ba600229c7ec6ffb55eff8b009d2d28f74d30a71f8dce071061fc038d4e0610e1f433fe8712d982ce0410e1f4035d64bd0760fca38bc3014418ff9c7e1b0a5bd0b100229c7ea0a303010439fd8c7f74b4378020a71fc6ca6f41c96e8219ffe86b570041c63fa71fdd3d0e20c8e98797da5bd08300e29c7ec63f46d80a20cee90706c97113ccf8df69d0ae52780bfaebde7f8833fe39fd7b4c0734c84b96c87a00714e3fb6cd8399d7eb9c4fbfbe7e59fcab50a79ff17f8ffdc82ff95adc5d812228f98cb763dbe9681940a8f18f6b6c3b237c5881429d7ec6ff2ccec8aff7a27cb802ccdf2910e1b90623dfc072059afa76cfa0dea43924cec82f6fe55da099d7cb207bfa538cfc62afced6bb4041ae060a18f95e1ebf0d6a9c41b101f31047dfd7dedf03cc19f052759162db59f5faf65269481dfb45d8e8b7892a3db3f730f24339fc9be0711b51edd39f77e4d776f2a310dc1fef576fe457da829a3e0bd43183324fe8b57a47bf9e0e1f866bcfa0d8e967db49a4dba741598a2e4a23bfcc16d4f9e3d027de2d2df03c32f2f31af2f7003a1faad319f9558dfa83989d1b51d2f1cfc82f63ebc370bddc1b93194f3f23ff5ac65770c1e24f226bdc1f73f44bb2fb9be04506598607db4e6d162bd0ade954050f8091bf479641768fe7b7423c3dbf077cee18f9521c02b8fed3fb69230a9201235f90f3f7024da7cd3703467e8b44b773abac0358fde615af0c18f908f4cd70961970f431317d1768ff176f0dca806d6790bc5b90dd15e0d0d7cecd57835e4f2b231fab02ad40b7a61bac4bc3a580918f6d462b50e3b78e9ec880916f2ce91664710568ffcedd43f7c71c7dec177a055ad8ce806d07270c5f81067de5fa75068cfc20326e4199ae00d7aeaf061c7d9c36368069364fc774d2f7b072f4d1c8fae3d0dbffbb590e7476e9b620eb1568fbd9b9be56dc220f7417eb1e803c60cce72fc24660b90a22d71614eb0ad082ab074ea813c036f2c0aa3a2bd0382c574725da8254ae002db87a144600adc8233556204f8597ab2c5b1057004f5c3ddc11405ce4618015a8a608cb558a2d882b404d5c3d76220045e4316305c2318796abf85b1001a0a7db3c5edf5efef9fbd5e5c1ec410090f6d9fb01009e0800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d20800d2fe0506758f9713e799760000000049454e44ae426082",
+		"old_best_price": null,
+		"id": 2,
+		"amenities": [],
+		"avg_rating": 0.0,
+		"lat": 13.8218485,
+		"promotions": [],
+		"verified": true,
+		"gas_price_suggestions": [],
+		"reviews": [],
+		"lng": -45.639398,
 		"manager": {
+			"email": "paulvaughn@example.org",
 			"reputation": 0,
 			"user_type": {
 				"user_type_name": "Gas Station Manager",
-				"id": 1492,
-				"is_admin": false,
+				"id": 2,
+				"can_vote": false,
 				"allowed_post_types": [
 					{
-						"id": 359,
-						"post_type_name": "Promotion",
-						"is_votable": false
+						"is_votable": false,
+						"id": 2,
+						"post_type_name": "Promotion"
 					},
 					{
-						"id": 360,
-						"post_type_name": "Gas Price Suggestion",
-						"is_votable": true
+						"is_votable": true,
+						"id": 3,
+						"post_type_name": "Gas Price Suggestion"
 					},
 					{
-						"id": 361,
-						"post_type_name": "Amenity Tag",
-						"is_votable": true
+						"is_votable": true,
+						"id": 4,
+						"post_type_name": "Amenity Tag"
 					}
 				],
-				"can_vote": false
+				"is_admin": false
 			},
-			"firstname": "Jonathan",
-			"post_count": 0,
+			"id": 2,
+			"created_at": "2022-05-24T06:45:12.693939",
 			"deleted_at": null,
-			"lastname": "Young",
-			"id": 745,
-			"email": "harrellmichael@example.net",
-			"created_at": "2022-05-01T23:18:13.378728",
-			"username": "annjohnson",
-			"level": "None"
+			"lastname": "Castillo",
+			"post_count": 0,
+			"level": "Novice",
+			"firstname": "Daniel",
+			"username": "kgarcia"
 		},
-		"image": "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",
-		"gas_price_suggestions": [],
-		"avg_rating": 1.5,
-		"old_best_price": null,
-		"name": "Monroe, Serrano and Hughes",
-		"lat": -28.989568,
-		"address": "Unit 3532 Box 1785\nDPO AP 62574",
-		"current_best_price": null
-	},
-	{
-		"verified": false,
-		"comments": [
-			{
-				"body": "Against expert others spring. Some during then last economic blood. Score similar hit customer join.",
-				"rating_val": null,
-				"last_edited": "2022-05-01T23:18:15.270134",
-				"upvote_count": 0,
-				"upvoters": [],
-				"gas_station": 629,
-				"downvoters": [],
-				"deleted_at": null,
-				"downvote_count": 0,
-				"net_votes": 0,
-				"id": 8225,
-				"creator": {
-					"reputation": 0,
-					"user_type": {
-						"id": 1491,
-						"user_type_name": "Normal User",
-						"can_vote": true,
-						"is_admin": false
-					},
-					"post_count": 60,
-					"deleted_at": null,
-					"username": "ryanabigail",
-					"level": "None"
-				},
-				"post_type": {
-					"id": 356,
-					"post_type_name": "Comment",
-					"is_votable": true
-				},
-				"created_at": "2022-05-01T23:18:15.270134"
-			},
-			{
-				"body": "Figure return those public daughter machine growth.",
-				"rating_val": null,
-				"last_edited": "2022-05-01T23:18:15.407166",
-				"upvote_count": 0,
-				"upvoters": [],
-				"gas_station": 629,
-				"downvoters": [],
-				"deleted_at": null,
-				"downvote_count": 0,
-				"net_votes": 0,
-				"id": 8249,
-				"creator": {
-					"reputation": 0,
-					"user_type": {
-						"id": 1491,
-						"user_type_name": "Normal User",
-						"can_vote": true,
-						"is_admin": false
-					},
-					"post_count": 40,
-					"deleted_at": null,
-					"username": "iparker",
-					"level": "None"
-				},
-				"post_type": {
-					"id": 356,
-					"post_type_name": "Comment",
-					"is_votable": true
-				},
-				"created_at": "2022-05-01T23:18:15.407166"
-			},
-			{
-				"body": "Nothing trouble him ok nature democratic range subject. Car employee deal. Bar commercial these town possible American stock.",
-				"rating_val": null,
-				"last_edited": "2022-05-01T23:18:15.429170",
-				"upvote_count": 0,
-				"upvoters": [],
-				"gas_station": 629,
-				"downvoters": [],
-				"deleted_at": null,
-				"downvote_count": 0,
-				"net_votes": 0,
-				"id": 8253,
-				"creator": {
-					"reputation": 0,
-					"user_type": {
-						"id": 1491,
-						"user_type_name": "Normal User",
-						"can_vote": true,
-						"is_admin": false
-					},
-					"post_count": 34,
-					"deleted_at": null,
-					"username": "johntaylor",
-					"level": "None"
-				},
-				"post_type": {
-					"id": 356,
-					"post_type_name": "Comment",
-					"is_votable": true
-				},
-				"created_at": "2022-05-01T23:18:15.429170"
-			}
-		],
-		"promotions": [],
-		"amenities": [
-			{
-				"amenity_type": {
-					"id": 164,
-					"amenity_name": "Bathroom"
-				},
-				"id": 8226,
-				"last_edited": "2022-05-01T23:18:15.277144",
-				"upvote_count": 0,
-				"upvoters": [],
-				"gas_station": 629,
-				"downvoters": [],
-				"deleted_at": null,
-				"downvote_count": 0,
-				"net_votes": 0,
-				"creator": {
-					"reputation": 0,
-					"user_type": {
-						"id": 1491,
-						"user_type_name": "Normal User",
-						"can_vote": true,
-						"is_admin": false
-					},
-					"post_count": 50,
-					"deleted_at": null,
-					"username": "alejandrowatson",
-					"level": "None"
-				},
-				"post_type": {
-					"id": 361,
-					"post_type_name": "Amenity Tag",
-					"is_votable": true
-				},
-				"created_at": "2022-05-01T23:18:15.277144"
-			},
-			{
-				"amenity_type": {
-					"id": 165,
-					"amenity_name": "Convenience Store"
-				},
-				"id": 8232,
-				"last_edited": "2022-05-01T23:18:15.311150",
-				"upvote_count": 0,
-				"upvoters": [],
-				"gas_station": 629,
-				"downvoters": [],
-				"deleted_at": null,
-				"downvote_count": 0,
-				"net_votes": 0,
-				"creator": {
-					"reputation": 0,
-					"user_type": {
-						"id": 1491,
-						"user_type_name": "Normal User",
-						"can_vote": true,
-						"is_admin": false
-					},
-					"post_count": 43,
-					"deleted_at": null,
-					"username": "kennethwashington",
-					"level": "None"
-				},
-				"post_type": {
-					"id": 361,
-					"post_type_name": "Amenity Tag",
-					"is_votable": true
-				},
-				"created_at": "2022-05-01T23:18:15.311150"
-			},
-			{
-				"amenity_type": {
-					"id": 163,
-					"amenity_name": "Air pump"
-				},
-				"id": 8235,
-				"last_edited": "2022-05-01T23:18:15.328156",
-				"upvote_count": 0,
-				"upvoters": [],
-				"gas_station": 629,
-				"downvoters": [],
-				"deleted_at": null,
-				"downvote_count": 0,
-				"net_votes": 0,
-				"creator": {
-					"reputation": 0,
-					"user_type": {
-						"id": 1491,
-						"user_type_name": "Normal User",
-						"can_vote": true,
-						"is_admin": false
-					},
-					"post_count": 47,
-					"deleted_at": null,
-					"username": "walkererika",
-					"level": "None"
-				},
-				"post_type": {
-					"id": 361,
-					"post_type_name": "Amenity Tag",
-					"is_votable": true
-				},
-				"created_at": "2022-05-01T23:18:15.328156"
-			},
-			{
-				"amenity_type": {
-					"id": 164,
-					"amenity_name": "Bathroom"
-				},
-				"id": 8238,
-				"last_edited": "2022-05-01T23:18:15.345157",
-				"upvote_count": 0,
-				"upvoters": [],
-				"gas_station": 629,
-				"downvoters": [],
-				"deleted_at": null,
-				"downvote_count": 0,
-				"net_votes": 0,
-				"creator": {
-					"reputation": 0,
-					"user_type": {
-						"id": 1491,
-						"user_type_name": "Normal User",
-						"can_vote": true,
-						"is_admin": false
-					},
-					"post_count": 51,
-					"deleted_at": null,
-					"username": "ayalarenee",
-					"level": "None"
-				},
-				"post_type": {
-					"id": 361,
-					"post_type_name": "Amenity Tag",
-					"is_votable": true
-				},
-				"created_at": "2022-05-01T23:18:15.345157"
-			}
-		],
-		"id": 629,
-		"ratings": [
-			{
-				"body": null,
-				"rating_val": 3,
-				"last_edited": "2022-05-01T23:18:15.334157",
-				"upvote_count": 0,
-				"upvoters": [],
-				"gas_station": 629,
-				"downvoters": [],
-				"deleted_at": null,
-				"downvote_count": 0,
-				"net_votes": 0,
-				"id": 8236,
-				"creator": {
-					"reputation": 0,
-					"user_type": {
-						"id": 1491,
-						"user_type_name": "Normal User",
-						"can_vote": true,
-						"is_admin": false
-					},
-					"post_count": 45,
-					"deleted_at": null,
-					"username": "lindabrown",
-					"level": "None"
-				},
-				"post_type": {
-					"id": 357,
-					"post_type_name": "Rating",
-					"is_votable": false
-				},
-				"created_at": "2022-05-01T23:18:15.334157"
-			},
-			{
-				"body": null,
-				"rating_val": 3,
-				"last_edited": "2022-05-01T23:18:15.361161",
-				"upvote_count": 0,
-				"upvoters": [],
-				"gas_station": 629,
-				"downvoters": [],
-				"deleted_at": null,
-				"downvote_count": 0,
-				"net_votes": 0,
-				"id": 8241,
-				"creator": {
-					"reputation": 0,
-					"user_type": {
-						"id": 1491,
-						"user_type_name": "Normal User",
-						"can_vote": true,
-						"is_admin": false
-					},
-					"post_count": 59,
-					"deleted_at": null,
-					"username": "angela06",
-					"level": "None"
-				},
-				"post_type": {
-					"id": 357,
-					"post_type_name": "Rating",
-					"is_votable": false
-				},
-				"created_at": "2022-05-01T23:18:15.361161"
-			}
-		],
-		"lng": 35.28561,
-		"reviews": [
-			{
-				"body": "Watch off similar market future ago player size. Ok mother building past mean scene.",
-				"rating_val": 2,
-				"last_edited": "2022-05-01T23:18:15.264095",
-				"upvote_count": 0,
-				"upvoters": [],
-				"gas_station": 629,
-				"downvoters": [],
-				"deleted_at": null,
-				"downvote_count": 0,
-				"net_votes": 0,
-				"id": 8224,
-				"creator": {
-					"reputation": 0,
-					"user_type": {
-						"id": 1491,
-						"user_type_name": "Normal User",
-						"can_vote": true,
-						"is_admin": false
-					},
-					"post_count": 49,
-					"deleted_at": null,
-					"username": "hendersonthomas",
-					"level": "None"
-				},
-				"post_type": {
-					"id": 358,
-					"post_type_name": "Review",
-					"is_votable": true
-				},
-				"created_at": "2022-05-01T23:18:15.264095"
-			},
-			{
-				"body": "Page heart recent real surface represent organization. From recent painting close what seem. Piece whether from different individual. Service probably contain power despite paper.",
-				"rating_val": 4,
-				"last_edited": "2022-05-01T23:18:15.350146",
-				"upvote_count": 0,
-				"upvoters": [],
-				"gas_station": 629,
-				"downvoters": [],
-				"deleted_at": null,
-				"downvote_count": 0,
-				"net_votes": 0,
-				"id": 8239,
-				"creator": {
-					"reputation": 0,
-					"user_type": {
-						"id": 1491,
-						"user_type_name": "Normal User",
-						"can_vote": true,
-						"is_admin": false
-					},
-					"post_count": 45,
-					"deleted_at": null,
-					"username": "jerry25",
-					"level": "None"
-				},
-				"post_type": {
-					"id": 358,
-					"post_type_name": "Review",
-					"is_votable": true
-				},
-				"created_at": "2022-05-01T23:18:15.350146"
-			},
-			{
-				"body": "Why must lead. Water blood buy community take. Impact act before tonight understand from.",
-				"rating_val": 3,
-				"last_edited": "2022-05-01T23:18:15.413168",
-				"upvote_count": 0,
-				"upvoters": [],
-				"gas_station": 629,
-				"downvoters": [],
-				"deleted_at": null,
-				"downvote_count": 0,
-				"net_votes": 0,
-				"id": 8250,
-				"creator": {
-					"reputation": 0,
-					"user_type": {
-						"id": 1491,
-						"user_type_name": "Normal User",
-						"can_vote": true,
-						"is_admin": false
-					},
-					"post_count": 59,
-					"deleted_at": null,
-					"username": "angela06",
-					"level": "None"
-				},
-				"post_type": {
-					"id": 358,
-					"post_type_name": "Review",
-					"is_votable": true
-				},
-				"created_at": "2022-05-01T23:18:15.413168"
-			}
-		],
-		"manager": null,
-		"image": "iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAIAAADTED8xAAAE2UlEQVR4nO3du5EzRQBG0f4pCAMHUoAQSIAIMHCICIcAsEiAEIgBHMLAwRhqUe1qtaPRYx73nAja0K1PmlbVfPrmh18HVH229gFgTQIgTQCkCYA0AZAmANIEQJoASBMAaQIgTQCkCYA0AZAmANIEQJoASBMAaQIgTQCkCYA0AZAmANIEQJoASBMAaQIgTQCkCYA0AZAmANIEQJoASBMAaQIgTQCkCYA0AZAmANI+X/sA7/rj59/HGH9/8dX3P3699lk4rE8bf0/wlMG3P3239kE4pu0uwGT66E8ZDCVwb1tfgFMy4O72FMDkJYOhBG62vwAmMuAu9hrA5DSDoQSut+8AJi8PTL/8568hA65xhAAmrzIYSmCG4wQweclgjGEQ+NDRApi8zWAogXOOGcDkNINhEDjnyAFMzmYwlMAYoxDA5FUGwyAwxugEMHkvg6GEqlYAk7cZDINQVQxgciGDoYSMbgCTsxkMg5BRD2ByOYOhhOMSwP/ey2AYhOMSwGsfZjCUcCACOO9CBkMJByKASy5nMHw12j8BfGxmBkMJOySAuT7MYBiEHRLAdeZnMJSwBwJYYk4GwyDsgQCWuyqDoYRNEsCtZmYwDMImCeA+rs1gKGEbBHBP8zMYBmEbBHB/CzIYSliJAB7lqgyGQViJAB5rWQZDCc8igGe4NoNhEJ5FAM+zOIOhhIcRwLMtyGAYhIcRwDpuyWAo4X4EsKZlGQyDcD8CWN+NGQwl3EAAW7E4g2EQbiCAbbk9g6GEawhgi27JYBiEawhgu15eAWgQHkcAO3CXEmRwlgD25JYSDMJZAtil20uQwUQA+3b6qnD/MlpAAMexbBbigyCAA1pQQnYQBHBki0voZCCAhGtL6AyCAFqWlXDgDAQQdVUJBx4EAdQtKOFIGQiA/8wv4UiDIABem3+5doBBEACXzJmFXQ+CAJhlfgn7ykAAXOfDEvY1CAJgoWOUIABuNbOEbWYgAO7mcgnbHAQBcH9zSthIBgLggS6UsJFBEADPcOFybd1BEADPdnYW1hoEAbCaCyU8LQMBsL63JTxtEATAhrxXwuMyEABb9KqExw2CANi0syXcMQMBsA+nJdxxEATAzrwt4ZYMBMBenV6uTRaUIACO4DSGqzIQAIdybQkC4JheSricgQA4st9++fPyD2UBkPbZ2geANQmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApP0LAK4dO7rM+n8AAAAASUVORK5CYII=",
-		"gas_price_suggestions": [],
-		"avg_rating": 3.0,
-		"old_best_price": null,
-		"name": "Mendez, Cole and Hudson",
-		"lat": 16.2285015,
-		"address": "34339 Joseph Neck\nSouth Matthewport, NJ 34065",
-		"current_best_price": null
+		"name": "Watts-Rivers",
+		"address": "960 Kenneth Alley Suite 303\r\nSouth Joshua, DC 19469"
 	}
 ]
