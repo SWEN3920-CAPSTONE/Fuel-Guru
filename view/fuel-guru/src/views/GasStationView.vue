@@ -92,7 +92,7 @@ the components are not yet created -->
            </ul>
  
            <div class="list-group-comments" v-else>
-                 <p>There are no comments posted at this time.</p>
+                 <p>There are no highest upvoted comments posted at this time.</p>
            </div>
       
            <button v-show="this.hasToken" @click="show_vote_fuelprices=!show_vote_fuelprices" type="button" class="btn">View All Gas Price Suggestions</button>
@@ -103,17 +103,20 @@ the components are not yet created -->
  
          <div  v-if="allsuggestedPrices.length>0">
                 
-               <div id="fuelRow" v-for="gasArray in allsuggestedPrices" :key="gasArray.id">
-                       <h5 id="headline">{{gasArray.creator.username}}</h5>
+               <div  v-for="gasArray in allsuggestedPrices" :key="gasArray.id">
+                      
  
-                       <div  v-for="gas in gasArray.gases" :key="gas.id">
-                           <h4> {{gas.gas_type.gas_type_name}} </h4> 
-                           <h4 id="headline"> ${{gas.price}} </h4>
-                           
+                       <div id="fuelRow" v-for="gas in gasArray.gases" :key="gas.id">
+                          <h5 id="headline">{{gasArray.creator.username}} </h5>
+                           <h5 id="headline">{{gas.gas_type.gas_type_name}}</h5>
+                           <h5 id="headline"> ${{gas.price}} </h5>
+                           <i class="fa fa-thumbs-up" id="thumbs" @click="upvote(gasArray.id)">: {{gasArray.upvote_count}} &emsp;&emsp; </i>
+                              
+                           <i class="fa fa-thumbs-down" id="thumbs" @click="downvote(gasArray.id)">{{gasArray.downvote_count}}  </i>
+                          <hr>
+       
                        </div>
-               <h5><i class="fa fa-thumbs-up" id="thumbs" @click="upvote(gasArray.id)"></i>
-               : {{gasArray.upvote_count}} &emsp;&emsp; 
-               <i class="fa fa-thumbs-down" id="thumbs" @click="downvote(gasArray.id)"></i>{{gasArray.downvote_count}}  </h5>
+               
                &emsp; <!--functions to be added in-->
                
                         
@@ -236,10 +239,20 @@ the components are not yet created -->
                    </li>
                   
                   
-               </ul>
-             <div id="sugg" v-show="this.hasToken">   
-                 <input type="text"  id="commentEntry" placeholder="Leave a comment..." v-model="body">
+               </ul>         
+           </div>
+           <div class="list-group-comments" v-else>
+             <p>There are no comments posted at this time.</p>
+           </div>
 
+       </div> 
+       <div id="sugg" v-show="this.hasToken">  
+         <hr>
+                <h5>Make a review!</h5> 
+
+                <!--- Selection of Rating -->
+                <div>
+                <h5>Rate</h5>
                 <select v-model="sugg_rating">
                    <option value="" selected disabled hidden>Rate the Gas Station</option>
                     <option value="1" >1</option>
@@ -248,18 +261,17 @@ the components are not yet created -->
                     <option value="4" >4</option>
                     <option value="5" >5</option>
                 </select>
+                </div>
+                <br>
+                 <input type="text"  id="commentEntry" placeholder="Leave a comment..." v-model="body">
+
+                
                 
                  <button id="comment-btn" @click="makeNewReview(body,sugg_rating)">Add Review</button>
+                 
                  <br>
                  <br>
-                 <br>
-             </div>           
-           </div>
-           <div class="list-group-comments" v-else>
-             <p>There are no comments posted at this time.</p>
-           </div>
-          
-       </div> 
+             </div>  
            <br>
           
        </div>
@@ -550,14 +562,14 @@ export default {
      })
      .then(result => result.json())
      .then(data => {
-      
+      console.log(data);
        if(data.error!=null)
        {
          alert(data.error);
        }
        else
        {
-         //alert(`You have successfully toggled your upvote`);
+         alert(`You have successfully toggled your upvote`);
          this.getGasStation(); //Update values
          //this.$router.go()
        }
@@ -590,7 +602,7 @@ export default {
        }
        else
        {
-         //alert(`You have successfully toggled your downvote`);
+         alert(`You have successfully toggled your downvote`);
          this.getGasStation();
        }
     
@@ -744,7 +756,31 @@ export default {
 }
 #headline h5{
  font-weight: bold;
+}
+
+#thumbs{
+ font-size:1em;
+ color:#AA1414;
+ text-align: right;
+ margin-top: 15px;
+}
+#thumbs:hover{
+ cursor: pointer;
+ color: #8a1010;
  
+}
+
+#fuelRow{
+ display: grid; 
+ margin-left: 30px;
+ width: 50%;
+ height: 20px;
+ grid-template-columns: 10% 10% 10% 10% 10%;
+ text-align: center;
+}
+#fuelRow i{
+  font-size: 1.5em;
+  height: 20px;
 }
  
 #cardRow3 {
@@ -806,11 +842,7 @@ label {
  float: left;
 }
  
-#fuelRow{
- display: grid; 
- grid-template-columns: auto auto auto auto auto auto;
- text-align: center;
-}
+
  
 #commentRow{
  display: grid; 
@@ -852,14 +884,15 @@ label {
  float: left;
 }
  
-#gas-entry-grid{
- display: grid;
- grid-template-columns: 50% 30%;
- column-gap: 10px;
- row-gap: 0px;
- 
+
+
+div #sugg{
+  display: grid;
+  grid-template-columns: 50%;
+  width:90%;
+  vertical-align: middle;
+  margin-left: 20px;
 }
- 
 #sugg {
  text-align: left;
  padding:10px;
@@ -874,17 +907,7 @@ label {
  float:left;
 }
  
-#thumbs{
- font-size:25px;
- color:#AA1414;
- text-align: right;
- margin-top: 15px;
-}
-#thumbs:hover{
- cursor: pointer;
- color: #8a1010;
- 
-}
+
  
 #comment-btn {
  border: 2px solid #AA1414;
