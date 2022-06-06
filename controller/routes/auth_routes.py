@@ -3,7 +3,7 @@ from hashlib import sha256
 
 import jwt
 from config import app, db, mail
-from controller.routes.token import gen_access_refresh_token, token_required
+from controller.routes.token import gen_jwts, token_required
 from controller.utils import (flash_errors, generate_reset_link,
                               get_request_body)
 from controller.validation.forms import ResetPassword
@@ -59,7 +59,7 @@ def signup():
         db.session.commit()
 
         # Generate the JWT Token
-        return gen_access_refresh_token(new_user), 200
+        return gen_jwts(new_user), 200
     except ValidationError as e:
         return jsonify(errors=e.messages), 400
 
@@ -98,7 +98,7 @@ def signin():
 
             if user.check_password(data['password']):
                 # Generate the JWT Token
-                return gen_access_refresh_token(user), 200
+                return gen_jwts(user), 200
         
         return jsonify(
             error='Incorrect username or email and password combination'), 401
@@ -150,7 +150,7 @@ def refresh():
     db.session.add(invalid_t)
     db.session.commit()
 
-    return gen_access_refresh_token(g.current_user), 200
+    return gen_jwts(g.current_user,False), 200
 
 
 @auth_api.route('/forgotpsswd', methods=['POST'])
@@ -195,8 +195,6 @@ def forgot_password():
     mail.send(msg)
 
     return jsonify(message='Password reset email sent'), 200
-
-
 
 
 @auth_api.route('/resetpsswd/<string:token>', methods=['POST', 'GET'])

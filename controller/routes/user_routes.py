@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 
 from config import app, db
-from controller.routes.token import gen_access_refresh_token, token_required
+from controller.routes.token import gen_jwts, token_required
 from controller.utils import get_request_body
 from controller.validation.schemas import EditUserSchema
 from flask import Blueprint, g, jsonify, request
@@ -60,7 +60,7 @@ def normal_users():
             db.session.commit()
 
             # give the user a new token
-            res = gen_access_refresh_token(user)
+            res = gen_jwts(user)
             body = res.json()
             body['message'] = 'User updated successfully'
             res.data = json.dumps(body)

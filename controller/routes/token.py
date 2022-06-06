@@ -12,13 +12,16 @@ from jwt import DecodeError, ExpiredSignatureError, InvalidSignatureError
 from model.users import User
 
 
-def gen_access_refresh_token(user: User):
+def gen_jwts(user: User, with_refresh:bool=True):
     """
     Generates a new JWT access and refresh token for a given user
 
     Args:
-        user(User):
+        user (User):
             The user the tokens should be generated for
+        
+        with_refresh (bool):
+            True if the refresh token should be generated with the access token. False if not.
 
     Returns:
         Response(partial) -> Response containing the tokens
@@ -48,8 +51,12 @@ def gen_access_refresh_token(user: User):
         'exp': ctime + timedelta(**app.config.get('JWT_ACCESS_LIFESPAN')),
     }, app.config.get('SECRET_KEY'), algorithm="HS256")
 
-    res = make_response(
-        {'access_token': atoken, 'refresh_token': rtoken, 'message': 'Success'})
+    body = {'access_token': atoken, 'message': 'Success'}
+    
+    if with_refresh:
+        body.update({'refresh_token': rtoken})
+        
+    res = make_response(body)
 
     # set fingerprint cookie
     res.set_cookie('FuelGuru_Secure_Fgp', fingerprint,
