@@ -27,6 +27,7 @@
   </main>
 </template>
 
+
 <script setup>
 import {ref} from 'vue';
 import router from '../router/index.js';
@@ -37,9 +38,10 @@ const emit = defineEmits(['update']);
 var username = ref('');
 var password = ref('');
 
+/**
+ * Allows a user to log into their account
+ */
 function login(){
-  let errMessage = "";
-
   // santising the inputs
   username.value = sanitise_inputs(username.value);
   password.value = sanitise_inputs(password.value);
@@ -52,13 +54,16 @@ if (isEmpty(username.value) === true || isEmpty(password.value) === true) {
       "iden": username.value,
       "password": password.value
     }),
-      method: "POST"
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.accessToken}`
+      }
     })
-    .then(result => result.json()) //use json intsead of text to get the refresh token
+    .then(result => result.json()) //use json intsead of text to get the access token
     .then(data => {
-      console.log(data); //the data.refresh_token should be in local storage 
+      console.log(data); //the data.access_token should be in local storage 
       if (data.message === "Success") {
-        localStorage.setItem('refreshToken', data.refresh_token);
+        localStorage.setItem('accessToken', data.access_token);
         emit('update');
         router.push({name: 'FuelPrices'});
         alert(`Welcome back ${username.value}!`);
@@ -80,6 +85,7 @@ if (isEmpty(username.value) === true || isEmpty(password.value) === true) {
         */  
   
 </script>
+
 
 <style>
 #login-page {
