@@ -145,6 +145,14 @@ for i in range(len(AMENITY_TYPES)):
         total += 1
 
 
+for i in range(len(ALLOWED_POST_TYPES)):
+    try:
+        USER_TYPES[i].allowed_post_types = ALLOWED_POST_TYPES[i]()
+        db.session.flush()
+        db.session.commit()
+    except SQLAlchemyError as e:
+        db.session.rollback()
+
 if app.config.get('IS_DEV'):
 
     longest = max(longest, len(f'   {total} type records added'))
