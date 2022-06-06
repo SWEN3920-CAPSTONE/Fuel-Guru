@@ -12,5 +12,9 @@ describe('ET1', () => {
   it('Creates a Fuel Guru account', () => {
     cy.visit('http://localhost:3000/signup')
     
+  }),
+  it('Creates a Fuel Guru account', () => {
+    cy.visit('http://localhost:3000/signup')
+    
   })
 })

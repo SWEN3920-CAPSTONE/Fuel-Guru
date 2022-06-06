@@ -13,6 +13,7 @@
   </header>
 </template>
 
+
 <script setup>
 import {ref} from 'vue';
 import router from './router';
@@ -24,7 +25,7 @@ var loggedIn = ref('');
  * given upon successfully logging in is still stored in local storage
  */
 function checkloggedIn() {
-  if (localStorage.getItem('refreshToken') !== null) {
+  if (localStorage.getItem('accessToken') !== null) {
     loggedIn.value = true;
   } else {
     loggedIn.value = false;
@@ -36,10 +37,33 @@ function checkloggedIn() {
  * refresh token
  */
 function logoutUser() {
+//    alert(`You are logged out!`)
+console.log(localStorage.getItem('accessToken'));
+    fetch('http://localhost:9000/auth/logout', {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.accessToken}`
+      }
+    })
+    .then(result => result.json()) //use json intsead of text to get the refresh token
+    .then(data => {
+      console.log(data);
+      
     loggedIn.value = false;
-    localStorage.removeItem('refreshToken');
-    router.push({name: 'Home'});
-    alert(`You are logged out!`);
+   // localStorage.removeItem('accessToken');
+    router.push({name: 'Home'}); //the data.refresh_token should be in local storage 
+    /*  if (data.message === "Success") {
+        localStorage.setItem('accessToken', data.refresh_token);
+        emit('update');
+        router.push({name: 'FuelPrices'});
+        alert(`Welcome back ${username.value}!`);
+      }*/
+    })
+    .catch(error => {
+      console.log(error);        
+    })
+
+    
 }
 </script>
 
@@ -56,4 +80,15 @@ function logoutUser() {
 #hme, #abt, #fp, #map {
   padding-right: 50px;
 }
+
+#logout.router-link-exact-active { 
+  color: black;
+  text-decoration: none;
+}
+
+#logout:hover { 
+  color: #AA1414;
+  text-decoration: underline;
+}
+
 </style>
