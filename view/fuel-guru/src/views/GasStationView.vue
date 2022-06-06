@@ -345,7 +345,7 @@ export default {
        fetch('http://localhost:9000/posts', {
        body: JSON.stringify({
            "gas_station_id":parseInt(this.id),
-           "post_type_id": 3,
+           "post_type_id": 1,
           
            "review":
           
@@ -459,7 +459,7 @@ export default {
        fetch('http://localhost:9000/posts', {
        body: JSON.stringify({
            "gas_station_id":parseInt(this.id),
-           "post_type_id": 5,
+           "post_type_id": 3,
            "gas_price_suggestion":
            {
             
@@ -502,7 +502,7 @@ export default {
       fetch('http://localhost:9000/posts', {
        body: JSON.stringify({
            "gas_station_id":parseInt(this.id),
-           "post_type_id": 6,
+           "post_type_id": 4,
            "amenity_tag":
            {
               "amenity_id":parseInt(type_id),   
@@ -648,7 +648,7 @@ export default {
        console.log(this.amenities);
        this.comments = this.convertDate(this.station.reviews);
        
-       this.rating = this.station.avg_rating.toFixed(1);
+       this.rating = this.station.avg_rating;
        console.log(data.data);
      })
      .catch(error => {
