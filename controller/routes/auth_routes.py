@@ -1,5 +1,6 @@
 from datetime import datetime
 from hashlib import sha256
+from pprint import pprint
 
 import jwt
 from config import app, db, mail
@@ -121,7 +122,7 @@ def logout():
     payload = get_jwt()
 
     if not _is_valid_refresh_token(payload):
-        return jsonify(error='Token is invalid'), 400
+        return jsonify(error='Token is invalid refresh'), 400
 
     invalid_t = InvalidToken(
         payload['jti'], datetime.fromtimestamp(payload['exp']))
@@ -272,18 +273,18 @@ def _is_valid_refresh_token(payload: dict):
     Returns:
         bool -> True if the token is valid, False otherwise
     """
-
+    pprint(payload)
     # check if this token is a refresh token
     if payload.get('type') != 'refresh':
         return False
-
+    
     # check if this token is already blacklisted
     if InvalidToken.query.get(payload.get('jti')):
         return False
 
     # check if the fingerprint in the token is the same as the httponly cookie
     # Token sidejacking XSS attack prevention measure
-    fingerprint_cookie = request.cookies.get(
+    """fingerprint_cookie = request.cookies.get(
         'FuelGuru_Secure_Fgp', default='', type=str)
 
     if payload.get('fingerprint') != sha256(fingerprint_cookie.encode('utf-8')).hexdigest():
@@ -292,7 +293,7 @@ def _is_valid_refresh_token(payload: dict):
             'jti'), datetime.fromtimestamp(payload.get('exp')))
         db.session.add(invalid_t)
         db.session.commit()
-        return False
+        return False"""
 
     # if all checks passed, the token should be valid
     return True
