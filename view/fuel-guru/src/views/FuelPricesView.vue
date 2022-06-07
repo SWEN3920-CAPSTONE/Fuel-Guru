@@ -25,7 +25,7 @@
       </div>      
       <div>
         <p> {{cheapestDieselInfo.name}} <br> {{cheapestDieselInfo.address}} <br> ${{cheapestDieselInfo.price}}</p>
-        <button @click.stop.prevent='goToGasStation(cheapestDieselI.id)'>View Location</button>
+        <button @click.stop.prevent='goToGasStation(cheapestDieselInfo.id)'>View Location</button>
       </div>
     </div>
     <div id='cheapest-sd'>
