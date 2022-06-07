@@ -280,7 +280,9 @@ the components are not yet created -->
  
 <script>
 //access control issue '(Access-Control-Allow-Origin)
-import moment from '../../node_modules/moment';
+import moment from 'moment';
+import {sanitise_inputs, isEmpty} from '../assets/scripts/validate.js';
+
 export default {
  
  data() {
@@ -355,6 +357,13 @@ export default {
    },
  
    makeNewReview(body,sugg_rating){
+
+      
+      if(body=="" || sugg_rating==""){
+        alert("Please fill in all fields");
+      }
+      body = sanitise_inputs(body);
+      sugg_rating = sanitise_inputs(sugg_rating);
        fetch('http://localhost:9000/posts', {
        body: JSON.stringify({
            "gas_station_id":parseInt(this.id),
@@ -397,6 +406,12 @@ export default {
    editComment(commentId, currComment,currRating){
        let newComment = prompt("Please enter your edited comment", currComment);
       let newRating = prompt("Please enter your edited comment", currRating);
+        if(newComment=="" || newRating==""){
+          alert("Please fill in all fields");
+        }
+        newComment = sanitise_inputs(newComment);
+        newRating = sanitise_inputs(newRating);
+
        fetch('http://localhost:9000/posts', {
        body: JSON.stringify({
            "post_id": parseInt(commentId),
@@ -469,6 +484,11 @@ export default {
  
    makeGasStationSuggestion(price,type_id)
    {
+      if(price=="" || type_id==""){
+        alert("Please fill in all fields");
+      }
+      price = sanitise_inputs(price);
+      type_id = sanitise_inputs(type_id);
        fetch('http://localhost:9000/posts', {
        body: JSON.stringify({
            "gas_station_id":parseInt(this.id),
@@ -512,6 +532,10 @@ export default {
 
   makeAmenitySuggestion(type_id)
   {
+    if(type_id==""){
+      alert("Please fill in all fields");
+    }
+    type_id = sanitise_inputs(type_id);
       fetch('http://localhost:9000/posts', {
        body: JSON.stringify({
            "gas_station_id":parseInt(this.id),

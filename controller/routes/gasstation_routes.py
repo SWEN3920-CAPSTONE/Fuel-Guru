@@ -158,7 +158,8 @@ def search_nearby_gasstation():
             return jsonify(error='Method not allowed'), 405
     except ValidationError as e:
         return jsonify(errors=e.messages), 400
-      
+    
+        
 @gasstation_api.route('/top',methods=['GET'])
 def top_gasstations():
     """

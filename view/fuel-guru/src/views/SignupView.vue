@@ -34,7 +34,7 @@
     <div id='signup-page-btns'>
         <!--sign in to user's page-->   
         <div>
-          <button id='signup-btn' @click.stop.prevent='signup'>Sign Up</button>
+          <button id='signup-btn' @click.stop.prevent='signup'>Create Account</button>
         </div> 
         <div>
           Already have an account? 
@@ -126,13 +126,14 @@ if (isEmpty(firstname.value) === true || isEmpty(lastname.value) === true || isE
       }),
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${localStorage.accessToken}`
+          Authorization: `Bearer ${localStorage.refreshToken}`
         }
       })
       .then(result => result.json()) //use json intsead of text to get the refresh token
       .then(data => {
         console.log(data); //the data.access_token should be in local storage 
         if (data.message === 'Success') {
+          localStorage.setItem('refreshToken', data.refresh_token);
           localStorage.setItem('accessToken', data.access_token);
           emit('update');
           router.push({name: 'FuelPrices'});
