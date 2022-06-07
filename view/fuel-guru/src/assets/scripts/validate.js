@@ -56,11 +56,10 @@
  */
  export function valid_username (str) {
   let strLength = str.length;
-  let pattern = /[0-9a-zA-Z_]/g;
-  let patternLength = str.match(pattern).length;  
+  let pattern = /^[0-9a-zA-Z_]+$/g;
 
-  if (strLength > 5 && strLength < 30 && strLength === patternLength &&
-    str[0].match(letters).length === 1 && str[strLength-1] !== '_') {
+  if (strLength > 5 && strLength < 30 && str[0].match(letters).length === 1 &&
+    str[strLength-1] !== '_' && pattern.test(str) === true) {    
     return true
   } else {
     return false

@@ -56,14 +56,15 @@ if (isEmpty(username.value) === true || isEmpty(password.value) === true) {
     }),
       method: "POST",
       headers: {
-        Authorization: `Bearer ${localStorage.accessToken}`
+        Authorization: `Bearer ${localStorage.refreshToken}`
       }
     })
     .then(result => result.json()) //use json intsead of text to get the access token
     .then(data => {
       console.log(data); //the data.access_token should be in local storage 
       if (data.message === "Success") {
-        localStorage.setItem('accessToken', data.access_token);
+          localStorage.setItem('refreshToken', data.refresh_token);
+          localStorage.setItem('accessToken', data.access_token);
         emit('update');
         router.push({name: 'FuelPrices'});
         alert(`Welcome back ${username.value}!`);
