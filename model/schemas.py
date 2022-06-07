@@ -4,9 +4,9 @@ from config import ma
 from marshmallow import fields, post_dump, post_load
 
 from model.gasstation import GasStation
-from model.posts import (AmenityTag, AmenityType, Comment, Gas,
+from model.posts import (AmenityTag, AmenityType, Gas,
                          GasPriceSuggestion, GasType, Post, PostType,
-                         Promotion, Rating, Review)
+                         Promotion, Review)
 from model.users import User, UserType
 
 
@@ -40,7 +40,6 @@ class GasTypeSchema(ma.SQLAlchemyAutoSchema):
         include_relationships = True
         load_instance = True
         transient = True
-        
 
 
 class GasSchema(ma.SQLAlchemyAutoSchema):
@@ -52,7 +51,13 @@ class GasSchema(ma.SQLAlchemyAutoSchema):
 
     price = fields.Decimal(as_string=True)
     gas_type = fields.Nested('GasTypeSchema')
-    gas_post = fields.Nested('GasPriceSuggestionSchema', exclude=('gases',))
+    gas_post = fields.Nested('GasPriceSuggestionSchema', exclude=(
+        'gases', 'post.gas_station.reviews', 'post.gas_station.promotions',
+        'post.gas_station.image', 'post.gas_station.amenities',
+        'post.gas_station.gas_price_suggestions',
+        'post.gas_station.current_best_price',
+        'post.gas_station.old_best_price', 'post.creator',
+        'post.upvoters', 'post.downvoters', 'post.gas_station.manager'))
 
 
 class GasPriceSuggestionSchema(ma.SQLAlchemyAutoSchema):
@@ -115,7 +120,7 @@ class UserTypeSchema(ma.SQLAlchemyAutoSchema):
 class PostSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Post
-        #include_fk = True
+        include_fk = True
         include_relationships = True
         load_instance = True
         transient = True
@@ -128,6 +133,7 @@ class PostSchema(ma.SQLAlchemyAutoSchema):
     upvote_count = fields.Integer(attribute='upvote_count', dump_only=True)
     downvote_count = fields.Integer(attribute='downvote_count', dump_only=True)
     net_votes = fields.Integer(attribute='net_votes', dump_only=True)
+    gas_station = fields.Nested('GasStationSchema')
 
 
 class ReviewSchema(ma.SQLAlchemyAutoSchema):
@@ -137,41 +143,15 @@ class ReviewSchema(ma.SQLAlchemyAutoSchema):
         include_relationships = True
         load_instance = True
         transient = True
-        exclude = ('id', 'comment', 'rating', 'post_id')
+        exclude = ('id', 'post_id')
 
     post = fields.Nested('PostSchema')
-    body = fields.Pluck('CommentSchema', 'body', attribute='comment')
-    rating_val = fields.Pluck('RatingSchema', 'rating_val', attribute='rating')
 
     @post_dump
     def flatten_post(self, data, **kwargs):
         post_data = data.pop('post', dict())
         data = {**data, **post_data}
         return data
-
-
-class RatingSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = Rating
-        include_fk = True
-        include_relationships = True
-        load_instance = True
-        transient = True
-        exclude = ('review', 'review_id', 'id')
-
-    #post = fields.Pluck('ReviewSchema', 'post', attribute='review')
-
-
-class CommentSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = Comment
-        include_fk = True
-        include_relationships = True
-        load_instance = True
-        transient = True
-        exclude = ('review', 'review_id', 'id')
-
-    #post = fields.Pluck('ReviewSchema', 'post', attribute='review')
 
 
 class UserSchema(ma.SQLAlchemyAutoSchema):
@@ -214,18 +194,17 @@ class GasStationSchema(ma.SQLAlchemyAutoSchema):
         transient = True
         exclude = ('all_posts',)
 
-    reviews = fields.Nested(ReviewSchema, many=True, dump_only=True)
+    reviews = fields.Nested(ReviewSchema, many=True,
+                            dump_only=True, exclude=('post.gas_station',))
 
-    ratings = fields.Nested(ReviewSchema, many=True, dump_only=True)
+    promotions = fields.Nested(
+        PromotionSchema, many=True, dump_only=True, exclude=('post.gas_station',))
 
-    comments = fields.Nested(ReviewSchema, many=True, dump_only=True)
-
-    promotions = fields.Nested(PromotionSchema, many=True, dump_only=True)
-
-    amenities = fields.Nested(AmenityTagSchema, many=True, dump_only=True)
+    amenities = fields.Nested(
+        AmenityTagSchema, many=True, dump_only=True, exclude=('post.gas_station',))
 
     gas_price_suggestions = fields.Nested(
-        GasPriceSuggestionSchema, many=True, dump_only=True)
+        GasPriceSuggestionSchema, many=True, dump_only=True, exclude=('post.gas_station',))
 
     avg_rating = fields.Float(dump_only=True)
 
@@ -234,7 +213,7 @@ class GasStationSchema(ma.SQLAlchemyAutoSchema):
     manager = fields.Nested(UserSchema, exclude=('managed_gasstations',))
 
     current_best_price = fields.Nested(
-        GasPriceSuggestionSchema, dump_only=True)
+        GasPriceSuggestionSchema, dump_only=True, exclude=('post.gas_station',))
 
     old_best_price = fields.Nested(
-        GasPriceSuggestionSchema, dump_only=True)
+        GasPriceSuggestionSchema, dump_only=True, exclude=('post.gas_station',))

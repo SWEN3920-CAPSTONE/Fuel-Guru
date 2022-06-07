@@ -31,19 +31,17 @@ USER_TYPES = [
 ]
 
 POST_TYPES = [
-    PostType("Comment", True),
-    PostType("Rating", False),
-    PostType("Review", True),
+    PostType("Review",False),
     PostType("Promotion", False),
     PostType("Gas Price Suggestion", True),
     PostType("Amenity Tag", True)
 ]
 
 ALLOWED_POST_TYPES = [
-    lambda: [POST_TYPES[0], POST_TYPES[1],
-             POST_TYPES[2], POST_TYPES[4], POST_TYPES[5]],
-    lambda: [POST_TYPES[3], POST_TYPES[4], POST_TYPES[5]],
-    lambda: [POST_TYPES[4], POST_TYPES[5]]
+    lambda: [POST_TYPES[0], POST_TYPES[2],
+             POST_TYPES[3]],
+    lambda: [POST_TYPES[1], POST_TYPES[2], POST_TYPES[3]],
+    lambda: [POST_TYPES[2], POST_TYPES[3]]
 ]
 
 GAS_TYPES = [
@@ -147,6 +145,14 @@ for i in range(len(AMENITY_TYPES)):
         total += 1
 
 
+for i in range(len(ALLOWED_POST_TYPES)):
+    try:
+        USER_TYPES[i].allowed_post_types = ALLOWED_POST_TYPES[i]()
+        db.session.flush()
+        db.session.commit()
+    except SQLAlchemyError as e:
+        db.session.rollback()
+
 if app.config.get('IS_DEV'):
 
     longest = max(longest, len(f'   {total} type records added'))
@@ -229,7 +235,7 @@ if app.config.get('IS_DEV'):
     print('\r\N{check mark}')
     longest = max(longest, len(f'   {quota} gas stations added'))
 
-# end add gas stations
+    # end add gas stations
 
 
     # add posts
@@ -288,25 +294,9 @@ if app.config.get('IS_DEV'):
             ptn = posts[quota].post_type.post_type_name  # post type name
 
             # create post details based on post type
-            if ptn == 'Comment':
-                rev = Review(posts[quota])
-                c = Comment(fake.paragraph(nb_sentences=3), rev)
+            if ptn == 'Review':
+                rev = Review(posts[quota],fake.paragraph(nb_sentences=3),random.randint(1, 5))
                 db.session.add(rev)
-                db.session.add(c)
-                db.session.commit()
-            elif ptn == 'Rating':
-                rev = Review(posts[quota])
-                ra = Rating(random.randint(1, 5), rev)
-                db.session.add(rev)
-                db.session.add(ra)
-                db.session.commit()
-            elif ptn == 'Review':
-                rev = Review(posts[quota])
-                c = Comment(fake.paragraph(nb_sentences=3), rev)
-                ra = Rating(random.randint(1, 5), rev)
-                db.session.add(rev)
-                db.session.add(c)
-                db.session.add(ra)
                 db.session.commit()
             elif ptn == 'Promotion':
                 start_date = fake.future_datetime(tzinfo=timezone.utc)
@@ -317,7 +307,7 @@ if app.config.get('IS_DEV'):
             elif ptn == 'Gas Price Suggestion':
                 gps = GasPriceSuggestion(posts[quota])
                 # choose random gas types
-                num = random.randint(0, len(GAS_TYPES)-1)
+                num = random.randint(1, len(GAS_TYPES))
                 types = random.choices(population=GAS_TYPES, k=num)
                 gps_gases = [Gas(fake.pyfloat(positive=True), t, gps)
                             for t in types]
