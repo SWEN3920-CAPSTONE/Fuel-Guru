@@ -37,33 +37,25 @@ function checkloggedIn() {
  * refresh token
  */
 function logoutUser() {
-//    alert(`You are logged out!`)
-console.log(localStorage.getItem('accessToken'));
-    fetch('http://localhost:9000/auth/logout', {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.accessToken}`
-      }
+  //console.log(localStorage.getItem('accessToken'));
+  fetch('http://localhost:9000/auth/logout', {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.refreshToken}`
+    }
     })
-    .then(result => result.json()) //use json intsead of text to get the refresh token
+    .then(result => result.json())
     .then(data => {
-      console.log(data);
-      
-    loggedIn.value = false;
-   // localStorage.removeItem('accessToken');
-    router.push({name: 'Home'}); //the data.refresh_token should be in local storage 
-    /*  if (data.message === "Success") {
-        localStorage.setItem('accessToken', data.refresh_token);
-        emit('update');
-        router.push({name: 'FuelPrices'});
-        alert(`Welcome back ${username.value}!`);
-      }*/
+      //console.log(data);           
+      loggedIn.value = false;
+      //the data.refresh_token should be in local storage 
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      router.push({name: 'Home'}); 
     })
     .catch(error => {
       console.log(error);        
-    })
-
-    
+    })    
 }
 </script>
 
@@ -90,5 +82,4 @@ console.log(localStorage.getItem('accessToken'));
   color: #AA1414;
   text-decoration: underline;
 }
-
 </style>
