@@ -112,7 +112,7 @@ the components are not yet created -->
                            <h5 id="headline"> ${{gas.price}} </h5>
                            <i class="fa fa-thumbs-up" id="thumbs" @click="upvote(gasArray.id)">: {{gasArray.upvote_count}} &emsp;&emsp; </i>
                               
-                           <i class="fa fa-thumbs-down" id="thumbs" @click="downvote(gasArray.id)">{{gasArray.downvote_count}}  </i>
+                           <i class="fa fa-thumbs-down" id="thumbs" @click="downvote(gasArray.id)">: {{gasArray.downvote_count}}  </i>
                           <hr>
        
                        </div>
@@ -121,6 +121,7 @@ the components are not yet created -->
                
                         
                </div>
+               <p>NOTE: You can suggest the correct gas price if it does not exist. If the price was submitted by another user, simply upvote the price by selecting.</p>
               
          </div>
          <div v-else>
@@ -248,12 +249,12 @@ the components are not yet created -->
        </div> 
        <div id="sugg" v-show="this.hasToken">  
          <hr>
-                <h5>Make a review!</h5> 
+                <h4>Leave a review!</h4> 
 
                 <!--- Selection of Rating -->
-                <div>
-                <h5>Rate</h5>
-                <select v-model="sugg_rating">
+                <div id="twocol">
+                <h5>Rating&emsp; </h5>
+                <select id="ratingbox" v-model="sugg_rating">
                    <option value="" selected disabled hidden>Rate the Gas Station</option>
                     <option value="1" >1</option>
                     <option value="2" >2</option>
@@ -362,45 +363,47 @@ export default {
       if(body=="" || sugg_rating==""){
         alert("Please fill in all fields");
       }
-      body = sanitise_inputs(body);
-      sugg_rating = sanitise_inputs(sugg_rating);
-       fetch('http://localhost:9000/posts', {
-       body: JSON.stringify({
-           "gas_station_id":parseInt(this.id),
-           "post_type_id": 1,
-          
-           "review":
-          
-           {
-             "body":body,
-             "rating_val":parseInt(sugg_rating)
-           }
-         }),
-       headers:
-       {
-         Authorization: 'Bearer ' + localStorage.refreshToken
-       },
-       method: "POST"
-     })
-     .then(result => result.json())
-     .then(data => {
-       this.post=data.data;
+      else{
+          body = sanitise_inputs(body);
+        fetch('http://localhost:9000/posts', {
+        body: JSON.stringify({
+            "gas_station_id":parseInt(this.id),
+            "post_type_id": 1,
+            
+            "review":
+            
+            {
+              "body":body,
+              "rating_val":parseInt(sugg_rating)
+            }
+          }),
+        headers:
+        {
+          Authorization: 'Bearer ' + localStorage.refreshToken
+        },
+        method: "POST"
+      })
+      .then(result => result.json())
+      .then(data => {
+        this.post=data.data;
 
-       if(data.error!=null)
-       {
-         alert(data.error);
-       }
-       else
-       {
-          alert(`You have successfully made a review`);
-          this.getGasStation();
-       }
-    
-     })
-     .catch(error => {
-       console.log(error)
-       alert(error);
-     })
+        if(data.error!=null)
+        {
+          alert(data.error);
+        }
+        else
+        {
+            alert(`You have successfully made a review`);
+            this.getGasStation();
+        }
+      
+      })
+      .catch(error => {
+        console.log(error)
+        alert(error);
+      })
+      }
+      
    },
  
    editComment(commentId, currComment,currRating){
@@ -487,55 +490,57 @@ export default {
       if(price=="" || type_id==""){
         alert("Please fill in all fields");
       }
-      price = sanitise_inputs(price);
-      type_id = sanitise_inputs(type_id);
-       fetch('http://localhost:9000/posts', {
-       body: JSON.stringify({
-           "gas_station_id":parseInt(this.id),
-           "post_type_id": 3,
-           "gas_price_suggestion":
-           {
-            
-             "gases":[
-               {
-                 "gas_type_id":parseInt(type_id),
-                 "price":parseInt(price)
-               }
-             ]
-           }     
-         }),
-       headers:
-       {
-         Authorization: 'Bearer ' + localStorage.refreshToken
-       },
-       method: "POST"
-     })
-     .then(result => result.json())
-     .then(data => {
- 
-       if(data.error!=null)
-       {
-         alert(data.error);
-       }
-       else
-       {
-         alert(`You have successfully made a suggestion`);
-         this.getGasStation();
-       }
+      else{
+            price = sanitise_inputs(price);
+          fetch('http://localhost:9000/posts', {
+          body: JSON.stringify({
+              "gas_station_id":parseInt(this.id),
+              "post_type_id": 3,
+              "gas_price_suggestion":
+              {
+                
+                "gases":[
+                  {
+                    "gas_type_id":parseInt(type_id),
+                    "price":parseInt(price)
+                  }
+                ]
+              }     
+            }),
+          headers:
+          {
+            Authorization: 'Bearer ' + localStorage.refreshToken
+          },
+          method: "POST"
+        })
+        .then(result => result.json())
+        .then(data => {
+    
+          if(data.error!=null)
+          {
+            alert(data.error);
+          }
+          else
+          {
+            alert(`You have successfully made a suggestion`);
+            this.getGasStation();
+          }
+          
+        })
+        .catch(error => {
+          console.log(error)
+          alert(error);
+        })
+      }
       
-     })
-     .catch(error => {
-       console.log(error)
-       alert(error);
-     })
    },
 
   makeAmenitySuggestion(type_id)
   {
-    if(type_id==""){
+      if(type_id==""){
       alert("Please fill in all fields");
     }
-    type_id = sanitise_inputs(type_id);
+    else{
       fetch('http://localhost:9000/posts', {
        body: JSON.stringify({
            "gas_station_id":parseInt(this.id),
@@ -570,6 +575,7 @@ export default {
        console.log(error)
        alert(error);
      })
+    }
   }, 
 
    //Upvote a post
@@ -799,8 +805,11 @@ export default {
  margin-left: 30px;
  width: 50%;
  height: 20px;
- grid-template-columns: 10% 10% 10% 10% 10%;
+ grid-template-columns: 20% 10% 10% 15% 15%;
  text-align: center;
+}
+#fuelRow p{
+  margin-left: 30px;
 }
 #fuelRow i{
   font-size: 1.5em;
@@ -907,8 +916,21 @@ label {
  text-align: left;
  float: left;
 }
- 
 
+#ratingbox{
+  display: inline-block;
+  margin-top: 18px;
+  vertical-align: middle;
+  height: 28px;
+}
+#twocol{
+
+  display: grid; 
+  grid-template-columns: 10% auto ;
+  text-align: right;
+  column-gap: 5px;
+  margin-left: 20px;
+}
 
 div #sugg{
   display: grid;
