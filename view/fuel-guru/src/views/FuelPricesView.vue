@@ -83,12 +83,11 @@
             </p>
           </div>
           <div>
-            <p>
-              <b>E-10 87 Fuel</b> &nbsp;&nbsp;&nbsp; PRICE<br>
-              <b>E-10 90 Fuel</b> &nbsp;&nbsp;&nbsp; PRICE<br>
-              <b>Deisel Fuel </b> &nbsp;&nbsp;&nbsp; PRICE<br>
-              <b>ULSD Fuel</b> &nbsp;&nbsp;&nbsp; PRICE<br>
-            </p>
+            <p v-if="best87Price !== null"> <b>E-10 87 Fuel</b> &nbsp;&nbsp;&nbsp; ${{ best87Price }}</p>
+            <p v-else-if="best90Price !== null"> <b>E-10 90 Fuel</b> &nbsp;&nbsp;&nbsp; ${{ best90Price }}</p>
+            <p v-else-if="bestDieselPrice !== null"> <b>Deisel Fuel</b> &nbsp;&nbsp;&nbsp; ${{ bestDieselPrice }}</p>
+            <p v-else-if="bestULSDPrice !== null"> <b>ULSD Fuel</b> &nbsp;&nbsp;&nbsp; ${{ bestULSDPrice }} </p>
+            <p v-else></p>
           </div>
       </div>   
       </router-link>
@@ -110,6 +109,10 @@ var cheapest87 = ref({});
 var cheapest90 = ref({});
 var cheapestDiesel = ref({});
 var cheapestULSD = ref({});
+var bestPrices87= ref(null);
+var bestPrices90 = ref(null);
+var bestPricesDiesel = ref(null);
+var bestPricesULSD = ref(null);
 
 getCheapestPrices();
 
@@ -118,6 +121,10 @@ const cheapest87Info = computed(() => cheapest87.value);
 const cheapest90Info = computed(() => cheapest90.value);
 const cheapestDieselInfo = computed(() => cheapestDiesel.value);
 const cheapestULSDInfo = computed(() => cheapestULSD.value);
+const best87Price = computed(() => bestPrices87.value);
+const best90Price = computed(() => bestPrices90.value);
+const bestDieselPrice = computed(() => bestPricesDiesel.value);
+const bestULSDPrice = computed(() => bestPricesULSD.value);
 
 
 /**
@@ -144,19 +151,19 @@ function getCheapestPrices() {
       console.log(gasPrice);
       console.log(gasStationInfo);*/
 
-      if (gasType === '87'){
+      if (gasType === '87') {
         cheapest87.value = gasStationInfo;
         cheapest87.value['price'] = parseFloat(gasPrice).toFixed(2);
       }
-      if (gasType === '90'){
+      if (gasType === '90') {
         cheapest90.value = gasStationInfo;
         cheapest90.value['price'] = parseFloat(gasPrice).toFixed(2);
       }
-      if (gasType === 'Diesel'){
+      if (gasType === 'Diesel') {
         cheapestDiesel.value = gasStationInfo;
         cheapestDiesel.value['price'] = parseFloat(gasPrice).toFixed(2);        
       }
-      if (gasType === 'ULSD'){
+      if (gasType === 'ULSD') {
         cheapestULSD.value = gasStationInfo;
         cheapestULSD.value['price'] = parseFloat(gasPrice).toFixed(2);
       }
@@ -171,7 +178,7 @@ function getCheapestPrices() {
  * @returns the gas station data for each gas station that matches the word in the search bar
  */
 function getGasStations() {
-  if (parish.value ==='' && sortby.value ==='' && searchBar.value !==''){
+  if (searchBar.value !=='') {
     fetch('http://localhost:9000/gasstations/search', {
       body: JSON.stringify({
         'name': searchBar.value
@@ -182,8 +189,78 @@ function getGasStations() {
     .then(data => {
       searchBar.value = ''; //not sure why this doesn't work without it being cleared
       response.value = data.data;
-     console.log(response.value);
+
+      // getting the best prices for each gas type
+      for (let i = 0; i < response.value.length; i++) {
+        bestPrices87.value = null;
+        bestPrices90.value = null;
+        bestPricesDiesel.value = null;
+        bestPricesULSD.value = null;
+        let gasInfo = response.value[i].current_best_price.gases;
+
+        if (gasInfo !== null) {
+          for (let j = 0; j < gasInfo.length; j++) {
+            let gasType = gasInfo[j].gas_type.gas_type_name;
+            let gasPrice = gasInfo[j].price;
+            
+            if (gasType === '87') {
+              bestPrices87.value = parseFloat(gasPrice).toFixed(2);
+            }
+            if (gasType === '90') {
+              bestPrices90.value = parseFloat(gasPrice).toFixed(2);
+            }
+            if (gasType === 'Diesel') {
+              bestPricesDiesel.value = parseFloat(gasPrice).toFixed(2);      
+            }
+            if (gasType === 'ULSD') {
+              bestPricesULSD.value = parseFloat(gasPrice).toFixed(2);
+            }
+          }
+        } 
+      }
     })
+    .catch(error => {
+      console.log(error)
+    })
+  } else {
+    fetch('http://localhost:9000/gasstations', {
+      method: 'GET'
+    })
+    .then(result => result.json())
+    .then(data => {
+      searchBar.value = ' ';
+      searchBar.value = '';
+      response.value = data.data;
+      
+      // getting the best prices for each gas type
+      for (let i = 0; i < response.value.length; i++) {
+        bestPrices87.value = null;
+        bestPrices90.value = null;
+        bestPricesDiesel.value = null;
+        bestPricesULSD.value = null;
+        let gasInfo = response.value[i].current_best_price.gases;
+
+        if (gasInfo !== null) {
+          for (let j = 0; j < gasInfo.length; j++) {
+            let gasType = gasInfo[j].gas_type.gas_type_name;
+            let gasPrice = gasInfo[j].price;
+            
+            if (gasType === '87') {
+              bestPrices87.value = parseFloat(gasPrice).toFixed(2);
+            }
+            if (gasType === '90') {
+              bestPrices90.value = parseFloat(gasPrice).toFixed(2);
+            }
+            if (gasType === 'Diesel') {
+              bestPricesDiesel.value = parseFloat(gasPrice).toFixed(2);      
+            }
+            if (gasType === 'ULSD') {
+              bestPricesULSD.value = parseFloat(gasPrice).toFixed(2);
+            }
+          }
+        } 
+      }
+   })
     .catch(error => {
       console.log(error)
     })
@@ -193,7 +270,7 @@ function getGasStations() {
 /**
  * 
  * @param {integer} id 
- * Allowsthe user to get directions to the gas station with the best prices.
+ * Allows the user to get directions to the gas station with the best prices.
  */
 function goToGasStation (id) {
   router.push('/route/' + id);
