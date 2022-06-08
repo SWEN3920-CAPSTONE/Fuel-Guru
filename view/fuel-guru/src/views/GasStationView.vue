@@ -436,7 +436,7 @@ export default {
        }
        else
        {
-          alert(`You have successfully edited your comment`);
+          alert(`You have successfully edited your review`);
           this.getGasStation();
        }
     
@@ -469,7 +469,7 @@ export default {
        }
        else
        {
-          alert(`You have successfully deleted your comment`);
+          alert(`You have successfully deleted your review`);
           this.getGasStation();
        }
     
