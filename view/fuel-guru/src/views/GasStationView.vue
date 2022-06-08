@@ -241,6 +241,7 @@ the components are not yet created -->
            </div>
 
        </div> 
+       <br>
        <div id="sugg" v-show="this.hasToken">  
          <hr>
                 <h4>Leave a review!</h4> 
@@ -1022,6 +1023,17 @@ div #sugg{
     width:100px;
     margin-left: 20px;
   }
+  
+  #cardRow {
+  display: grid; 
+  grid-template-columns: 30% 30% 30% ;
+  
+  text-align: center;
+  vertical-align: center;
+  column-gap: 15px;
+  
+  }
+  
 }
 
  
