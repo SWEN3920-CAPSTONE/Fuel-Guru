@@ -63,8 +63,10 @@
     <label for='sortby'>SORT BY: </label>
     <select id='sortby' v-model='sortby'> 
       <option disabled>Please select one</option>
-      <option>Price</option>
-      <option>Location</option>
+      <option>87 Price</option>
+      <option>90 Price</option>
+      <option>Diesel Price</option>
+      <option>ULSD Price</option>
     </select>
   </div>  
   <div id='results-area'>           
