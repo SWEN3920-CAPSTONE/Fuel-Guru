@@ -92,8 +92,15 @@ for i in range(len(POST_TYPES)):
         db.session.commit()
     except IntegrityError:
         db.session.rollback()
-        POST_TYPES[i] = PostType.query.filter(
-            PostType.post_type_name == POST_TYPES[i].post_type_name).first()
+        try:
+            ptype = PostType.query.filter(
+                PostType.post_type_name == POST_TYPES[i].post_type_name).first()
+            ptype.is_votable = POST_TYPES[i].is_votable
+            ptype.post_type_name = POST_TYPES[i].post_type_name
+            db.session.commit()
+            POST_TYPES[i] = ptype
+        except:
+            db.session.rollback()
     except SQLAlchemyError as e:
         db.session.rollback()
     else:
