@@ -92,7 +92,7 @@ the components are not yet created -->
            </ul>
  
            <div class="list-group-comments" v-else>
-                 <p>There are no highest upvoted comments posted at this time.</p>
+                 <p>There are no highest upvoted gas price suggestions posted at this time.</p>
            </div>
       
            <button v-show="this.hasToken" @click="show_vote_fuelprices=!show_vote_fuelprices" type="button" class="btn">View All Gas Price Suggestions</button>
@@ -126,7 +126,7 @@ the components are not yet created -->
               
          </div>
          <div v-else>
-           <p>There are no comments posted at this time.</p>
+           <p>There are no gas price suggestions posted at this time.</p>
          </div>
            <br>
          <div id="sugg" >
@@ -237,7 +237,7 @@ the components are not yet created -->
                </ul>         
            </div>
            <div class="list-group-comments" v-else>
-             <p>There are no comments posted at this time.</p>
+             <p>There are no reviews posted at this time.</p>
            </div>
 
        </div> 
