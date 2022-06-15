@@ -92,7 +92,7 @@ the components are not yet created -->
            </ul>
  
            <div class="list-group-comments" v-else>
-                 <p>There are no comments posted at this time.</p>
+                 <p>There are no highest upvoted comments posted at this time.</p>
            </div>
       
            <button v-show="this.hasToken" @click="show_vote_fuelprices=!show_vote_fuelprices" type="button" class="btn">View All Gas Price Suggestions</button>
@@ -103,21 +103,26 @@ the components are not yet created -->
  
          <div  v-if="allsuggestedPrices.length>0">
                 
-               <div id="fuelRow" v-for="gasArray in allsuggestedPrices" :key="gasArray.id">
-                       <h5 id="headline">{{gasArray.creator.username}}</h5>
+               <div  v-for="gasArray in allsuggestedPrices" :key="gasArray.id">
+                      
  
-                       <div  v-for="gas in gasArray.gases" :key="gas.id">
-                           <h4> {{gas.gas_type.gas_type_name}} </h4> 
-                           <h4 id="headline"> ${{gas.price}} </h4>
-                           
+                       <div id="fuelRow" v-for="gas in gasArray.gases" :key="gas.id">
+                          <h5 id="headline">{{gasArray.creator.username}} </h5>
+                           <h5 id="headline">{{gas.gas_type.gas_type_name}}</h5>
+                           <h5 id="headline"> ${{gas.price}} </h5>
+                           <i class="fa fa-thumbs-up" id="thumbs" @click="upvote(gasArray.id)">: {{gasArray.upvote_count}} &emsp;&emsp; </i>
+                              
+                           <i class="fa fa-thumbs-down" id="thumbs" @click="downvote(gasArray.id)">: {{gasArray.downvote_count}}  </i>
+                          <hr>
+       
                        </div>
-               <h5><i class="fa fa-thumbs-up" id="thumbs" @click="upvote(gasArray.id)"></i>
-               : {{gasArray.upvote_count}} &emsp;&emsp; 
-               <i class="fa fa-thumbs-down" id="thumbs" @click="downvote(gasArray.id)"></i>{{gasArray.downvote_count}}  </h5>
+               
                &emsp; <!--functions to be added in-->
                
                         
                </div>
+               <br>
+               <p>NOTE: You can suggest the correct gas price if it does not exist. If the price was submitted by another user, simply upvote the price by selecting the thumbs up icon.</p>
               
          </div>
          <div v-else>
@@ -128,22 +133,22 @@ the components are not yet created -->
            <h5>Make a gas price suggestion!</h5>
  
            <!-- Selection of Gas Types -->
-           <div id="gas-entry-grid">
-                  <div>
+           
+                  
                    <select id="sugg-type" v-model="sugg_type">
                      <option value="" disabled selected hidden>Select a Gas Type</option>
                      <option v-for="gas in gasTypes" :key="gas.id" :value="gas.id" placeholder="Select the Gas Type">{{gas.gas_type_name}}</option>
                    </select>
                    <br>
-                   <br>
+                   
                    <input type="text"  id="sugg-price" placeholder="Enter suggested gas price" v-model="sugg_price">
-                 </div>
+                 
  
-                 <div>
+                    <br>
                    <button id="search-btn" @click="makeGasStationSuggestion(sugg_price,sugg_type)">Suggest Price</button>
-                 </div>
+                
  
-           </div>
+           
          </div>
        </div>
         
@@ -174,23 +179,16 @@ the components are not yet created -->
               
   
               <div id="commentRow">
-                  <div>
-                    <h4 style="text-align:left" >Suggest an Amenity</h4>
-                    <div id="amenity-entry-grid">
-                      <div>
+                    <h4 >Suggest an Amenity</h4>
+                      
                         <select id="sugg-type" v-model="amenity_type">
                           <option value="" disabled selected hidden>Select an Amenity Type</option>
                           <option v-for="amenity in amenityTypes" :key="amenity.id" :value="amenity.id" placeholder="Select the Amenity Type">{{amenity.amenity_name}}</option>
                         </select>
-                        
-                      </div>
-  
-                      <div>
+                        <br>
+                      
                         <button id="search-btn" @click="makeAmenitySuggestion(amenity_type)">Suggest Amenity</button>
-                      </div>
-  
-                    </div>
-                  </div>
+                      
               </div>
            </div>
        </div>
@@ -236,11 +234,22 @@ the components are not yet created -->
                    </li>
                   
                   
-               </ul>
-             <div id="sugg" v-show="this.hasToken">   
-                 <input type="text"  id="commentEntry" placeholder="Leave a comment..." v-model="body">
+               </ul>         
+           </div>
+           <div class="list-group-comments" v-else>
+             <p>There are no comments posted at this time.</p>
+           </div>
 
-                <select v-model="sugg_rating">
+       </div> 
+       <br>
+       <div id="sugg" v-show="this.hasToken">  
+         <hr>
+                <h4>Leave a review!</h4> 
+
+                <!--- Selection of Rating -->
+                <div id="twocol">
+                <h5>Rating&emsp; </h5>
+                <select id="ratingbox" v-model="sugg_rating">
                    <option value="" selected disabled hidden>Rate the Gas Station</option>
                     <option value="1" >1</option>
                     <option value="2" >2</option>
@@ -248,18 +257,17 @@ the components are not yet created -->
                     <option value="4" >4</option>
                     <option value="5" >5</option>
                 </select>
+                </div>
+                <br>
+                 <input type="text"  id="commentEntry" placeholder="Leave a comment..." v-model="body">
+
+                
                 
                  <button id="comment-btn" @click="makeNewReview(body,sugg_rating)">Add Review</button>
+                 
                  <br>
                  <br>
-                 <br>
-             </div>           
-           </div>
-           <div class="list-group-comments" v-else>
-             <p>There are no comments posted at this time.</p>
-           </div>
-          
-       </div> 
+             </div>  
            <br>
           
        </div>
@@ -268,7 +276,9 @@ the components are not yet created -->
  
 <script>
 //access control issue '(Access-Control-Allow-Origin)
-import moment from '../../node_modules/moment';
+import moment from 'moment';
+import {sanitise_inputs, isEmpty} from '../assets/scripts/validate.js';
+
 export default {
  
  data() {
@@ -343,48 +353,63 @@ export default {
    },
  
    makeNewReview(body,sugg_rating){
-       fetch('http://localhost:9000/posts', {
-       body: JSON.stringify({
-           "gas_station_id":parseInt(this.id),
-           "post_type_id": 1,
-          
-           "review":
-          
-           {
-             "body":body,
-             "rating_val":parseInt(sugg_rating)
-           }
-         }),
-       headers:
-       {
-         Authorization: 'Bearer ' + localStorage.refreshToken
-       },
-       method: "POST"
-     })
-     .then(result => result.json())
-     .then(data => {
-       this.post=data.data;
 
-       if(data.error!=null)
-       {
-         alert(data.error);
-       }
-       else
-       {
-          alert(`You have successfully made a review`);
-          this.getGasStation();
-       }
-    
-     })
-     .catch(error => {
-       console.log(error)
-       alert(error);
-     })
+      
+      if(body=="" || sugg_rating==""){
+        alert("Please fill in all fields");
+      }
+      else{
+          body = sanitise_inputs(body);
+        fetch('http://localhost:9000/posts', {
+        body: JSON.stringify({
+            "gas_station_id":parseInt(this.id),
+            "post_type_id": 1,
+            
+            "review":
+            
+            {
+              "body":body,
+              "rating_val":parseInt(sugg_rating)
+            }
+          }),
+        headers:
+        {
+          Authorization: 'Bearer ' + localStorage.refreshToken
+        },
+        method: "POST"
+      })
+      .then(result => result.json())
+      .then(data => {
+        this.post=data.data;
+
+        if(data.error!=null)
+        {
+          alert(data.error);
+        }
+        else
+        {
+            alert(`You have successfully made a review`);
+            this.getGasStation();
+        }
+      
+      })
+      .catch(error => {
+        console.log(error)
+        alert(error);
+      })
+      }
+      
    },
  
    editComment(commentId, currComment,currRating){
        let newComment = prompt("Please enter your edited comment", currComment);
       let newRating = prompt("Please enter your edited comment", currRating);
+        if(newComment=="" || newRating==""){
+          alert("Please fill in all fields");
+        }
+        newComment = sanitise_inputs(newComment);
+        newRating = sanitise_inputs(newRating);
+
        fetch('http://localhost:9000/posts', {
        body: JSON.stringify({
            "post_id": parseInt(commentId),
@@ -411,7 +436,7 @@ export default {
        }
        else
        {
-          alert(`You have successfully edited your comment`);
+          alert(`You have successfully edited your review`);
           this.getGasStation();
        }
     
@@ -444,7 +469,7 @@ export default {
        }
        else
        {
-          alert(`You have successfully deleted your comment`);
+          alert(`You have successfully deleted your review`);
           this.getGasStation();
        }
     
@@ -457,49 +482,60 @@ export default {
  
    makeGasStationSuggestion(price,type_id)
    {
-       fetch('http://localhost:9000/posts', {
-       body: JSON.stringify({
-           "gas_station_id":parseInt(this.id),
-           "post_type_id": 3,
-           "gas_price_suggestion":
-           {
-            
-             "gases":[
-               {
-                 "gas_type_id":parseInt(type_id),
-                 "price":parseInt(price)
-               }
-             ]
-           }     
-         }),
-       headers:
-       {
-         Authorization: 'Bearer ' + localStorage.refreshToken
-       },
-       method: "POST"
-     })
-     .then(result => result.json())
-     .then(data => {
- 
-       if(data.error!=null)
-       {
-         alert(data.error);
-       }
-       else
-       {
-         alert(`You have successfully made a suggestion`);
-         this.getGasStation();
-       }
+      if(price=="" || type_id==""){
+        alert("Please fill in all fields");
+      }
+      else{
+            price = sanitise_inputs(price);
+          fetch('http://localhost:9000/posts', {
+          body: JSON.stringify({
+              "gas_station_id":parseInt(this.id),
+              "post_type_id": 3,
+              "gas_price_suggestion":
+              {
+                
+                "gases":[
+                  {
+                    "gas_type_id":parseInt(type_id),
+                    "price":parseInt(price)
+                  }
+                ]
+              }     
+            }),
+          headers:
+          {
+            Authorization: 'Bearer ' + localStorage.refreshToken
+          },
+          method: "POST"
+        })
+        .then(result => result.json())
+        .then(data => {
+    
+          if(data.error!=null)
+          {
+            alert(data.error);
+          }
+          else
+          {
+            alert(`You have successfully made a suggestion`);
+            this.getGasStation();
+          }
+          
+        })
+        .catch(error => {
+          console.log(error)
+          alert(error);
+        })
+      }
       
-     })
-     .catch(error => {
-       console.log(error)
-       alert(error);
-     })
    },
 
   makeAmenitySuggestion(type_id)
   {
+      if(type_id==""){
+      alert("Please fill in all fields");
+    }
+    else{
       fetch('http://localhost:9000/posts', {
        body: JSON.stringify({
            "gas_station_id":parseInt(this.id),
@@ -534,6 +570,7 @@ export default {
        console.log(error)
        alert(error);
      })
+    }
   }, 
 
    //Upvote a post
@@ -550,14 +587,14 @@ export default {
      })
      .then(result => result.json())
      .then(data => {
-      
+      console.log(data);
        if(data.error!=null)
        {
          alert(data.error);
        }
        else
        {
-         //alert(`You have successfully toggled your upvote`);
+         alert(`You have successfully toggled your upvote`);
          this.getGasStation(); //Update values
          //this.$router.go()
        }
@@ -590,7 +627,7 @@ export default {
        }
        else
        {
-         //alert(`You have successfully toggled your downvote`);
+         alert(`You have successfully toggled your downvote`);
          this.getGasStation();
        }
     
@@ -744,7 +781,37 @@ export default {
 }
 #headline h5{
  font-weight: bold;
+}
+
+#thumbs{
+ font-size:1em;
+ color:#AA1414;
+ text-align: right;
+ margin-top: 15px;
+}
+#thumbs:hover{
+ cursor: pointer;
+ color: #8a1010;
  
+}
+
+
+#fuelRow{
+ display: grid; 
+ margin-left: 30px;
+ width: 50%;
+ height: 20px;
+ grid-template-columns: 15% 10% 10% 15% 15%;
+ text-align: center;
+}
+
+
+#fuelRow p{
+  margin-left: 30px;
+}
+#fuelRow i{
+  font-size: 1.5em;
+  height: 20px;
 }
  
 #cardRow3 {
@@ -806,11 +873,7 @@ label {
  float: left;
 }
  
-#fuelRow{
- display: grid; 
- grid-template-columns: auto auto auto auto auto auto;
- text-align: center;
-}
+
  
 #commentRow{
  display: grid; 
@@ -851,40 +914,136 @@ label {
  text-align: left;
  float: left;
 }
- 
-#gas-entry-grid{
- display: grid;
- grid-template-columns: 50% 30%;
- column-gap: 10px;
- row-gap: 0px;
- 
+
+#ratingbox{
+  display: inline-block;
+  margin-top: 18px;
+  vertical-align: middle;
+  height: 28px;
 }
- 
+#twocol{
+
+  display: grid; 
+  grid-template-columns: 20% auto ;
+  text-align: right;
+  column-gap: 5px;
+  margin-left: 20px;
+}
+
+div #sugg{
+  display: grid;
+  grid-template-columns: 50%;
+  width:90%;
+  vertical-align: middle;
+  margin-left: 20px;
+}
 #sugg {
  text-align: left;
  padding:10px;
  }
- #sugg-type{
+
+ div #sugg button{
+    width:20%;
+    
+  }
+
+  #commentRow div button{
+    vertical-align: center;
+  }
+
+   #sugg-type{
   width: 310px;
   float:left;
 }
+  #commentRow #search-btn{
+    width: 310px;
+  }
+  #commentRow h4{
+    text-align: left;
+  }
+
+ @media only screen and (max-width: 890px) {
+  #fuelRow{
+    display: grid;
+    width: 70%; 
+    grid-template-columns: 20% 10% 10% 15% 15% ;
+    height: 40px;
+    text-align: center;
+    column-gap: 25px;
+  }
+
+  div #sugg{
+    display: grid;
+    border-top: 20px black;
+    grid-template-columns: 80%;
+    width:90%;
+    vertical-align: middle;
+    text-align: center;
+    margin-left: 50px;
+  }
+
+  div #sugg select, div #sugg input{
+    width:100%;
+    vertical-align: middle;
+    text-align: center;
+  }
+  div #sugg button{
+    width:100%;
+    
+  }
+  #commentRow #search-btn{
+    width: 100%;
+  }
+
+  div #sugg input{
+    width:96%;
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  #commentRow h4{
+    text-align: center;
+  }
+
+  #commentRow{
+    text-align: center;
+    margin-left: 50px;
+  }
+
+  #sugg-type{
+    width: 100%;
+    float:left;
+  }
+
+  #twocol input{
+    width:100%;
+    margin-left: 10px;
+  }
+  #sugg input{
+    width:100px;
+    margin-left: 20px;
+  }
+  
+  #cardRow {
+  display: grid; 
+  grid-template-columns: 30% 30% 30% ;
+  
+  text-align: center;
+  vertical-align: center;
+  column-gap: 15px;
+  
+  }
+  
+}
+
  
 #sugg-price {
  width: 300px;
  float:left;
 }
  
-#thumbs{
- font-size:25px;
- color:#AA1414;
- text-align: right;
- margin-top: 15px;
-}
-#thumbs:hover{
- cursor: pointer;
- color: #8a1010;
- 
-}
+
+
  
 #comment-btn {
  border: 2px solid #AA1414;
