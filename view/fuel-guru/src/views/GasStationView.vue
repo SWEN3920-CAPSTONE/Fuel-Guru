@@ -92,7 +92,7 @@ the components are not yet created -->
            </ul>
  
            <div class="list-group-comments" v-else>
-                 <p>There are no highest upvoted comments posted at this time.</p>
+                 <p>There are no highest upvoted gas price suggestions posted at this time.</p>
            </div>
       
            <button v-show="this.hasToken" @click="show_vote_fuelprices=!show_vote_fuelprices" type="button" class="btn">View All Gas Price Suggestions</button>
@@ -121,33 +121,34 @@ the components are not yet created -->
                
                         
                </div>
-               <p>NOTE: You can suggest the correct gas price if it does not exist. If the price was submitted by another user, simply upvote the price by selecting.</p>
+               <br>
+               <p>NOTE: You can suggest the correct gas price if it does not exist. If the price was submitted by another user, simply upvote the price by selecting the thumbs up icon.</p>
               
          </div>
          <div v-else>
-           <p>There are no comments posted at this time.</p>
+           <p>There are no gas price suggestions posted at this time.</p>
          </div>
            <br>
          <div id="sugg" >
            <h5>Make a gas price suggestion!</h5>
  
            <!-- Selection of Gas Types -->
-           <div id="gas-entry-grid">
-                  <div>
+           
+                  
                    <select id="sugg-type" v-model="sugg_type">
                      <option value="" disabled selected hidden>Select a Gas Type</option>
                      <option v-for="gas in gasTypes" :key="gas.id" :value="gas.id" placeholder="Select the Gas Type">{{gas.gas_type_name}}</option>
                    </select>
                    <br>
-                   <br>
+                   
                    <input type="text"  id="sugg-price" placeholder="Enter suggested gas price" v-model="sugg_price">
-                 </div>
+                 
  
-                 <div>
+                    <br>
                    <button id="search-btn" @click="makeGasStationSuggestion(sugg_price,sugg_type)">Suggest Price</button>
-                 </div>
+                
  
-           </div>
+           
          </div>
        </div>
         
@@ -178,23 +179,16 @@ the components are not yet created -->
               
   
               <div id="commentRow">
-                  <div>
-                    <h4 style="text-align:left" >Suggest an Amenity</h4>
-                    <div id="amenity-entry-grid">
-                      <div>
+                    <h4 >Suggest an Amenity</h4>
+                      
                         <select id="sugg-type" v-model="amenity_type">
                           <option value="" disabled selected hidden>Select an Amenity Type</option>
                           <option v-for="amenity in amenityTypes" :key="amenity.id" :value="amenity.id" placeholder="Select the Amenity Type">{{amenity.amenity_name}}</option>
                         </select>
-                        
-                      </div>
-  
-                      <div>
+                        <br>
+                      
                         <button id="search-btn" @click="makeAmenitySuggestion(amenity_type)">Suggest Amenity</button>
-                      </div>
-  
-                    </div>
-                  </div>
+                      
               </div>
            </div>
        </div>
@@ -243,10 +237,11 @@ the components are not yet created -->
                </ul>         
            </div>
            <div class="list-group-comments" v-else>
-             <p>There are no comments posted at this time.</p>
+             <p>There are no reviews posted at this time.</p>
            </div>
 
        </div> 
+       <br>
        <div id="sugg" v-show="this.hasToken">  
          <hr>
                 <h4>Leave a review!</h4> 
@@ -441,7 +436,7 @@ export default {
        }
        else
        {
-          alert(`You have successfully edited your comment`);
+          alert(`You have successfully edited your review`);
           this.getGasStation();
        }
     
@@ -474,7 +469,7 @@ export default {
        }
        else
        {
-          alert(`You have successfully deleted your comment`);
+          alert(`You have successfully deleted your review`);
           this.getGasStation();
        }
     
@@ -800,14 +795,17 @@ export default {
  
 }
 
+
 #fuelRow{
  display: grid; 
  margin-left: 30px;
  width: 50%;
  height: 20px;
- grid-template-columns: 20% 10% 10% 15% 15%;
+ grid-template-columns: 15% 10% 10% 15% 15%;
  text-align: center;
 }
+
+
 #fuelRow p{
   margin-left: 30px;
 }
@@ -926,7 +924,7 @@ label {
 #twocol{
 
   display: grid; 
-  grid-template-columns: 10% auto ;
+  grid-template-columns: 20% auto ;
   text-align: right;
   column-gap: 5px;
   margin-left: 20px;
@@ -943,16 +941,108 @@ div #sugg{
  text-align: left;
  padding:10px;
  }
- #sugg-type{
+
+ div #sugg button{
+    width:20%;
+    
+  }
+
+  #commentRow div button{
+    vertical-align: center;
+  }
+
+   #sugg-type{
   width: 310px;
   float:left;
 }
+  #commentRow #search-btn{
+    width: 310px;
+  }
+  #commentRow h4{
+    text-align: left;
+  }
+
+ @media only screen and (max-width: 890px) {
+  #fuelRow{
+    display: grid;
+    width: 70%; 
+    grid-template-columns: 20% 10% 10% 15% 15% ;
+    height: 40px;
+    text-align: center;
+    column-gap: 25px;
+  }
+
+  div #sugg{
+    display: grid;
+    border-top: 20px black;
+    grid-template-columns: 80%;
+    width:90%;
+    vertical-align: middle;
+    text-align: center;
+    margin-left: 50px;
+  }
+
+  div #sugg select, div #sugg input{
+    width:100%;
+    vertical-align: middle;
+    text-align: center;
+  }
+  div #sugg button{
+    width:100%;
+    
+  }
+  #commentRow #search-btn{
+    width: 100%;
+  }
+
+  div #sugg input{
+    width:96%;
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  #commentRow h4{
+    text-align: center;
+  }
+
+  #commentRow{
+    text-align: center;
+    margin-left: 50px;
+  }
+
+  #sugg-type{
+    width: 100%;
+    float:left;
+  }
+
+  #twocol input{
+    width:100%;
+    margin-left: 10px;
+  }
+  #sugg input{
+    width:100px;
+    margin-left: 20px;
+  }
+  
+  #cardRow {
+  display: grid; 
+  grid-template-columns: 30% 30% 30% ;
+  
+  text-align: center;
+  vertical-align: center;
+  column-gap: 15px;
+  
+  }
+  
+}
+
  
 #sugg-price {
  width: 300px;
  float:left;
 }
  
+
 
  
 #comment-btn {
