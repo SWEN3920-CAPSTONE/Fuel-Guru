@@ -236,17 +236,19 @@ def add_gasstation_manager():
         - 500 If the server failed to carry out the request 
     """
     try:
-        data = SignupSchema(exclude=('password',)).dump(get_request_body())
+        data = SignupSchema(exclude=('password','username')).dump(get_request_body())
         passwd = uuid4().hex
+        uname = uuid4().hex
 
         user_type = UserType.query.filter_by(
             user_type_name='Gas Station Manager').first()
 
-        manager = User(**data, password=passwd, user_type=user_type)
+        manager = User(**data, password=passwd,username=uname, user_type=user_type)
+        
         db.session.add(manager)
         db.session.commit()
 
-        change_link = generate_reset_link(manager)
+        change_link = generate_reset_link(manager, is_manager=True)
 
         # very basic, no styling lol
         ehtml = f"""

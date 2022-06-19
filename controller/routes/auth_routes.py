@@ -1,5 +1,4 @@
 from datetime import datetime
-from hashlib import sha256
 from pprint import pprint
 
 import jwt
@@ -7,7 +6,7 @@ from config import app, db, mail
 from controller.routes.token import gen_jwts, token_required
 from controller.utils import (flash_errors, generate_reset_link,
                               get_request_body)
-from controller.validation.forms import ResetPassword
+from controller.validation.forms import ResetPassword, ResetPasswordManager
 from controller.validation.schemas import SigninSchema, SignupSchema
 from flask import Blueprint, flash, g, jsonify, render_template, request
 from flask_jwt_extended import get_jwt
@@ -259,6 +258,78 @@ def reset_user_password(token):
             flash_errors(form)
 
     return render_template('reset_password.html', form=form, token=token)
+
+
+@auth_api.route('/resetmanpsswd/<string:token>', methods=['POST', 'GET'])
+def reset_manager_info(token):
+    """
+    Allows first time managers to reset their password and username
+
+    Args:
+        token (str):
+            The token in the link sent by the  route
+
+    Body:
+        - username (str):
+            The user's new username
+            
+        - password (str):
+            The user's new password
+
+        - conf_password (str):
+            The user's new password again
+
+    Returns:
+        - 200 if successful
+        - 401 if the token is invalid due to malformation or expiry
+        - 500 if something else goes wrong
+    """
+    form = ResetPasswordManager()
+    try:
+        dtoken = jwt.decode(token, app.config.get(
+            'SECRET_KEY'), algorithms=['HS256'])
+
+    except jwt.ExpiredSignatureError as e:
+        return jsonify(error='The reset token has expired'), 401
+
+    except:
+        return jsonify(error='Something went wrong'), 401
+
+    if InvalidToken.query.get(dtoken.get('jti')):
+        return jsonify(error='Invalid reset token'), 401
+
+    user = User.query.get(dtoken.get('sub'))
+
+    if not user:
+        return jsonify(error='This user does not exist'), 401
+
+    if user.deleted_at:
+        return jsonify(error='This user has been deleted'), 401
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            if form.password.data != form.conf_password.data:
+                flash('The passwords do not match', 'error')
+            else:
+                try:
+                    user.password = form.password.data
+                    user.username = form.username.data
+                    db.session.commit()
+                except:
+                    form.username.errors.append('This username is already taken')
+                    flash_errors(form)
+                else:
+                    inv_token = InvalidToken(dtoken.get(
+                        'jti'), datetime.fromtimestamp(dtoken.get('exp')))
+
+                    db.session.add(inv_token)
+                    db.session.commit()
+
+                    return jsonify(message='Username and password reset success'), 200
+        else:
+            flash_errors(form)
+
+    return render_template('reset_password_manager.html', form=form, token=token)
 
 
 def _is_valid_refresh_token(payload: dict):

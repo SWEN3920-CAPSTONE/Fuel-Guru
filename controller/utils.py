@@ -17,7 +17,7 @@ def flash_errors(form):
                 error
             ), 'error')
             
-def generate_reset_link(user, html=True):
+def generate_reset_link(user,time_delta=30, html=True, is_manager=False):
     """
     Generate a password reset link
 
@@ -36,16 +36,16 @@ def generate_reset_link(user, html=True):
         'type': 'reset',
         'sub': user.id,
         'jti': uuid4().hex,
-        'exp': datetime.utcnow() + timedelta(minutes=30)
+        'exp': datetime.utcnow() + timedelta(minutes=time_delta)
     }, key=app.config.get('SECRET_KEY'))
 
-    link = f"{request.root_url}/{url_for('auth_api.reset_user_password', token=change_token)}"
+    link = f"{request.root_url}/{url_for('auth_api.reset_user_password' if is_manager==False else 'auth_api.reset_manager_info', token=change_token)}"
 
     section = f"""
-    <br><br>You may change your password by using the link below:
+    <br><br>You may make the change by using the link below:
     <br><a href="{link}"> {link}</a>
         
-    <br><br> This link will be valid for 30 minutes
+    <br><br> This link will be valid for {time_delta} minutes
     
     <br><br>If this was not done by you, you may ignore this email.
     """
