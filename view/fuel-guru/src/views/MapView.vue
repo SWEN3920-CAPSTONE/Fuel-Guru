@@ -51,7 +51,7 @@ export default {
             var myPosition = new google.maps.LatLng(parseFloat(mylat), parseFloat(mylng))
             this.mapCenter = myPosition
             console.log(myPosition)    
-            fetch('http://localhost:9000/gasstations/search/nearby', {
+            fetch(import.meta.env.VITE_HEROKULINK + '/gasstations/search/nearby', {
               body: JSON.stringify({
               'lat': mylat,
               'lng': mylng
@@ -62,7 +62,7 @@ export default {
               if (result.status == 404){
                 this.initMap()
                 this.setMarker(myPosition, 'You')
-                alert('You are not nearby (within 1500 meters of) any gas stations.')
+                alert('You are not nearby (within 5000 meters of) any gas stations.')
               }
               else if(result.status == 200){
                 result = await result.json()

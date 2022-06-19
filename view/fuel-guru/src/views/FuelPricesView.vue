@@ -179,7 +179,7 @@ function getCheapestPrices() {
  */
 function getGasStations() {
   if (searchBar.value !=='') {
-    fetch('http://localhost:9000/gasstations/search', {
+    fetch( import.meta.env.VITE_HEROKULINK + '/gasstations/search', {
       body: JSON.stringify({
         'name': searchBar.value
       }),
