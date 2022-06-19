@@ -14,7 +14,7 @@ url_route = app.config.get('URL_ROUTE')
 def init_geolocation():
     try:
         #10 Gas Stations 1500 meters from the coodinates 18.024960, -76.796557 (New Kingston Area)
-        res_init = requests.get(url + 'location=18.024960%2C-76.796557' + '&radius=1500' + '&type=gas_station' + '&key=' + API_KEY)
+        res_init = requests.get(url + 'location=18.024960%2C-76.796557' + '&radius=5000' + '&type=gas_station' + '&key=' + API_KEY)
         if res_init.json()['status'] == 'OK':
             return jsonify(message=res_init.json()['status'], data=res_init.json()['results']), 200
 
@@ -33,7 +33,7 @@ def nearby_gasstation(lat, lng):
 #Gas Stations relative to user's currect location
     #Contains gas stations nearby relative to the current user's location
     try:
-        res_current = requests.get(url + 'location=' + str(lat) +'%2C'+ str(lng) + '&radius=1500' + '&type=gas_station' + '&key=' + API_KEY)
+        res_current = requests.get(url + 'location=' + str(lat) +'%2C'+ str(lng) + '&radius=5000' + '&type=gas_station' + '&key=' + API_KEY)
         if res_current.json()['status'] == 'OK':
             return jsonify(message=res_current.json()['status'], data=res_current.json()['results']), 200
         elif res_current.json()['status'] == 'ZERO_RESULTS':
