@@ -1,12 +1,9 @@
 from datetime import date, datetime, timedelta
-from functools import reduce
 from config import db
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy import desc, or_, and_, text
+from sqlalchemy import desc, and_, select
 from sqlalchemy.sql import func
 from sqlalchemy.orm import aliased
-
-
 
 
 class GasStation(db.Model):
@@ -53,6 +50,7 @@ class GasStation(db.Model):
             .from_self(Review)\
             .join(GasStation.all_posts)\
             .filter(Post.post_type_id == p_type.id)\
+            .where(Post.deleted_at==None)\
             .join(Review, and_(
                 Review.post_id == Post.id,
                 Review.last_edited == Post.last_edited))
@@ -124,14 +122,9 @@ class GasStation(db.Model):
         
         from model.posts import Post, AmenityTag
         
-        today = datetime.fromisoformat(date.today().isoformat())
-
-        this_week = today - timedelta(days=7)
-        
         q = GasStation.query.filter(GasStation.id == self.id)\
             .from_self(AmenityTag)\
             .join(GasStation.all_posts)\
-            .filter(Post.last_edited >= this_week)\
             .where(Post.deleted_at==None)\
             .join(AmenityTag, and_(
                 AmenityTag.post_id == Post.id,
@@ -176,46 +169,51 @@ class GasStation(db.Model):
 
 
     def _filter_date_and_votes(self,cond):
-        from model.posts import GasPriceSuggestion, Post, upvoted_posts, downvoted_posts
+        from model.posts import GasPriceSuggestion, Post, upvoted_posts, downvoted_posts, GasType, Gas
         
-        upvoted_count = GasStation.query.filter(GasStation.id == self.id)\
-            .from_self(GasPriceSuggestion, func.count(upvoted_posts.c.posts).label('upvs'))\
-            .join(GasStation.all_posts)\
-            .where(Post.deleted_at==None)\
-            .join(GasPriceSuggestion, and_(
-                GasPriceSuggestion.post_id == Post.id,
-                GasPriceSuggestion.last_edited == Post.last_edited))\
-            .join(upvoted_posts).group_by(GasPriceSuggestion)
+        dwn = aliased(
+                select(
+                    func.count(downvoted_posts.c.posts).label('downvs'),
+                    downvoted_posts.c.posts.label('downid'))
+                .where(
+                    downvoted_posts.c.posts == Post.id)
+                .group_by(downvoted_posts.c.posts).subquery(), name='downvote_count')
 
-        upvoted_count = aliased(upvoted_count.subquery(), name='upvotec')
+        upv = aliased(
+            select(
+                func.count(upvoted_posts.c.posts).label('upvs'),
+                upvoted_posts.c.posts.label('upid'))
+            .where(upvoted_posts.c.posts == Post.id)
+            .group_by(upvoted_posts.c.posts).subquery(), name='upvote_count')
 
-        downvoted_count = GasStation.query.filter(GasStation.id == self.id)\
-            .from_self(GasPriceSuggestion, func.count(downvoted_posts.c.posts).label('downvs'))\
-            .join(GasStation.all_posts)\
-            .where(Post.deleted_at==None)\
-            .join(GasPriceSuggestion, and_(
-                GasPriceSuggestion.post_id == Post.id,
-                GasPriceSuggestion.last_edited == Post.last_edited))\
-            .join(downvoted_posts).group_by(GasPriceSuggestion)
-
-        downvoted_count = aliased(downvoted_count.subquery(), name='downvotec')
-
-        q = db.session.query(GasPriceSuggestion)\
+        net = aliased(select(
+            (func.coalesce(upv.c.upvs, 0) -
+                func.coalesce(dwn.c.downvs, 0)).label('net_v'),
+            upv.c.upid.label('vid'))
             .select_from(
-                upvoted_count.join(
-                    downvoted_count,
-                    downvoted_count.c.post_id == upvoted_count.c.post_id,
-                    full=True)
-                .join(GasPriceSuggestion,
-                      or_(
-                          GasPriceSuggestion.post_id == downvoted_count.c.post_id,
-                          GasPriceSuggestion.post_id == upvoted_count.c.post_id)))\
-                .filter(cond)\
-            .order_by(desc(
-                func.coalesce(text('upvs'), 0) - func.coalesce(text('downvs'), 0)))\
-            .limit(1)
+            dwn.join(upv, dwn.c.downid == upv.c.upid, full=True)).subquery(), name='net_votes')
 
-        try:
-            return db.session.execute(q).first()[0]
-        except:
-            return None
+        gas_types = GasType.query.all()
+        res = []
+        
+        for gtype in gas_types:
+            gas = GasStation.query.filter(GasStation.id == self.id)\
+                .from_self(Gas)\
+                .join(GasStation.all_posts)\
+                .join(GasPriceSuggestion, and_(
+                    GasPriceSuggestion.post_id == Post.id,
+                    GasPriceSuggestion.last_edited == Post.last_edited))\
+                .where(Post.deleted_at==None)\
+                .join(Gas, GasPriceSuggestion.id==Gas.gas_post_id)\
+                .filter(Gas.gas_type_id == gtype.id)\
+                .join(net, net.c.vid == Post.id, full=True)\
+                .filter(net.c.net_v >0)\
+                .filter(cond)\
+                .order_by(desc(net.c.net_v))\
+                .order_by(desc(Post.last_edited))\
+                .limit(1).first()
+            if gas:
+                res.append(gas)
+
+        return res
+        

@@ -1,5 +1,3 @@
-import base64
-
 from config import ma
 from marshmallow import fields, post_dump, post_load
 
@@ -124,7 +122,7 @@ class PostSchema(ma.SQLAlchemyAutoSchema):
         include_relationships = True
         load_instance = True
         transient = True
-        # exclude = ('gas_station',)#'downvoters','upvoters')
+        exclude = ('downvoters','upvoters')
 
     post_type = fields.Nested(
         'PostTypeSchema', exclude=('allowed_user_types',))
@@ -213,7 +211,7 @@ class GasStationSchema(ma.SQLAlchemyAutoSchema):
     manager = fields.Nested(UserSchema, exclude=('managed_gasstations',))
 
     current_best_price = fields.Nested(
-        GasPriceSuggestionSchema, dump_only=True, exclude=('post.gas_station',))
+        GasSchema,many=True, dump_only=True)
 
     old_best_price = fields.Nested(
-        GasPriceSuggestionSchema, dump_only=True, exclude=('post.gas_station',))
+        GasSchema,many=True, dump_only=True)
