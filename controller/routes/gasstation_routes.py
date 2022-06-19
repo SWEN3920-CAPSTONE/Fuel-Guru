@@ -1,12 +1,10 @@
 import json
 from datetime import date, datetime, timedelta
-from email import message
 from pprint import pprint
 
 from config import app, db
 from controller.utils import get_request_body
 from controller.validation.schemas import (GasStationSearchSchema,
-                                           HandleUserGasstationLocationSchema,
                                            HandleUserLocationSchema)
 from flask import Blueprint, jsonify, request
 from marshmallow import ValidationError
@@ -14,7 +12,7 @@ from model.gasstation import GasStation
 from model.posts import (Gas, GasPriceSuggestion, GasType, Post,
                          downvoted_posts, upvoted_posts)
 from model.schemas import GasSchema, GasStationSchema
-from sqlalchemy import and_, asc, desc, func, select
+from sqlalchemy import and_, desc, func, select
 from sqlalchemy.orm import aliased
 
 from ..geolocation import init_geolocation, nearby_gasstation
@@ -95,7 +93,7 @@ def search_gasstations():
                     GasPriceSuggestion.last_edited == Post.last_edited))\
                 .filter(GasPriceSuggestion.last_edited >= yesterday_start)\
                 .join(net, net.c.vid == Post.id).order_by(desc(net.c.net_v))
-
+            print(q)
         if criteria.get('nearest'):
             pass
             # other searches dependent on geolocation
@@ -168,19 +166,46 @@ def top_gasstations():
     today = datetime.fromisoformat(date.today().isoformat())
 
     yesterday_start = today - timedelta(days=1)
+    
+    dwn = aliased(
+            select(
+                func.count(downvoted_posts.c.posts).label('downvs'),
+                downvoted_posts.c.posts.label('downid'))
+            .where(
+                downvoted_posts.c.posts == Post.id)
+            .group_by(downvoted_posts.c.posts).subquery(), name='downvote_count')
+
+    upv = aliased(
+        select(
+            func.count(upvoted_posts.c.posts).label('upvs'),
+            upvoted_posts.c.posts.label('upid'))
+        .where(upvoted_posts.c.posts == Post.id)
+        .group_by(upvoted_posts.c.posts).subquery(), name='upvote_count')
+
+    net = aliased(select(
+        (func.coalesce(upv.c.upvs, 0) -
+            func.coalesce(dwn.c.downvs, 0)).label('net_v'),
+        upv.c.upid.label('vid'))
+        .select_from(
+        dwn.join(upv, dwn.c.downid == upv.c.upid, full=True)).subquery(), name='net_votes')
+    
     gas_types = GasType.query.all()
     res = []
     for gtype in gas_types:
-        res.append(GasSchema().dump(
-            Gas.query.filter(Gas.gas_type_id==gtype.id)
-            .from_self(Gas)
-            .order_by(asc(Gas.price))
-            .join(GasPriceSuggestion, GasPriceSuggestion.id==Gas.gas_post_id)
-            .join(GasPriceSuggestion.post)
-            .filter(Post.last_edited>=yesterday_start)
-            .order_by(desc(Post.last_edited))
-            .limit(1)
-            .first()))
+        gas= Gas.query.filter(Gas.gas_type_id==gtype.id)\
+            .from_self(Gas)\
+            .join(GasPriceSuggestion, GasPriceSuggestion.id==Gas.gas_post_id)\
+            .join(GasPriceSuggestion.post)\
+            .filter(Post.last_edited>=yesterday_start)\
+            .join(net, net.c.vid == Post.id, full=True)\
+            .filter(net.c.net_v >=0)\
+            .order_by(desc(net.c.net_v))\
+            .order_by(desc(Post.last_edited))\
+            .limit(1)\
+            .first()
+        
+        if gas:
+            res.append(GasSchema().dump(gas))
     
     if len(res) >0:
         return jsonify(data=res, message='Success'),200
