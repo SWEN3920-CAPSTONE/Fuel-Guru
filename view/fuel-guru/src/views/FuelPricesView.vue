@@ -85,10 +85,10 @@
             </p>
           </div>
           <div>
-            <p v-if="best87Price !== null"> <b>E-10 87 Fuel</b> &nbsp;&nbsp;&nbsp; ${{ best87Price }}</p>
-            <p v-else-if="best90Price !== null"> <b>E-10 90 Fuel</b> &nbsp;&nbsp;&nbsp; ${{ best90Price }}</p>
-            <p v-else-if="bestDieselPrice !== null"> <b>Deisel Fuel</b> &nbsp;&nbsp;&nbsp; ${{ bestDieselPrice }}</p>
-            <p v-else-if="bestULSDPrice !== null"> <b>ULSD Fuel</b> &nbsp;&nbsp;&nbsp; ${{ bestULSDPrice }} </p>
+            <p v-if="best87Price !== null"> <b>E-10 87 Fuel</b> &nbsp;&nbsp;&nbsp; {{ `$${best87Price}` }}</p>
+            <p v-else-if="best90Price !== null"> <b>E-10 90 Fuel</b> &nbsp;&nbsp;&nbsp; {{ `$${best90Price} ` }}</p>
+            <p v-else-if="bestDieselPrice !== null"> <b>Deisel Fuel</b> &nbsp;&nbsp;&nbsp; {{ `$${bestDieselPrice}` }}</p>
+            <p v-else-if="bestULSDPrice !== null"> <b>ULSD Fuel</b> &nbsp;&nbsp;&nbsp; {{ `$${bestULSDPrice}` }} </p>
             <p v-else></p>
           </div>
       </div>   
@@ -133,6 +133,7 @@ const bestULSDPrice = computed(() => bestPricesULSD.value);
  * @returns the gas stations with the cheapest prices for each gas type
  */
 function getCheapestPrices() {
+   // fetch('https://fuel-guru-backend.herokuapp.com/gasstations/top', {
   fetch('http://localhost:9000/gasstations/top', {
     method: 'GET'
   })
@@ -181,7 +182,7 @@ function getCheapestPrices() {
  */
 function getGasStations() {
   if (searchBar.value !=='') {
-    fetch('http://localhost:9000/gasstations/search', {
+    fetch( import.meta.env.VITE_HEROKULINK + '/gasstations/search', {
       body: JSON.stringify({
         'name': searchBar.value
       }),
@@ -225,6 +226,7 @@ function getGasStations() {
       console.log(error)
     })
   } else {
+   // fetch('https://fuel-guru-backend.herokuapp.com/gasstations', {
     fetch('http://localhost:9000/gasstations', {
       method: 'GET'
     })

@@ -5,7 +5,7 @@
         </div>
         <div id="map-container">
           <div id="map-v">
-
+            <span v-if="!locationgranted">{{notifmessage}}</span>
           </div>
         </div>
     </main>
@@ -51,23 +51,29 @@ export default {
             var myPosition = new google.maps.LatLng(parseFloat(mylat), parseFloat(mylng))
             this.mapCenter = myPosition
             console.log(myPosition)    
-            fetch('http://localhost:9000/gasstations/search/nearby', {
+            fetch(import.meta.env.VITE_HEROKULINK + '/gasstations/search/nearby', {
               body: JSON.stringify({
               'lat': mylat,
               'lng': mylng
               }),
             method: "POST"
             })
-            .then(result => result.json())
-            .then((data) => {
-                console.log(data.data)
+            .then(async (result) =>{
+              if (result.status == 404){
                 this.initMap()
                 this.setMarker(myPosition, 'You')
-                for (var i = 0; i < (data.data).length; i++){ 
-                  this.setMarker((data.data)[i].geometry.location, (data.data)[i].name)
+                alert('You are not nearby (within 5000 meters of) any gas stations.')
+              }
+              else if(result.status == 200){
+                result = await result.json()
+                console.log(result)
+                this.initMap()
+                this.setMarker(myPosition, 'You')
+                for (var i = 0; i < (result.data).length; i++){ 
+                   this.setMarker((result.data)[i].geometry.location, (result.data)[i].name)
                 };
-            })
-            .catch(error => {
+              }
+            }).catch(error => {
                 console.log(error)
             })
         },
@@ -102,7 +108,6 @@ export default {
         this.locationgranted = true
         navigator.geolocation.getCurrentPosition((position) => {
           this.locationgranted = true
-          //var myPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
           console.log(position)
           this.findNearbyGasstations(position.coords.latitude, position.coords.longitude)
          
@@ -121,6 +126,7 @@ export default {
 #title {
   width: 100%;
   text-align: center;
+  margin-bottom: 50px;
 }
 
 #map-v {
@@ -128,4 +134,9 @@ export default {
     width: 100%;
     text-align: center;
 }
+
+span{
+    color: #AA1414;
+}
+
 </style>
