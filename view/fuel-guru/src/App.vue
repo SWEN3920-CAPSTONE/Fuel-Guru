@@ -38,7 +38,7 @@ function checkloggedIn() {
  */
 function logoutUser() {
   //console.log(localStorage.getItem('accessToken'));
-  fetch('http://localhost:9000/auth/logout', {
+  fetch('https://fuel-guru-backend.herokuapp.com/auth/logout', {
     method: "POST",
     headers: {
       Authorization: `Bearer ${localStorage.refreshToken}`

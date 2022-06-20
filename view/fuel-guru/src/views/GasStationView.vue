@@ -330,7 +330,7 @@ export default {
    //Get Amenities for a specific gas station
    makeNewAmenity()
    {
-     fetch('http://localhost:9000/posts', {
+     fetch(import.meta.env.VITE_HEROKULINK + '/posts', {
        body: JSON.stringify({
            "gas_station_id":parseInt(this.id),
            
@@ -360,7 +360,7 @@ export default {
       }
       else{
           body = sanitise_inputs(body);
-        fetch('http://localhost:9000/posts', {
+        fetch(import.meta.env.VITE_HEROKULINK + '/posts', {
         body: JSON.stringify({
             "gas_station_id":parseInt(this.id),
             "post_type_id": 1,
@@ -410,7 +410,7 @@ export default {
         newComment = sanitise_inputs(newComment);
         newRating = sanitise_inputs(newRating);
 
-       fetch('http://localhost:9000/posts', {
+       fetch(import.meta.env.VITE_HEROKULINK + '/posts', {
        body: JSON.stringify({
            "post_id": parseInt(commentId),
            "review":
@@ -449,7 +449,7 @@ export default {
  
    deleteComment(commentId){
       
-       fetch('http://localhost:9000/posts', {
+       fetch(import.meta.env.VITE_HEROKULINK + '/posts', {
        body: JSON.stringify({
            "post_id": parseInt(commentId),
          }),
@@ -487,7 +487,7 @@ export default {
       }
       else{
             price = sanitise_inputs(price);
-          fetch('http://localhost:9000/posts', {
+          fetch(import.meta.env.VITE_HEROKULINK + '/posts', {
           body: JSON.stringify({
               "gas_station_id":parseInt(this.id),
               "post_type_id": 3,
@@ -536,7 +536,7 @@ export default {
       alert("Please fill in all fields");
     }
     else{
-      fetch('http://localhost:9000/posts', {
+      fetch(import.meta.env.VITE_HEROKULINK + '/posts', {
        body: JSON.stringify({
            "gas_station_id":parseInt(this.id),
            "post_type_id": 4,
@@ -575,7 +575,7 @@ export default {
 
    //Upvote a post
    upvote(post_id){
-     fetch('http://localhost:9000/posts/upvote', {
+     fetch(import.meta.env.VITE_HEROKULINK + '/posts/upvote', {
        body: JSON.stringify({
            "post_id": post_id
          }),
@@ -608,7 +608,7 @@ export default {
  
    },
    downvote(post_id){
-     fetch('http://localhost:9000/posts/downvote', {
+     fetch(import.meta.env.VITE_HEROKULINK + '/posts/downvote', {
        body: JSON.stringify({
            "post_id": post_id
          }),
@@ -651,7 +651,7 @@ export default {
    //Get all posts for a specific gas station
    getGasStation() {
      console.log("station id is " + this.id)
-     fetch('http://localhost:9000/gasstations/'+this.id, {
+     fetch(import.meta.env.VITE_HEROKULINK + '/gasstations/'+this.id, {
      
        method: "GET"
      })
@@ -699,7 +699,7 @@ export default {
    },
  
    getGasTypes(){
-     fetch('http://localhost:9000/posts/gas/types', {
+     fetch(import.meta.env.VITE_HEROKULINK + '/posts/gas/types', {
        method: "GET",
        headers:
        {
@@ -717,7 +717,7 @@ export default {
    },
 
    getAmenityTypes(){
-     fetch('http://localhost:9000/posts/amenities/types', {
+     fetch(import.meta.env.VITE_HEROKULINK + '/posts/amenities/types', {
        method: "GET",
        headers:
        {

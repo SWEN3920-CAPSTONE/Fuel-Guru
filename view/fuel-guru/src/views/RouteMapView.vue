@@ -37,7 +37,7 @@
 
         methods: {
             loadGasstion(){
-                fetch('http://localhost:9000/gasstations/'+this.id, {
+                fetch(import.meta.env.VITE_HEROKULINK + '/gasstations/'+this.id, {
        
                 method: "GET"
                 })
