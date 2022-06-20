@@ -336,20 +336,8 @@ class GasStationSearchSchema(Schema):
     cheapest = fields.Bool(truthy={'true', 'TRUE', 'True'},
                            falsy={'FALSE', 'false', 'False'}, load_default=False)
 
-    nearest = fields.Bool(truthy={'true', 'TRUE', 'True'},
-                          falsy={'FALSE', 'false', 'False'}, load_default=False)
-    
-    lat = fields.Float()
-    
-    lng = fields.Float()    
+    gas_type_id = fields.Int(strict=True)  
 
-    @validates_schema
-    def at_least_one_field(self, data, **kwargs):            
-        if data.get('nearest'):
-            if not (bool(data.get('lat')) and bool(data.get('lng'))):
-                raise ValidationError('Lat and lng must be provided if nearest is true', field_name='nearest')
-        
-        return True
 
 class HandleUserLocationSchema(Schema):
     lat = fields.Decimal(required=True)

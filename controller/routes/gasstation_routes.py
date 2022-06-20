@@ -58,9 +58,17 @@ def search_gasstations():
         if criteria.get('name'):
             q = q.filter(
                 GasStation.name.ilike(f'%{criteria.get("name")}%'))
+            
+        q = q.join(GasStation.all_posts)\
+                .join(GasPriceSuggestion, and_(
+                    GasPriceSuggestion.post_id == Post.id,
+                    GasPriceSuggestion.last_edited == Post.last_edited))
+                
+        if criteria.get('gas_type_id'):
+            q = q.join(Gas, Gas.gas_post_id==GasPriceSuggestion.id)\
+                    .filter(Gas.gas_type_id== criteria.get('gas_type_id'))
 
         if criteria.get('cheapest'):
-
             dwn = aliased(
                 select(
                     func.count(downvoted_posts.c.posts).label('downvs'),
@@ -86,14 +94,10 @@ def search_gasstations():
             today = datetime.fromisoformat(date.today().isoformat())
 
             yesterday_start = today - timedelta(days=1)
-
-            q = q.join(GasStation.all_posts)\
-                .join(GasPriceSuggestion, and_(
-                    GasPriceSuggestion.post_id == Post.id,
-                    GasPriceSuggestion.last_edited == Post.last_edited))\
-                .filter(GasPriceSuggestion.last_edited >= yesterday_start)\
+            
+            q=q.filter(GasPriceSuggestion.last_edited >= yesterday_start)\
                 .join(net, net.c.vid == Post.id).order_by(desc(net.c.net_v))
-            print(q)
+
         if criteria.get('nearest'):
             pass
             # other searches dependent on geolocation
