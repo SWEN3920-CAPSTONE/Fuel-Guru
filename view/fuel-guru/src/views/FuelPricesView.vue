@@ -6,7 +6,7 @@
         <h2>Lowest <br> E-10 87 Fuel</h2>
       </div>      
       <div>
-        <p> {{cheapest87Info.name}} <br> {{cheapest87Info.address}} <br> ${{cheapest87Info.price}}</p>
+        <p> {{cheapest87Info.name}} <br> {{cheapest87Info.address}} <br> {{ `$${cheapest87Info.price}` }}</p>
         <button @click.stop.prevent='goToGasStation(cheapest87Info.id)'>View Location</button>
       </div>
     </div>
@@ -15,7 +15,7 @@
         <h2>Lowest <br> E-10 90 Fuel</h2>
       </div>      
       <div>
-        <p> {{cheapest90Info.name}} <br> {{cheapest90Info.address}} <br> ${{cheapest90Info.price}}</p>
+        <p> {{cheapest90Info.name}} <br> {{cheapest90Info.address}} <br> {{ `$${cheapest90Info.price}` }}</p>
         <button @click.stop.prevent='goToGasStation(cheapest90Info.id)'>View Location</button>
       </div>
     </div>
@@ -24,7 +24,7 @@
         <h2>Lowest <br>Diesel Fuel</h2>
       </div>      
       <div>
-        <p> {{cheapestDieselInfo.name}} <br> {{cheapestDieselInfo.address}} <br> ${{cheapestDieselInfo.price}}</p>
+        <p> {{cheapestDieselInfo.name}} <br> {{cheapestDieselInfo.address}} <br> {{ `$${cheapestDieselInfo.price}` }}</p>
         <button @click.stop.prevent='goToGasStation(cheapestDieselInfo.id)'>View Location</button>
       </div>
     </div>
@@ -33,7 +33,7 @@
         <h2>Lowest <br> ULSD Fuel</h2>
       </div>      
       <div>
-        <p> {{cheapestULSDInfo.name}} <br> {{cheapestULSDInfo.address}} <br> ${{cheapestULSDInfo.price}}</p>
+        <p> {{cheapestULSDInfo.name}} <br> {{cheapestULSDInfo.address}} <br> {{ `$${cheapestULSDInfo.price}` }}</p>
         <button @click.stop.prevent='goToGasStation(cheapestULSDInfo.id)'>View Location</button>
       </div>
     </div>
@@ -70,7 +70,7 @@
     </select>
   </div>  
   <div id='results-area'>           
-    <!-- v-for to display results -->  
+    <!-- v-for to display results for each gas station -->  
     <li v-for='gasStation in response.value' :key='gasStation'> 
     <router-link :to="{ name: 'GasStation', params: { id: gasStation.id } }">
       <div id='lst-item'>
@@ -84,12 +84,10 @@
               {{ gasStation.address }} 
             </p>
           </div>
-          <div>
-            <p v-if="best87Price !== null"> <b>E-10 87 Fuel</b> &nbsp;&nbsp;&nbsp; {{ `$${best87Price}` }}</p>
-            <p v-else-if="best90Price !== null"> <b>E-10 90 Fuel</b> &nbsp;&nbsp;&nbsp; {{ `$${best90Price} ` }}</p>
-            <p v-else-if="bestDieselPrice !== null"> <b>Deisel Fuel</b> &nbsp;&nbsp;&nbsp; {{ `$${bestDieselPrice}` }}</p>
-            <p v-else-if="bestULSDPrice !== null"> <b>ULSD Fuel</b> &nbsp;&nbsp;&nbsp; {{ `$${bestULSDPrice}` }} </p>
-            <p v-else></p>
+          <div v-if="gasStation.current_best_price !== null">
+            <li v-for='gasType in gasStation.current_best_price.gases' :key='gasType'> 
+            <p> <b>{{ gasType.gas_type.gas_type_name }}</b> &nbsp;&nbsp;&nbsp; {{ `$${ parseFloat(gasType.price).toFixed(2)}` }}</p>
+            </li>
           </div>
       </div>   
       </router-link>
@@ -133,26 +131,17 @@ const bestULSDPrice = computed(() => bestPricesULSD.value);
  * @returns the gas stations with the cheapest prices for each gas type
  */
 function getCheapestPrices() {
-   // fetch('https://fuel-guru-backend.herokuapp.com/gasstations/top', {
-  fetch('http://localhost:9000/gasstations/top', {
+   fetch( import.meta.env.VITE_HEROKULINK + '/gasstations/top', {
     method: 'GET'
   })
   .then(result => result.json())
   .then(data => {
-    //console.log(data);
     cheapestPricesObject.value = data.data;
-    //console.log(data.data[0].gas_post.gas_station.name);
 
     for (let i = 0; i < cheapestPricesObject.value.length; i++) {
       let gasType = cheapestPricesObject.value[i].gas_type.gas_type_name;
       let gasPrice = cheapestPricesObject.value[i].price;
       let gasStationInfo = cheapestPricesObject.value[i].gas_post.gas_station;
-
-      /*
-      console.log(data.data[0].gas_post.gas_station.name);
-      console.log(gasType);
-      console.log(gasPrice);
-      console.log(gasStationInfo);*/
 
       if (gasType === '87') {
         cheapest87.value = gasStationInfo;
@@ -193,12 +182,10 @@ function getGasStations() {
       searchBar.value = ''; //not sure why this doesn't work without it being cleared
       response.value = data.data;
 
+      console.log(response.value);
+
       // getting the best prices for each gas type
       for (let i = 0; i < response.value.length; i++) {
-        bestPrices87.value = null;
-        bestPrices90.value = null;
-        bestPricesDiesel.value = null;
-        bestPricesULSD.value = null;
         let gasInfo = response.value[i].current_best_price.gases;
 
         if (gasInfo !== null) {
@@ -220,14 +207,14 @@ function getGasStations() {
             }
           }
         } 
+        
       }
     })
     .catch(error => {
       console.log(error)
     })
   } else {
-   // fetch('https://fuel-guru-backend.herokuapp.com/gasstations', {
-    fetch('http://localhost:9000/gasstations', {
+   fetch( import.meta.env.VITE_HEROKULINK + '/gasstations', {
       method: 'GET'
     })
     .then(result => result.json())
@@ -237,11 +224,6 @@ function getGasStations() {
       response.value = data.data;
       
       // getting the best prices for each gas type
-      for (let i = 0; i < response.value.length; i++) {
-        bestPrices87.value = null;
-        bestPrices90.value = null;
-        bestPricesDiesel.value = null;
-        bestPricesULSD.value = null;
         let gasInfo = response.value[i].current_best_price.gases;
 
         if (gasInfo !== null) {
@@ -263,7 +245,6 @@ function getGasStations() {
             }
           }
         } 
-      }
    })
     .catch(error => {
       console.log(error)

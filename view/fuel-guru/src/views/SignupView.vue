@@ -116,7 +116,7 @@ if (isEmpty(firstname.value) === true || isEmpty(lastname.value) === true || isE
     }  
     
   if(errors.length === 0) {
-    fetch('http://localhost:9000/auth/signup', {
+    fetch(import.meta.env.VITE_HEROKULINK + '/auth/signup', {
       body: JSON.stringify({
         'username': username.value,
         'password': password.value,
@@ -135,9 +135,9 @@ if (isEmpty(firstname.value) === true || isEmpty(lastname.value) === true || isE
         if (data.message === 'Success') {
           localStorage.setItem('refreshToken', data.refresh_token);
           localStorage.setItem('accessToken', data.access_token);
-          emit('update');
+        emit('update');
           router.push({name: 'FuelPrices'});
-          alert('Welcome ${firstname.value}!');
+          alert(`Welcome ${firstname.value}!`);
         } 
       })
       .catch(error => {
