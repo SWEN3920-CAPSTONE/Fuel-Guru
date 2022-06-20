@@ -12,7 +12,7 @@ from model.gasstation import GasStation
 from model.posts import (Gas, GasPriceSuggestion, GasType, Post,
                          downvoted_posts, upvoted_posts)
 from model.schemas import GasSchema, GasStationSchema
-from sqlalchemy import and_, desc, func, select
+from sqlalchemy import and_, asc, desc, func, select
 from sqlalchemy.orm import aliased
 
 from ..geolocation import init_geolocation, nearby_gasstation
@@ -96,7 +96,7 @@ def search_gasstations():
             yesterday_start = today - timedelta(days=1)
             
             q=q.filter(GasPriceSuggestion.last_edited >= yesterday_start)\
-                .join(net, net.c.vid == Post.id).order_by(desc(net.c.net_v))
+                .join(net, net.c.vid == Post.id).order_by(desc(net.c.net_v)).order_by(asc(Gas.price))
 
         if criteria.get('nearest'):
             pass
@@ -205,6 +205,7 @@ def top_gasstations():
             .filter(net.c.net_v >=0)\
             .order_by(desc(net.c.net_v))\
             .order_by(desc(Post.last_edited))\
+            .order_by(asc(Gas.price))\
             .limit(1)\
             .first()
         
