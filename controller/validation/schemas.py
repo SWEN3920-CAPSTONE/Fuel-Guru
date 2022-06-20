@@ -154,9 +154,6 @@ class EditUserSchema(Schema):
 
     @post_load
     def remove_invalid_keys(self, data: dict, **kwargs):
-        data.pop('current_password', None)
-        data.pop('current_email', None)
-
         email = data.pop('new_email', None)
         password = data.pop('new_password', None)
 

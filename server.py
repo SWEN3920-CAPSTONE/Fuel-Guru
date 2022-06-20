@@ -1,5 +1,10 @@
-from config import app, db
+"""
+Driver for the server for Fuel Guru.
 
-if __name__ == '__main__':       
+"""
+
+from config import app
+
+if __name__ == '__main__':
     app.run(debug=app.config.get('IS_DEV'), host=app.config.get(
         'HOST'), port=app.config.get('PORT'), )

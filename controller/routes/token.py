@@ -93,7 +93,7 @@ def _verify_token(is_admin=False):
         if is_admin:
             if current_user.user_type.is_admin != True:
                 abort(make_response(
-                    {'error', 'The user is not authorized to make this request'}, 403))
+                    {'error': 'The user is not authorized to make this request'}, 403))
 
     except NoAuthorizationError as e:
         abort(make_response({'error': str(e)}, 401))

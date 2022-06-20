@@ -7,6 +7,3 @@ include=
     controller/*
     config/*
     
-omit=
-    */user_routes.py
-    */admin_routes.py

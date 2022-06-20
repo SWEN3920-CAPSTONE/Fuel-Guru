@@ -62,11 +62,12 @@ def search_gasstations():
         q = q.join(GasStation.all_posts)\
                 .join(GasPriceSuggestion, and_(
                     GasPriceSuggestion.post_id == Post.id,
-                    GasPriceSuggestion.last_edited == Post.last_edited))
+                    GasPriceSuggestion.last_edited == Post.last_edited))\
+                .join(Gas, Gas.gas_post_id==GasPriceSuggestion.id)
+                    
                 
         if criteria.get('gas_type_id'):
-            q = q.join(Gas, Gas.gas_post_id==GasPriceSuggestion.id)\
-                    .filter(Gas.gas_type_id== criteria.get('gas_type_id'))
+            q = q.filter(Gas.gas_type_id== criteria.get('gas_type_id'))
 
         if criteria.get('cheapest'):
             dwn = aliased(

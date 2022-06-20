@@ -223,7 +223,6 @@ def add_gasstation_manager():
     Endpoint for specialised signup for gas station managers
 
     Body:
-        - username (str)
         - email (str)
         - firstname (str)
         - lastname (str)
@@ -248,7 +247,8 @@ def add_gasstation_manager():
         db.session.add(manager)
         db.session.commit()
 
-        change_link = generate_reset_link(manager, is_manager=True)
+        # expire in 2 days
+        change_link = generate_reset_link(manager, is_manager=True, time_delta=2, unit='days')
 
         # very basic, no styling lol
         ehtml = f"""

@@ -40,29 +40,49 @@ def normal_users():
         - 500 for server error
     """
     if request.method == 'DELETE':
+        # set deleted_at to now
         g.current_user.deleted_at = datetime.utcnow()
         db.session.merge(g.current_user)
-        db.session.commit()
+        db.session.commit()        
+        return jsonify(message='Successfully deleted this user'), 200
     if request.method == 'PUT':
         try:
             data: dict = EditUserSchema().load(get_request_body())
-            userdata = UserSchema().dump(g.current_user)
+            
+            if data.get('current_password'):
+                if not g.current_user.check_password(data.get('current_password')):
+                    return jsonify(message='Current password is incorrect'), 403
+                else:
+                    data.pop('current_password')
+            
+            if data.get('current_email'):
+                if not g.current_user.email == data.get('current_email'):
+                    return jsonify(message='Current email is incorrect'), 403
+                else:
+                    data.pop('current_email')
+            
+            
+            userdata:dict = UserSchema().dump(g.current_user)
+            userdata.get('user_type').pop('allowed_post_types')
+            userdata.pop('managed_gasstations', None)
 
             # merge old user data and updated fields
-            updated = {**userdata, 'password': None, **data}
-
+            updated = {**userdata, **data}
+            
             user = UserSchema().load(updated)
 
-            if user.password == None:
+            if not data.get('password'):
+                # In the case where a password isnt being changed, 
+                # we dont need to rehash it
                 user._password = g.current_user.password
 
             db.session.merge(user)
             db.session.commit()
-
-            # give the user a new token
+            print(user)
+            # give the user a new token set
             res = gen_jwts(user)
             body = res.json()
-            body['message'] = 'User updated successfully'
+            body.update({'message': 'User profile updated successfully', 'data': UserSchema().dump(user)})
             res.data = json.dumps(body)
             return res, 200
 
