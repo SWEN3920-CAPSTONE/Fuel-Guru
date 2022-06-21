@@ -65,6 +65,7 @@ if (isEmpty(username.value) === true || isEmpty(password.value) === true) {
       if (data.message === "Success") {
           localStorage.setItem('refreshToken', data.refresh_token);
           localStorage.setItem('accessToken', data.access_token);
+          localStorage.setItem('uname', username.value);
         emit('update');
         router.push({name: 'FuelPrices'});
         alert(`Welcome back ${username.value}!`);

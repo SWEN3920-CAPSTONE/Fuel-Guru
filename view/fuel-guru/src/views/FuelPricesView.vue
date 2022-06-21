@@ -5,37 +5,41 @@
       <div id='cheapest-87-h'>
         <h2>Lowest <br> E-10 87 Fuel</h2>
       </div>      
-      <div>
-        <p> {{cheapest87Info.name}} <br> {{cheapest87Info.address}} <br> {{ `$${cheapest87Info.price}` }}</p>
+      <div v-if="Object.keys(cheapest87Info).length !== 0">
+        <p> {{cheapest87Info.name}} <br> {{cheapest87Info.address}} <br> {{ `$${cheapest87Info.price}` }}</p>        
         <button @click.stop.prevent='goToGasStation(cheapest87Info.id)'>View Location</button>
-      </div>
+      </div>  
+      <p v-else><br>No posts added today!</p>
     </div>
     <div id='cheapest-90'>
       <div id='cheapest-90-h'>
         <h2>Lowest <br> E-10 90 Fuel</h2>
-      </div>      
-      <div>
-        <p> {{cheapest90Info.name}} <br> {{cheapest90Info.address}} <br> {{ `$${cheapest90Info.price}` }}</p>
+      </div> 
+      <div v-if="Object.keys(cheapest90Info).length !== 0">
+        <p> {{cheapest90Info.name}} <br> {{cheapest90Info.address}} <br> {{ `$${cheapest90Info.price}` }}</p>        
         <button @click.stop.prevent='goToGasStation(cheapest90Info.id)'>View Location</button>
-      </div>
+      </div>  
+      <p v-else><br>No posts added today!</p>
     </div>
     <div id='cheapest-d'>
       <div id='cheapest-d-h'>
         <h2>Lowest <br>Diesel Fuel</h2>
       </div>      
-      <div>
-        <p> {{cheapestDieselInfo.name}} <br> {{cheapestDieselInfo.address}} <br> {{ `$${cheapestDieselInfo.price}` }}</p>
+      <div v-if="Object.keys(cheapestDieselInfo).length !== 0"> 
+        <p>{{cheapestDieselInfo.name}} <br> {{cheapestDieselInfo.address}} <br> {{ `$${cheapestDieselInfo.price}` }}</p>
         <button @click.stop.prevent='goToGasStation(cheapestDieselInfo.id)'>View Location</button>
       </div>
+      <p v-else>No posts added today!</p>
     </div>
     <div id='cheapest-sd'>
       <div id='cheapest-sd-h'>
         <h2>Lowest <br> ULSD Fuel</h2>
       </div>      
-      <div>
+      <div v-if="Object.keys(cheapestULSDInfo).length !== 0">
         <p> {{cheapestULSDInfo.name}} <br> {{cheapestULSDInfo.address}} <br> {{ `$${cheapestULSDInfo.price}` }}</p>
         <button @click.stop.prevent='goToGasStation(cheapestULSDInfo.id)'>View Location</button>
       </div>
+      <p v-else>No posts added today!</p>
     </div>
   </div>
   <div id='search-area'>     
@@ -85,7 +89,7 @@
             </p>
           </div>
           <div v-if="gasStation.current_best_price !== null">
-            <li v-for='gasType in gasStation.current_best_price.gases' :key='gasType'> 
+            <li v-for='gasType in gasStation.current_best_price' :key='gasType'> 
             <p> <b>{{ gasType.gas_type.gas_type_name }}</b> &nbsp;&nbsp;&nbsp; {{ `$${ parseFloat(gasType.price).toFixed(2)}` }}</p>
             </li>
           </div>
@@ -109,10 +113,6 @@ var cheapest87 = ref({});
 var cheapest90 = ref({});
 var cheapestDiesel = ref({});
 var cheapestULSD = ref({});
-var bestPrices87= ref(null);
-var bestPrices90 = ref(null);
-var bestPricesDiesel = ref(null);
-var bestPricesULSD = ref(null);
 
 getCheapestPrices();
 
@@ -121,11 +121,6 @@ const cheapest87Info = computed(() => cheapest87.value);
 const cheapest90Info = computed(() => cheapest90.value);
 const cheapestDieselInfo = computed(() => cheapestDiesel.value);
 const cheapestULSDInfo = computed(() => cheapestULSD.value);
-const best87Price = computed(() => bestPrices87.value);
-const best90Price = computed(() => bestPrices90.value);
-const bestDieselPrice = computed(() => bestPricesDiesel.value);
-const bestULSDPrice = computed(() => bestPricesULSD.value);
-
 
 /**
  * @returns the gas stations with the cheapest prices for each gas type
@@ -138,26 +133,31 @@ function getCheapestPrices() {
   .then(data => {
     cheapestPricesObject.value = data.data;
 
-    for (let i = 0; i < cheapestPricesObject.value.length; i++) {
-      let gasType = cheapestPricesObject.value[i].gas_type.gas_type_name;
-      let gasPrice = cheapestPricesObject.value[i].price;
-      let gasStationInfo = cheapestPricesObject.value[i].gas_post.gas_station;
+    //console.log(cheapest87.value.length);
+    console.log(cheapestPricesObject.value);
 
-      if (gasType === '87') {
-        cheapest87.value = gasStationInfo;
-        cheapest87.value['price'] = parseFloat(gasPrice).toFixed(2);
-      }
-      if (gasType === '90') {
-        cheapest90.value = gasStationInfo;
-        cheapest90.value['price'] = parseFloat(gasPrice).toFixed(2);
-      }
-      if (gasType === 'Diesel') {
-        cheapestDiesel.value = gasStationInfo;
-        cheapestDiesel.value['price'] = parseFloat(gasPrice).toFixed(2);        
-      }
-      if (gasType === 'ULSD') {
-        cheapestULSD.value = gasStationInfo;
-        cheapestULSD.value['price'] = parseFloat(gasPrice).toFixed(2);
+    if (cheapestPricesObject.value !== undefined) {
+      for (let i = 0; i < cheapestPricesObject.value.length; i++) {
+        let gasType = cheapestPricesObject.value[i].gas_type.gas_type_name;
+        let gasPrice = cheapestPricesObject.value[i].price;
+        let gasStationInfo = cheapestPricesObject.value[i].gas_post.gas_station;
+
+        if (gasType === '87') {
+          cheapest87.value = gasStationInfo;
+          cheapest87.value['price'] = parseFloat(gasPrice).toFixed(2);
+        }
+        if (gasType === '90') {
+          cheapest90.value = gasStationInfo;
+          cheapest90.value['price'] = parseFloat(gasPrice).toFixed(2);
+        }
+        if (gasType === 'Diesel') {
+          cheapestDiesel.value = gasStationInfo;
+          cheapestDiesel.value['price'] = parseFloat(gasPrice).toFixed(2);        
+        }
+        if (gasType === 'ULSD') {
+          cheapestULSD.value = gasStationInfo;
+          cheapestULSD.value['price'] = parseFloat(gasPrice).toFixed(2);
+        }
       }
     }
   })
@@ -183,32 +183,6 @@ function getGasStations() {
       response.value = data.data;
 
       console.log(response.value);
-
-      // getting the best prices for each gas type
-      for (let i = 0; i < response.value.length; i++) {
-        let gasInfo = response.value[i].current_best_price.gases;
-
-        if (gasInfo !== null) {
-          for (let j = 0; j < gasInfo.length; j++) {
-            let gasType = gasInfo[j].gas_type.gas_type_name;
-            let gasPrice = gasInfo[j].price;
-            
-            if (gasType === '87') {
-              bestPrices87.value = parseFloat(gasPrice).toFixed(2);
-            }
-            if (gasType === '90') {
-              bestPrices90.value = parseFloat(gasPrice).toFixed(2);
-            }
-            if (gasType === 'Diesel') {
-              bestPricesDiesel.value = parseFloat(gasPrice).toFixed(2);      
-            }
-            if (gasType === 'ULSD') {
-              bestPricesULSD.value = parseFloat(gasPrice).toFixed(2);
-            }
-          }
-        } 
-        
-      }
     })
     .catch(error => {
       console.log(error)
@@ -222,29 +196,6 @@ function getGasStations() {
       searchBar.value = ' ';
       searchBar.value = '';
       response.value = data.data;
-      
-      // getting the best prices for each gas type
-        let gasInfo = response.value[i].current_best_price.gases;
-
-        if (gasInfo !== null) {
-          for (let j = 0; j < gasInfo.length; j++) {
-            let gasType = gasInfo[j].gas_type.gas_type_name;
-            let gasPrice = gasInfo[j].price;
-            
-            if (gasType === '87') {
-              bestPrices87.value = parseFloat(gasPrice).toFixed(2);
-            }
-            if (gasType === '90') {
-              bestPrices90.value = parseFloat(gasPrice).toFixed(2);
-            }
-            if (gasType === 'Diesel') {
-              bestPricesDiesel.value = parseFloat(gasPrice).toFixed(2);      
-            }
-            if (gasType === 'ULSD') {
-              bestPricesULSD.value = parseFloat(gasPrice).toFixed(2);
-            }
-          }
-        } 
    })
     .catch(error => {
       console.log(error)
@@ -253,22 +204,39 @@ function getGasStations() {
 }
 
 /**
- * 
+ * sorts the list of gas stations by price 
+ */
+function sortByPrice() {
+   if (searchBar.value !=='') {
+    fetch( import.meta.env.VITE_HEROKULINK + '/gasstations/search', {
+      body: JSON.stringify({
+        'cheapest': searchBar.value
+      }),
+      method: 'POST'
+    })
+    .then(result => result.json())
+    .then(data => {
+      searchBar.value = ''; //not sure why this doesn't work without it being cleared
+      response.value = data.data;
+
+      console.log(response.value);
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+}
+
+/** 
  * @param {integer} id 
  * Allows the user to get directions to the gas station with the best prices.
  */
-function goToGasStation (id) {
+function goToGasStation(id) {
   router.push('/route/' + id);
 }
 </script>
 
 <style>
-main {
-  padding-top: 50px; 
-  color: black;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
-}
-
 #results-area {
   margin-left: 80px;
   margin-right: 80px;
@@ -277,6 +245,7 @@ main {
 #fuelprices-area {
   display: block;
   padding-bottom: 20px;
+  padding-top: 30px;
 }
 
 #cheapest-prices {

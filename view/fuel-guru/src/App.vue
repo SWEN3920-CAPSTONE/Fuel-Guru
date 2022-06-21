@@ -1,5 +1,9 @@
 <template>
-  <header>
+<div>
+<header>
+  <div>
+    <p v-if="loggedIn"> <b>Hi {{uname}}! </b></p>
+  </div>
       <nav>
         <router-link :to="{name: 'Home'}" id="hme">Home</router-link>
         <router-link :to="{name: 'About'}" id="abt">About Us</router-link>
@@ -9,8 +13,11 @@
         <router-link :to="{name: 'Signup'}" id="signup" v-else>Signup / Login</router-link>
         <!-- if the refresh_token is not empty then the user is logged in and can see the logout button -->
       </nav>
-  <router-view @update="checkloggedIn"/>
   </header>
+  <main id="main">
+    <router-view @update="checkloggedIn"/>
+  </main>
+</div>  
 </template>
 
 
@@ -19,6 +26,10 @@ import {ref} from 'vue';
 import router from './router';
 
 var loggedIn = ref('');
+var uname = ref('');
+
+
+console.log(uname.value);
 
 /**
  * Checks if the user is still logged in if the refresh token they were 
@@ -27,6 +38,7 @@ var loggedIn = ref('');
 function checkloggedIn() {
   if (localStorage.getItem('accessToken') !== null) {
     loggedIn.value = true;
+    uname.value = localStorage.getItem('uname');
   } else {
     loggedIn.value = false;
   }
@@ -50,6 +62,7 @@ function logoutUser() {
       loggedIn.value = false;
       //the data.refresh_token should be in local storage 
       localStorage.removeItem('accessToken');
+      localStorage.removeItem('uname');
       localStorage.removeItem('refreshToken');
       router.push({name: 'Home'}); 
     })
@@ -82,4 +95,16 @@ function logoutUser() {
   color: #AA1414;
   text-decoration: underline;
 }
+
+header {
+  display: flex;
+  justify-content: space-between;
+}
+
+header div {
+  padding-left: 30px;  
+  padding-top: 25px;  
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+}
+
 </style>

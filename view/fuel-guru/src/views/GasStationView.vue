@@ -756,16 +756,7 @@ export default {
 .checked {
  color: #AA1414;
 }
- 
-#stationarea {
- padding-top: 50px;
- color: black;
- font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
- 
- 
- 
- 
+  
 #cardRow {
  display: grid; 
  grid-template-columns: auto auto auto auto ;
