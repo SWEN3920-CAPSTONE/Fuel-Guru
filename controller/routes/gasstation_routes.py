@@ -59,7 +59,8 @@ def search_gasstations():
             q = q.filter(
                 GasStation.name.ilike(f'%{criteria.get("name")}%'))
             
-        q = q.join(GasStation.all_posts)\
+        if criteria.get('gas_type_id') or criteria.get('cheapest'):
+            q = q.join(GasStation.all_posts)\
                 .join(GasPriceSuggestion, and_(
                     GasPriceSuggestion.post_id == Post.id,
                     GasPriceSuggestion.last_edited == Post.last_edited))\
