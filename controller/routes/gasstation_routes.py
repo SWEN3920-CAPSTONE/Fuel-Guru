@@ -104,7 +104,7 @@ def search_gasstations():
             pass
             # other searches dependent on geolocation
 
-        q = q.limit(5)
+
         
         res = GasStationSchema(many=True).dump(q.all())
 
