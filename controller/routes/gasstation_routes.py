@@ -170,8 +170,6 @@ def top_gasstations():
     Find the lowest gas prices by gas type for yesterday and today
     """
     today = datetime.fromisoformat(date.today().isoformat())
-
-    yesterday_start = today - timedelta(days=1)
     
     dwn = aliased(
             select(
@@ -202,7 +200,7 @@ def top_gasstations():
             .from_self(Gas)\
             .join(GasPriceSuggestion, GasPriceSuggestion.id==Gas.gas_post_id)\
             .join(GasPriceSuggestion.post)\
-            .filter(Post.last_edited>=yesterday_start)\
+            .filter(Post.last_edited>=today)\
             .join(net, net.c.vid == Post.id, full=True)\
             .filter(net.c.net_v >=0)\
             .order_by(desc(net.c.net_v))\
