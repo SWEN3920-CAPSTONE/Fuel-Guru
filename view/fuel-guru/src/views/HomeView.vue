@@ -50,6 +50,6 @@
   }
 
   #home-img {
-    height: 100%;
+    height: 80%;
   }
 </style>

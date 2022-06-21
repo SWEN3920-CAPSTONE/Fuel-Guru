@@ -38,6 +38,7 @@
  export function valid_name (str) {
   let strLength = str.length;
   let patternLength = str.match(letters).length;
+  str[0].toUpperCase();
 
   if (strLength > 2 && strLength < 50 && strLength === patternLength) {
     return true

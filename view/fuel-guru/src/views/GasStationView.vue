@@ -496,8 +496,8 @@ export default {
                 
                 "gases":[
                   {
-                    "gas_type_id":parseInt(type_id),
-                    "price":parseInt(price)
+                    "gas_type_id": parseInt(type_id),
+                    "price":parseFloat(price).toFixed(2)
                   }
                 ]
               }     
@@ -756,16 +756,7 @@ export default {
 .checked {
  color: #AA1414;
 }
- 
-#stationarea {
- padding-top: 50px;
- color: black;
- font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
- 
- 
- 
- 
+  
 #cardRow {
  display: grid; 
  grid-template-columns: auto auto auto auto ;
