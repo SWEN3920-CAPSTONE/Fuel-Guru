@@ -496,8 +496,8 @@ export default {
                 
                 "gases":[
                   {
-                    "gas_type_id":parseInt(type_id),
-                    "price":parseInt(price)
+                    "gas_type_id": parseInt(type_id),
+                    "price":parseFloat(price).toFixed(2)
                   }
                 ]
               }     
