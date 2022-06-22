@@ -59,7 +59,8 @@ def search_gasstations():
             q = q.filter(
                 GasStation.name.ilike(f'%{criteria.get("name")}%'))
             
-        q = q.join(GasStation.all_posts)\
+        if criteria.get('gas_type_id') or criteria.get('cheapest'):
+            q = q.join(GasStation.all_posts)\
                 .join(GasPriceSuggestion, and_(
                     GasPriceSuggestion.post_id == Post.id,
                     GasPriceSuggestion.last_edited == Post.last_edited))\
@@ -103,7 +104,7 @@ def search_gasstations():
             pass
             # other searches dependent on geolocation
 
-        q = q.limit(5)
+
         
         res = GasStationSchema(many=True).dump(q.all())
 
@@ -169,8 +170,6 @@ def top_gasstations():
     Find the lowest gas prices by gas type for yesterday and today
     """
     today = datetime.fromisoformat(date.today().isoformat())
-
-    yesterday_start = today - timedelta(days=1)
     
     dwn = aliased(
             select(
@@ -201,7 +200,7 @@ def top_gasstations():
             .from_self(Gas)\
             .join(GasPriceSuggestion, GasPriceSuggestion.id==Gas.gas_post_id)\
             .join(GasPriceSuggestion.post)\
-            .filter(Post.last_edited>=yesterday_start)\
+            .filter(Post.last_edited>=today)\
             .join(net, net.c.vid == Post.id, full=True)\
             .filter(net.c.net_v >=0)\
             .order_by(desc(net.c.net_v))\
