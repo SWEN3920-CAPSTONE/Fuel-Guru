@@ -20,7 +20,7 @@ the components are not yet created -->
                <br>
                <h3> Rating
                  <!--Create number of stars based on rating -->
-                 <span v-if="rating==0&& rating<1">
+                 <span v-if="rating>=0 && rating<1">
                    <span class="fa fa-star" ></span>
                    <span class="fa fa-star" ></span>
                    <span class="fa fa-star" ></span>
@@ -28,7 +28,7 @@ the components are not yet created -->
                    <span class="fa fa-star" ></span>
                  </span>
  
-                 <span v-if="rating==1">
+                 <span v-if="rating>=1  && rating<2">
                    <span class="fa fa-star checked"></span>
                    <span class="fa fa-star" ></span>
                    <span class="fa fa-star" ></span>
@@ -36,7 +36,7 @@ the components are not yet created -->
                    <span class="fa fa-star" ></span>
                  </span>
  
-                 <span v-if="rating==2">
+                 <span v-if="rating>=2  && rating<3">
                    <span class="fa fa-star checked"></span>
                    <span class="fa fa-star checked" ></span>
                    <span class="fa fa-star" ></span>
@@ -52,7 +52,7 @@ the components are not yet created -->
                    <span class="fa fa-star" ></span>
                  </span>
  
-                 <span v-if="rating==4">
+                 <span v-if="rating>=4  && rating<5">
                    <span class="fa fa-star checked"></span>
                    <span class="fa fa-star checked" ></span>
                    <span class="fa fa-star checked" ></span>
