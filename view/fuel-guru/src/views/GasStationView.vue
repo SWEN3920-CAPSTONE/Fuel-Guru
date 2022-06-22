@@ -20,7 +20,7 @@ the components are not yet created -->
                <br>
                <h3> Rating
                  <!--Create number of stars based on rating -->
-                 <span v-if="rating==0&& rating<1">
+                 <span v-if="rating>=0 && rating<1">
                    <span class="fa fa-star" ></span>
                    <span class="fa fa-star" ></span>
                    <span class="fa fa-star" ></span>
@@ -28,7 +28,7 @@ the components are not yet created -->
                    <span class="fa fa-star" ></span>
                  </span>
  
-                 <span v-if="rating==1">
+                 <span v-if="rating>=1  && rating<2">
                    <span class="fa fa-star checked"></span>
                    <span class="fa fa-star" ></span>
                    <span class="fa fa-star" ></span>
@@ -36,7 +36,7 @@ the components are not yet created -->
                    <span class="fa fa-star" ></span>
                  </span>
  
-                 <span v-if="rating==2">
+                 <span v-if="rating>=2  && rating<3">
                    <span class="fa fa-star checked"></span>
                    <span class="fa fa-star checked" ></span>
                    <span class="fa fa-star" ></span>
@@ -52,7 +52,7 @@ the components are not yet created -->
                    <span class="fa fa-star" ></span>
                  </span>
  
-                 <span v-if="rating==4">
+                 <span v-if="rating>=4  && rating<5">
                    <span class="fa fa-star checked"></span>
                    <span class="fa fa-star checked" ></span>
                    <span class="fa fa-star checked" ></span>
@@ -203,6 +203,7 @@ the components are not yet created -->
                        <div id="comment-heading-grid">
                            <div id="comment-heading">
                                <h4>{{comment.creator.username}}</h4>
+                               <h4>{{comment.rating_val}}</h4>
                            </div>
                            <div id="comment-created" >
                                 
@@ -260,7 +261,6 @@ the components are not yet created -->
                 </div>
                 <br>
                  <input type="text"  id="commentEntry" placeholder="Leave a comment..." v-model="body">
-
                 
                 
                  <button id="comment-btn" @click="makeNewReview(body,sugg_rating)">Add Review</button>
