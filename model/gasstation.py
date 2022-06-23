@@ -137,6 +137,8 @@ class GasStation(db.Model):
         from model.posts import GasPriceSuggestion, Post
         
         today = datetime.fromisoformat(date.today().isoformat())
+        
+        today = today - timedelta(hours=5)
 
         q = GasStation.query.filter(GasStation.id == self.id)\
             .from_self(GasPriceSuggestion)\
@@ -155,7 +157,7 @@ class GasStation(db.Model):
         
         today = datetime.fromisoformat(date.today().isoformat())
 
-        yesterday_start = today - timedelta(days=1)
+        yesterday_start = today - timedelta(days=1, hours=5)
         
         return self._filter_date_and_votes(GasPriceSuggestion.last_edited.between(yesterday_start, today))
 
@@ -163,7 +165,9 @@ class GasStation(db.Model):
     def current_best_price(self):
         from model.posts import GasPriceSuggestion
         
-        today = datetime.fromisoformat(date.today().isoformat())        
+        today = datetime.fromisoformat(date.today().isoformat())  
+        
+        today = today - timedelta(hours=5)
         
         return self._filter_date_and_votes(GasPriceSuggestion.last_edited >= today)
 
