@@ -170,7 +170,6 @@ def top_gasstations():
     Find the lowest gas prices by gas type for yesterday and today
     """
     today = datetime.fromisoformat(date.today().isoformat())
-    today = today - timedelta(days=1)
     
     dwn = aliased(
             select(
