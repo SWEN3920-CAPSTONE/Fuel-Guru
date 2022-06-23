@@ -2,7 +2,7 @@ from datetime import date, datetime, timedelta
 
 from config import app, db
 from controller.routes.token import token_required
-from controller.utils import get_request_body, utc_today
+from controller.utils import get_request_body, ja_today
 from controller.validation.schemas import HandlePostSchema, PostVoteSchema
 from flask import Blueprint, g, jsonify, request
 from marshmallow import ValidationError
@@ -27,7 +27,7 @@ def _handle_gas_price_suggestion_post(data,post,is_edit):
 
     gases = []
     existing = []
-    today = utc_today()
+    today = ja_today()
     
     for gas in details.get('gases'):
         gas_type = GasType.query.get(gas.get('gas_type_id'))
