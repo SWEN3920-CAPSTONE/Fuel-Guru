@@ -23,6 +23,7 @@ coverage = "*"
 pytest-cov = "*"
 pytest-html = "*"
 pytest-excel = "*"
+pytz = "*"
 
 [requires]
 python_version = "3.9"
