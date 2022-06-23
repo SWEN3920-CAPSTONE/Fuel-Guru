@@ -20,7 +20,7 @@ the components are not yet created -->
                <br>
                <h3> Rating
                  <!--Create number of stars based on rating -->
-                 <span v-if="rating==0&& rating<1">
+                 <span v-if="rating>=0 && rating<1">
                    <span class="fa fa-star" ></span>
                    <span class="fa fa-star" ></span>
                    <span class="fa fa-star" ></span>
@@ -28,7 +28,7 @@ the components are not yet created -->
                    <span class="fa fa-star" ></span>
                  </span>
  
-                 <span v-if="rating==1">
+                 <span v-if="rating>=1  && rating<2">
                    <span class="fa fa-star checked"></span>
                    <span class="fa fa-star" ></span>
                    <span class="fa fa-star" ></span>
@@ -36,7 +36,7 @@ the components are not yet created -->
                    <span class="fa fa-star" ></span>
                  </span>
  
-                 <span v-if="rating==2">
+                 <span v-if="rating>=2  && rating<3">
                    <span class="fa fa-star checked"></span>
                    <span class="fa fa-star checked" ></span>
                    <span class="fa fa-star" ></span>
@@ -52,7 +52,7 @@ the components are not yet created -->
                    <span class="fa fa-star" ></span>
                  </span>
  
-                 <span v-if="rating==4">
+                 <span v-if="rating>=4  && rating<5">
                    <span class="fa fa-star checked"></span>
                    <span class="fa fa-star checked" ></span>
                    <span class="fa fa-star checked" ></span>
@@ -86,7 +86,7 @@ the components are not yet created -->
  
                    <li id="price" v-for="gas in bestPrice" :key="gas.id">
                        <h4> Type: {{gas.gas_type.gas_type_name}} </h4>
-                        <h4> Price: ${{gas.price}} </h4> <!-- format number?-->    
+                        <h4> Price: ${{parseFloat(gas.price).toFixed(2)}}</h4> <!-- format number?-->    
                    </li>         
                </div>   
            </ul>
@@ -109,7 +109,7 @@ the components are not yet created -->
                        <div id="fuelRow" v-for="gas in gasArray.gases" :key="gas.id">
                           <h5 id="headline">{{gasArray.creator.username}} </h5>
                            <h5 id="headline">{{gas.gas_type.gas_type_name}}</h5>
-                           <h5 id="headline"> ${{gas.price}} </h5>
+                           <h5 id="headline"> ${{parseFloat(gas.price).toFixed(2)}} </h5>
                            <i class="fa fa-thumbs-up" id="thumbs" @click="upvote(gasArray.id)">: {{gasArray.upvote_count}} &emsp;&emsp; </i>
                               
                            <i class="fa fa-thumbs-down" id="thumbs" @click="downvote(gasArray.id)">: {{gasArray.downvote_count}}  </i>
@@ -208,11 +208,65 @@ the components are not yet created -->
                                 
                                <h4>{{ comment.created_at }}</h4>
                            </div>
-                           <div id="comment-icons">
+
+                       
+                        <div id="comment-icons">
+
+                         <span v-if="comment.rating_val>=0 && rating<1">
+                   <span class="fa fa-star" ></span>
+                   <span class="fa fa-star" ></span>
+                   <span class="fa fa-star" ></span>
+                   <span class="fa fa-star" ></span>
+                   <span class="fa fa-star" ></span>
+                 </span>
+ 
+                 <span v-if="comment.rating_val>=1  && comment.rating_val<2">
+                   <span class="fa fa-star checked"></span>
+                   <span class="fa fa-star" ></span>
+                   <span class="fa fa-star" ></span>
+                   <span class="fa fa-star" ></span>
+                   <span class="fa fa-star" ></span>
+                 </span>
+ 
+                 <span v-if="comment.rating_val>=2  && comment.rating_val<3">
+                   <span class="fa fa-star checked"></span>
+                   <span class="fa fa-star checked" ></span>
+                   <span class="fa fa-star" ></span>
+                   <span class="fa fa-star" ></span>
+                   <span class="fa fa-star" ></span>
+                 </span>
+ 
+                 <span v-if="comment.rating_val>=3 && comment.rating_val<4">
+                   <span class="fa fa-star checked"></span>
+                   <span class="fa fa-star checked" ></span>
+                   <span class="fa fa-star checked" ></span>
+                   <span class="fa fa-star" ></span>
+                   <span class="fa fa-star" ></span>
+                 </span>
+ 
+                 <span v-if="comment.rating_val>=4  && comment.rating_val<5">
+                   <span class="fa fa-star checked"></span>
+                   <span class="fa fa-star checked" ></span>
+                   <span class="fa fa-star checked" ></span>
+                   <span class="fa fa-star checked" ></span>
+                   <span class="fa fa-star" ></span>
+                 </span>
+ 
+                 <span v-if="comment.rating_val==5">
+                   <span class="fa fa-star checked"></span>
+                   <span class="fa fa-star checked" ></span>
+                   <span class="fa fa-star checked" ></span>
+                   <span class="fa fa-star checked" ></span>
+                   <span class="fa fa-star checked" ></span>
+                   
+                 </span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           
                                <i class="fa fa-pencil-square" id="thumbs" @click="editComment(comment.id,comment.body,comment.rating_val)"></i>   &nbsp; 
                                <i class="fa fa-trash" id="thumbs" @click="deleteComment(comment.id)"></i>
                            </div>
                        </div>
+                       
                         <!--<h4 id="amenity-h">{{ comment.creator.username }} &emsp; &emsp; Date: {{ comment.created_at }}
                          &emsp;&emsp;&emsp;
                         
@@ -643,7 +697,7 @@ export default {
    convertDate(reviews){
     for (var i = 0; i < reviews.length; i++) 
     {
-      reviews[i].created_at = moment(reviews[i].created_at).format('MMMM Do YYYY, h:mm a');
+      reviews[i].created_at = moment(reviews[i].created_at).utcOffset(-5).format('MMMM Do YYYY, h:mm a');
     }
     return reviews;
   },
@@ -662,7 +716,7 @@ export default {
        this.location = this.station.location;
  
        try{
-         this.bestPrice = this.station.current_best_price.gases;
+         this.bestPrice = this.station.current_best_price; //Check this line
         
        }
        catch(e){
@@ -790,7 +844,7 @@ export default {
 #fuelRow{
  display: grid; 
  margin-left: 30px;
- width: 50%;
+ width: 70%;
  height: 20px;
  grid-template-columns: 15% 10% 10% 15% 15%;
  text-align: center;
@@ -874,7 +928,16 @@ label {
  
 #comment-heading-grid{
  display: grid; 
- grid-template-columns: 20% 60% 20% ;
+ grid-template-columns: 20% 50% 30% ;
+ text-align: left;
+ margin-left: 20px;
+ height: 40%;
+ padding:0px;
+}
+
+#review-heading-grid{
+ display: grid; 
+ grid-template-columns: 20% 30% 20% 20%;
  text-align: left;
  margin-left: 20px;
  height: 40%;
