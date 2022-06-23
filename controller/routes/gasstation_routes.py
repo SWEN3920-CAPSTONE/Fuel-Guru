@@ -3,7 +3,7 @@ from datetime import date, datetime, timedelta
 from pprint import pprint
 
 from config import app, db
-from controller.utils import get_request_body
+from controller.utils import get_request_body, utc_today
 from controller.validation.schemas import (GasStationSearchSchema,
                                            HandleUserLocationSchema)
 from flask import Blueprint, jsonify, request
@@ -93,7 +93,7 @@ def search_gasstations():
                 .select_from(
                 dwn.join(upv, dwn.c.downid == upv.c.upid, full=True)).subquery(), name='net_votes')
 
-            today = datetime.fromisoformat(date.today().isoformat())
+            today = utc_today()
 
             yesterday_start = today - timedelta(days=1)
             
@@ -169,7 +169,7 @@ def top_gasstations():
     """
     Find the lowest gas prices by gas type for yesterday and today
     """
-    today = datetime.fromisoformat(date.today().isoformat())
+    today = utc_today()
     
     dwn = aliased(
             select(

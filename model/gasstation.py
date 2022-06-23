@@ -5,6 +5,8 @@ from sqlalchemy import desc, and_, select
 from sqlalchemy.sql import func
 from sqlalchemy.orm import aliased
 
+from controller.utils import utc_today
+
 
 class GasStation(db.Model):
     __tablename__ = 'gas_stations'
@@ -79,7 +81,7 @@ class GasStation(db.Model):
     def reviews(self):
         from model.posts import Post, PostType, Review
         
-        today = datetime.fromisoformat(date.today().isoformat())
+        today = utc_today()
 
         this_week = today - timedelta(days=7)
         
@@ -101,7 +103,7 @@ class GasStation(db.Model):
     def promotions(self):
         from model.posts import Post, Promotion
         
-        today = datetime.fromisoformat(date.today().isoformat())
+        today = utc_today()
         
         q = GasStation.query.filter(GasStation.id == self.id)\
             .from_self(Promotion)\
@@ -136,7 +138,7 @@ class GasStation(db.Model):
     def gas_price_suggestions(self):
         from model.posts import GasPriceSuggestion, Post
         
-        today = datetime.fromisoformat(date.today().isoformat())
+        today = utc_today()
 
         q = GasStation.query.filter(GasStation.id == self.id)\
             .from_self(GasPriceSuggestion)\
@@ -153,7 +155,7 @@ class GasStation(db.Model):
     def old_best_price(self):
         from model.posts import GasPriceSuggestion
         
-        today = datetime.fromisoformat(date.today().isoformat())
+        today = utc_today()
 
         yesterday_start = today - timedelta(days=1)
         
@@ -163,7 +165,7 @@ class GasStation(db.Model):
     def current_best_price(self):
         from model.posts import GasPriceSuggestion
         
-        today = datetime.fromisoformat(date.today().isoformat())  
+        today = utc_today() 
         
         print(today)
         

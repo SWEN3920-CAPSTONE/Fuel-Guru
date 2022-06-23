@@ -51,3 +51,6 @@ def generate_reset_link(user,time_delta=30, html=True, is_manager=False, unit='m
     """
 
     return section if html else link
+
+def utc_today():
+    return datetime.fromisoformat(datetime.utcnow().date().isoformat())
