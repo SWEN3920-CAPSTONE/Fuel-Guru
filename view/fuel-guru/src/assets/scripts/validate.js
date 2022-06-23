@@ -93,7 +93,7 @@
  */
  export function valid_password (str) {
   let pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{1,30}$/;
-  if (str.match(pattern)) {
+  if (str.match(pattern) && str.length < 30 && str.length > 1) {
     return true
   } else {
     return false
