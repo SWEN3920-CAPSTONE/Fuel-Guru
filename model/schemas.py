@@ -20,7 +20,7 @@ class JADateTime(fields.DateTime):
         return super()._deserialize(value, attr, data, **kwargs)
     
     def _serialize(self, value:datetime, attr, obj, **kwargs):
-        return timezone('America/Jamaica').localize(value).isoformat()
+        return timezone('America/Jamaica').localize(value).isoformat() if value else None
 
 
 class AmenityTypeSchema(ma.SQLAlchemyAutoSchema):
