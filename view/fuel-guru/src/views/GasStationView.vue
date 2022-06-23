@@ -200,7 +200,7 @@ the components are not yet created -->
            <div id="commentRow" v-if="comments.length>0">
                <ul>
                    <li id="comment" v-for="comment in comments" :key="comment.id">
-                       <div id="review-heading-grid">
+                       <div id="comment-heading-grid">
                            <div id="comment-heading">
                                <h4>{{comment.creator.username}}</h4>
                            </div>
@@ -928,7 +928,7 @@ label {
  
 #comment-heading-grid{
  display: grid; 
- grid-template-columns: 20% 60% 20% ;
+ grid-template-columns: 20% 50% 30% ;
  text-align: left;
  margin-left: 20px;
  height: 40%;
