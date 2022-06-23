@@ -151,9 +151,9 @@ class PostSchema(ma.SQLAlchemyAutoSchema):
     net_votes = fields.Integer(attribute='net_votes', dump_only=True)
     gas_station = fields.Nested('GasStationSchema')
     
-    last_edited = JADateTime()
-    created_at = JADateTime()
-    deleted_at = JADateTime()
+    last_edited = JADateTime(attribute='last_edited')
+    created_at = JADateTime(attribute='created_at')
+    deleted_at = JADateTime(attribute='deleted_at')
 
 
 class ReviewSchema(ma.SQLAlchemyAutoSchema):
