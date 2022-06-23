@@ -11,18 +11,6 @@ from model.posts import (AmenityTag, AmenityType, Gas,
 from model.users import User, UserType
 
 
-class JADateTime(fields.DateTime):
-    """
-    Custom DateTime field that converts from/to UTC to/from Jamaica time
-    """
-    
-    def _deserialize(self, value, attr, data, **kwargs):
-        return super()._deserialize(value, attr, data, **kwargs)
-    
-    def _serialize(self, value:datetime, attr, obj, **kwargs):
-        return timezone('America/Jamaica').localize(value).isoformat() if value else None
-
-
 class AmenityTypeSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = AmenityType
@@ -39,8 +27,6 @@ class PromotionSchema(ma.SQLAlchemyAutoSchema):
         transient = True
 
     post = fields.Nested('PostSchema')
-    
-    Promotion.end_date = JADateTime(attribute='end_date')
 
     @post_dump
     def flatten_post(self, data, **kwargs):
@@ -149,10 +135,6 @@ class PostSchema(ma.SQLAlchemyAutoSchema):
     downvote_count = fields.Integer(attribute='downvote_count', dump_only=True)
     net_votes = fields.Integer(attribute='net_votes', dump_only=True)
     gas_station = fields.Nested('GasStationSchema')
-    
-    last_edited = JADateTime(attribute='last_edited')
-    created_at = JADateTime(attribute='created_at')
-    deleted_at = JADateTime(attribute='deleted_at')
 
 
 class ReviewSchema(ma.SQLAlchemyAutoSchema):
