@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
-from time import timezone
 from uuid import uuid4
 from flask import flash, request, url_for
 import jwt
+from pytz import timezone
 from config import app
 
 
@@ -54,5 +54,5 @@ def generate_reset_link(user,time_delta=30, html=True, is_manager=False, unit='m
     return section if html else link
 
 def utc_today():
-    print(datetime.utcnow(), datetime.now(timezone.utc))
+    print(datetime.utcnow(), datetime.now(timezone('UTC')),datetime.now())
     return datetime.fromisoformat(datetime.utcnow().date().isoformat())
