@@ -662,7 +662,7 @@ export default {
        this.location = this.station.location;
  
        try{
-         this.bestPrice = this.station.current_best_price.gases;
+         this.bestPrice = this.station.current_best_price; //Check this line
         
        }
        catch(e){
