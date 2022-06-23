@@ -203,6 +203,7 @@ the components are not yet created -->
                        <div id="comment-heading-grid">
                            <div id="comment-heading">
                                <h4>{{comment.creator.username}}</h4>
+                               <h4>{{comment.rating_val}}</h4>
                            </div>
                            <div id="comment-created" >
                                 
@@ -314,7 +315,6 @@ the components are not yet created -->
                 </div>
                 <br>
                  <input type="text"  id="commentEntry" placeholder="Leave a comment..." v-model="body">
-
                 
                 
                  <button id="comment-btn" @click="makeNewReview(body,sugg_rating)">Add Review</button>
