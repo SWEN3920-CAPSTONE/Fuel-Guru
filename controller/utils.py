@@ -53,6 +53,6 @@ def generate_reset_link(user,time_delta=30, html=True, is_manager=False, unit='m
 
     return section if html else link
 
-def utc_today():
-    print(datetime.utcnow(), datetime.now(timezone('UTC')),datetime.now())
+def ja_today():
+    print(datetime.utcnow(), datetime.now(timezone('UTC')),datetime.now(timezone('America/Jamaica')))
     return datetime.fromisoformat(datetime.utcnow().date().isoformat())
