@@ -138,7 +138,7 @@ class GasStation(db.Model):
         
         today = datetime.fromisoformat(date.today().isoformat())
         
-        today = today - timedelta(days=3)
+        today = today - timedelta(days=1)
 
         q = GasStation.query.filter(GasStation.id == self.id)\
             .from_self(GasPriceSuggestion)\
