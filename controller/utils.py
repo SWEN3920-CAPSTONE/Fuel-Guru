@@ -55,4 +55,4 @@ def generate_reset_link(user,time_delta=30, html=True, is_manager=False, unit='m
 
 def ja_today():
     print(datetime.utcnow(), datetime.now(timezone('UTC')),datetime.now(timezone('America/Jamaica')))
-    return datetime.fromisoformat(datetime.utcnow().date().isoformat())
+    return datetime.fromisoformat(datetime.now(timezone('America/Jamaica')).date().isoformat())
