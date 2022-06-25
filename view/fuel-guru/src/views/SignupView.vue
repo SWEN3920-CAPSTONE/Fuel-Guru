@@ -79,9 +79,6 @@ function signup() {
   password.value = sanitise_inputs(password.value);
   password2.value = sanitise_inputs(password2.value);
 
-  firstname.value[0].toUpperCase();
-  lastname.value[0].toUpperCase();
-
 if (isEmpty(firstname.value) === true || isEmpty(lastname.value) === true || isEmpty(email.value) === true || 
   isEmpty(username.value) === true || isEmpty(password.value) === true || isEmpty(password2.value) === true) {
     errors.push('Fill all empty fields.');

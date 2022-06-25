@@ -49,7 +49,7 @@ function login(){
 if (isEmpty(username.value) === true || isEmpty(password.value) === true) {
     alert("Fill all empty fields.");
 } else {
-  fetch( import.meta.env.VITE_HEROKULINK + '/auth/signin', {
+  fetch('https://fuel-guru-backend.herokuapp.com/auth/signin', {
     body: JSON.stringify({
       "iden": username.value,
       "password": password.value

@@ -38,7 +38,6 @@
  export function valid_name (str) {
   let strLength = str.length;
   let patternLength = str.match(letters).length;
-  str[0].toUpperCase();
 
   if (strLength > 2 && strLength < 50 && strLength === patternLength) {
     return true
@@ -59,7 +58,7 @@
   let strLength = str.length;
   let pattern = /^[0-9a-zA-Z_]+$/g;
 
-  if (strLength > 5 && strLength < 30 && str[0].match(letters).length === 1 &&
+  if (strLength > 4 && strLength < 30 && str[0].match(letters).length === 1 &&
     str[strLength-1] !== '_' && pattern.test(str) === true) {    
     return true
   } else {

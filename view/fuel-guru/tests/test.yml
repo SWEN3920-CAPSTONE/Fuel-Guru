@@ -1,0 +1,35 @@
+config:
+  target: "https://fuel-guru-backend.herokuapp.com"
+  phases:
+  #arrival: 5 -100 vu   25-500vu   50-1000vu
+    - duration: 20 # number of seconds for the scenario to run in
+      arrivalRate: 5 # number of virtual users per second    
+      maxVusers: 100 #maximum number of users
+scenarios:
+  #- name: "Signing into a Fuel Guru account" 
+  #  flow:
+  #    - post: 
+  #        url: "/auth/signin"
+  #        json:
+  #            "iden": "johnbr1"
+  #            "password": "Password123@#"
+
+
+  #- name: "View gas station page" 
+  #  flow:
+  #    - get: 
+  #        url: "/gasstations/1"
+
+
+  - name: "Logout" 
+    flow:
+      - post: 
+          url: "/auth/signin"
+          json:
+              "iden": "johnbr1"
+              "password": "Password123@#"
+      - post: 
+          url: "/auth/logout"
+          headers: 
+            Authorization: "Bearer " + localStorage.refreshToken
+
