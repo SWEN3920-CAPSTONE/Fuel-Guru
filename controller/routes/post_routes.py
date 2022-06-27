@@ -1,4 +1,5 @@
 from datetime import date, datetime, timedelta
+from pprint import pprint
 
 from config import app, db
 from controller.routes.token import token_required
@@ -324,6 +325,7 @@ def posts():
             return jsonify(error='method not allowed'), 405
 
     except ValidationError as e:
+        pprint(e.messages)
         return jsonify(errors=e.messages), 400
 
 
