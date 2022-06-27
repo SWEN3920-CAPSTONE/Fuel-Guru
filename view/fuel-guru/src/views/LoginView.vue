@@ -61,7 +61,7 @@ if (isEmpty(username.value) === true || isEmpty(password.value) === true) {
     })
     .then(result => result.json()) //use json intsead of text to get the access token
     .then(data => {
-      console.log(data); //the data.access_token should be in local storage 
+      //console.log(data); //the data.access_token should be in local storage 
       if (data.message === "Success") {
           localStorage.setItem('refreshToken', data.refresh_token);
           localStorage.setItem('accessToken', data.access_token);
@@ -78,14 +78,7 @@ if (isEmpty(username.value) === true || isEmpty(password.value) === true) {
       console.log(error);        
     })
   }  
-}
-
-/*
-          "iden": "johndoe3",
-          "password": "John1234$doe"
-          //"email": "john3@gmail.com"
-        */  
-  
+}  
 </script>
 
 
