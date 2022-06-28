@@ -1,35 +1,32 @@
 config:
-  target: "https://fuel-guru-backend.herokuapp.com"
+  target: 'https://fuel-guru-backend.herokuapp.com'
   phases:
-  #arrival: 5 -100 vu   25-500vu   50-1000vu
+  #arrivalrate-csv: 5 -100,   15-300,   25-500
     - duration: 20 # number of seconds for the scenario to run in
-      arrivalRate: 5 # number of virtual users per second    
-      maxVusers: 100 #maximum number of users
+      arrivalRate: 25 # number of virtual users per second    
+  payload:
+    path: 'userdata_500.csv'
+    fields: 
+      - 'firstname'
+      - 'lastname'
+      - 'email'
+      - 'username'
+      - 'password'
+      - 'amenity_type'
+      - 'price_suggestion'
+      - 'gas_type'
+      - 'gas_station_id'
+      - 'rating'
+      - 'vote_type'
+      - 'post_id'
+    name: userData
 scenarios:
-  #- name: "Signing into a Fuel Guru account" 
-  #  flow:
-  #    - post: 
-  #        url: "/auth/signin"
-  #        json:
-  #            "iden": "johnbr1"
-  #            "password": "Password123@#"
-
-
-  #- name: "View gas station page" 
-  #  flow:
-  #    - get: 
-  #        url: "/gasstations/1"
-
-
-  - name: "Logout" 
-    flow:
-      - post: 
-          url: "/auth/signin"
-          json:
-              "iden": "johnbr1"
-              "password": "Password123@#"
-      - post: 
-          url: "/auth/logout"
-          headers: 
-            Authorization: "Bearer " + localStorage.refreshToken
+    - name: 'Finding nearby gas stations'
+      flow:
+          - post:
+              url: '/gasstations/search/nearby'
+              json:
+                  'lat': 18.08
+                  'lng': 76.05
+          
 
