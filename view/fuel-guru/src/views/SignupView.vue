@@ -136,10 +136,13 @@ if (isEmpty(firstname.value) === true || isEmpty(lastname.value) === true || isE
           localStorage.setItem('refreshToken', data.refresh_token);
           localStorage.setItem('accessToken', data.access_token);
           localStorage.setItem('uname', username.value);
-        emit('update');
+          emit('update');
           router.push({name: 'FuelPrices'});
           alert(`Welcome ${firstname.value}!`);
         } 
+        else {          
+          alert(`Error! Email or username already in use.`);
+        }
       })
       .catch(error => {
         console.log(error);        
