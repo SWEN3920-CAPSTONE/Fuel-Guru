@@ -10,6 +10,7 @@
   "dependencies": {
     "@fawmi/vue-google-maps": "^0.9.72",
     "moment": "^2.29.3",
+    "selenium-webdriver": "^4.3.0",
     "vue": "^3.2.37",
     "vue-router": "^4.0.16",
     "vue3-google-map": "^0.13.0",
