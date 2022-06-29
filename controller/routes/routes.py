@@ -12,6 +12,7 @@ def setheaders(resp):
     # to protect form submissions
     # more research needed
     resp.set_cookie('CSRF-TOKEN', generate_csrf(), samesite='Lax')
+    print(resp.data)
     return resp
 
 

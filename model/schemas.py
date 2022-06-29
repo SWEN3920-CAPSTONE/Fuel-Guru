@@ -2,9 +2,8 @@ from config import ma
 from marshmallow import fields, post_dump, post_load
 
 from model.gasstation import GasStation
-from model.posts import (AmenityTag, AmenityType, Gas,
-                         GasPriceSuggestion, GasType, Post, PostType,
-                         Promotion, Review)
+from model.posts import (AmenityTag, AmenityType, Gas, GasPriceSuggestion,
+                         GasType, Post, PostType, Promotion, Review)
 from model.users import User, UserType
 
 

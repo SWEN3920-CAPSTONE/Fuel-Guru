@@ -5,8 +5,16 @@
         <h1>Welcome to <br> Fuel Guru</h1>    
       </div>    
       <div id="left-paragraph">
-        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat ipsum similique, accusantium ex vero alias quia temporibus nisi eos neque? Pariatur assumenda eligendi iusto cumque nam debitis, explicabo deserunt! Aliquid expedita iusto recusandae officia vel saepe blanditiis enim amet impedit. Odio, suscipit inventore, ducimus accusamus fugiat unde dicta esse ad quisquam, nisi animi culpa maiores dignissimos quas repellendus eveniet dolorum quidem debitis placeat? Aperiam beatae maxime, laborum veniam molestiae nam fuga aliquam similique eos voluptatem labore officia. Eius accusamus sapiente autem atque quaerat alias, nobis delectus? Repudiandae labore, mollitia culpa provident veritatis consectetur laborum sunt error ipsum, alias ipsam sequi.</p>
-      </div>
+        <p>
+
+          Wondering what gas prices around you are like? Look no further!
+          In response to the rapidly fluctuating fuel prices and the lack of readily available general information on any gas station 
+          in Jamaica, the Fuel Guru application allows consumers to quickly view all gas stations near their current location and 
+          quickly find the prices of any gas station in Kingston Jamaica. 
+
+
+        </p>
+        </div>
       <div id="left-button">
         <router-link :to="{name: 'Login'}" id="home-page-btn">Signup / Login</router-link>
         <router-view/>

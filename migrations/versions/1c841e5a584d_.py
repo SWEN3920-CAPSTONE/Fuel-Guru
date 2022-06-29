@@ -1,4 +1,4 @@
-"""empty message
+"""Add can vote column to user_types table
 
 Revision ID: 1c841e5a584d
 Revises: d62456509a95

@@ -1,8 +1,9 @@
 from datetime import date, datetime, timedelta
+from pprint import pprint
 
 from config import app, db
 from controller.routes.token import token_required
-from controller.utils import get_request_body
+from controller.utils import get_request_body, utc_today
 from controller.validation.schemas import HandlePostSchema, PostVoteSchema
 from flask import Blueprint, g, jsonify, request
 from marshmallow import ValidationError
@@ -27,7 +28,7 @@ def _handle_gas_price_suggestion_post(data,post,is_edit):
 
     gases = []
     existing = []
-    today = datetime.fromisoformat(date.today().isoformat())
+    today = utc_today()
     
     for gas in details.get('gases'):
         gas_type = GasType.query.get(gas.get('gas_type_id'))
@@ -324,6 +325,7 @@ def posts():
             return jsonify(error='method not allowed'), 405
 
     except ValidationError as e:
+        print(e.messages)
         return jsonify(errors=e.messages), 400
 
 
