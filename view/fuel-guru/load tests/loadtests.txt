@@ -1,0 +1,150 @@
+  - name: 'Creating a Fuel Guru Normal User account'
+      flow:
+          - post: 
+            url: '/auth/signup'
+              json:
+                  'username': '{{ username }}'
+                  'password': '{{ password }}'
+                  'email': '{{ email }}'
+                  'firstname': '{{ firstname }}'
+                  'lastname': '{{ lastname }}'
+
+
+    - name: 'Signing into a Fuel Guru account'
+      flow:
+          - post:
+              url: '/auth/signin'
+              json:
+                  'iden': '{{ username }}'
+                  'password': '{{ password }}'
+
+
+  - name: 'View gas station page'
+      flow:
+          - get: 
+            url: '/gasstations/ {{ gas_station_id }}'
+
+
+    - name: 'Logout'
+      flow:
+          - post:
+              url: '/auth/signin'
+              json:
+                  'iden': '{{ username }}'
+                  'password': '{{ password }}'
+              expect:
+                - statusCode: 200
+              capture:
+                json: "$.refresh_token"
+                as: "token"
+          - post:
+              headers: 
+                  Authorization: "Bearer {{ token }}"
+              url: '/auth/logout'
+
+
+    - name: 'Creating a review under a gas station'
+      flow:
+          - post:
+              url: '/auth/signin'
+              json:
+                  'iden': '{{ username }}'
+                  'password': '{{ password }}'
+              capture:
+                json: '$.refresh_token'
+                as: 'token'
+          - post:
+              headers: 
+                  Authorization: 'Bearer {{ token }}'
+              url: '/posts'
+              json:
+                  'gas_station_id': '{{ gas_station_id }}'
+                  'post_type_id': 1
+                  'review': {'body': 'I like this gas station',
+                  'rating_val': {{ rating }} } 
+
+
+    - name: 'Suggesting a gas price'
+      flow:
+          - post:
+              url: '/auth/signin'
+              json:
+                  'iden': '{{ username }}'
+                  'password': '{{ password }}'
+              capture:
+                json: '$.refresh_token'
+                as: 'token'
+          - post:
+              headers: 
+                  Authorization: 'Bearer {{ token }}'
+              url: '/posts'
+              json:
+                  'gas_station_id': '{{ gas_station_id }}'
+                  'post_type_id': 3
+                  'gas_price_suggestion': {'gases': [ {
+                        'gas_type_id': {{ gas_type }},
+                         'price': {{ price }}
+                       } ] } 
+
+
+    - name: 'Suggesting an amenity'
+      flow:
+          - post:
+              url: '/auth/signin'
+              json:
+                  'iden': '{{ username }}'
+                  'password': '{{ password }}'
+              capture:
+                json: '$.refresh_token'
+                as: 'token'
+          - post:
+              headers: 
+                  Authorization: 'Bearer {{ token }}'
+              url: '/posts'
+              json:
+                  'gas_station_id': '{{ gas_station_id }}'
+                  'post_type_id': 4
+                  'amenity_tag': {{ amenity_type }}
+
+
+    - name: 'Voting on a Post'
+      flow:
+          - post:
+              url: '/auth/signin'
+              json:
+                  'iden': '{{ username }}'
+                  'password': '{{ password }}'
+              capture:
+                json: '$.refresh_token'
+                as: 'token'
+          - get:
+              headers: 
+                  Authorization: 'Bearer {{ token }}'
+              url: '/posts/{{ vote_type }}'
+              json:
+                  'post_type_id': {{ post_id }}
+
+
+    - name: 'View Gas Station Page'
+      flow:
+          - get:
+              url: '/gasstations/{{ gas_station_id }}'
+
+
+    - name: 'Search for gas station'
+      flow:
+          - post:
+              url: '/gasstations/search'
+              json:
+                  'name': 'Total'
+      
+      
+    - name: 'Finding nearby gas stations'
+      flow:
+          - post:
+              url: '/gasstations/search/nearby'
+              json:
+                  'lat': 18.08
+                  'lng': 76.05
+
+                  

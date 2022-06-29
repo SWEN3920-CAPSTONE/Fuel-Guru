@@ -1,0 +1,307 @@
+{
+  "aggregate": {
+    "counters": {
+      "vusers.created_by_name.Signing into a Fuel Guru account": 300,
+      "vusers.created": 300,
+      "http.requests": 300,
+      "http.codes.401": 117,
+      "http.responses": 300,
+      "vusers.failed": 0,
+      "vusers.completed": 300,
+      "http.codes.200": 178,
+      "http.codes.400": 5
+    },
+    "rates": {
+      "http.request_rate": 15
+    },
+    "firstCounterAt": 1656386856153,
+    "firstHistogramAt": 1656386857287,
+    "lastCounterAt": 1656386876514,
+    "lastHistogramAt": 1656386876514,
+    "firstMetricAt": 1656386856153,
+    "lastMetricAt": 1656386876514,
+    "period": 1656386870000,
+    "summaries": {
+      "http.response_time": {
+        "min": 103,
+        "max": 619,
+        "count": 300,
+        "p50": 278.7,
+        "median": 278.7,
+        "p75": 340.4,
+        "p90": 441.5,
+        "p95": 478.3,
+        "p99": 572.6,
+        "p999": 596
+      },
+      "vusers.session_length": {
+        "min": 431.4,
+        "max": 1763.4,
+        "count": 300,
+        "p50": 645.6,
+        "median": 645.6,
+        "p75": 727.9,
+        "p90": 854.2,
+        "p95": 925.4,
+        "p99": 1556.5,
+        "p999": 1720.2
+      }
+    },
+    "histograms": {
+      "http.response_time": {
+        "min": 103,
+        "max": 619,
+        "count": 300,
+        "p50": 278.7,
+        "median": 278.7,
+        "p75": 340.4,
+        "p90": 441.5,
+        "p95": 478.3,
+        "p99": 572.6,
+        "p999": 596
+      },
+      "vusers.session_length": {
+        "min": 431.4,
+        "max": 1763.4,
+        "count": 300,
+        "p50": 645.6,
+        "median": 645.6,
+        "p75": 727.9,
+        "p90": 854.2,
+        "p95": 925.4,
+        "p99": 1556.5,
+        "p999": 1720.2
+      }
+    }
+  },
+  "intermediate": [
+    {
+      "counters": {
+        "vusers.created_by_name.Signing into a Fuel Guru account": 60,
+        "vusers.created": 60,
+        "http.requests": 60,
+        "http.codes.200": 29,
+        "http.responses": 49,
+        "vusers.failed": 0,
+        "vusers.completed": 49,
+        "http.codes.401": 19,
+        "http.codes.400": 1
+      },
+      "rates": {
+        "http.request_rate": 15
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1656386856153,
+      "firstHistogramAt": 1656386857287,
+      "lastCounterAt": 1656386859814,
+      "lastHistogramAt": 1656386859814,
+      "firstMetricAt": 1656386856153,
+      "lastMetricAt": 1656386859814,
+      "period": "1656386850000",
+      "summaries": {
+        "http.response_time": {
+          "min": 109,
+          "max": 568,
+          "count": 49,
+          "p50": 295.9,
+          "median": 295.9,
+          "p75": 399.5,
+          "p90": 468.8,
+          "p95": 487.9,
+          "p99": 518.1,
+          "p999": 518.1
+        },
+        "vusers.session_length": {
+          "min": 441.5,
+          "max": 1763.4,
+          "count": 49,
+          "p50": 658.6,
+          "median": 658.6,
+          "p75": 854.2,
+          "p90": 1043.3,
+          "p95": 1556.5,
+          "p99": 1720.2,
+          "p999": 1720.2
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 109,
+          "max": 568,
+          "count": 49,
+          "p50": 295.9,
+          "median": 295.9,
+          "p75": 399.5,
+          "p90": 468.8,
+          "p95": 487.9,
+          "p99": 518.1,
+          "p999": 518.1
+        },
+        "vusers.session_length": {
+          "min": 441.5,
+          "max": 1763.4,
+          "count": 49,
+          "p50": 658.6,
+          "median": 658.6,
+          "p75": 854.2,
+          "p90": 1043.3,
+          "p95": 1556.5,
+          "p99": 1720.2,
+          "p999": 1720.2
+        }
+      }
+    },
+    {
+      "counters": {
+        "http.codes.200": 95,
+        "http.responses": 150,
+        "vusers.failed": 0,
+        "vusers.completed": 150,
+        "vusers.created_by_name.Signing into a Fuel Guru account": 150,
+        "vusers.created": 150,
+        "http.requests": 150,
+        "http.codes.401": 52,
+        "http.codes.400": 3
+      },
+      "rates": {
+        "http.request_rate": 15
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1656386860100,
+      "firstHistogramAt": 1656386860100,
+      "lastCounterAt": 1656386869806,
+      "lastHistogramAt": 1656386869806,
+      "firstMetricAt": 1656386860100,
+      "lastMetricAt": 1656386869806,
+      "period": "1656386860000",
+      "summaries": {
+        "http.response_time": {
+          "min": 103,
+          "max": 619,
+          "count": 150,
+          "p50": 278.7,
+          "median": 278.7,
+          "p75": 327.1,
+          "p90": 441.5,
+          "p95": 468.8,
+          "p99": 584.2,
+          "p999": 596
+        },
+        "vusers.session_length": {
+          "min": 431.4,
+          "max": 1012.4,
+          "count": 150,
+          "p50": 645.6,
+          "median": 645.6,
+          "p75": 699.4,
+          "p90": 837.3,
+          "p95": 871.5,
+          "p99": 963.1,
+          "p999": 963.1
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 103,
+          "max": 619,
+          "count": 150,
+          "p50": 278.7,
+          "median": 278.7,
+          "p75": 327.1,
+          "p90": 441.5,
+          "p95": 468.8,
+          "p99": 584.2,
+          "p999": 596
+        },
+        "vusers.session_length": {
+          "min": 431.4,
+          "max": 1012.4,
+          "count": 150,
+          "p50": 645.6,
+          "median": 645.6,
+          "p75": 699.4,
+          "p90": 837.3,
+          "p95": 871.5,
+          "p99": 963.1,
+          "p999": 963.1
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.created_by_name.Signing into a Fuel Guru account": 90,
+        "vusers.created": 90,
+        "http.requests": 90,
+        "http.codes.401": 46,
+        "http.responses": 101,
+        "vusers.failed": 0,
+        "vusers.completed": 101,
+        "http.codes.200": 54,
+        "http.codes.400": 1
+      },
+      "rates": {
+        "http.request_rate": 15
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1656386870109,
+      "firstHistogramAt": 1656386870109,
+      "lastCounterAt": 1656386876514,
+      "lastHistogramAt": 1656386876514,
+      "firstMetricAt": 1656386870109,
+      "lastMetricAt": 1656386876514,
+      "period": "1656386870000",
+      "summaries": {
+        "http.response_time": {
+          "min": 103,
+          "max": 570,
+          "count": 101,
+          "p50": 278.7,
+          "median": 278.7,
+          "p75": 333.7,
+          "p90": 424.2,
+          "p95": 459.5,
+          "p99": 550.1,
+          "p999": 550.1
+        },
+        "vusers.session_length": {
+          "min": 432.2,
+          "max": 944.8,
+          "count": 101,
+          "p50": 632.8,
+          "median": 632.8,
+          "p75": 699.4,
+          "p90": 804.5,
+          "p95": 837.3,
+          "p99": 907,
+          "p999": 907
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 103,
+          "max": 570,
+          "count": 101,
+          "p50": 278.7,
+          "median": 278.7,
+          "p75": 333.7,
+          "p90": 424.2,
+          "p95": 459.5,
+          "p99": 550.1,
+          "p999": 550.1
+        },
+        "vusers.session_length": {
+          "min": 432.2,
+          "max": 944.8,
+          "count": 101,
+          "p50": 632.8,
+          "median": 632.8,
+          "p75": 699.4,
+          "p90": 804.5,
+          "p95": 837.3,
+          "p99": 907,
+          "p999": 907
+        }
+      }
+    }
+  ]
+}
