@@ -131,3 +131,6 @@ dmypy.json
 dev/
 
 api_key.txt
+view/fuel-guru/tests
+view/fuel-guru/tests/test.yml
+*.yml

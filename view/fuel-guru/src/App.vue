@@ -28,9 +28,6 @@ import router from './router';
 var loggedIn = ref('');
 var uname = ref('');
 
-
-console.log(uname.value);
-
 /**
  * Checks if the user is still logged in if the refresh token they were 
  * given upon successfully logging in is still stored in local storage
