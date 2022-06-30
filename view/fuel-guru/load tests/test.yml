@@ -1,0 +1,16 @@
+config:
+  target: "https://fuel-guru.vercel.app"
+  phases:
+  #arrival: 5 -100 vu   15-300vu   25-500vu
+    - duration: 20 # number of seconds for the scenario to run in
+      arrivalRate: 25 # number of virtual users per second    
+scenarios:
+      - flow:
+          - get:
+              url: '/home'
+        #  url: "/auth/signin"
+        #  url: "/auth/signin"
+        #  url: "/auth/signin"
+        #  url: "/auth/signin"
+        #  url: "/auth/signin"
+

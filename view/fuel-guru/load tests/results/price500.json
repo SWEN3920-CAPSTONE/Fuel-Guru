@@ -1,0 +1,323 @@
+{
+  "aggregate": {
+    "counters": {
+      "vusers.created_by_name.Suggesting a gas price": 500,
+      "vusers.created": 500,
+      "http.requests": 810,
+      "http.codes.401": 170,
+      "http.responses": 810,
+      "vusers.failed": 190,
+      "http.codes.200": 310,
+      "http.codes.400": 330,
+      "vusers.completed": 310
+    },
+    "rates": {
+      "http.request_rate": 25
+    },
+    "firstCounterAt": 1656388599694,
+    "firstHistogramAt": 1656388600256,
+    "lastCounterAt": 1656388620505,
+    "lastHistogramAt": 1656388620505,
+    "firstMetricAt": 1656388599694,
+    "lastMetricAt": 1656388620505,
+    "period": 1656388620000,
+    "summaries": {
+      "http.response_time": {
+        "min": 102,
+        "max": 790,
+        "count": 810,
+        "p50": 278.7,
+        "median": 278.7,
+        "p75": 391.6,
+        "p90": 507.8,
+        "p95": 550.1,
+        "p99": 685.5,
+        "p999": 742.6
+      },
+      "vusers.session_length": {
+        "min": 714.2,
+        "max": 1584.8,
+        "count": 310,
+        "p50": 944,
+        "median": 944,
+        "p75": 1153.1,
+        "p90": 1326.4,
+        "p95": 1436.8,
+        "p99": 1525.7,
+        "p999": 1587.9
+      }
+    },
+    "histograms": {
+      "http.response_time": {
+        "min": 102,
+        "max": 790,
+        "count": 810,
+        "p50": 278.7,
+        "median": 278.7,
+        "p75": 391.6,
+        "p90": 507.8,
+        "p95": 550.1,
+        "p99": 685.5,
+        "p999": 742.6
+      },
+      "vusers.session_length": {
+        "min": 714.2,
+        "max": 1584.8,
+        "count": 310,
+        "p50": 944,
+        "median": 944,
+        "p75": 1153.1,
+        "p90": 1326.4,
+        "p95": 1436.8,
+        "p99": 1525.7,
+        "p999": 1587.9
+      }
+    }
+  },
+  "intermediate": [
+    {
+      "counters": {
+        "vusers.created_by_name.Suggesting a gas price": 11,
+        "vusers.created": 11,
+        "http.requests": 11
+      },
+      "rates": {
+        "http.request_rate": 11
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1656388599694,
+      "lastCounterAt": 1656388599905,
+      "firstMetricAt": 1656388599694,
+      "lastMetricAt": 1656388599905,
+      "period": "1656388590000",
+      "summaries": {},
+      "histograms": {}
+    },
+    {
+      "counters": {
+        "vusers.created_by_name.Suggesting a gas price": 250,
+        "vusers.created": 250,
+        "http.requests": 395,
+        "http.codes.401": 86,
+        "http.responses": 386,
+        "vusers.failed": 96,
+        "http.codes.200": 145,
+        "http.codes.400": 155,
+        "vusers.completed": 145
+      },
+      "rates": {
+        "http.request_rate": 41
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1656388600031,
+      "firstHistogramAt": 1656388600256,
+      "lastCounterAt": 1656388609871,
+      "lastHistogramAt": 1656388609871,
+      "firstMetricAt": 1656388600031,
+      "lastMetricAt": 1656388609871,
+      "period": "1656388600000",
+      "summaries": {
+        "http.response_time": {
+          "min": 102,
+          "max": 594,
+          "count": 386,
+          "p50": 252.2,
+          "median": 252.2,
+          "p75": 308,
+          "p90": 424.2,
+          "p95": 468.8,
+          "p99": 539.2,
+          "p999": 596
+        },
+        "vusers.session_length": {
+          "min": 714.2,
+          "max": 1315.9,
+          "count": 145,
+          "p50": 907,
+          "median": 907,
+          "p75": 1002.4,
+          "p90": 1153.1,
+          "p95": 1200.1,
+          "p99": 1224.4,
+          "p999": 1300.1
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 102,
+          "max": 594,
+          "count": 386,
+          "p50": 252.2,
+          "median": 252.2,
+          "p75": 308,
+          "p90": 424.2,
+          "p95": 468.8,
+          "p99": 539.2,
+          "p999": 596
+        },
+        "vusers.session_length": {
+          "min": 714.2,
+          "max": 1315.9,
+          "count": 145,
+          "p50": 907,
+          "median": 907,
+          "p75": 1002.4,
+          "p90": 1153.1,
+          "p95": 1200.1,
+          "p99": 1224.4,
+          "p999": 1300.1
+        }
+      }
+    },
+    {
+      "counters": {
+        "http.codes.401": 3,
+        "http.responses": 23,
+        "vusers.failed": 3,
+        "http.codes.200": 8,
+        "http.requests": 8,
+        "http.codes.400": 12,
+        "vusers.completed": 12
+      },
+      "rates": {
+        "http.request_rate": 8
+      },
+      "firstCounterAt": 1656388620012,
+      "firstHistogramAt": 1656388620012,
+      "lastCounterAt": 1656388620505,
+      "lastHistogramAt": 1656388620505,
+      "firstMetricAt": 1656388620012,
+      "lastMetricAt": 1656388620505,
+      "period": "1656388620000",
+      "http.request_rate": null,
+      "summaries": {
+        "http.response_time": {
+          "min": 106,
+          "max": 603,
+          "count": 23,
+          "p50": 340.4,
+          "median": 340.4,
+          "p75": 415.8,
+          "p90": 432.7,
+          "p95": 459.5,
+          "p99": 596,
+          "p999": 596
+        },
+        "vusers.session_length": {
+          "min": 893.2,
+          "max": 1369.7,
+          "count": 12,
+          "p50": 1002.4,
+          "median": 1002.4,
+          "p75": 1200.1,
+          "p90": 1224.4,
+          "p95": 1380.5,
+          "p99": 1380.5,
+          "p999": 1380.5
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 106,
+          "max": 603,
+          "count": 23,
+          "p50": 340.4,
+          "median": 340.4,
+          "p75": 415.8,
+          "p90": 432.7,
+          "p95": 459.5,
+          "p99": 596,
+          "p999": 596
+        },
+        "vusers.session_length": {
+          "min": 893.2,
+          "max": 1369.7,
+          "count": 12,
+          "p50": 1002.4,
+          "median": 1002.4,
+          "p75": 1200.1,
+          "p90": 1224.4,
+          "p95": 1380.5,
+          "p99": 1380.5,
+          "p999": 1380.5
+        }
+      }
+    },
+    {
+      "counters": {
+        "http.codes.200": 157,
+        "http.responses": 401,
+        "http.requests": 396,
+        "http.codes.400": 163,
+        "vusers.failed": 91,
+        "vusers.completed": 153,
+        "vusers.created_by_name.Suggesting a gas price": 239,
+        "vusers.created": 239,
+        "http.codes.401": 81
+      },
+      "rates": {
+        "http.request_rate": 41
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1656388610025,
+      "firstHistogramAt": 1656388610029,
+      "lastCounterAt": 1656388619941,
+      "lastHistogramAt": 1656388619938,
+      "firstMetricAt": 1656388610025,
+      "lastMetricAt": 1656388619941,
+      "period": "1656388610000",
+      "summaries": {
+        "http.response_time": {
+          "min": 103,
+          "max": 790,
+          "count": 401,
+          "p50": 308,
+          "median": 308,
+          "p75": 432.7,
+          "p90": 550.1,
+          "p95": 620.3,
+          "p99": 699.4,
+          "p999": 742.6
+        },
+        "vusers.session_length": {
+          "min": 738.1,
+          "max": 1584.8,
+          "count": 153,
+          "p50": 1022.7,
+          "median": 1022.7,
+          "p75": 1249.1,
+          "p90": 1436.8,
+          "p95": 1495.5,
+          "p99": 1587.9,
+          "p999": 1587.9
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 103,
+          "max": 790,
+          "count": 401,
+          "p50": 308,
+          "median": 308,
+          "p75": 432.7,
+          "p90": 550.1,
+          "p95": 620.3,
+          "p99": 699.4,
+          "p999": 742.6
+        },
+        "vusers.session_length": {
+          "min": 738.1,
+          "max": 1584.8,
+          "count": 153,
+          "p50": 1022.7,
+          "median": 1022.7,
+          "p75": 1249.1,
+          "p90": 1436.8,
+          "p95": 1495.5,
+          "p99": 1587.9,
+          "p999": 1587.9
+        }
+      }
+    }
+  ]
+}

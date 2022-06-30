@@ -1,0 +1,299 @@
+{
+  "aggregate": {
+    "counters": {
+      "vusers.created_by_name.Finding nearby gas stations": 100,
+      "vusers.created": 100,
+      "http.requests": 100,
+      "http.codes.200": 100,
+      "http.responses": 100,
+      "vusers.failed": 0,
+      "vusers.completed": 100
+    },
+    "rates": {
+      "http.request_rate": 5
+    },
+    "firstCounterAt": 1656423638893,
+    "firstHistogramAt": 1656423639986,
+    "lastCounterAt": 1656423658451,
+    "lastHistogramAt": 1656423658451,
+    "firstMetricAt": 1656423638893,
+    "lastMetricAt": 1656423658451,
+    "period": 1656423650000,
+    "summaries": {
+      "http.response_time": {
+        "min": 149,
+        "max": 2265,
+        "count": 100,
+        "p50": 267.8,
+        "median": 267.8,
+        "p75": 327.1,
+        "p90": 415.8,
+        "p95": 441.5,
+        "p99": 727.9,
+        "p999": 727.9
+      },
+      "vusers.session_length": {
+        "min": 450.5,
+        "max": 2584.4,
+        "count": 100,
+        "p50": 596,
+        "median": 596,
+        "p75": 671.9,
+        "p90": 854.2,
+        "p95": 1436.8,
+        "p99": 1720.2,
+        "p999": 1720.2
+      }
+    },
+    "histograms": {
+      "http.response_time": {
+        "min": 149,
+        "max": 2265,
+        "count": 100,
+        "p50": 267.8,
+        "median": 267.8,
+        "p75": 327.1,
+        "p90": 415.8,
+        "p95": 441.5,
+        "p99": 727.9,
+        "p999": 727.9
+      },
+      "vusers.session_length": {
+        "min": 450.5,
+        "max": 2584.4,
+        "count": 100,
+        "p50": 596,
+        "median": 596,
+        "p75": 671.9,
+        "p90": 854.2,
+        "p95": 1436.8,
+        "p99": 1720.2,
+        "p999": 1720.2
+      }
+    }
+  },
+  "intermediate": [
+    {
+      "counters": {
+        "vusers.created_by_name.Finding nearby gas stations": 10,
+        "vusers.created": 10,
+        "http.requests": 10,
+        "http.codes.200": 1,
+        "http.responses": 1,
+        "vusers.failed": 0,
+        "vusers.completed": 1
+      },
+      "rates": {
+        "http.request_rate": 10
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1656423638893,
+      "firstHistogramAt": 1656423639986,
+      "lastCounterAt": 1656423639988,
+      "lastHistogramAt": 1656423639988,
+      "firstMetricAt": 1656423638893,
+      "lastMetricAt": 1656423639988,
+      "period": "1656423630000",
+      "summaries": {
+        "http.response_time": {
+          "min": 387,
+          "max": 387,
+          "count": 1,
+          "p50": 383.8,
+          "median": 383.8,
+          "p75": 383.8,
+          "p90": 383.8,
+          "p95": 383.8,
+          "p99": 383.8,
+          "p999": 383.8
+        },
+        "vusers.session_length": {
+          "min": 1094.1,
+          "max": 1094.1,
+          "count": 1,
+          "p50": 1085.9,
+          "median": 1085.9,
+          "p75": 1085.9,
+          "p90": 1085.9,
+          "p95": 1085.9,
+          "p99": 1085.9,
+          "p999": 1085.9
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 387,
+          "max": 387,
+          "count": 1,
+          "p50": 383.8,
+          "median": 383.8,
+          "p75": 383.8,
+          "p90": 383.8,
+          "p95": 383.8,
+          "p99": 383.8,
+          "p999": 383.8
+        },
+        "vusers.session_length": {
+          "min": 1094.1,
+          "max": 1094.1,
+          "count": 1,
+          "p50": 1085.9,
+          "median": 1085.9,
+          "p75": 1085.9,
+          "p90": 1085.9,
+          "p95": 1085.9,
+          "p99": 1085.9,
+          "p999": 1085.9
+        }
+      }
+    },
+    {
+      "counters": {
+        "http.codes.200": 54,
+        "http.responses": 54,
+        "vusers.failed": 0,
+        "vusers.completed": 54,
+        "vusers.created_by_name.Finding nearby gas stations": 50,
+        "vusers.created": 50,
+        "http.requests": 50
+      },
+      "rates": {
+        "http.request_rate": 5
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1656423640330,
+      "firstHistogramAt": 1656423640330,
+      "lastCounterAt": 1656423649895,
+      "lastHistogramAt": 1656423649643,
+      "firstMetricAt": 1656423640330,
+      "lastMetricAt": 1656423649895,
+      "period": "1656423640000",
+      "summaries": {
+        "http.response_time": {
+          "min": 149,
+          "max": 732,
+          "count": 54,
+          "p50": 314.2,
+          "median": 314.2,
+          "p75": 368.8,
+          "p90": 424.2,
+          "p95": 727.9,
+          "p99": 727.9,
+          "p999": 727.9
+        },
+        "vusers.session_length": {
+          "min": 450.5,
+          "max": 1720.8,
+          "count": 54,
+          "p50": 645.6,
+          "median": 645.6,
+          "p75": 727.9,
+          "p90": 982.6,
+          "p95": 1436.8,
+          "p99": 1436.8,
+          "p999": 1436.8
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 149,
+          "max": 732,
+          "count": 54,
+          "p50": 314.2,
+          "median": 314.2,
+          "p75": 368.8,
+          "p90": 424.2,
+          "p95": 727.9,
+          "p99": 727.9,
+          "p999": 727.9
+        },
+        "vusers.session_length": {
+          "min": 450.5,
+          "max": 1720.8,
+          "count": 54,
+          "p50": 645.6,
+          "median": 645.6,
+          "p75": 727.9,
+          "p90": 982.6,
+          "p95": 1436.8,
+          "p99": 1436.8,
+          "p999": 1436.8
+        }
+      }
+    },
+    {
+      "counters": {
+        "http.codes.200": 45,
+        "http.responses": 45,
+        "vusers.failed": 0,
+        "vusers.completed": 45,
+        "vusers.created_by_name.Finding nearby gas stations": 40,
+        "vusers.created": 40,
+        "http.requests": 40
+      },
+      "rates": {
+        "http.request_rate": 5
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1656423650363,
+      "firstHistogramAt": 1656423650363,
+      "lastCounterAt": 1656423658451,
+      "lastHistogramAt": 1656423658451,
+      "firstMetricAt": 1656423650363,
+      "lastMetricAt": 1656423658451,
+      "period": "1656423650000",
+      "summaries": {
+        "http.response_time": {
+          "min": 151,
+          "max": 2265,
+          "count": 45,
+          "p50": 228.2,
+          "median": 228.2,
+          "p75": 273.2,
+          "p90": 290.1,
+          "p95": 308,
+          "p99": 320.6,
+          "p999": 320.6
+        },
+        "vusers.session_length": {
+          "min": 455.8,
+          "max": 2584.4,
+          "count": 45,
+          "p50": 561.2,
+          "median": 561.2,
+          "p75": 608,
+          "p90": 632.8,
+          "p95": 658.6,
+          "p99": 699.4,
+          "p999": 699.4
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 151,
+          "max": 2265,
+          "count": 45,
+          "p50": 228.2,
+          "median": 228.2,
+          "p75": 273.2,
+          "p90": 290.1,
+          "p95": 308,
+          "p99": 320.6,
+          "p999": 320.6
+        },
+        "vusers.session_length": {
+          "min": 455.8,
+          "max": 2584.4,
+          "count": 45,
+          "p50": 561.2,
+          "median": 561.2,
+          "p75": 608,
+          "p90": 632.8,
+          "p95": 658.6,
+          "p99": 699.4,
+          "p999": 699.4
+        }
+      }
+    }
+  ]
+}
